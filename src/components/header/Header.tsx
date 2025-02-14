@@ -57,7 +57,7 @@ const Header: React.FC = () => {
                     <div className="flex items-center">
                         <Link to="/new-gen-patio-react/" aria-label="Inicio">
                             <img
-                                src="src/assets/logo.webp"
+                                src="assets/images/logo.webp"
                                 alt="New Gen Patio Logo"
                                 className="h-20 img-shadow p-2 pl-0"
                                 loading="lazy"

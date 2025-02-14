@@ -11,7 +11,7 @@ const Main: React.FC = () => {
                 muted 
                 playsInline
             >
-                <source src="/new-gen-patio-react/public/assets/videos/homevideo.webm" type="video/webm" />
+                <source src="public/assets/videos/homevideo.webm" type="video/webm" />
                 Tu navegador no soporta videos.
             </video>
 
@@ -23,7 +23,7 @@ const Main: React.FC = () => {
                 muted 
                 playsInline
             >
-                <source src="/new-gen-patio-react/public/assets/videos/HOMEVIDEO-VERTICAL.webm" type="video/webm" />
+                <source src="public/assets/videos/HOMEVIDEO-VERTICAL.webm" type="video/webm" />
                 Tu navegador no soporta videos.
             </video>
 

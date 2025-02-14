@@ -11,7 +11,7 @@ function App() {
       <Header />
       <Routes>
         <Route
-          path="/"
+          path="/new-gen-patio-react"
           element={
             <>
               <Main />

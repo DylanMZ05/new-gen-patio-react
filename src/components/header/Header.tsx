@@ -55,7 +55,7 @@ const Header: React.FC = () => {
                 <div className="flex justify-between items-center text-white px-4 xl:px-15">
                     
                     <div className="flex items-center">
-                        <Link to="/" aria-label="Inicio">
+                        <Link to="/new-gen-patio-react/" aria-label="Inicio">
                             <img
                                 src="src/assets/logo.webp"
                                 alt="New Gen Patio Logo"

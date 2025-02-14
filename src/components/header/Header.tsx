@@ -118,7 +118,7 @@ const Header: React.FC = () => {
                     >
                         <Link to="/" aria-label="Inicio" className='flex flex-col items-center'>
                             <img
-                                src="src/assets/logo.webp"
+                                src="assets/images/logo.webp"
                                 alt="New Gen Patio Logo"
                                 className="h-22 img-shadow p-2"
                                 loading="lazy"

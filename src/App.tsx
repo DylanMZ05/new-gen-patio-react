@@ -3,7 +3,7 @@ import Header from "./components/header/Header";
 import WspButton from "./components/WspButton";
 
 import Main from "./components/Home/Main";
-import MarqueeBanner from "./components/MarqueeBanner";
+import Services from "./components/Home/Services/services"
 
 function App() {
   return (
@@ -15,8 +15,7 @@ function App() {
           element={
             <>
               <Main />
-              <MarqueeBanner />
-              <Main />
+              <Services />
             </>
           }
         />

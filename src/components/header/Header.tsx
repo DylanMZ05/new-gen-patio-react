@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import useScroll from './useScroll';
 import useActiveSection from './useActiveSection';
-import { FaPhone } from 'react-icons/fa';
 import '../../App.css';
 
 const Header: React.FC = () => {
@@ -29,28 +28,6 @@ const Header: React.FC = () => {
                 }`}
                 role="banner"
             >
-
-                <div className="lg:hidden w-full relative z-50 background-skyblue text-white text-sm py-2 px-4 flex justify-between items-center">
-                    <a 
-                        href="https://wa.me/13465819082" 
-                        target="_blank" 
-                        rel="noopener noreferrer" 
-                        className="flex items-center space-x-2 cursor-pointer hover:opacity-80 transition-opacity"
-                        aria-label="Contactar por WhatsApp"
-                    >
-                        <FaPhone className="text-white text-lg transform scale-x-[-1]" />
-                        <span className="font-semibold">+1 346-581-9082</span>
-                    </a>
-
-                    <Link 
-                        to="/quote" 
-                        className="px-4 py-1 bg-white font-semibold text-black rounded-full transition hover:bg-gray-200"
-                        aria-label="Obtener una cotización gratuita"
-                    >
-                        FREE QUOTE
-                    </Link>
-                </div>
-
 
                 <div className="flex justify-between items-center text-white px-4 xl:px-15">
                     

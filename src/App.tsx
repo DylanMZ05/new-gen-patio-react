@@ -5,6 +5,7 @@ import WspButton from "./components/WspButton";
 import Main from "./pages/Home/Main";
 import Services from "./pages/Home/services"
 import HowWeDoIt from "./pages/Home/HowWeDoIt";
+import AboutUs from "./pages/Home/AboutUs";
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
               <Main />
               <Services />
               <HowWeDoIt />
+              <AboutUs />
             </>
           }
         />

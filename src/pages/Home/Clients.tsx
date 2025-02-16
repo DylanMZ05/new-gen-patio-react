@@ -16,8 +16,6 @@ const images: string[] = [
     "assets/images/opinions/12.jpeg",
 ];
 
-const reviewsUrl = "https://www.google.com/search?q=newgenpatio+reviews";
-
 const Clients: React.FC = () => {
     const marqueeRef = useRef<HTMLDivElement>(null);
     const [isDragging, setIsDragging] = useState(false);
@@ -77,7 +75,7 @@ const Clients: React.FC = () => {
             <div className="w-25 h-1 background-skyblue mt-4 mb-5 rounded-4xl"></div>
 
             <div 
-                className="marquee-container relative overflow-hidden cursor-grab active:cursor-grabbing"
+                className="marquee-container-google relative overflow-hidden cursor-grab active:cursor-grabbing"
                 ref={marqueeRef}
                 onMouseDown={handleMouseDown}
                 onMouseMove={handleMouseMove}
@@ -103,14 +101,11 @@ const Clients: React.FC = () => {
                 </div>
             </div>
 
-            <a
-                href={reviewsUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-white bg-black text-xl font-semibold px-5 pt-1 pb-2 rounded-4xl mt-5 inline-block"
-            >
-                See All Google Reviews
-            </a>
+            <p className="mt-5">Have another questio?
+                <br />
+                No problem, <a href="/new-gen-patio-react/">contact us</a>
+                .
+            </p>
 
         </section>
     );

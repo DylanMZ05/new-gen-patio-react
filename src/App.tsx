@@ -1,6 +1,7 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Header from "./components/header/Header";
 import WspButton from "./components/WspButton";
+import Footer from "./components/footer/footer"
 
 import Main from "./pages/Home/Main";
 import Services from "./pages/Home/services"
@@ -29,6 +30,7 @@ function App() {
         />
       </Routes>
       <WspButton />
+      <Footer />
     </Router>
   );
 }

@@ -1,7 +1,6 @@
-.marquee-container {
+.marquee-container-google {
     width: 100%;
     max-width: 1200px;
-    overflow-x: auto;
     white-space: nowrap;
     scroll-behavior: smooth;
     user-select: none;
@@ -14,6 +13,10 @@
     will-change: transform;
 }
 
-.marquee-container::-webkit-scrollbar {
+.marquee-container-google:hover .marquee {
+    animation-play-state: paused;
+}
+
+.marquee-container-google::-webkit-scrollbar {
     display: none;
 }

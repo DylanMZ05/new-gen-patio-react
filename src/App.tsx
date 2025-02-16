@@ -6,6 +6,7 @@ import Main from "./pages/Home/Main";
 import Services from "./pages/Home/services"
 import HowWeDoIt from "./pages/Home/HowWeDoIt";
 import AboutUs from "./pages/Home/AboutUs";
+import Clients from "./pages/Home/Clients";
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
               <Services />
               <HowWeDoIt />
               <AboutUs />
+              <Clients />
             </>
           }
         />

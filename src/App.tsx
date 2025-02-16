@@ -7,6 +7,7 @@ import Services from "./pages/Home/services"
 import HowWeDoIt from "./pages/Home/HowWeDoIt";
 import AboutUs from "./pages/Home/AboutUs";
 import Clients from "./pages/Home/Clients";
+import FAQ from "./pages/Home/FAQ";
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
               <HowWeDoIt />
               <AboutUs />
               <Clients />
+              <FAQ />
             </>
           }
         />

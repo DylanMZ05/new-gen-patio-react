@@ -74,7 +74,7 @@ const Clients: React.FC = () => {
     return (
         <section className="flex flex-col items-center justify-center py-12 px-6 border-t border-black/20 overflow-hidden">
             <h2 className="font-semibold text-4xl text-center">Our Clients</h2>
-            <div className="w-25 h-1 bg-sky-500 mt-4 mb-5 rounded-4xl"></div>
+            <div className="w-25 h-1 background-skyblue mt-4 mb-5 rounded-4xl"></div>
 
             <div 
                 className="marquee-container relative overflow-hidden cursor-grab active:cursor-grabbing"
@@ -85,7 +85,7 @@ const Clients: React.FC = () => {
                 onMouseLeave={handleMouseUp}
             >
                 <div className="marquee flex">
-                    {[...images, ...images].map((image, index) => ( // Duplicamos para efecto infinito
+                    {[...images, ...images].map((image, index) => (
                         <div
                             key={index} 
                             className="flex gap-4 items-start"

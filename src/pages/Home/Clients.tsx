@@ -101,11 +101,14 @@ const Clients: React.FC = () => {
                 </div>
             </div>
 
-            <p className="mt-5">Have another questio?
-                <br />
-                No problem, <a href="/new-gen-patio-react/">contact us</a>
-                .
-            </p>
+            <a
+            href="/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-white bg-black text-xl font-semibold px-5 pt-1 pb-2 rounded-full mt-5 inline-block"
+            >
+                View all reviews
+            </a>
 
         </section>
     );

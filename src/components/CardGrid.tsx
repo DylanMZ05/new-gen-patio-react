@@ -23,9 +23,9 @@ const Card: React.FC<CardProps> = ({ title, imageUrl, link }) => {
     return (
         <a
             ref={ref}
-            href={link} // 🆕 Enlace dinámico
-            target="_blank" // Opcional: Abrir en nueva pestaña
-            rel="noopener noreferrer" // Seguridad
+            href={link}
+            target="_blank"
+            rel="noopener noreferrer"
             className="relative w-[90vw] md:w-80 h-65 rounded-lg shadow-md overflow-hidden"
         >
             <div

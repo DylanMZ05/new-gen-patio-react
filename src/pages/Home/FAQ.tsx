@@ -18,7 +18,7 @@ const faqData = [
 const FAQ: React.FC = () => {
   return (
     <section className="flex flex-col items-center justify-center py-12 px-6 border-t border-black/20 overflow-hidden">
-      <h2 className="font-semibold text-3xl text-center skyblue">FAQ</h2>
+      <h2 className="font-semibold text-2xl text-center skyblue">FAQ</h2>
       <h3 className="font-semibold text-4xl text-center">Preguntas Frecuentes</h3>
       <div className="w-24 h-1 background-skyblue mt-4 mb-5 rounded-full"></div>
 
@@ -28,14 +28,11 @@ const FAQ: React.FC = () => {
         ))}
       </div>
 
-      <a
-        href="/"
-        target="_blank"
-        rel="noopener noreferrer"
-        className="text-white bg-black text-xl font-semibold px-5 pt-1 pb-2 rounded-full mt-5 inline-block"
-      >
-        Ver Todas las Opiniones en Google
-      </a>
+      <p className="mt-5 font-normal text-xl">Have another question?
+                <br />
+                No problem, <a href="/new-gen-patio-react/" className="text-orange-500 font-semibold">contact us</a>
+                .
+            </p>
     </section>
   );
 };

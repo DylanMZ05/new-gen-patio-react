@@ -15,7 +15,7 @@ const FAQItem: React.FC<FAQItemProps> = ({ question, answer }) => {
         className="w-full text-left text-xl font-semibold flex justify-between items-center"
       >
         {question}
-        <span className="text-2xl transition-transform duration-300">
+        <span className="text-2xl transition-transform duration-300 cursor-pointer">
           {isOpen ? "▲" : "▼"}
         </span>
       </button>

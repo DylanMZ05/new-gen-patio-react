@@ -9,19 +9,19 @@ const Footer: React.FC = () => {
                 <div className="md:w-screen md:flex md:justify-between px-[50px] max-w-[1100px]">
                     <div className=" p-6 rounded-lg w-full max-w-md">
                         <form className="flex flex-col gap-4">
-                            <label className="text-white text-sm">Name</label>
+                            <label className="text-white text-lg">Name</label>
                             <input type="text" placeholder="Type your name" className="p-2 rounded border border-gray-300 focus:outline-none bg-white" />
 
-                            <label className="text-white text-sm">Email</label>
+                            <label className="text-white text-lg">Email</label>
                             <input type="email" placeholder="youremail@gmail.com" className="p-2 rounded border border-gray-300 focus:outline-none bg-white" />
 
-                            <label className="text-white text-sm">Phone number</label>
+                            <label className="text-white text-lg">Phone number</label>
                             <input type="tel" placeholder="Example: +1 555 123-4567" className="p-2 rounded border border-gray-300 focus:outline-none bg-white" />
 
-                            <label className="text-white text-sm">Message</label>
+                            <label className="text-white text-lg">Message</label>
                             <textarea placeholder="Write your message" className="p-2 rounded border border-gray-300 focus:outline-none bg-white"></textarea>
 
-                            <button type="submit" className="bg-orange-600 text-white p-2 rounded-full hover:bg-orange-600 cursor-pointer">
+                            <button type="submit" className="bg-orange-500 text-white p-2 rounded-full hover:bg-orange-600 cursor-pointer">
                                 Send Email
                             </button>
                         </form>
@@ -32,14 +32,14 @@ const Footer: React.FC = () => {
                         <h2 className="text-2xl font-bold md:text-3xl">FLEXIBLE FINANCING!</h2>
                         <p className="mt-2 text-xl text-white/80 md:text-2xl">Options available for up to</p>
                         <p className="text-2xl font-bold md:text-3xl">18 MONTHS at 0% INTEREST!</p>
-                        <button className="bg-orange-500 text-white px-4 py-2 mt-4 rounded-lg font-semibold hover:bg-orange-600">
+                        <button className="bg-orange-500 text-white px-4 py-2 mt-4 rounded-full font-semibold hover:bg-orange-600 cursor-pointer">
                             APPLY NOW!
                         </button>
                     </div>
                     
                 </div>
 
-                <div className="text-white px-5 pt-5 flex flex-col gap-5">
+                <div className="text-white px-5 pt-5 flex flex-col gap-5 lg:flex-row">
                     <div>
                         <h4 className="font-semibold text-2xl mb-3">NEW GEN PATIO</h4>
                         <p>
@@ -67,7 +67,9 @@ const Footer: React.FC = () => {
                     </div>
                 </div>
 
-                <div className="flex flex-col gap-5 border-t-1 border-white/40 w-[99vw] mt-5 pt-5 pl-5 text-white">
+                <div className="bg-white/40 h-[1px] w-[99.1vw] my-5"></div>
+
+                <div className="flex flex-col gap-5 w-[100%] pl-5 text-white">
                     <p>© 2024 NEW GEN PATIO ALL RIGHTS RESERVED</p>
                     <div className="flex gap-3">
                         <a href="https://www.instagram.com/tu_usuario" target="_blank" rel="noopener noreferrer">

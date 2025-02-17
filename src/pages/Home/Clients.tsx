@@ -70,7 +70,10 @@ const Clients: React.FC = () => {
     }, [isPaused]);
 
     return (
-        <section className="flex flex-col items-center justify-center py-12 px-6 border-t border-black/20 overflow-hidden">
+        <section 
+            id="reviews"
+            className="flex flex-col items-center justify-center py-12 px-6 border-t border-black/20 overflow-hidden"
+            >
             <h2 className="font-semibold text-4xl text-center">Our Clients</h2>
             <div className="w-25 h-1 background-skyblue mt-4 mb-5 rounded-4xl"></div>
 

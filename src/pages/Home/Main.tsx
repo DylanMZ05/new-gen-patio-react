@@ -2,7 +2,7 @@ import React from "react";
 
 const Main: React.FC = () => {
     return (
-        <main className="flex relative">
+        <section id="home" className="flex relative">
             {/* Video para pantallas grandes (md en adelante) */}
             <video 
                 className="absolute top-0 left-0 w-full h-full object-cover max-h-[1080px]" 
@@ -27,7 +27,7 @@ const Main: React.FC = () => {
                     </h1>
                     
                     {/* Línea decorativa */}
-                    <div className="w-80 h-[3px] bg-orange-500 mt-4 mb-1 ml-1 rounded-4xl"></div>
+                    <div className="w-[45vw] md:w-80 h-[3px] bg-orange-500 mt-4 mb-1 ml-1 rounded-4xl"></div>
 
                     {/* H2 optimizado con palabras clave relacionadas */}
                     <h2 className="text-2xl md:text-4xl font-light opacity-90">
@@ -40,7 +40,7 @@ const Main: React.FC = () => {
                     </p>
                 </div>
             </div>
-        </main>
+        </section>
     );
 };
 

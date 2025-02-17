@@ -2,11 +2,11 @@ import { FaInstagram, FaTiktok } from "react-icons/fa";
 
 const Footer: React.FC = () => {
     return (
-        <footer className="bg-[#0D4C5F] flex items-center justify-center">
+        <footer id="contact" className="bg-[#0D4C5F] flex items-center justify-center">
             <section id="contacto" className="w-screen max-w-[1400px] flex flex-col items-center justify-center py-10 md:px-10">
                 {/* Formulario de contacto */}
                 <h2 className="text-white text-5xl font-semibold mb-4">Get in Touch</h2>
-                <div className="md:w-screen md:flex md:justify-between px-[50px] max-w-[1100px]">
+                <div className="md:w-screen md:flex md:justify-between px-5 max-w-[1100px]">
                     <div className=" p-6 rounded-lg w-full max-w-md">
                         <form className="flex flex-col gap-4">
                             <label className="text-white text-lg">Name</label>

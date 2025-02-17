@@ -3,12 +3,16 @@ import Header from "./components/header/Header";
 import WspButton from "./components/WspButton";
 import Footer from "./components/footer/footer"
 
+// Home
 import Main from "./pages/Home/Main";
 import Services from "./pages/Home/services"
 import HowWeDoIt from "./pages/Home/HowWeDoIt";
 import AboutUs from "./pages/Home/AboutUs";
 import Clients from "./pages/Home/Clients";
 import FAQ from "./pages/Home/FAQ";
+
+// Attached
+import Attached from "./pages/Attached/Attached";
 
 function App() {
   return (
@@ -19,13 +23,21 @@ function App() {
           path="/new-gen-patio-react"
           element={
             <>
+            <main>
               <Main />
               <Services />
               <HowWeDoIt />
               <AboutUs />
               <Clients />
               <FAQ />
+            </main>
             </>
+          }
+        />
+        <Route path="/new-gen-patio-react/attached" element={
+          <main>
+            <Attached />
+          </main>
           }
         />
       </Routes>

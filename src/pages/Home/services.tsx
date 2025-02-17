@@ -8,7 +8,8 @@ const coveredPatios = [
 ];
 
 const extraServices = [
-    { title: "Extra Services", imageUrl: "assets/images/Free3.jpg", link: "/new-gen-patio-react/extra-services" },
+    { title: "Outdoor Kitchen", imageUrl: "assets/images/Free3.jpg", link: "/new-gen-patio-react/extra-services" },
+    { title: "Concrete & Grass", imageUrl: "assets/images/Free3.jpg", link: "/new-gen-patio-react/extra-services" },
 ];
 
 const Services: React.FC = () => {
@@ -21,7 +22,7 @@ const Services: React.FC = () => {
                 <div className="w-25 h-1 background-skyblue mt-3 mb-5 rounded-4xl"></div>
                 <CardGrid cards={coveredPatios} />
 
-                <div className="flex flex-col md:flex-row gap-5 md:mt-7">
+                <div className="flex flex-col items-center lg:flex-row gap-5 md:mt-7 md:w-screen md:max-w-[1016px] lg:justify-between">
                     <div className="flex flex-col items-center md:items-start">
                         <h3 className="text-4xl font-semibold mt-5">Additional Services</h3>
                         <div className="w-25 h-1 background-skyblue my-3 rounded-4xl"></div>

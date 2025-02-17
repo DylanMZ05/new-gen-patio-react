@@ -1,6 +1,7 @@
 const AboutUs: React.FC = () => {
     return (
         <section
+            id="who-we-are"
             className="relative flex flex-col items-center justify-center py-[50px] px-[25px]
             bg-cover bg-center bg-fixed"
             style={{ backgroundImage: "url('assets/images/Free3.jpg')" }}

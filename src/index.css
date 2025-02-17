@@ -3,3 +3,19 @@
 * {
     scroll-behavior: smooth;
 }
+
+#services {
+    scroll-margin-top: 75px;
+}
+
+#our-promise {
+    scroll-margin-top: 150px;
+}
+
+#services,
+#our-promise,
+#who-we-are,
+#reviews,
+#contact {
+    scroll-margin-top: 50px;
+}

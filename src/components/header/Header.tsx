@@ -6,7 +6,7 @@ import '../../App.css';
 
 const Header: React.FC = () => {
     const isScrolled = useScroll(50);
-    const sectionIds = ['services', 'gallery', 'our promise', 'who we are', 'contact'];
+    const sectionIds = ['services', 'our-promise', 'who-we-are', 'reviews', 'contact'];
     const [activeSection, setActiveSectionManually] = useActiveSection(sectionIds);
     const [menuOpen, setMenuOpen] = useState(false);
 
@@ -28,11 +28,10 @@ const Header: React.FC = () => {
                 }`}
                 role="banner"
             >
-
                 <div className="flex justify-between items-center text-white px-4 xl:px-15">
-                    
+                    {/* Logo */}
                     <div className="flex items-center">
-                        <Link to="/new-gen-patio-react/" aria-label="Inicio">
+                        <Link to="/new-gen-patio-react/#home" aria-label="Inicio">
                             <img
                                 src="assets/images/logo.webp"
                                 alt="New Gen Patio Logo"
@@ -48,27 +47,29 @@ const Header: React.FC = () => {
                         </div>
                     </div>
 
+                    {/* Menú principal */}
                     <nav aria-label="Menú principal" className="hidden lg:flex">
                         <ul className="flex justify-between items-center space-x-10">
-                        {sectionIds.map((id) => (
-                            <Link
-                                key={id}
-                                to={`/#${id}`}
-                                onClick={() => handleClick(id)}
-                                className={`text-xl transition-all duration-150 font-neutral ${
-                                    activeSection === id 
-                                        ? 'text-orange-500 font-bold' 
-                                        : isScrolled 
-                                            ? 'text-black hover:text-orange-500' 
-                                            : 'text-white hover:text-orange-500'
-                                }`}
-                            >
-                                {id.charAt(0).toUpperCase() + id.slice(1)}
-                            </Link>
-                        ))}
+                            {sectionIds.map((id) => (
+                                <Link
+                                    key={id}
+                                    to={`/new-gen-patio-react/#${id}`}
+                                    onClick={() => handleClick(id)}
+                                    className={`text-xl transition-all duration-150 font-neutral ${
+                                        activeSection === id 
+                                            ? 'text-orange-500 font-bold' 
+                                            : isScrolled 
+                                                ? 'text-black hover:text-orange-500' 
+                                                : 'text-white hover:text-orange-500'
+                                    }`}
+                                >
+                                    {id.replace(/-/g, ' ').charAt(0).toUpperCase() + id.replace(/-/g, ' ').slice(1)}
+                                </Link>
+                            ))}
                         </ul>
                     </nav>
 
+                    {/* Botón de menú para móvil */}
                     <button
                         className="lg:hidden focus:outline-none z-50 ml-auto cursor-pointer"
                         aria-label="Abrir menú"
@@ -88,12 +89,13 @@ const Header: React.FC = () => {
                         } ${menuOpen ? '-rotate-45 -translate-y-2.5' : ''}`}></div>
                     </button>
 
+                    {/* Menú móvil */}
                     <div
                         className={`lg:hidden fixed z-20 top-0 left-0 w-full h-full background-skyblue text-white flex flex-col items-center justify-center space-y-8 transition-transform duration-500 ${
                             menuOpen ? 'translate-y-0' : '-translate-y-full'
                         }`}
                     >
-                        <Link to="/" aria-label="Inicio" className='flex flex-col items-center'>
+                        <Link to="#home" aria-label="Inicio" className='flex flex-col items-center'>
                             <img
                                 src="assets/images/logo.webp"
                                 alt="New Gen Patio Logo"
@@ -103,16 +105,17 @@ const Header: React.FC = () => {
                             <h2 className='font-semibold text-2xl'>NEW GEN PATIO</h2>
                             <p className='text-xl opacity-80'>Modern Outdoor Living</p>
                         </Link>
+
                         {sectionIds.map((id) => (
                             <Link
                                 key={id}
-                                to={`/#${id}`}
+                                to={`/new-gen-patio-react/#${id}`}
                                 onClick={() => handleClick(id)}
                                 className={`text-2xl transition-all duration-150 ${
                                     activeSection === id ? 'text-orange-500 font-semibold' : 'hover:text-orange-500'
                                 }`}
                             >
-                                {id.charAt(0).toUpperCase() + id.slice(1)}
+                                {id.replace(/-/g, ' ').charAt(0).toUpperCase() + id.replace(/-/g, ' ').slice(1)}
                             </Link>
                         ))}
                     </div>

@@ -24,7 +24,6 @@ const Card: React.FC<CardProps> = ({ title, imageUrl, link }) => {
         <a
             ref={ref}
             href={link}
-            target="_blank"
             rel="noopener noreferrer"
             className="relative w-[90vw] md:w-80 h-65 rounded-lg shadow-md overflow-hidden"
         >
@@ -46,7 +45,7 @@ const Card: React.FC<CardProps> = ({ title, imageUrl, link }) => {
 };
 
 type CardGridProps = {
-    cards: { title: string; imageUrl: string; link: string }[]; // 🆕 Agregamos link aquí
+    cards: { title: string; imageUrl: string; link: string }[];
 };
 
 const CardGrid: React.FC<CardGridProps> = ({ cards }) => {

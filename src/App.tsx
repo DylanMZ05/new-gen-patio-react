@@ -16,13 +16,12 @@ import Attached from "./pages/Attached/Attached";
 
 function App() {
   return (
-    <Router>
+    <Router basename="/new-gen-patio-react">
       <Header />
       <Routes>
         <Route
-          path="/new-gen-patio-react"
+          path="/"
           element={
-            <>
             <main>
               <Main />
               <Services />
@@ -31,13 +30,14 @@ function App() {
               <Clients />
               <FAQ />
             </main>
-            </>
           }
         />
-        <Route path="/new-gen-patio-react/attached" element={
-          <main>
-            <Attached />
-          </main>
+        <Route
+          path="/attached"
+          element={
+            <main>
+              <Attached />
+            </main>
           }
         />
       </Routes>

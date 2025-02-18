@@ -31,7 +31,7 @@ const Header: React.FC = () => {
                 <div className="flex justify-between items-center text-white px-4 xl:px-15">
                     {/* Logo */}
                     <div className="flex items-center">
-                        <Link to="/new-gen-patio-react/#home" aria-label="Inicio">
+                        <Link to="//" aria-label="Inicio">
                             <img
                                 src="assets/images/logo.webp"
                                 alt="New Gen Patio Logo"
@@ -53,7 +53,7 @@ const Header: React.FC = () => {
                             {sectionIds.map((id) => (
                                 <Link
                                     key={id}
-                                    to={`/new-gen-patio-react/#${id}`}
+                                    to={`//#${id}`}
                                     onClick={() => handleClick(id)}
                                     className={`text-xl transition-all duration-150 font-neutral ${
                                         activeSection === id 
@@ -95,7 +95,7 @@ const Header: React.FC = () => {
                             menuOpen ? 'translate-y-0' : '-translate-y-full'
                         }`}
                     >
-                        <Link to="#home" aria-label="Inicio" className='flex flex-col items-center'>
+                        <Link to="//" aria-label="Inicio" className='flex flex-col items-center'>
                             <img
                                 src="assets/images/logo.webp"
                                 alt="New Gen Patio Logo"
@@ -109,7 +109,7 @@ const Header: React.FC = () => {
                         {sectionIds.map((id) => (
                             <Link
                                 key={id}
-                                to={`/new-gen-patio-react/#${id}`}
+                                to={`//#${id}`}
                                 onClick={() => handleClick(id)}
                                 className={`text-2xl transition-all duration-150 ${
                                     activeSection === id ? 'text-orange-500 font-semibold' : 'hover:text-orange-500'

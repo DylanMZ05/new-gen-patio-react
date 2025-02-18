@@ -1,15 +1,15 @@
 import CardGrid from "../../components/CardGrid";
 import MarqueeBanner from "../../components/MarqueeBanner";
 
-const coveredPatios = [
-    { title: "Attached", imageUrl: "assets/images/Attached24.jpg", link: "/new-gen-patio-react/attached" },
-    { title: "Freestanding", imageUrl: "assets/images/Free3.jpg", link: "/new-gen-patio-react/freestanding" },
-    { title: "Cantilever", imageUrl: "assets/images/Attached24.jpg", link: "/new-gen-patio-react/cantilever" },
+const coveredPatios: { title: string; imageUrl: string; link: string }[] = [
+    { title: "Attached", imageUrl: "public/assets/images/Attached24.jpg", link: "/attached" },
+    { title: "Freestanding", imageUrl: "public/assets/images/Free3.jpg", link: "/freestanding" },
+    { title: "Cantilever", imageUrl: "public/assets/images/Attached24.jpg", link: "/cantilever" },
 ];
 
-const extraServices = [
-    { title: "Outdoor Kitchen", imageUrl: "assets/images/Free3.jpg", link: "/new-gen-patio-react/extra-services" },
-    { title: "Concrete & Grass", imageUrl: "assets/images/Free3.jpg", link: "/new-gen-patio-react/extra-services" },
+const extraServices: { title: string; imageUrl: string; link: string }[] = [
+    { title: "Outdoor Kitchen", imageUrl: "public/assets/images/Free3.jpg", link: "/extra-services" },
+    { title: "Concrete & Grass", imageUrl: "public/assets/images/Free3.jpg", link: "/extra-services" },
 ];
 
 const Services: React.FC = () => {
@@ -37,7 +37,7 @@ const Services: React.FC = () => {
                             - Grass
                         </p>
                     </div>
-                <CardGrid cards={extraServices} />
+                    <CardGrid cards={extraServices} />
                 </div>
             </section>
         </>

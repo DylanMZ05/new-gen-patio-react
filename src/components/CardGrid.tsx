@@ -1,11 +1,12 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import { motion, useAnimation } from "framer-motion";
 import { useInView } from "react-intersection-observer";
 
 type CardProps = {
     title: string;
     imageUrl: string;
-    link: string; // 🆕 Agregamos la propiedad link
+    link: string;
 };
 
 const Card: React.FC<CardProps> = ({ title, imageUrl, link }) => {
@@ -21,10 +22,9 @@ const Card: React.FC<CardProps> = ({ title, imageUrl, link }) => {
     }, [controls, inView]);
 
     return (
-        <a
+        <Link
             ref={ref}
-            href={link}
-            rel="noopener noreferrer"
+            to={link}
             className="relative w-[90vw] md:w-80 h-65 rounded-lg shadow-md overflow-hidden"
         >
             <div
@@ -40,12 +40,12 @@ const Card: React.FC<CardProps> = ({ title, imageUrl, link }) => {
             >
                 {title}
             </motion.div>
-        </a>
+        </Link>
     );
 };
 
 type CardGridProps = {
-    cards: { title: string; imageUrl: string; link: string }[];
+    cards: CardProps[];
 };
 
 const CardGrid: React.FC<CardGridProps> = ({ cards }) => {

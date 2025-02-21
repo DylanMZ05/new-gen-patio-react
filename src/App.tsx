@@ -17,6 +17,10 @@ import Freestanding from "./pages/Services/Freestanding";
 import Cantilever from "./pages/Services/Cantilever";
 import ExtraServices from "./pages/Services/ExtraServices";
 
+// Calculator
+import Calculator from "./pages/Calculator/calculator";
+import FinancingOptions from "./pages/Calculator/FinancingOptions";
+
 function App() {
   return (
     <Router basename="/new-gen-patio-react">
@@ -64,6 +68,22 @@ function App() {
           element={
             <main>
               <ExtraServices />
+            </main>
+          }
+        />
+        <Route
+          path="/calculator"
+          element={
+            <main>
+              <Calculator />
+            </main>
+          }
+        />
+        <Route
+          path="/financing-options"
+          element={
+            <main>
+              <FinancingOptions />
             </main>
           }
         />

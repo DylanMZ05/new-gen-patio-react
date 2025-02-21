@@ -16,6 +16,7 @@ import HowWeDoItHome from "./pages/Home/HowWeDoItHome";
 import AboutUs from "./pages/Home/AboutUs";
 import Clients from "./pages/Home/Clients";
 import FAQ from "./pages/Home/FAQ";
+import BlogsSection from "./pages/Home/BlogsSection";
 
 // Services
 import Attached from "./pages/Services/Attached";
@@ -29,6 +30,9 @@ import FinancingOptions from "./pages/Calculator/FinancingOptions";
 
 // How We Do It
 import HowWeDoIt from "./pages/WeDoIt&About/WeDoIt";
+
+// Blogs
+import BlogPage from "./pages/Blogs/BlogPage";
 
 // Página sin Header y Footer
 
@@ -51,12 +55,12 @@ function Layout() {
             <main>
               <Main />
               <MarqueeBanner />
-              <AboutUs />
-              <hr className="border-t-[1px] border-black/10" />
               <Services />
               <HowWeDoItHome />
+              <AboutUs />
               <Clients />
               <FAQ />
+              <BlogsSection />
             </main>
           }
         />
@@ -67,6 +71,7 @@ function Layout() {
         <Route path="/calculator" element={<Calculator />} />
         <Route path="/financing-options" element={<FinancingOptions />} />
         <Route path="/howwedoit" element={<HowWeDoIt />} />
+        <Route path="/blog/:id" element={<BlogPage />} />
 
         {/* Ruta sin Header y Footer */}
       </Routes>

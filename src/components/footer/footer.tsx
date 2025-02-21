@@ -86,7 +86,7 @@ const Footer: React.FC = () => {
             </div>
           </div>
 
-          <div className="text-white px-5 pt-5 flex flex-col gap-5 lg:flex-row">
+          <div className="text-white pl-5 pt-5 flex flex-col w-[100%] max-w-[1920px] gap-5 md:pl-0 lg:flex-row">
             <div>
               <h4 className="font-semibold text-2xl mb-3">NEW GEN PATIO</h4>
               <p>
@@ -113,7 +113,7 @@ const Footer: React.FC = () => {
 
           <div className="bg-white/40 h-[1px] w-[99.1vw] my-5"></div>
 
-          <div className="flex flex-col gap-5 w-[100%] pl-5 text-white">
+          <div className="flex flex-col pl-5 gap-5 w-[100%] text-white md:pl-0 max-w-[1920px]">
             <p>© 2024 NEW GEN PATIO ALL RIGHTS RESERVED</p>
             <div className="flex gap-3">
               <a

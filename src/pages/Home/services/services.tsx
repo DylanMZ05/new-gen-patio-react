@@ -23,7 +23,7 @@ const Services: React.FC = () => {
                 <CardGrid cards={coveredPatios} />
 
                 <div className="flex flex-col items-center lg:flex-row gap-5 md:mt-7 md:w-screen md:max-w-[1016px] lg:justify-between">
-                    <div className="flex flex-col items-center md:items-start bg-neutral-100 w-[320px] h-[260px] rounded-xl p-2 shadow-md border-1 border-black/10">
+                    <div className="flex flex-col items-center md:items-start md:bg-neutral-100 md:w-[320px] md:h-[260px] md:rounded-xl p-2 md:shadow-md md:border-1 md:border-black/10">
                         <h3 className="text-3xl font-semibold mt-5">Additional Services</h3>
                         <div className="w-25 h-1 background-skyblue my-3 rounded-4xl"></div>
                         <p className="text-xl text-start font-semibold text-black/90 md:hidden">

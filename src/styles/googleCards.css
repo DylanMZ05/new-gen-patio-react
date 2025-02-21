@@ -1,22 +1,22 @@
 .marquee-container-google {
-    width: 100%;
-    max-width: 1200px;
-    white-space: nowrap;
-    scroll-behavior: smooth;
-    user-select: none;
-    position: relative;
+  width: 100%;
+  max-width: 1200px;
+  white-space: nowrap;
+  scroll-behavior: smooth;
+  user-select: none;
+  position: relative;
 }
 
 .marquee {
-    display: flex;
-    gap: 16px;
-    will-change: transform;
+  display: flex;
+  gap: 16px;
+  will-change: transform;
 }
 
 .marquee-container-google:hover .marquee {
-    animation-play-state: paused;
+  animation-play-state: paused;
 }
 
 .marquee-container-google::-webkit-scrollbar {
-    display: none;
+  display: none;
 }

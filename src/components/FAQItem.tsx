@@ -19,7 +19,7 @@ const FAQItem: React.FC<FAQItemProps> = ({ question, answer }) => {
           {isOpen ? "▲" : "▼"}
         </span>
       </button>
-      
+
       <div
         className={`transition-all duration-300 ease-in-out overflow-hidden ${
           isOpen ? "max-h-40 opacity-100 mt-2" : "max-h-0 opacity-0"

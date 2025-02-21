@@ -1,10 +1,16 @@
-import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  useLocation,
+} from "react-router-dom";
 import Header from "./components/header/Header";
 import WspButton from "./components/WspButton";
 import Footer from "./components/footer/footer";
 
 // Home
 import Main from "./pages/Home/Main";
+import MarqueeBanner from "./components/MarqueeBanner";
 import Services from "./pages/Home/services/services";
 import HowWeDoItHome from "./pages/Home/HowWeDoItHome";
 import AboutUs from "./pages/Home/AboutUs";
@@ -44,9 +50,11 @@ function Layout() {
           element={
             <main>
               <Main />
+              <MarqueeBanner />
+              <AboutUs />
+              <hr className="border-t-[1px] border-black/10" />
               <Services />
               <HowWeDoItHome />
-              <AboutUs />
               <Clients />
               <FAQ />
             </main>

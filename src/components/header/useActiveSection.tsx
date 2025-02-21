@@ -1,7 +1,9 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef } from "react";
 
-const useActiveSection = (sectionIds: string[]): [string, (id: string) => void] => {
-  const [activeSection, setActiveSection] = useState<string>('');
+const useActiveSection = (
+  sectionIds: string[],
+): [string, (id: string) => void] => {
+  const [activeSection, setActiveSection] = useState<string>("");
   const isClicking = useRef(false);
 
   const setActiveSectionManually = (id: string) => {
@@ -10,7 +12,7 @@ const useActiveSection = (sectionIds: string[]): [string, (id: string) => void] 
     setTimeout(() => {
       isClicking.current = false;
     }, 800);
-  }
+  };
 
   useEffect(() => {
     const handleScroll = () => {
@@ -37,11 +39,11 @@ const useActiveSection = (sectionIds: string[]): [string, (id: string) => void] 
       }
     };
 
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener("scroll", handleScroll);
     handleScroll();
 
     return () => {
-      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener("scroll", handleScroll);
     };
   }, [sectionIds]);
 

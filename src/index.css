@@ -1,15 +1,15 @@
 @import "tailwindcss";
 
 * {
-    scroll-behavior: smooth;
+  scroll-behavior: smooth;
 }
 
 #services {
-    scroll-margin-top: 75px;
+  scroll-margin-top: 75px;
 }
 
 #our-promise {
-    scroll-margin-top: 150px;
+  scroll-margin-top: 150px;
 }
 
 #services,
@@ -17,5 +17,5 @@
 #who-we-are,
 #reviews,
 #contact {
-    scroll-margin-top: 50px;
+  scroll-margin-top: 50px;
 }

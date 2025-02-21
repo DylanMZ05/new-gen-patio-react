@@ -5,14 +5,17 @@ import Footer from "./components/footer/footer"
 
 // Home
 import Main from "./pages/Home/Main";
-import Services from "./pages/Home/services"
+import Services from "./pages/Home/services/services"
 import HowWeDoIt from "./pages/Home/HowWeDoIt";
 import AboutUs from "./pages/Home/AboutUs";
 import Clients from "./pages/Home/Clients";
 import FAQ from "./pages/Home/FAQ";
 
-// Attached
-import Attached from "./pages/Attached/Attached";
+// Services
+import Attached from "./pages/Services/Attached";
+import Freestanding from "./pages/Services/Freestanding";
+import Cantilever from "./pages/Services/Cantilever";
+import ExtraServices from "./pages/Services/ExtraServices";
 
 function App() {
   return (
@@ -37,6 +40,30 @@ function App() {
           element={
             <main>
               <Attached />
+            </main>
+          }
+        />
+        <Route
+          path="/freestanding"
+          element={
+            <main>
+              <Freestanding />
+            </main>
+          }
+        />
+        <Route
+          path="/cantilever"
+          element={
+            <main>
+              <Cantilever />
+            </main>
+          }
+        />
+        <Route
+          path="/extra-services"
+          element={
+            <main>
+              <ExtraServices />
             </main>
           }
         />

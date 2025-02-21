@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { motion, useAnimation } from "framer-motion";
 import { useInView } from "react-intersection-observer";
 
@@ -12,6 +12,7 @@ type CardProps = {
 const Card: React.FC<CardProps> = ({ title, imageUrl, link }) => {
     const controls = useAnimation();
     const { ref, inView } = useInView({ threshold: 1 });
+    const navigate = useNavigate();
 
     React.useEffect(() => {
         if (inView) {
@@ -21,11 +22,16 @@ const Card: React.FC<CardProps> = ({ title, imageUrl, link }) => {
         }
     }, [controls, inView]);
 
+    const handleClick = () => {
+        window.scrollTo({ top: 0, behavior: "smooth" }); // Mueve la página al inicio
+        navigate(link); // Redirige a la nueva ruta
+    };
+
     return (
-        <Link
+        <div
             ref={ref}
-            to={link}
-            className="relative w-[90vw] md:w-80 h-65 rounded-lg shadow-md overflow-hidden"
+            onClick={handleClick}
+            className="relative w-[90vw] md:w-80 h-65 rounded-lg shadow-md overflow-hidden cursor-pointer"
         >
             <div
                 className="w-full h-full bg-cover bg-center"
@@ -40,7 +46,7 @@ const Card: React.FC<CardProps> = ({ title, imageUrl, link }) => {
             >
                 {title}
             </motion.div>
-        </Link>
+        </div>
     );
 };
 

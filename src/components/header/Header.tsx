@@ -11,7 +11,8 @@ const Header: React.FC = () => {
     "our-promise",
     "who-we-are",
     "reviews",
-    "contact",
+    "blogs",
+    "contact"
   ];
   const [activeSection, setActiveSectionManually] =
     useActiveSection(sectionIds);

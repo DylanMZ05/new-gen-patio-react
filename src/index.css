@@ -8,14 +8,15 @@
   scroll-margin-top: 75px;
 }
 
-#our-promise {
+#our-promise,
+#reviews {
   scroll-margin-top: 150px;
 }
 
 #services,
 #our-promise,
 #who-we-are,
-#reviews,
+#blogs,
 #contact {
   scroll-margin-top: 50px;
 }

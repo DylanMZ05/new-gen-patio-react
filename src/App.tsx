@@ -61,6 +61,7 @@ function Layout() {
               <Clients />
               <FAQ />
               <BlogsSection />
+              <MarqueeBanner />
             </main>
           }
         />

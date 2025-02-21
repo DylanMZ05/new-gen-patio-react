@@ -2,10 +2,15 @@ import { Link } from "react-router-dom";
 import "../styles/marquee.css";
 
 const MarqueeBanner = () => {
+  const handleScrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: "instant" });
+  };
+
   return (
     <Link
       to="/calculator"
       className="marquee-container background-skyblue w-full block"
+      onClick={handleScrollToTop}
     >
       <div className="marquee w-max flex items-center gap-3">
         <p className="text-white text-lg font-bold">

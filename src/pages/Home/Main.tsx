@@ -13,11 +13,11 @@ const Main: React.FC = () => {
         aria-label="Background video showcasing custom pergolas"
       >
         <source src="assets/videos/homevideo.webm" type="video/webm" />
-        {/* @ts-expect-error asd */}
         <track
           kind="captions"
           src="assets/videos/homevideo.vtt"
-          srLang="en"
+          // @ts-expect-error TypeScript no reconoce srclang correctamente
+          srclang="en"
           label="English"
         />
         Tu navegador no soporta videos.

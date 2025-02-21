@@ -25,7 +25,7 @@ const extraServices: { title: string; imageUrl: string; link: string }[] = [
     link: "/extra-services",
   },
   {
-    title: "Concrete & Grass",
+    title: "Concrete & Turf",
     imageUrl: "assets/images/Free3.jpg",
     link: "/extra-services",
   },
@@ -48,12 +48,12 @@ const Services: React.FC = () => {
             <h3 className="text-3xl font-semibold mt-5">Additional Services</h3>
             <div className="w-25 h-1 background-skyblue my-3 rounded-4xl"></div>
             <p className="text-xl text-start font-semibold text-black/90 md:hidden">
-              Outdoor Kitchen | Concrete | Grass
+              Outdoor Kitchen | Concrete | Turf
             </p>
             <p className="hidden text-xl mb-2 text-start font-semibold text-black/90 md:block">
               - Outdoor Kitchen
               <span className="block"></span>- Concrete
-              <span className="block"></span>- Grass
+              <span className="block"></span>- Turf
             </p>
           </div>
           <CardGrid cards={extraServices} />

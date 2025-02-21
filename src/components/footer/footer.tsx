@@ -31,42 +31,19 @@ const Footer: React.FC = () => {
             Get in Touch
           </h2>
           <div className="md:w-screen md:flex md:justify-between px-5 max-w-[1100px]">
-            <div className=" p-6 rounded-lg w-full max-w-md">
-              <form className="flex flex-col gap-4">
-                <label className="text-white text-lg">Name</label>
-                <input
-                  type="text"
-                  placeholder="Type your name"
-                  className="p-2 rounded border border-gray-300 focus:outline-none bg-white"
-                />
-
-                <label className="text-white text-lg">Email</label>
-                <input
-                  type="email"
-                  placeholder="youremail@gmail.com"
-                  className="p-2 rounded border border-gray-300 focus:outline-none bg-white"
-                />
-
-                <label className="text-white text-lg">Phone number</label>
-                <input
-                  type="tel"
-                  placeholder="Example: +1 555 123-4567"
-                  className="p-2 rounded border border-gray-300 focus:outline-none bg-white"
-                />
-
-                <label className="text-white text-lg">Message</label>
-                <textarea
-                  placeholder="Write your message"
-                  className="p-2 rounded border border-gray-300 focus:outline-none bg-white"
-                ></textarea>
-
-                <button
-                  type="submit"
-                  className="bg-orange-500 text-white p-2 rounded-full hover:bg-orange-600 cursor-pointer"
-                >
-                  Send Email
+            <div className="flex flex-col items-center justify-center gap-3 h-70 text-center text-white p-6 w-full max-w-md mt-6 md:mt-10 md:h-100">
+                <h2 className="text-2xl font-bold md:text-3xl">
+                  CONTACT US NOW!
+                </h2>
+                <p className="mt-2 text-xl text-white/80 md:text-2xl">
+                  Within your reach!
+                </p>
+                <p className="text-2xl font-bold md:text-3xl">
+                  DO YOU WANT TO GET IN TOUCH
+                </p>
+                <button className="bg-orange-500 text-white px-4 py-2 mt-4 rounded-full font-semibold hover:bg-orange-600 cursor-pointer">
+                  CLICK HERE
                 </button>
-              </form>
             </div>
 
             {/* Tarjeta de financiamiento */}
@@ -103,19 +80,16 @@ const Footer: React.FC = () => {
             <div>
               <h4 className="font-semibold text-2xl mb-3">CONTACT</h4>
               <a>346-581-9082</a>
+              <div></div>
               <a>info@newgenpatio.io</a>
             </div>
             <div>
               <h4 className="font-semibold text-2xl mb-3">LOCATION</h4>
-              <p>27805 Ellie Oak Ln, Spring, Texas. 77386</p>
+              <p>17903 Shaw Rd,Cypress,Condado de Harris,Texas, US</p>
             </div>
           </div>
 
-          <div className="bg-white/40 h-[1px] w-[99.1vw] my-5"></div>
-
-          <div className="flex flex-col pl-5 gap-5 w-[100%] text-white md:pl-0 max-w-[1920px]">
-            <p>© 2024 NEW GEN PATIO ALL RIGHTS RESERVED</p>
-            <div className="flex gap-3">
+          <div className="flex gap-3">
               <a
                 href="https://www.instagram.com/tu_usuario"
                 target="_blank"
@@ -130,7 +104,11 @@ const Footer: React.FC = () => {
               >
                 <FaTiktok className="w-6 h-6 text-white hover:text-white/70 transition-colors" />
               </a>
-            </div>
+          </div>
+          <div className="bg-white/40 h-[1px] w-[99.1vw] my-5"></div>
+
+          <div className="flex flex-col pl-5 gap-5 w-[100%] text-white md:pl-0 max-w-[1920px]">
+            <p>© 2024 NEW GEN PATIO ALL RIGHTS RESERVED</p>
           </div>
         </section>
       </footer>

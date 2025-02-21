@@ -78,14 +78,14 @@ const Clients: React.FC = () => {
       <div className="w-25 h-1 background-skyblue mt-4 mb-5 rounded-4xl"></div>
 
       <div
-        className="marquee-container-google relative overflow-hidden cursor-grab active:cursor-grabbing"
+        className="marquee-container-google relative overflow-hidden cursor-grab active:cursor-grabbing w-full"
         ref={marqueeRef}
         onMouseDown={handleMouseDown}
         onMouseMove={handleMouseMove}
         onMouseUp={handleMouseUp}
         onMouseLeave={handleMouseUp}
       >
-        <div className="marquee flex">
+        <div className="marquee flex min-w-full">
           {[...images, ...images].map((image, index) => (
             <div key={index} className="flex gap-4 items-start">
               <div className="bg-white w-80 h-64 flex items-start justify-center p-3 rounded-lg shadow-lg transition-transform duration-300 ease-in-out hover:scale-105">

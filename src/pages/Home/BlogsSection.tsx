@@ -12,7 +12,7 @@ const BlogSection: React.FC = () => {
   };
 
   return (
-    <section className="py-16 px-6 bg-gray-100 border-t-1 border-black/10">
+    <section id="blogs" className="py-16 px-6 bg-gray-100 border-t-1 border-black/10">
       <div className="max-w-6xl mx-auto">
         <h2 className="font-semibold text-2xl text-center skyblue">
           Blogs

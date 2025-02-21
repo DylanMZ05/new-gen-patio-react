@@ -18,7 +18,7 @@ import Cantilever from "./pages/Services/Cantilever";
 import ExtraServices from "./pages/Services/ExtraServices";
 
 // Calculator
-import Calculator from "./pages/Calculator/calculator";
+import Calculator from "./pages/Calculator/Calculator";
 import FinancingOptions from "./pages/Calculator/FinancingOptions";
 
 function App() {

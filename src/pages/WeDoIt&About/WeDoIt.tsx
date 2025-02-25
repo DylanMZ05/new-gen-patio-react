@@ -2,6 +2,16 @@ import React from "react";
 import Slider from "../../components/Slider/Slider";
 import MarqueeBanner from "../../components/MarqueeBanner";
 import ImgTxtSection from "../../components/ImgTxtSection";
+import SectionBlock from "../../components/SectionBlock";
+
+const sectionsData = [
+  {
+    id: 1,
+    title: "How we do it",
+    description: "Breve descripción de How we do it",
+    backgroundImage: "assets/images/Attached24.jpg",
+  },
+];
 
 const HowWeDoIt: React.FC = () => {
   const images = [
@@ -23,14 +33,7 @@ const HowWeDoIt: React.FC = () => {
 
   return (
     <section className="min-h-screen flex flex-col items-center bg-gray-100">
-      <div className="h-[100px]"></div>
-      <div className="px-4 flex flex-col items-center justify-center text-center">
-        <h2 className="text-3xl font-bold">Attached Style Pergolas</h2>
-        <div className="w-25 h-1 background-skyblue mt-3 mb-2 rounded-4xl"></div>
-        <p className="text-[24px] mb-5">
-          BREVE descripción de Attached Pergolas
-        </p>
-      </div>
+      <SectionBlock sections={sectionsData} />
       <Slider images={images} />
       <MarqueeBanner />
 

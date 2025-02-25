@@ -2,7 +2,7 @@ import React from "react";
 import Slider from "../../components/Slider/Slider";
 import MarqueeBanner from "../../components/MarqueeBanner";
 import ImgTxtSection from "../../components/ImgTxtSection";
-import SectionBlock from "./SectionBlock";
+import SectionBlock from "../../components/SectionBlock";
 
 const sectionsData = [
   {

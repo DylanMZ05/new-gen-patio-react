@@ -43,17 +43,12 @@ const Services: React.FC = () => {
         <div className="w-25 h-1 background-skyblue mt-3 mb-5 rounded-4xl"></div>
         <CardGrid cards={coveredPatios} />
 
-        <div className="flex flex-col items-center lg:flex-row gap-5 md:mt-7 md:w-screen md:max-w-[1016px] lg:justify-between">
-          <div className="flex flex-col items-center md:items-start md:bg-neutral-100 md:w-[320px] md:h-[260px] md:rounded-xl p-2 md:shadow-md md:border-1 md:border-black/10">
+        <div className="flex flex-col items-center gap-5 md:mt-7 md:w-screen md:max-w-[1016px] lg:justify-between">
+          <div className="flex flex-col items-center ">
             <h3 className="text-3xl font-semibold mt-5">Additional Services</h3>
             <div className="w-25 h-1 background-skyblue my-3 rounded-4xl"></div>
-            <p className="text-xl text-start font-semibold text-black/90 md:hidden">
+            <p className="text-xl text-start font-semibold text-black/90">
               Outdoor Kitchen | Concrete | Turf
-            </p>
-            <p className="hidden text-xl mb-2 text-start font-semibold text-black/90 md:block">
-              - Outdoor Kitchen
-              <span className="block"></span>- Concrete
-              <span className="block"></span>- Turf
             </p>
           </div>
           <CardGrid cards={extraServices} />

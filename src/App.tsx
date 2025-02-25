@@ -34,6 +34,9 @@ import HowWeDoIt from "./pages/WeDoIt&About/WeDoIt";
 // Blogs
 import BlogPage from "./pages/Blogs/BlogPage";
 
+// Free Quote
+import FreeQuote from "./pages/FreeQuote/FreeQuote"
+
 // Página sin Header y Footer
 
 function Layout() {
@@ -73,6 +76,7 @@ function Layout() {
         <Route path="/financing-options" element={<FinancingOptions />} />
         <Route path="/howwedoit" element={<HowWeDoIt />} />
         <Route path="/blog/:id" element={<BlogPage />} />
+        <Route path="/freequote" element={<FreeQuote />} />
 
         {/* Ruta sin Header y Footer */}
       </Routes>

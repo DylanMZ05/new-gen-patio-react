@@ -37,7 +37,8 @@ const FAQ: React.FC = () => {
         <br />
         No problem,{" "}
         <a
-          href="/new-gen-patio-react/"
+          href={`https://wa.me/13463800845`}
+          target="_blank"
           className="text-orange-500 font-semibold"
         >
           contact us

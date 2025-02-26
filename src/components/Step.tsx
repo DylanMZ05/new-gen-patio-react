@@ -11,6 +11,16 @@ interface StepProps {
 }
 
 const Step: React.FC<StepProps> = ({ stepData, nextStep, previousStep, updateFormData, formData, selections }) => {
+  // Función para obtener todas las medidas ingresadas
+  const getFormattedInputs = () => {
+    const inputFields = Object.entries(formData)
+      .filter(([key]) => key === "width" || key === "length" || key === "height" || key === "linear-feet")
+      .map(([key, value]) => `📏 ${key.replace("-", " ")}: ${value}`)
+      .join("\n");
+
+    return inputFields;
+  };
+
   // Validar que todos los campos requeridos estén completos
   const allRequiredFieldsFilled = stepData.fields
     ? stepData.fields.every((field) => !field.required || formData[field.id])
@@ -22,26 +32,38 @@ const Step: React.FC<StepProps> = ({ stepData, nextStep, previousStep, updateFor
       alert("Por favor, completa todos los campos obligatorios antes de enviar.");
       return;
     }
-
+  
     // Capturar las medidas ingresadas
     const medidas = Object.entries(formData)
       .filter(([key]) => key === "width" || key === "length" || key === "height" || key === "linear-feet")
       .map(([key, value]) => `📏 ${key.replace("-", " ")}: ${value}`)
       .join("\n");
-
+  
+    // Construir el mensaje correctamente
     const mensaje = `
-    *Solicitud de Cotización*\n
-    🔹 *Opciones seleccionadas:* ${selections.join(" | ")}\n
-    ${medidas ? `📐 *Medidas:*\n${medidas}\n` : ""}
-    📌 *Nombre:* ${formData.name}
-    📌 *Teléfono:* ${formData.phone}
-    📌 *Email:* ${formData.email}
-    📌 *Código Postal:* ${formData.zip}
-    📝 *Notas:* ${formData.notes || "Ninguna"}
+  *Solicitud de Cotización* 📋
+  
+  🔹 *Opciones seleccionadas:* ${selections.join(" | ")}
+  ${medidas ? `📐 *Medidas:* \n${medidas}\n` : ""}
+  📌 *Nombre:* ${formData.name}
+  📌 *Teléfono:* ${formData.phone}
+  📌 *Email:* ${formData.email}
+  📌 *Código Postal:* ${formData.zip}
+  📝 *Notas:* ${formData.notes || "Ninguna"}
     `;
-
-    const whatsappUrl = `https://wa.me/1234567890?text=${encodeURIComponent(mensaje)}`;
-    window.open(whatsappUrl, "_blank");
+  
+    // Número de WhatsApp donde se enviará (¡Cámbialo por el real!)
+    const numeroWhatsApp = "13463800845"; // Formato internacional sin "+"
+  
+    // Opción 1: API de WhatsApp (prueba manualmente si funciona)
+    const url1 = `https://api.whatsapp.com/send?phone=${numeroWhatsApp}&text=${encodeURIComponent(mensaje)}`;
+  
+    // Opción 2: wa.me (si la otra opción falla, prueba esta)
+    const url2 = `https://wa.me/${numeroWhatsApp}?text=${encodeURIComponent(mensaje)}`;
+  
+    // Intentar abrir ambas opciones
+    window.open(url1, "_blank"); // Primero prueba API oficial
+    setTimeout(() => window.open(url2, "_blank"), 1000); // Si falla, prueba con wa.me
   };
 
   return (
@@ -104,6 +126,14 @@ const Step: React.FC<StepProps> = ({ stepData, nextStep, previousStep, updateFor
         <div className="mt-4 w-full max-w-md">
           <h3 className="text-lg font-semibold text-gray-700">Has seleccionado:</h3>
           <p className="bg-gray-200 p-3 rounded-md">{selections.join(" | ")}</p>
+
+          {/* Mostrar las medidas ingresadas */}
+          {getFormattedInputs() && (
+            <div className="mt-4 bg-gray-200 p-3 rounded-md">
+              <h4 className="text-md font-semibold text-gray-700">📐 Medidas:</h4>
+              <p>{getFormattedInputs()}</p>
+            </div>
+          )}
 
           <div className="mt-4">
             <button

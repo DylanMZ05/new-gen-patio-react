@@ -8,7 +8,7 @@ export interface StepData {
   previousStep?: number;
 }
 
-// Hook para manejar la navegación y captura de datos
+// Hook para manejar la navegación de pasos y datos
 export const useStepNavigation = (steps: Record<number, StepData>) => {
   const [currentStep, setCurrentStep] = useState<number>(1);
   const [formData, setFormData] = useState<Record<string, string | number>>({});
@@ -16,19 +16,19 @@ export const useStepNavigation = (steps: Record<number, StepData>) => {
 
   // Función para avanzar al siguiente paso
   const nextStep = (step: number | "final", selectedOption?: string) => {
+    // Guardar la selección antes de ir al paso final
+    if (selectedOption) {
+      setSelections((prevSelections) => {
+        const filteredSelections = prevSelections.filter(
+          (item) => !steps[currentStep]?.options?.some((opt) => opt.text === item)
+        );
+        return [...filteredSelections, selectedOption];
+      });
+    }
+
     if (step === "final") {
       setCurrentStep(99); // Ir al paso final
       return;
-    }
-
-    // Si el usuario elige una opción, eliminamos selecciones previas del mismo paso
-    if (selectedOption) {
-      setSelections((prev) => {
-        const updatedSelections = prev.filter(
-          (item) => !steps[currentStep]?.options?.some((opt) => opt.text === item)
-        );
-        return [...updatedSelections, selectedOption];
-      });
     }
 
     setCurrentStep(step);

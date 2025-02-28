@@ -1,9 +1,4 @@
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-  useLocation,
-} from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, useLocation, } from "react-router-dom";
 import Header from "./components/header/Header";
 import WspButton from "./components/WspButton";
 import Footer from "./components/footer/footer";

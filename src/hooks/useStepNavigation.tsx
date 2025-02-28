@@ -1,7 +1,5 @@
-import { useState, useEffect } from "react";
-import { useLocation } from "react-router-dom";
+import { useState } from "react";
 
-// Definimos la interfaz StepData
 export interface StepData {
   title: string;
   options?: { img: string; text: string; nextStep: number | "final" }[];
@@ -12,34 +10,25 @@ export interface StepData {
 
 // Hook para manejar la navegación de pasos y datos
 export const useStepNavigation = (steps: Record<number, StepData>) => {
-  const location = useLocation();
-  
-  // Inicializar currentStep basándonos en la URL
-  const [currentStep, setCurrentStep] = useState<number>(() => {
-    return location.pathname === "/freequote" ? 1 : 1; // Ajusta aquí según necesidad
-  });
-
+  const [currentStep, setCurrentStep] = useState<number>(1);
   const [formData, setFormData] = useState<Record<string, string | number>>({});
   const [selections, setSelections] = useState<string[]>([]);
 
-  useEffect(() => {
-    console.log("Step Navigation Initialized at step:", currentStep);
-  }, [currentStep]);
-
   // Función para avanzar al siguiente paso
   const nextStep = (step: number | "final", selectedOption?: string) => {
+    // Si el usuario seleccionó una opción, la guardamos correctamente
     if (selectedOption) {
       setSelections((prevSelections) => {
         const filteredSelections = prevSelections.filter(
-          (item) =>
-            !steps[currentStep]?.options?.some((opt: { text: string }) => opt.text === item)
+          (item) => !steps[currentStep]?.options?.some((opt) => opt.text === item)
         );
         return [...filteredSelections, selectedOption];
       });
     }
 
+    // Si es el último paso, aseguramos que se guarde la última opción seleccionada
     if (step === "final") {
-      setCurrentStep(99);
+      setCurrentStep(99); 
       return;
     }
 

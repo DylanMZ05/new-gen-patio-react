@@ -1,6 +1,5 @@
 import Step from "../../components/Step";
 import { useStepNavigation, StepData } from "../../hooks/useStepNavigation";
-import { useEffect } from "react";
 
 // Definimos los pasos del flujo
 const steps: Record<number, StepData> = {
@@ -86,10 +85,10 @@ const steps: Record<number, StepData> = {
   99: {
     title: "Contact and Resume",
     fields: [
-      { label: "Name", id: "name", required: true },
-      { label: "Phone", id: "phone", required: true },
-      { label: "Email", id: "email", required: true },
-      { label: "Zip Code", id: "zip", required: true },
+      { label: "Full Name (First name + Last name)", id: "name", required: true },
+      { label: "Phone (Only numbers)", id: "phone", required: true },
+      { label: "Email (example@example.com)", id: "email", required: true },
+      { label: "Zip Code (Only numbers)", id: "zip", required: true },
       { label: "Notes (Optional)", id: "notes", required: false },
     ],
     previousStep: 1,
@@ -98,9 +97,6 @@ const steps: Record<number, StepData> = {
 
 const FreeQuote = () => {
   const { stepData, nextStep, previousStep, updateFormData, formData, selections } = useStepNavigation(steps);
-  useEffect(() => {
-    console.log("FreeQuote loaded");
-  }, []);
 
   return (
     <div className="p-4 min-h-screen flex flex-col items-center justify-center bg-gray-100">

@@ -23,8 +23,9 @@ import ExtraServices from "./pages/Services/ExtraServices";
 import Calculator from "./pages/Calculator/Calculator";
 import FinancingOptions from "./pages/Calculator/FinancingOptions";
 
-// How We Do It
+// How We Do It & About Us
 import HowWeDoIt from "./pages/WeDoIt&About/WeDoIt";
+import AboutUsPage from "./pages/WeDoIt&About/AboutUsPage";
 
 // Blogs
 import BlogPage from "./pages/Blogs/BlogPage";
@@ -70,6 +71,7 @@ function Layout() {
         <Route path="/calculator" element={<Calculator />} />
         <Route path="/financing-options" element={<FinancingOptions />} />
         <Route path="/howwedoit" element={<HowWeDoIt />} />
+        <Route path="/aboutus" element={<AboutUsPage />} />
         <Route path="/blog/:id" element={<BlogPage />} />
         <Route path="/freequote" element={<FreeQuote />} />
 

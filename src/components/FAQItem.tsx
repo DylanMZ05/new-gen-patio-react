@@ -12,9 +12,11 @@ const FAQItem: React.FC<FAQItemProps> = ({ question, answer }) => {
     <div className="w-full max-w-2xl border-b border-gray-300 py-4">
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="w-full text-left text-xl font-semibold flex justify-between items-center"
+        className={`w-full text-left text-xl font-semibold flex justify-between items-center text-white bg-[#0d4754] p-3 cursor-pointer ${
+          isOpen ? "rounded-t-xl" : "rounded-xl"
+        }`}
       >
-        {question}
+        {question} {/* ✅ Esto ahora está correctamente dentro del botón */}
         <span className="text-2xl transition-transform duration-300 cursor-pointer">
           {isOpen ? "▲" : "▼"}
         </span>
@@ -22,10 +24,10 @@ const FAQItem: React.FC<FAQItemProps> = ({ question, answer }) => {
 
       <div
         className={`transition-all duration-300 ease-in-out overflow-hidden ${
-          isOpen ? "max-h-40 opacity-100 mt-2" : "max-h-0 opacity-0"
+          isOpen ? "max-h-40 opacity-100" : "max-h-0 opacity-0"
         }`}
       >
-        <p className="text-gray-600">{answer}</p>
+        <p className="text-black/80 bg-gray-100/50 border-2 border-t-0 border-black/10 rounded-b-xl p-2">{answer}</p>
       </div>
     </div>
   );

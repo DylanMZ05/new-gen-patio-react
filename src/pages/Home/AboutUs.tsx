@@ -1,4 +1,9 @@
+import { Link } from 'react-router-dom';
+import useScrollToTop from '../../hooks/scrollToTop';
+
 const AboutUs: React.FC = () => {
+  const handleScrollToTop = useScrollToTop();
+
   return (
     <section
       id="who-we-are"
@@ -25,12 +30,13 @@ const AboutUs: React.FC = () => {
           durability, style, and personalization, we ensure that every project
           exceeds expectations.
         </p>
-        <a
-          href="#"
+        <Link
+          to="aboutus"
           className="text-black bg-white text-xl font-semibold px-5 pt-1 pb-2 rounded-4xl mt-5 inline-block"
+          onClick={handleScrollToTop}
         >
           Discover Our Story
-        </a>
+        </Link>
       </div>
     </section>
   );

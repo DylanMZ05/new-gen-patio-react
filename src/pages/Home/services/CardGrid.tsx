@@ -2,6 +2,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import { motion, useAnimation } from "framer-motion";
 import { useInView } from "react-intersection-observer";
+import useScrollToTop from "../../../hooks/scrollToTop";
 
 type CardProps = {
   title: string;
@@ -13,6 +14,7 @@ const Card: React.FC<CardProps> = ({ title, imageUrl, link }) => {
   const controls = useAnimation();
   const { ref, inView } = useInView({ threshold: 1 });
   const navigate = useNavigate();
+  const scrollToTop = useScrollToTop(); // Usa tu hook
 
   React.useEffect(() => {
     if (inView) {
@@ -23,8 +25,8 @@ const Card: React.FC<CardProps> = ({ title, imageUrl, link }) => {
   }, [controls, inView]);
 
   const handleClick = () => {
-    window.scrollTo({ top: 0, behavior: "smooth" }); // Mueve la página al inicio
-    navigate(link); // Redirige a la nueva ruta
+    navigate(link, { replace: true }); // `replace: true` evita que la navegación genere historial
+    scrollToTop(); // Aplica el scroll antes de cambiar de página
   };
 
   return (

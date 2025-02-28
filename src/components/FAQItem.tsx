@@ -12,13 +12,17 @@ const FAQItem: React.FC<FAQItemProps> = ({ question, answer }) => {
     <div className="w-full max-w-2xl border-b border-gray-300 py-4">
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className={`w-full text-left text-xl font-semibold flex justify-between items-center text-white bg-[#0d4754] p-3 cursor-pointer ${
+        className={`w-full text-left text-xl font-semibold flex justify-between items-center text-white bg-[#0d4754] p-3 cursor-pointer transition-all duration-300 ${
           isOpen ? "rounded-t-xl" : "rounded-xl"
         }`}
       >
-        {question} {/* ✅ Esto ahora está correctamente dentro del botón */}
-        <span className="text-2xl transition-transform duration-300 cursor-pointer">
-          {isOpen ? "▲" : "▼"}
+        {question}
+        <span
+          className={`text-2xl transition-transform duration-300 ${
+            isOpen ? "rotate-180" : "rotate-0"
+          }`}
+        >
+          ▲
         </span>
       </button>
 

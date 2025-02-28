@@ -99,16 +99,18 @@ const FreeQuote = () => {
   const { stepData, nextStep, previousStep, updateFormData, formData, selections } = useStepNavigation(steps);
 
   return (
-    <div className="p-4 min-h-screen flex flex-col items-center justify-center bg-gray-100">
-      <Step
-        stepData={stepData}
-        nextStep={nextStep}
-        previousStep={previousStep}
-        updateFormData={updateFormData}
-        formData={formData}
-        selections={selections}
-      />
-    </div>
+    <section className="h-screen flex flex-col items-center justify-center bg-[url(assets/images/Attached24.jpg)]">
+      <div className="w-screen h-screen bg-black/70 flex items-center justify-center">
+        <Step
+          stepData={stepData}
+          nextStep={nextStep}
+          previousStep={previousStep}
+          updateFormData={updateFormData}
+          formData={formData}
+          selections={selections}
+        />
+      </div>
+    </section>
   );
 };
 

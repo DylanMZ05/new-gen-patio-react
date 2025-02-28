@@ -28,17 +28,23 @@ const Step: React.FC<StepProps> = ({ stepData, nextStep, previousStep, updateFor
     ? stepData.fields.every((field) => !field.required || formData[field.id])
     : true;
 
+    const allRequiredMeasuresFilled = stepData.fields
+  ? stepData.fields
+      .filter((field) => ["width", "length", "height", "linear-feet"].includes(field.id)) // Solo los campos de medidas
+      .every((field) => !field.required || formData[field.id])
+  : true;
+
   // Construir mensaje para WhatsApp
   const buildMessage = () => {
-    return `*Solicitud de Cotización* 📋
+    return `*Request for Quotation* 📋
 
     🔹 *Selected options:* ${selections.join(" | ")}
     ${getFormattedInputs() ? `📐 *Measures:* \n${getFormattedInputs()}\n` : ""}
-    📌 *Nombre:* ${formData.name || "No proporcionado"}
-    📌 *Teléfono:* ${formData.phone || "No proporcionado"}
-    📌 *Email:* ${formData.email || "No proporcionado"}
-    📌 *Código Postal:* ${formData.zip || "No proporcionado"}
-    📝 *Notas:* ${formData.notes || "Ninguna"}
+        📌 *Name:* ${formData.name || "Not provided"}
+        📌 *Phone:* ${formData.phone || "Not provided"}
+        📌 *Email:* ${formData.email || "Not provided"}
+        📌 *Zip Code:* ${formData.zip || "Not provided"}
+        📝 *Notes:* ${formData.notes || "None"}
     `;
   };
 
@@ -47,14 +53,14 @@ const Step: React.FC<StepProps> = ({ stepData, nextStep, previousStep, updateFor
     navigator.clipboard.writeText(message).then(() => {
       setShowPopup(true);
     }).catch(() => {
-      alert("No se pudo copiar el mensaje. Por favor, cópialo manualmente.");
+      alert("The message could not be copied. Please copy it manually.");
     });
   };
 
   // Función para enviar el mensaje a WhatsApp
   const handleSendWhatsApp = () => {
     if (!allRequiredFieldsFilled) {
-      alert("Por favor, completa todos los campos obligatorios antes de enviar.");
+      alert("Please complete all required fields before submitting.");
       return;
     }
 
@@ -67,14 +73,16 @@ const Step: React.FC<StepProps> = ({ stepData, nextStep, previousStep, updateFor
   };
 
   return (
-    <div className="w-full mx-3 p-6 bg-white shadow-lg rounded-lg min-h-150 mt-23 flex flex-col justify-center items-center">
+    <div className="w-lvw max-w-[1080px] mx-10 mb-12 p-6 bg-white shadow-lg rounded-lg min-h-150 mt-25 flex flex-col justify-center items-center">
       {/* Título */}
-      <h2 className="text-2xl font-semibold text-gray-800 text-center">{stepData.title}</h2>
-      <div className="w-20 h-[3px] background-skyblue mx-auto mb-1 mt-2 rounded-full"></div>
+      <div>
+        <h2 className="text-2xl font-semibold text-gray-800 text-center">{stepData.title}</h2>
+        <div className="w-20 h-[3px] background-skyblue mx-auto mb-1 mt-2 rounded-full"></div>
+      </div>
 
       {/* Renderizar opciones con imágenes */}
       {stepData.options && (
-        <div className="flex flex-col mt-4">
+        <div className="flex flex-col mt-4 md:flex-row">
           {stepData.options.map((option, index) => (
             <button
               key={index}
@@ -82,7 +90,7 @@ const Step: React.FC<StepProps> = ({ stepData, nextStep, previousStep, updateFor
               onClick={() => nextStep(option.nextStep, option.text)}
             >
               <img src={option.img} alt={option.text} className="w-75 object-cover rounded-md transition-all hover:scale-105" />
-              <p className="mt-2 text-center">{option.text}</p>
+              <p className="mt-2 text-center text-2xl font-semibold text-black/90">{option.text}</p>
             </button>
           ))}
         </div>
@@ -104,7 +112,7 @@ const Step: React.FC<StepProps> = ({ stepData, nextStep, previousStep, updateFor
                 onChange={(e) => updateFormData(field.id, e.target.value)}
               />
               {field.required && !formData[field.id] && (
-                <p className="text-red-500 text-sm mt-1">Este campo es obligatorio.</p>
+                <p className="text-red-500 text-sm mt-1">This field is required.</p>
               )}
             </div>
           ))}
@@ -113,10 +121,10 @@ const Step: React.FC<StepProps> = ({ stepData, nextStep, previousStep, updateFor
 
       {/* Último paso: mostrar resumen y botón de WhatsApp */}
       {stepData.title === "Contact and Resume" ? (
-        <div className="mt-4 w-full max-w-md">
+        <div className="w-full max-w-md">
           {/* Mostrar opciones seleccionadas SOLO en el formulario final */}
           {selections.length > 0 && (
-            <div className="mt-4 bg-gray-200 p-3 rounded-md text-center">
+            <div className="bg-gray-200 p-3 rounded-md text-center">
               <h4 className="text-md font-semibold text-gray-700">Selected options:</h4>
               <p>{selections.join(" | ")}</p>
             </div>
@@ -133,7 +141,7 @@ const Step: React.FC<StepProps> = ({ stepData, nextStep, previousStep, updateFor
           <button
             onClick={handleSendWhatsApp}
             disabled={!allRequiredFieldsFilled}
-            className={`w-full py-2 rounded-lg transition ${
+            className={`w-full py-2 rounded-full transition cursor-pointer ${
               allRequiredFieldsFilled
                 ? "bg-green-500 text-white hover:bg-green-600"
                 : "bg-gray-400 text-gray-700 cursor-not-allowed"
@@ -147,7 +155,8 @@ const Step: React.FC<StepProps> = ({ stepData, nextStep, previousStep, updateFor
         stepData.fields && (
           <button
             onClick={() => nextStep(stepData.nextStep!)}
-            className="w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 transition mt-3"
+            disabled={!allRequiredMeasuresFilled}
+            className="w-full max-w-75 bg-blue-500 text-white py-2 rounded-full hover:bg-blue-600 transition mt-3 cursor-pointer"
           >
             Continue
           </button>
@@ -168,20 +177,20 @@ const Step: React.FC<StepProps> = ({ stepData, nextStep, previousStep, updateFor
               {/* Botón para cerrar el popup */}
               <button
                 onClick={() => setShowPopup(false)}
-                className="absolute top-3 right-3 text-gray-600 hover:text-gray-800"
+                className="absolute top-3 right-3 text-gray-600 hover:text-gray-800 cursor-pointer"
               >
                 <X size={20} />
               </button>
 
               <p className="text-lg font-semibold">Message Copied</p>
-              <p className="text-gray-600">If you use WhatsApp Desktop, copy it when you enter the chat</p>
+              <p className="text-red-500/80 font-semibold">If you use WhatsApp Desktop, copy it when you enter the chat</p>
               <button
                 onClick={() => {
                   setShowPopup(false);
                   window.scrollTo(0, 0); // Llevar al inicio de la página
                   window.open(whatsappUrl, "_blank"); // Redirigir a WhatsApp
                 }}
-                className="mt-4 bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600"
+                className="mt-4 bg-green-500 text-white px-4 py-2 rounded-full hover:bg-green-600 cursor-pointer"
               >
                 Go to WhatsApp
               </button>

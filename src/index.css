@@ -4,6 +4,10 @@
   scroll-behavior: smooth;
 }
 
+html, body {
+  overflow-x: hidden;
+}
+
 #services {
   scroll-margin-top: 75px;
 }

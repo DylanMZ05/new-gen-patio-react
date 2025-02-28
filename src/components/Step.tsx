@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
 import { StepData } from "../hooks/useStepNavigation";
+import { X } from "lucide-react"; // Icono de "X" para cerrar el popup
 
 interface StepProps {
   stepData: StepData;
@@ -11,14 +12,15 @@ interface StepProps {
 }
 
 const Step: React.FC<StepProps> = ({ stepData, nextStep, previousStep, updateFormData, formData, selections }) => {
+  const [showPopup, setShowPopup] = useState(false);
+  const [whatsappUrl, setWhatsappUrl] = useState("");
+
   // Función para obtener todas las medidas ingresadas
   const getFormattedInputs = () => {
-    const inputFields = Object.entries(formData)
-      .filter(([key]) => key === "width" || key === "length" || key === "height" || key === "linear-feet")
+    return Object.entries(formData)
+      .filter(([key]) => ["width", "length", "height", "linear-feet"].includes(key))
       .map(([key, value]) => `📏 ${key.replace("-", " ")}: ${value}`)
       .join("\n");
-
-    return inputFields;
   };
 
   // Validar que todos los campos requeridos estén completos
@@ -26,51 +28,49 @@ const Step: React.FC<StepProps> = ({ stepData, nextStep, previousStep, updateFor
     ? stepData.fields.every((field) => !field.required || formData[field.id])
     : true;
 
+  // Construir mensaje para WhatsApp
+  const buildMessage = () => {
+    return `*Solicitud de Cotización* 📋
+
+    🔹 *Selected options:* ${selections.join(" | ")}
+    ${getFormattedInputs() ? `📐 *Measures:* \n${getFormattedInputs()}\n` : ""}
+    📌 *Nombre:* ${formData.name || "No proporcionado"}
+    📌 *Teléfono:* ${formData.phone || "No proporcionado"}
+    📌 *Email:* ${formData.email || "No proporcionado"}
+    📌 *Código Postal:* ${formData.zip || "No proporcionado"}
+    📝 *Notas:* ${formData.notes || "Ninguna"}
+    `;
+  };
+
+  // Función para copiar mensaje al portapapeles
+  const copyToClipboard = (message: string) => {
+    navigator.clipboard.writeText(message).then(() => {
+      setShowPopup(true);
+    }).catch(() => {
+      alert("No se pudo copiar el mensaje. Por favor, cópialo manualmente.");
+    });
+  };
+
   // Función para enviar el mensaje a WhatsApp
-  const sendWhatsApp = () => {
+  const handleSendWhatsApp = () => {
     if (!allRequiredFieldsFilled) {
       alert("Por favor, completa todos los campos obligatorios antes de enviar.");
       return;
     }
-  
-    // Capturar las medidas ingresadas
-    const medidas = Object.entries(formData)
-      .filter(([key]) => key === "width" || key === "length" || key === "height" || key === "linear-feet")
-      .map(([key, value]) => `📏 ${key.replace("-", " ")}: ${value}`)
-      .join("\n");
-  
-    // Construir el mensaje correctamente
-    const mensaje = `
-  *Solicitud de Cotización* 📋
-  
-  🔹 *Opciones seleccionadas:* ${selections.join(" | ")}
-  ${medidas ? `📐 *Medidas:* \n${medidas}\n` : ""}
-  📌 *Nombre:* ${formData.name}
-  📌 *Teléfono:* ${formData.phone}
-  📌 *Email:* ${formData.email}
-  📌 *Código Postal:* ${formData.zip}
-  📝 *Notas:* ${formData.notes || "Ninguna"}
-    `;
-  
-    // Número de WhatsApp donde se enviará (¡Cámbialo por el real!)
-    const numeroWhatsApp = "13463800845"; // Formato internacional sin "+"
-  
-    // Opción 1: API de WhatsApp (prueba manualmente si funciona)
-    const url1 = `https://api.whatsapp.com/send?phone=${numeroWhatsApp}&text=${encodeURIComponent(mensaje)}`;
-  
-    // Opción 2: wa.me (si la otra opción falla, prueba esta)
-    const url2 = `https://wa.me/${numeroWhatsApp}?text=${encodeURIComponent(mensaje)}`;
-  
-    // Intentar abrir ambas opciones
-    window.open(url1, "_blank"); // Primero prueba API oficial
-    setTimeout(() => window.open(url2, "_blank"), 1000); // Si falla, prueba con wa.me
+
+    const message = buildMessage();
+    copyToClipboard(message); // Copia el mensaje antes de mostrar el popup
+
+    const numeroWhatsApp = "13463800845";
+    const url = `https://wa.me/${numeroWhatsApp}?text=${encodeURIComponent(message)}`;
+    setWhatsappUrl(url);
   };
 
   return (
-    <div className="w-full mx-3 p-6 bg-white shadow-lg rounded-lg min-h-150 flex flex-col justify-center items-center">
+    <div className="w-full mx-3 p-6 bg-white shadow-lg rounded-lg min-h-150 mt-23 flex flex-col justify-center items-center">
       {/* Título */}
       <h2 className="text-2xl font-semibold text-gray-800 text-center">{stepData.title}</h2>
-      <div className="w-20 h-[3px] bg-sky-500 mx-auto mb-1 mt-2 rounded-full"></div>
+      <div className="w-20 h-[3px] background-skyblue mx-auto mb-1 mt-2 rounded-full"></div>
 
       {/* Renderizar opciones con imágenes */}
       {stepData.options && (
@@ -108,55 +108,86 @@ const Step: React.FC<StepProps> = ({ stepData, nextStep, previousStep, updateFor
               )}
             </div>
           ))}
-
-          {/* NO mostrar "Continuar" en el último paso */}
-          {stepData.title !== "Resumen y Contacto" && (
-            <button
-              onClick={() => nextStep(stepData.nextStep!)}
-              className="w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 transition"
-            >
-              Continuar
-            </button>
-          )}
         </div>
       )}
 
-      {/* Paso final: mostrar resumen y botón de WhatsApp */}
-      {stepData.title === "Resumen y Contacto" && (
+      {/* Último paso: mostrar resumen y botón de WhatsApp */}
+      {stepData.title === "Contact and Resume" ? (
         <div className="mt-4 w-full max-w-md">
-          <h3 className="text-lg font-semibold text-gray-700">Has seleccionado:</h3>
-          <p className="bg-gray-200 p-3 rounded-md">{selections.join(" | ")}</p>
+          {/* Mostrar opciones seleccionadas SOLO en el formulario final */}
+          {selections.length > 0 && (
+            <div className="mt-4 bg-gray-200 p-3 rounded-md text-center">
+              <h4 className="text-md font-semibold text-gray-700">Selected options:</h4>
+              <p>{selections.join(" | ")}</p>
+            </div>
+          )}
 
           {/* Mostrar las medidas ingresadas */}
           {getFormattedInputs() && (
             <div className="mt-4 bg-gray-200 p-3 rounded-md">
-              <h4 className="text-md font-semibold text-gray-700">📐 Medidas:</h4>
+              <h4 className="text-md font-semibold text-gray-700">📐 Measures:</h4>
               <p>{getFormattedInputs()}</p>
             </div>
           )}
 
-          <div className="mt-4">
-            <button
-              onClick={sendWhatsApp}
-              disabled={!allRequiredFieldsFilled}
-              className={`w-full py-2 rounded-lg transition ${
-                allRequiredFieldsFilled
-                  ? "bg-green-500 text-white hover:bg-green-600"
-                  : "bg-gray-400 text-gray-700 cursor-not-allowed"
-              }`}
-            >
-              {allRequiredFieldsFilled ? "Enviar a WhatsApp 📩" : "Completa todos los campos"}
-            </button>
-          </div>
+          <button
+            onClick={handleSendWhatsApp}
+            disabled={!allRequiredFieldsFilled}
+            className={`w-full py-2 rounded-lg transition ${
+              allRequiredFieldsFilled
+                ? "bg-green-500 text-white hover:bg-green-600"
+                : "bg-gray-400 text-gray-700 cursor-not-allowed"
+            } mt-4`}
+          >
+            {allRequiredFieldsFilled ? "Send to WhatsApp 📩" : "Complete all fields"}
+          </button>
         </div>
+      ) : (
+        // Mostrar botón "Continue" solo si el paso tiene inputs y no es el último
+        stepData.fields && (
+          <button
+            onClick={() => nextStep(stepData.nextStep!)}
+            className="w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 transition mt-3"
+          >
+            Continue
+          </button>
+        )
       )}
 
       {/* Botón para regresar */}
       {stepData.previousStep && (
-        <button onClick={previousStep} className="mt-4 text-gray-700 hover:text-gray-900 cursor-pointer transition">
-          Volver
+        <button onClick={previousStep} className="mt-4 text-black/70 hover:text-black/90 cursor-pointer transition">
+          Back
         </button>
       )}
+
+       {/* Popup de confirmación */}
+        {showPopup && (
+          <div className="fixed inset-0 flex items-center justify-center bg-black/70 bg-opacity-50 z-50">
+            <div className="bg-white p-6 mx-5 rounded-lg shadow-lg text-center relative">
+              {/* Botón para cerrar el popup */}
+              <button
+                onClick={() => setShowPopup(false)}
+                className="absolute top-3 right-3 text-gray-600 hover:text-gray-800"
+              >
+                <X size={20} />
+              </button>
+
+              <p className="text-lg font-semibold">Message Copied</p>
+              <p className="text-gray-600">If you use WhatsApp Desktop, copy it when you enter the chat</p>
+              <button
+                onClick={() => {
+                  setShowPopup(false);
+                  window.scrollTo(0, 0); // Llevar al inicio de la página
+                  window.open(whatsappUrl, "_blank"); // Redirigir a WhatsApp
+                }}
+                className="mt-4 bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600"
+              >
+                Go to WhatsApp
+              </button>
+            </div>
+          </div>
+        )}
     </div>
   );
 };

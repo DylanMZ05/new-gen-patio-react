@@ -15,6 +15,7 @@ const WhatsAppButton = () => {
       >
         <FaWhatsapp size={28} />
       </a>
+      
       <Link to="/freequote"
         onClick={scrollToTop}
         rel="noopener noreferrer"

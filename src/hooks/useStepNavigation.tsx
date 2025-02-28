@@ -16,7 +16,7 @@ export const useStepNavigation = (steps: Record<number, StepData>) => {
 
   // Función para avanzar al siguiente paso
   const nextStep = (step: number | "final", selectedOption?: string) => {
-    // Guardar la selección antes de ir al paso final
+    // Si el usuario seleccionó una opción, la guardamos correctamente
     if (selectedOption) {
       setSelections((prevSelections) => {
         const filteredSelections = prevSelections.filter(
@@ -26,8 +26,9 @@ export const useStepNavigation = (steps: Record<number, StepData>) => {
       });
     }
 
+    // Si es el último paso, aseguramos que se guarde la última opción seleccionada
     if (step === "final") {
-      setCurrentStep(99); // Ir al paso final
+      setCurrentStep(99); 
       return;
     }
 

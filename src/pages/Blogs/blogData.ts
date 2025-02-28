@@ -81,4 +81,36 @@ export const blogs = [
       ],
       date: "2023-12-20"
     },
+    {
+      id: 6,
+      title: "PRUEBA DE BLOG",
+      subtitle: "BLOG DE PRUEBA",
+      imageUrl: "/new-gen-patio-react/assets/images/Attached24.jpg",
+      content: [
+        "Regular maintenance prevents wear and extends lifespan...",
+      ],
+      secondaryImage: "/new-gen-patio-react/assets/images/Free3.jpg",
+      moreContent: [
+        "Here is another paragraph after the secondary image. It provides additional details.\nHere is another paragraph after the secondary image. It provides additional details.\n\nHere is another paragraph after the secondary image. It provides additional details.",
+      ],
+      finalImage: "/new-gen-patio-react/assets/images/Attached24.jpg",
+      lastContent: [
+        "This is the final paragraph wrapping up the blog post.\nThis is the final paragraph wrapping up the blog post.\n\nThis is the final paragraph wrapping up the blog post.",
+      ],
+      date: "2023-12-20"
+    },
+    {
+      id: 7,
+      title: "PRUEBA DE BLOG 2",
+      subtitle: "BLOG DE PRUEBA 2",
+      imageUrl: "/new-gen-patio-react/assets/images/Attached24.jpg",
+      content: [
+        "Regular maintenance prevents wear and extends lifespan...",
+      ],
+      secondaryImage: "/new-gen-patio-react/assets/images/Free3.jpg",
+      moreContent: [
+        "Here is another paragraph after the secondary image. It provides additional details.\nHere is another paragraph after the secondary image. It provides additional details.\n\nHere is another paragraph after the secondary image. It provides additional details.",
+      ],
+      date: "2023-12-20"
+    },
 ];

@@ -25,10 +25,10 @@ const Main: React.FC = () => {
 
       {/* Contenido encima del video */}
       <div className="flex flex-col items-start justify-center text-start relative z-10 text-white w-full h-screen max-h-[1080px] bg-black/50 pl-4">
-        <div className="w-[70vw]">
+        <div className="w-[90vw] sm:w-[70vw]">
           {/* H1 optimizado para SEO */}
           <h1 className="text-3xl md:text-5xl font-semibold">
-            Custom Pergolas: Enhance Your Outdoor Living Experience
+            Custom Aluminium Pergolas in Houston
           </h1>
 
           {/* Línea decorativa */}
@@ -41,8 +41,7 @@ const Main: React.FC = () => {
 
           {/* Párrafo breve para mejorar SEO y experiencia del usuario */}
           <p className="text-lg md:text-xl opacity-80 mt-1 max-w-[600px]">
-            Transform your backyard with high-quality, weather-resistant custom
-            pergolas. Perfect for any outdoor setting.
+            At New Gen Patio, we specialize in designing and building custom patio covers that enhance outdoor living spaces across Texas.
           </p>
         </div>
       </div>

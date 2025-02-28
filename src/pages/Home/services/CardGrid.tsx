@@ -25,8 +25,8 @@ const Card: React.FC<CardProps> = ({ title, imageUrl, link }) => {
   }, [controls, inView]);
 
   const handleClick = () => {
-    navigate(link, { replace: true }); // `replace: true` evita que la navegación genere historial
-    scrollToTop(); // Aplica el scroll antes de cambiar de página
+    navigate(link, { replace: true });
+    scrollToTop();
   };
 
   return (
@@ -36,7 +36,7 @@ const Card: React.FC<CardProps> = ({ title, imageUrl, link }) => {
       className="relative w-[90vw] md:w-80 h-65 rounded-lg shadow-md overflow-hidden cursor-pointer"
     >
       <div
-        className="w-full h-full bg-cover bg-center"
+        className="w-full h-full bg-cover bg-center transition-all hover:scale-105"
         style={{ backgroundImage: `url(${imageUrl})` }}
       ></div>
 
@@ -58,7 +58,7 @@ type CardGridProps = {
 
 const CardGrid: React.FC<CardGridProps> = ({ cards }) => {
   return (
-    <div className="flex justify-center gap-7 flex-wrap">
+    <div className="flex justify-center gap-7 flex-wrap ">
       {cards.map((card, index) => (
         <Card
           key={index}

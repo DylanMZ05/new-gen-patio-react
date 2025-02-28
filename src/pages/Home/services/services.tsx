@@ -3,17 +3,17 @@ import CardGrid from "./CardGrid";
 const coveredPatios: { title: string; imageUrl: string; link: string }[] = [
   {
     title: "Attached",
-    imageUrl: "assets/images/Attached24.jpg",
+    imageUrl: "assets/images/Products/Patios&Pergolas/Attached/1.webp",
     link: "/attached",
   },
   {
     title: "Freestanding",
-    imageUrl: "assets/images/Free3.jpg",
+    imageUrl: "assets/images/Products/Patios&Pergolas/Freestanding/1.webp",
     link: "/freestanding",
   },
   {
     title: "Cantilever",
-    imageUrl: "assets/images/Attached24.jpg",
+    imageUrl: "assets/images/Products/Patios&Pergolas/Cantilever/1.webp",
     link: "/cantilever",
   },
 ];
@@ -21,12 +21,12 @@ const coveredPatios: { title: string; imageUrl: string; link: string }[] = [
 const extraServices: { title: string; imageUrl: string; link: string }[] = [
   {
     title: "Outdoor Kitchen",
-    imageUrl: "assets/images/Free3.jpg",
+    imageUrl: "assets/images/Products/OutdoorKitchen/Modern/1.webp",
     link: "/extra-services",
   },
   {
     title: "Concrete & Turf",
-    imageUrl: "assets/images/Free3.jpg",
+    imageUrl: "assets/images/Products/AdditionalServices/1.webp",
     link: "/extra-services",
   },
 ];
@@ -40,7 +40,8 @@ const Services: React.FC = () => {
       >
         <h3 className="text-2xl font-semibold skyblue">OUR SERVICES</h3>
         <h2 className="text-4xl font-semibold">Covered Patios</h2>
-        <div className="w-25 h-1 background-skyblue mt-3 mb-5 rounded-4xl"></div>
+        <div className="w-25 h-1 background-skyblue my-3 rounded-4xl"></div>
+        <p className="text-center font-semibold text-black/80 mb-4 max-w-[800px]">At New Gen Patio, we bring your outdoor dreams to life with premium custom patios, pergolas, and outdoor kitchens. Whether you're looking for a modern entertainment space or a cozy retreat, our expert team delivers high-quality craftsmanship to ensure durability, style, and functionality.</p>
         <CardGrid cards={coveredPatios} />
 
         <div className="flex flex-col items-center gap-5 md:mt-7 md:w-screen md:max-w-[1016px] lg:justify-between">

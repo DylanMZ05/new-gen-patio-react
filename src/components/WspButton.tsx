@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import useScrollToTop from "../hooks/scrollToTop";
 
 const WhatsAppButton = () => {
-  const scrollToTop = useScrollToTop
+  const scrollToTop = useScrollToTop();
 
   return (
     <>

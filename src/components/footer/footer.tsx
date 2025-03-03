@@ -125,12 +125,12 @@ const Footer: React.FC = () => {
           {/* Nav de redireccionamiento */}
           <h4 className="text-white/90 text-xl font-semibold mt-2">Navigation</h4>
           <div className="flex flex-wrap justify-center text-white text-sm mt-4 gap-2">
-            <Link to="/services" className="hover:text-orange-400 transition-colors">Services</Link> •
-            <Link to="/our-promise" className="hover:text-orange-400 transition-colors">Our Promise</Link> •
-            <Link to="/who-we-are" className="hover:text-orange-400 transition-colors">Who We Are</Link> •
-            <Link to="/reviews" className="hover:text-orange-400 transition-colors">Reviews</Link> •
-            <Link to="/blogs" className="hover:text-orange-400 transition-colors">Blogs</Link> •
-            <Link to="/contact" className="hover:text-orange-400 transition-colors">Contact</Link>
+            <a href="/new-gen-patio-react/#services" className="hover:text-orange-400 transition-colors">Services</a> •
+            <a href="/new-gen-patio-react/#our-promise" className="hover:text-orange-400 transition-colors">Our Promise</a> •
+            <a href="/new-gen-patio-react/#who-we-are" className="hover:text-orange-400 transition-colors">Who We Are</a> •
+            <a href="/new-gen-patio-react/#reviews" className="hover:text-orange-400 transition-colors">Reviews</a> •
+            <a href="/new-gen-patio-react/#blogs" className="hover:text-orange-400 transition-colors">Blogs</a> •
+            <a href="/new-gen-patio-react/#contact" className="hover:text-orange-400 transition-colors">Contact</a>
           </div>
 
           <div className="bg-white/40 h-[1px] w-full my-5"></div>

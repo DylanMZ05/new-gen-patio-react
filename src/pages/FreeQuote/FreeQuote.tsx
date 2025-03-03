@@ -100,7 +100,7 @@ const FreeQuote = () => {
 
   return (
     <section className="h-screen flex flex-col items-center justify-center bg-[url(assets/images/Attached24.jpg)]">
-      <div className="w-screen h-screen bg-black/70 flex items-center justify-center">
+      <div className="w-full h-screen bg-black/70 flex items-center justify-center">
         <Step
           stepData={stepData}
           nextStep={nextStep}

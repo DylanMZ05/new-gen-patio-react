@@ -12,7 +12,7 @@ interface ImageSliderProps {
 
 const Slider: React.FC<ImageSliderProps> = ({ images }) => {
   return (
-    <div className="relative w-screen overflow-hidden border-t-8 border-[#0d4754]">
+    <div className="relative w-full overflow-hidden border-t-8 border-[#0d4754]">
       {/* Degradado para mejorar la visibilidad de la paginación */}
       <div className="slider-gradient"></div>
 

@@ -10,7 +10,7 @@ import Services from "./pages/Home/services/services";
 import HowWeDoItHome from "./pages/Home/HowWeDoItHome";
 import AboutUs from "./pages/Home/AboutUs";
 import Clients from "./pages/Home/Clients";
-import FAQ from "./pages/Home/FAQ";
+import FAQ from "./pages/Home/FAQ/FAQ";
 import BlogsSection from "./pages/Home/BlogsSection";
 
 // Services
@@ -32,6 +32,9 @@ import BlogPage from "./pages/Blogs/BlogPage";
 
 // Free Quote
 import FreeQuote from "./pages/FreeQuote/FreeQuote"
+
+// FormPage
+import FormPage from "./components/FormPage";
 
 // Página sin Header y Footer
 
@@ -74,6 +77,7 @@ function Layout() {
         <Route path="/aboutus" element={<AboutUsPage />} />
         <Route path="/blog/:id" element={<BlogPage />} />
         <Route path="/freequote" element={<FreeQuote />} />
+        <Route path="/formpage" element={<FormPage />} />
 
         {/* Ruta sin Header y Footer */}
       </Routes>

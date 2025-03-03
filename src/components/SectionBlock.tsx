@@ -14,7 +14,7 @@ interface Props {
 const SectionBlock: React.FC<Props> = ({ sections }) => {
   if (sections.length === 0) {
     return (
-      <div className="w-screen h-[33vh] flex items-center justify-center bg-gray-200 text-gray-700">
+      <div className="w-full h-[33vh] flex items-center justify-center bg-gray-200 text-gray-700">
         <p className="text-lg font-semibold">No hay secciones disponibles</p>
       </div>
     );
@@ -25,7 +25,7 @@ const SectionBlock: React.FC<Props> = ({ sections }) => {
       {sections.map((section) => (
         <div
           key={section.id}
-          className="flex flex-col items-center justify-center text-center w-screen h-[35vh] bg-cover bg-center"
+          className="flex flex-col items-center justify-center text-center w-dvw h-[35vh] bg-cover bg-center"
           style={{ backgroundImage: `url(${section.backgroundImage})` }}
         >
           <div className="bg-black/80 w-full h-full flex flex-col items-center justify-center text-white">

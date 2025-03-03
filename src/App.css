@@ -7,3 +7,11 @@
 .skyblue {
   color: #0d4754;
 }
+
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  overflow-x: hidden;
+}

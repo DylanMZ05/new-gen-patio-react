@@ -32,7 +32,7 @@ const AboutUs: React.FC = () => {
         </p>
         <Link
           to="aboutus"
-          className="text-black bg-white text-xl font-semibold px-5 pt-1 pb-2 rounded-4xl mt-5 inline-block"
+          className="text-black bg-white text-xl font-semibold px-5 pt-1 pb-2 rounded-4xl mt-5 inline-block transition-all hover:bg-white/90 hover:scale-102"
           onClick={handleScrollToTop}
         >
           Discover Our Story

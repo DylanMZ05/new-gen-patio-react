@@ -2,6 +2,7 @@
 
 * {
   scroll-behavior: smooth;
+  box-sizing: border-box;
 }
 
 html, body {

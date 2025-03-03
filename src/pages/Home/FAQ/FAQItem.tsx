@@ -28,10 +28,19 @@ const FAQItem: React.FC<FAQItemProps> = ({ question, answer }) => {
 
       <div
         className={`transition-all duration-300 ease-in-out overflow-hidden ${
-          isOpen ? "max-h-40 opacity-100" : "max-h-0 opacity-0"
+          isOpen ? "max-h-screen opacity-100" : "max-h-0 opacity-0"
         }`}
       >
-        <p className="text-black/80 bg-gray-100/50 border-2 border-t-0 border-black/10 rounded-b-xl p-2">{answer}</p>
+        <div
+          className={`transition-all duration-300 ease-in-out overflow-hidden ${
+            isOpen ? "max-h-screen opacity-100" : "max-h-0 opacity-0"
+          }`}
+        >
+          <p
+            className="text-black/80 bg-gray-100/50 border-2 border-t-0 border-black/10 rounded-b-xl p-2"
+            dangerouslySetInnerHTML={{ __html: answer.replace(/\n/g, "<br>") }}
+          />
+        </div>
       </div>
     </div>
   );

@@ -44,7 +44,7 @@ const Services: React.FC = () => {
         <p className="text-center font-semibold text-black/80 mb-4 max-w-[800px]">At New Gen Patio, we bring your outdoor dreams to life with premium custom patios, pergolas, and outdoor kitchens. Whether you're looking for a modern entertainment space or a cozy retreat, our expert team delivers high-quality craftsmanship to ensure durability, style, and functionality.</p>
         <CardGrid cards={coveredPatios} />
 
-        <div className="flex flex-col items-center gap-5 md:mt-7 md:w-screen md:max-w-[1016px] lg:justify-between">
+        <div className="flex flex-col items-center gap-5 md:mt-7 md:max-w-[1016px] lg:justify-between">
           <div className="flex flex-col items-center ">
             <h3 className="text-3xl font-semibold mt-5">Additional Services</h3>
             <div className="w-25 h-1 background-skyblue my-3 rounded-4xl"></div>

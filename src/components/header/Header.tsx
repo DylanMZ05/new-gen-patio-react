@@ -3,8 +3,10 @@ import { Link } from "react-router-dom";
 import useScroll from "./useScroll";
 import useActiveSection from "./useActiveSection";
 import "../../App.css";
+import useScrollToTop from "../../hooks/scrollToTop";
 
 const Header: React.FC = () => {
+  const scrollToTop = useScrollToTop();
   const isScrolled = useScroll(50);
   const sectionIds = [
     "services",
@@ -41,9 +43,10 @@ const Header: React.FC = () => {
         <div className="flex justify-between items-center text-white px-4 xl:px-15">
           {/* Logo */}
           <div className="flex items-center">
-            <Link to="//" aria-label="Inicio">
+            <Link to="//" aria-label="Inicio"
+              onClick={scrollToTop}>
               <img
-                src="/new-gen-patio-react/assets/images/logo.webp"
+                src="/new-gen-patio-react/assets/images/IdentidadSVG/LogoColor.svg"
                 alt="New Gen Patio Logo"
                 className="h-20 img-shadow p-2 pl-0"
                 loading="lazy"
@@ -120,7 +123,7 @@ const Header: React.FC = () => {
               className="flex flex-col items-center"
             >
               <img
-                src="/new-gen-patio-react/assets/images/logo.webp"
+                src="/new-gen-patio-react/assets/images/IdentidadSVG/LogoBlanco.svg"
                 alt="New Gen Patio Logo"
                 className="h-22 img-shadow p-2"
                 loading="lazy"

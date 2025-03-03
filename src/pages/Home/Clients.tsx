@@ -102,10 +102,10 @@ const Clients: React.FC = () => {
       </div>
 
       <a
-        href="/"
+        href="https://www.google.com/search?q=new+gen+patio+reviews&oq=new+gen+patio+re&gs_lcrp=EgZjaHJvbWUqCAgBEEUYJxg7MgYIABBFGDkyCAgBEEUYJxg7MggIAhAAGBYYHjIKCAMQABiABBiiBDIGCAQQRRg8MgYIBRBFGDwyBggGEEUYPDIGCAcQLhhA0gEIMjgzOGowajGoAgCwAgA&sourceid=chrome&ie=UTF-8"
         target="_blank"
         rel="noopener noreferrer"
-        className="text-white bg-black text-xl font-semibold px-5 pt-1 pb-2 rounded-full mt-5 inline-block"
+        className="text-white bg-black text-xl font-semibold px-5 pt-1 pb-2 rounded-full mt-5 inline-block transition-all hover:bg-black/90 hover:scale-102"
       >
         View all reviews
       </a>

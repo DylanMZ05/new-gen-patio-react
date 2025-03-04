@@ -4,6 +4,7 @@ import MarqueeBanner from "../../components/MarqueeBanner";
 import ImgTxtSection from "../../components/ImgTxtSection";
 import SectionBlock from "../../components/SectionBlock";
 import WhyUsLink from "./components/WhyUsLink";
+import Services from "../Home/services/services";
 
 const sectionsData = [
   {
@@ -97,6 +98,7 @@ const Freestanding: React.FC = () => {
         />
       </div>
       <WhyUsLink backgroundImage={backgroundImage} />
+      <Services />
     </section>
   );
 };

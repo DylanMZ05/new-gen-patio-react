@@ -3,15 +3,19 @@ import Slider from "../../components/Slider/Slider";
 import MarqueeBanner from "../../components/MarqueeBanner";
 import ImgTxtSection from "../../components/ImgTxtSection";
 import SectionBlock from "../../components/SectionBlock";
+import WhyUsLink from "./components/WhyUsLink";
+import Services from "../Home/services/services";
 
 const sectionsData = [
   {
     id: 1,
     title: "Concrete & Turf",
-    description: "Breve descripción de Concrete & Turf",
+    description: "A perfect combination of decorative concrete and artificial turf, offering a stylish, durable, and low-maintenance solution for outdoor spaces.",
     backgroundImage: "assets/images/Products/AdditionalServices/Landscaping/05.webp",
   },
 ];
+
+const backgroundImage = "assets/images/Products/AdditionalServices/Landscaping/03.webp";
 
 const ConcreteTurf: React.FC = () => {
   const imagesArtificialGrass = [
@@ -56,36 +60,39 @@ const ConcreteTurf: React.FC = () => {
       <h2 className="text-4xl font-semibold my-5">Concrete</h2>
       <Slider images={imagesConcrete} withBorderT/>
       <MarqueeBanner />
-
+      <div className="pt-8 px-5">
+        <h3 className="font-semibold text-3xl mb-3">
+          Why might you need it?
+        </h3>
+        <div className="ml-1 w-15 h-[3px] bg-[#0d4754] mt-3 mb-2 rounded-full"></div>
+          <p className="text-lg">🔹 You want a low-maintenance outdoor space with a clean and polished look.</p>
+          <p className="text-lg">🔹 You're looking for a durable and weather-resistant flooring solution for patios, driveways, or walkways.</p>
+          <p className="text-lg">🔹 You need a lush, green lawn without the hassle of watering, mowing, or seasonal changes.</p>
+      </div>
       <div className="flex flex-col my-10 gap-10">
         <ImgTxtSection
-          title="Visualizing Your Project"
-          text="Making your vision crystal clear before we even start is essential for us..."
-          imageUrl="assets/images/Attached24.jpg"
+          title="Effortless beauty"
+          text="Artificial turf provides a lush, green look without watering or mowing."
+          imageUrl="assets/images/Products/AdditionalServices/ArtificialGrass/05.webp"
           imagePosition="right"
         />
 
         <ImgTxtSection
-          title="Built to Last with $0 cost of Maintenance"
-          text="Our aluminum structures are designed to endure the harshest conditions..."
-          imageUrl="assets/images/Free3.jpg"
+          title="Strong & weather-resistant"
+          text="Decorative concrete is built to last, requiring minimal upkeep."
+          imageUrl="assets/images/Products/AdditionalServices/Landscaping/02.webp"
           imagePosition="left"
         />
 
         <ImgTxtSection
-          title="Visualizing Your Project"
-          text="Making your vision crystal clear before we even start is essential for us..."
-          imageUrl="assets/images/Attached24.jpg"
+          title="Versatile designs"
+          text="Mix textures, patterns, and colors for a unique and functional outdoor space."
+          imageUrl="assets/images/Products/AdditionalServices/Concrete/04.webp"
           imagePosition="right"
-        />
-
-        <ImgTxtSection
-          title="Built to Last with $0 cost of Maintenance"
-          text="Our aluminum structures are designed to endure the harshest conditions..."
-          imageUrl="assets/images/Free3.jpg"
-          imagePosition="left"
         />
       </div>
+      <WhyUsLink backgroundImage={backgroundImage} />
+      <Services />
     </section>
   );
 };

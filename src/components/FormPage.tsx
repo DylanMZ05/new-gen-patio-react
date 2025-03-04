@@ -25,12 +25,12 @@ const FormPage: React.FC = () => {
       return;
     }
 
-    const message = `Hello, I would like to request a free quote!%0A%0A
-    🔹 *Name:* ${name}%0A
-    🔹 *Phone:* ${phone}%0A
-    🔹 *Email:* ${email}%0A
-    🔹 *Zip Code:* ${zip}%0A
-    ${notes ? `🔹 *Notes:* ${notes}%0A` : ""}`;
+    const message = `Hello, I'm speaking to you from the website!%0A%0A
+    • *Name:* ${name}%0A
+    • *Phone:* ${phone}%0A
+    • *Email:* ${email}%0A
+    • *Zip Code:* ${zip}%0A
+    • ${notes ? `🔹 *Notes:* ${notes}%0A` : "*Notes:* None"}`;
 
     const whatsappURL = `https://wa.me/13463800845?text=${message}`;
     window.open(whatsappURL, "_blank");
@@ -92,7 +92,7 @@ const FormPage: React.FC = () => {
 
           <button
             onClick={sendToWhatsApp}
-            className="flex items-center justify-center bg-green-500 text-white px-4 py-2 rounded-md font-semibold hover:bg-green-600"
+            className="flex items-center justify-center bg-green-500 text-white px-4 py-2 rounded-md font-semibold hover:bg-green-600 cursor-pointer"
           >
             <FaWhatsapp className="mr-2" /> Send via WhatsApp
           </button>

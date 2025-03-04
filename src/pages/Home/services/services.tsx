@@ -3,17 +3,17 @@ import CardGrid from "./CardGrid";
 const coveredPatios: { title: string; imageUrl: string; link: string }[] = [
   {
     title: "Attached",
-    imageUrl: "assets/images/Products/Patios&Pergolas/Attached/1.webp",
+    imageUrl: "assets/images/Products/Patios&Pergolas/Attached/01.webp",
     link: "/attached",
   },
   {
     title: "Freestanding",
-    imageUrl: "assets/images/Products/Patios&Pergolas/Freestanding/1.webp",
+    imageUrl: "assets/images/Products/Patios&Pergolas/Freestanding/01.webp",
     link: "/freestanding",
   },
   {
     title: "Cantilever",
-    imageUrl: "assets/images/Products/Patios&Pergolas/Cantilever/1.webp",
+    imageUrl: "assets/images/Products/Patios&Pergolas/Cantilever/01.webp",
     link: "/cantilever",
   },
 ];
@@ -21,7 +21,7 @@ const coveredPatios: { title: string; imageUrl: string; link: string }[] = [
 const extraServices: { title: string; imageUrl: string; link: string }[] = [
   {
     title: "Outdoor Kitchen",
-    imageUrl: "assets/images/Products/OutdoorKitchen/Modern/1.webp",
+    imageUrl: "assets/images/Products/OutdoorKitchen/Modern/01.webp",
     link: "/extra-services",
   },
   {

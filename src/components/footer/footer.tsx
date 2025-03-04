@@ -78,7 +78,7 @@ const Footer: React.FC = () => {
                 <img src="/new-gen-patio-react/assets/images/IdentidadSVG/LogoBlanco.svg" alt="" className="h-20 p-2 pl-0"/>
                 <h4 className="font-semibold text-2xl mb-3">NEW GEN PATIO</h4>
               </div>
-              <p>
+              <p className="text-white/80">
                 Transforming your outdoor spaces with expertly crafted patios
                 and pergolas.
                 <div className="h-3 bg-transparent"></div>
@@ -89,19 +89,28 @@ const Footer: React.FC = () => {
                 project.
               </p>
             </div>
-            <div>
+            <div className="lg:pt-20">
               <h4 className="font-semibold text-2xl mb-3">CONTACT</h4>
-              <a href="tel:13463800845" className="flex items-center gap-2 hover:text-orange-400">
+              <a href={`https://wa.me/13463800845`} target="_blank" className="flex items-center gap-2 text-white/80 hover:text-orange-400">
                 <FaPhoneAlt /> 13463800845
               </a>
               <div className="h-2"></div> {/* Espaciado */}
-              <a href="mailto:info@newgenpatio.io" className="flex items-center gap-2 hover:text-orange-400">
+              <a href="mailto:info@newgenpatio.io" target="_blank" className="flex items-center gap-2 text-white/80 hover:text-orange-400">
                 <FaEnvelope /> info@newgenpatio.io
               </a>
             </div>
-            <div>
+            <div className="lg:pt-20">
               <h4 className="font-semibold text-2xl mb-3">LOCATION</h4>
-              <p>17903 Shaw Rd,Cypress,Condado de Harris,Texas, US</p>
+              <a href="https://www.google.com/maps/place/New+Gen+Patio+LLC+%2F+Aluminum+Pergola+Builders+in+Houston/@30.0298581,-95.6440596,17z/data=!3m1!4b1!4m6!3m5!1s0x25f9a3b341eb1881:0xdc05fcaf6587bc2e!8m2!3d30.0298581!4d-95.6414847!16s%2Fg%2F11kj119mzn?entry=ttu&g_ep=EgoyMDI1MDMwMi4wIKXMDSoASAFQAw%3D%3D"
+                target="_blank"
+                className="flex items-center gap-2 text-white/80 hover:text-orange-400">17903 Shaw Rd, Houston, TX 77429, United States</a>
+                <p className="text-white/50 text-md">(Houston and surraunding areas)</p>
+            </div>
+            <div className="lg:pt-20">
+              <h4 className="font-semibold text-2xl mb-3">SCHEDULES</h4>
+              <p className="text-white/80">Monday - Friday: 8:00 AM - 6:00 PM</p>
+              <p className="text-white/80">Saturday: 9:00 AM - 4:00 PM</p>
+              <p className="text-white/80">Sunday: Closed</p>
             </div>
           </div>
 

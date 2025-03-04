@@ -15,20 +15,16 @@ const sectionsData = [
 
 const Cantilever: React.FC = () => {
   const images = [
-    "assets/images/Attached24.jpg",
-    "assets/images/Free3.jpg",
-    "assets/images/Attached24.jpg",
-    "assets/images/Free3.jpg",
-    "assets/images/Attached24.jpg",
-    "assets/images/Free3.jpg",
-    "assets/images/Attached24.jpg",
-    "assets/images/Free3.jpg",
-    "assets/images/Attached24.jpg",
-    "assets/images/Free3.jpg",
-    "assets/images/Attached24.jpg",
-    "assets/images/Free3.jpg",
-    "assets/images/Attached24.jpg",
-    "assets/images/Free3.jpg",
+    "assets/images/Products/Patios&Pergolas/Cantilever/01.webp",
+    "assets/images/Products/Patios&Pergolas/Cantilever/02.webp",
+    "assets/images/Products/Patios&Pergolas/Cantilever/03.webp",
+    "assets/images/Products/Patios&Pergolas/Cantilever/04.webp",
+    "assets/images/Products/Patios&Pergolas/Cantilever/05.webp",
+    "assets/images/Products/Patios&Pergolas/Cantilever/06.webp",
+    "assets/images/Products/Patios&Pergolas/Cantilever/07.webp",
+    "assets/images/Products/Patios&Pergolas/Cantilever/08.webp",
+    "assets/images/Products/Patios&Pergolas/Cantilever/09.webp",
+    "assets/images/Products/Patios&Pergolas/Cantilever/10.webp",
   ];
 
   return (

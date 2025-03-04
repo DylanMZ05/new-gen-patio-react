@@ -15,21 +15,20 @@ const Slider: React.FC<ImageSliderProps> = ({ images }) => {
     <div className="relative w-full overflow-hidden border-t-8 border-[#0d4754]">
       {/* Degradado para mejorar la visibilidad de la paginación */}
       <div className="slider-gradient"></div>
+        <Swiper
+          spaceBetween={10} // Agrega margen entre las imágenes
+          navigation={true}
+          modules={[Navigation, Pagination]}
+          className="w-full"
+          breakpoints={{
+            0: { slidesPerView: 1, spaceBetween: 5 },
+            500: { slidesPerView: 2, spaceBetween: 5 },
+            1024: { slidesPerView: 3, spaceBetween: 5 },
+          }}
+        >
 
-      <Swiper
-        spaceBetween={0} // Sin espacio entre imágenes
-        navigation={true}
-        pagination={{ clickable: true }}
-        modules={[Navigation, Pagination]}
-        className="w-full"
-        breakpoints={{
-          0: { slidesPerView: 1 }, // En móviles (xs y sm) se muestra 1 imagen
-          500: { slidesPerView: 2 }, // En md: (tabletas) se muestran 2 imágenes
-          1024: { slidesPerView: 3 }, // En lg: (pantallas grandes) se muestran 3 imágenes
-        }}
-      >
         {images.map((src, index) => (
-          <SwiperSlide key={index} className="flex items-center justify-center">
+          <SwiperSlide key={index} className="flex items-center justify-center my-1">
             <img
               src={src}
               alt={`Slide ${index}`}

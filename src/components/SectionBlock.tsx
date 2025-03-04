@@ -21,11 +21,11 @@ const SectionBlock: React.FC<Props> = ({ sections }) => {
   }
 
   return (
-    <div>
+    <div className="w-full">
       {sections.map((section) => (
         <div
           key={section.id}
-          className="flex flex-col items-center justify-center text-center w-dvw h-[35vh] bg-cover bg-center"
+          className="flex flex-col items-center justify-center text-center w-full h-[35vh] bg-cover bg-center"
           style={{ backgroundImage: `url(${section.backgroundImage})` }}
         >
           <div className="bg-black/80 w-full h-full flex flex-col items-center justify-center text-white">

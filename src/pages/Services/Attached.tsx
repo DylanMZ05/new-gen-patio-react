@@ -14,6 +14,8 @@ const sectionsData = [
   },
 ];
 
+const backgroundImage = "assets/images/Products/Patios&Pergolas/Attached/12.webp";
+
 const Attached: React.FC = () => {
   const images = [
     "assets/images/Products/Patios&Pergolas/Attached/01.webp",
@@ -92,14 +94,14 @@ const Attached: React.FC = () => {
       <SectionBlock sections={sectionsData} />
       <Slider images={validImages} withBorderT/>
       <MarqueeBanner />
-      <div className="pt-8">
+      <div className="pt-8 px-5">
         <h3 className="font-semibold text-3xl mb-3">
           Why might you need it?
         </h3>
         <div className="ml-1 w-15 h-[3px] bg-[#0d4754] mt-3 mb-2 rounded-full"></div>
-        <p className="text-lg">🔹 Your patio gets too much sun, making it uncomfortable during peak hours.</p>
-        <p className="text-lg">🔹 You want an outdoor space that feels like a natural extension of your home.</p>
-        <p className="text-lg">🔹 You're looking for an aesthetic and functional solution without taking up too much space.</p>
+          <p className="text-lg">🔹 Your patio gets too much sun, making it uncomfortable during peak hours.</p>
+          <p className="text-lg">🔹 You want an outdoor space that feels like a natural extension of your home.</p>
+          <p className="text-lg">🔹 You're looking for an aesthetic and functional solution without taking up too much space.</p>
       </div>
       <div className="flex flex-col my-10 gap-10">
         <ImgTxtSection
@@ -137,7 +139,7 @@ const Attached: React.FC = () => {
           imagePosition="right"
         />
       </div>
-      <WhyUsLink />
+      <WhyUsLink backgroundImage={backgroundImage} />
     </section>
   );
 };

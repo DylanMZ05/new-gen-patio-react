@@ -3,15 +3,18 @@ import Slider from "../../components/Slider/Slider";
 import MarqueeBanner from "../../components/MarqueeBanner";
 import ImgTxtSection from "../../components/ImgTxtSection";
 import SectionBlock from "../../components/SectionBlock";
+import WhyUsLink from "./components/WhyUsLink";
 
 const sectionsData = [
   {
     id: 1,
-    title: "Freestanding Style Pergolas",
-    description: "Breve descripción de Freestanding Style",
+    title: "Freestanding Covered Patio",
+    description: "A standalone pergola that can be placed anywhere in your backyard, offering a versatile and customizable space for relaxation, entertainment, or shade.",
     backgroundImage: "assets/images/Products/Patios&Pergolas/Freestanding/01.webp",
   },
 ];
+
+const backgroundImage = "assets/images/Products/Patios&Pergolas/Freestanding/06.webp";
 
 const Freestanding: React.FC = () => {
   const images = [
@@ -55,36 +58,45 @@ const Freestanding: React.FC = () => {
       <SectionBlock sections={sectionsData} />
       <Slider images={images} withBorderT/>
       <MarqueeBanner />
-
+      <div className="pt-8 px-5">
+        <h3 className="font-semibold text-3xl mb-3">
+          Why might you need it?
+        </h3>
+        <div className="ml-1 w-15 h-[3px] bg-[#0d4754] mt-3 mb-2 rounded-full"></div>
+          <p className="text-lg">🔹 You want a shaded entertainment area in the middle of your garden or by the pool.</p>
+          <p className="text-lg">🔹 You're looking to define a space without building walls or heavy structures.</p>
+          <p className="text-lg">🔹 You need a shaded retreat that doesn’t rely on your home’s structure.</p>
+      </div>
       <div className="flex flex-col my-10 gap-10">
         <ImgTxtSection
-          title="Visualizing Your Project"
-          text="Making your vision crystal clear before we even start is essential for us..."
-          imageUrl="assets/images/Attached24.jpg"
+          title="Independent & flexible"
+          text="Can be placed anywhere in your backyard, separate from the house."
+          imageUrl="assets/images/Products/Patios&Pergolas/Freestanding/01.webp"
           imagePosition="right"
         />
 
         <ImgTxtSection
-          title="Built to Last with $0 cost of Maintenance"
-          text="Our aluminum structures are designed to endure the harshest conditions..."
-          imageUrl="assets/images/Free3.jpg"
+          title="Versatile design"
+          text="Perfect for gardens, pools, or relaxation areas."
+          imageUrl="assets/images/Products/Patios&Pergolas/Freestanding/03.webp"
           imagePosition="left"
         />
 
         <ImgTxtSection
-          title="Visualizing Your Project"
-          text="Making your vision crystal clear before we even start is essential for us..."
-          imageUrl="assets/images/Attached24.jpg"
+          title="Durable structure"
+          text="High-quality materials built to withstand outdoor conditions."
+          imageUrl="assets/images/Products/Patios&Pergolas/Freestanding/06.webp"
           imagePosition="right"
         />
 
         <ImgTxtSection
-          title="Built to Last with $0 cost of Maintenance"
-          text="Our aluminum structures are designed to endure the harshest conditions..."
-          imageUrl="assets/images/Free3.jpg"
+          title="Ideal for gatherings"
+          text="A perfect space for enjoying time with family and friends."
+          imageUrl="assets/images/Products/Patios&Pergolas/Freestanding/09.webp"
           imagePosition="left"
         />
       </div>
+      <WhyUsLink backgroundImage={backgroundImage} />
     </section>
   );
 };

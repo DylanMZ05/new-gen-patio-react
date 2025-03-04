@@ -82,20 +82,52 @@ const HowWeDoIt: React.FC = () => {
           imageUrl="assets/images/Products/Patios&Pergolas/Freestanding/24.webp"
           imagePosition="left"
         />
+        <hr className="text-black/20"/>
 
-        <h3 className="text-center font-semibold text-3xl px-5"> From the first consultation to project completion, we guarantee a clear, professional, and hassle-free process.</h3>
+        <div>
+          <h3 className="text-center font-semibold text-3xl px-5"> From the first consultation to project completion, we guarantee a clear, professional, and hassle-free process.</h3>
+          <div className="w-30 h-1 background-skyblue mx-auto rounded-full mt-5"></div>
+        </div>
         
         <ImgTxtSection
-          title="Final walk-through and review."
-          text="We conduct a detailed inspection with you to ensure everything is flawless. We make sure you are 100% satisfied before final delivery."
-          imageUrl="assets/images/Products/Patios&Pergolas/Freestanding/24.webp"
+          title="Visualizing Your Project"
+          text="Making your vision crystal clear before we even start is essential for us. That’s why we provide 100% free complimentary estimates, along with 3D designs and detailed plans."
+          imageUrl="assets/images/OurPromise/01.webp"
           imagePosition="left"
         />
 
         <ImgTxtSection
-          title="Final walk-through and review."
-          text="We conduct a detailed inspection with you to ensure everything is flawless. We make sure you are 100% satisfied before final delivery."
-          imageUrl="assets/images/Products/Patios&Pergolas/Freestanding/24.webp"
+          title="Built to Last with $0 cost of Maintenance"
+          text="Our aluminum structures are designed to endure the harshest conditions without needing any upkeep. Unlike wood or steel, our maintenance-free aluminum won’t rust, fade, or need repainting."
+          imageUrl="assets/images/OurPromise/02.webp"
+          imagePosition="right"
+        />
+
+        <ImgTxtSection
+          title="HOA & City Permits"
+          text="We ensure your outdoor space remains exceptional long after installation. With top-quality craftsmanship, every project is backed by our comprehensive 5-year warranty for lasting durability and peace of mind."
+          imageUrl="assets/images/OurPromise/03.webp"
+          imagePosition="left"
+        />
+
+        <ImgTxtSection
+          title="Sustainability That Matters"
+          text="We use 100% recyclable aluminum for our pergolas and patios, ensuring durability while reducing environmental impact. By choosing our materials, you invest in a long-lasting structure and a more sustainable future."
+          imageUrl="assets/images/OurPromise/04.webp"
+          imagePosition="right"
+        />
+
+        <ImgTxtSection
+          title="5-Year Warranty for Your Peace of Mind"
+          text="We support you through every step, providing all necessary documentation for HOA or City Permit approval. From paperwork to final approvals, we make the process smooth and hassle-free."
+          imageUrl="assets/images/OurPromise/05.webp"
+          imagePosition="left"
+        />
+
+        <ImgTxtSection
+          title="Our Customers Come First"
+          text="We value honesty, transparency, and clear communication. With 5-star reviews on Google and a 100% satisfaction guarantee, your happiness is our priority."
+          imageUrl="assets/images/OurPromise/06.webp"
           imagePosition="right"
         />
       </div>

@@ -26,7 +26,7 @@ const ImageTextSection: React.FC<ImageTextSectionProps> = ({
         <img
           src={imageUrl}
           alt={title}
-          className="rounded-lg shadow-md w-full h-auto"
+          className="rounded-lg shadow-md h-65 w-full object-cover"
         />
       </div>
     </section>

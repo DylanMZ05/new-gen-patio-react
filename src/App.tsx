@@ -17,7 +17,8 @@ import BlogsSection from "./pages/Home/BlogsSection";
 import Attached from "./pages/Services/Attached";
 import Freestanding from "./pages/Services/Freestanding";
 import Cantilever from "./pages/Services/Cantilever";
-import ExtraServices from "./pages/Services/ExtraServices";
+import OutdoorKitchen from "./pages/Services/OutdoorKitchen";
+import ConcreteTurf from "./pages/Services/ConcreteTurf";
 
 // Calculator
 import Calculator from "./pages/Calculator/Calculator";
@@ -70,7 +71,8 @@ function Layout() {
         <Route path="/attached" element={<Attached />} />
         <Route path="/freestanding" element={<Freestanding />} />
         <Route path="/cantilever" element={<Cantilever />} />
-        <Route path="/extra-services" element={<ExtraServices />} />
+        <Route path="/outdoorkitchen" element={<OutdoorKitchen />} />
+        <Route path="/concrete-turf" element={<ConcreteTurf />} />
         <Route path="/calculator" element={<Calculator />} />
         <Route path="/financing-options" element={<FinancingOptions />} />
         <Route path="/howwedoit" element={<HowWeDoIt />} />

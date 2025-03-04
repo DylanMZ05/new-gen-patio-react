@@ -22,12 +22,12 @@ const extraServices: { title: string; imageUrl: string; link: string }[] = [
   {
     title: "Outdoor Kitchen",
     imageUrl: "assets/images/Products/OutdoorKitchen/Modern/01.webp",
-    link: "/extra-services",
+    link: "/outdoorkitchen",
   },
   {
     title: "Concrete & Turf",
     imageUrl: "assets/images/Products/AdditionalServices/1.webp",
-    link: "/extra-services",
+    link: "/concrete-turf",
   },
 ];
 

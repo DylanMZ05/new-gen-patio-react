@@ -9,7 +9,7 @@ const sectionsData = [
     id: 1,
     title: "Cantilever Style Pergolas",
     description: "Breve descripción de Cantilever Style",
-    backgroundImage: "assets/images/Attached24.jpg",
+    backgroundImage: "assets/images/Products/Patios&Pergolas/Cantilever/01.webp",
   },
 ];
 
@@ -30,7 +30,7 @@ const Cantilever: React.FC = () => {
   return (
     <section className="min-h-screen flex flex-col items-center bg-gray-100">
       <SectionBlock sections={sectionsData} />
-      <Slider images={images} />
+      <Slider images={images} withBorderT/>
       <MarqueeBanner />
 
       <div className="flex flex-col my-10 gap-10">

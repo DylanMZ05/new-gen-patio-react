@@ -29,9 +29,9 @@ const SectionBlock: React.FC<Props> = ({ sections }) => {
           style={{ backgroundImage: `url(${section.backgroundImage})` }}
         >
           <div className="bg-black/80 w-full h-full flex flex-col items-center justify-center text-white">
-            <h2 className="text-3xl font-bold">{section.title}</h2>
-            <div className="w-[100px] h-[3px] bg-orange-600 mt-3 mb-2 rounded-full"></div>
-            <p className="text-[24px] mb-5">{section.description}</p>
+            <h2 className="text-4xl font-semibold">{section.title}</h2>
+            <div className="w-28 h-[3px] bg-orange-600 mt-3 mb-2 rounded-full"></div>
+            <p className="text-lg mb-5 mx-5 text-white/80">{section.description}</p>
           </div>
         </div>
       ))}

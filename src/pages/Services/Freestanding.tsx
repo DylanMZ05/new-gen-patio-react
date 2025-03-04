@@ -9,32 +9,51 @@ const sectionsData = [
     id: 1,
     title: "Freestanding Style Pergolas",
     description: "Breve descripción de Freestanding Style",
-    backgroundImage: "assets/images/Attached24.jpg",
+    backgroundImage: "assets/images/Products/Patios&Pergolas/Freestanding/01.webp",
   },
 ];
 
 const Freestanding: React.FC = () => {
   const images = [
-    "assets/images/Attached24.jpg",
-    "assets/images/Free3.jpg",
-    "assets/images/Attached24.jpg",
-    "assets/images/Free3.jpg",
-    "assets/images/Attached24.jpg",
-    "assets/images/Free3.jpg",
-    "assets/images/Attached24.jpg",
-    "assets/images/Free3.jpg",
-    "assets/images/Attached24.jpg",
-    "assets/images/Free3.jpg",
-    "assets/images/Attached24.jpg",
-    "assets/images/Free3.jpg",
-    "assets/images/Attached24.jpg",
-    "assets/images/Free3.jpg",
+    "assets/images/Products/Patios&Pergolas/Freestanding/01.webp",
+    "assets/images/Products/Patios&Pergolas/Freestanding/02.webp",
+    "assets/images/Products/Patios&Pergolas/Freestanding/03.webp",
+    "assets/images/Products/Patios&Pergolas/Freestanding/04.webp",
+    "assets/images/Products/Patios&Pergolas/Freestanding/05.webp",
+    "assets/images/Products/Patios&Pergolas/Freestanding/06.webp",
+    "assets/images/Products/Patios&Pergolas/Freestanding/07.webp",
+    "assets/images/Products/Patios&Pergolas/Freestanding/08.webp",
+    "assets/images/Products/Patios&Pergolas/Freestanding/09.webp",
+    "assets/images/Products/Patios&Pergolas/Freestanding/10.webp",
+    "assets/images/Products/Patios&Pergolas/Freestanding/11.webp",
+    "assets/images/Products/Patios&Pergolas/Freestanding/12.webp",
+    "assets/images/Products/Patios&Pergolas/Freestanding/13.webp",
+    "assets/images/Products/Patios&Pergolas/Freestanding/14.webp",
+    "assets/images/Products/Patios&Pergolas/Freestanding/15.webp",
+    "assets/images/Products/Patios&Pergolas/Freestanding/16.webp",
+    "assets/images/Products/Patios&Pergolas/Freestanding/17.webp",
+    "assets/images/Products/Patios&Pergolas/Freestanding/18.webp",
+    "assets/images/Products/Patios&Pergolas/Freestanding/19.webp",
+    "assets/images/Products/Patios&Pergolas/Freestanding/20.webp",
+    "assets/images/Products/Patios&Pergolas/Freestanding/21.webp",
+    "assets/images/Products/Patios&Pergolas/Freestanding/22.webp",
+    "assets/images/Products/Patios&Pergolas/Freestanding/23.webp",
+    "assets/images/Products/Patios&Pergolas/Freestanding/24.webp",
+    "assets/images/Products/Patios&Pergolas/Freestanding/25.webp",
+    "assets/images/Products/Patios&Pergolas/Freestanding/26.webp",
+    "assets/images/Products/Patios&Pergolas/Freestanding/27.webp",
+    "assets/images/Products/Patios&Pergolas/Freestanding/28.webp",
+    "assets/images/Products/Patios&Pergolas/Freestanding/29.webp",
+    "assets/images/Products/Patios&Pergolas/Freestanding/30.webp",
+    "assets/images/Products/Patios&Pergolas/Freestanding/31.webp",
+    "assets/images/Products/Patios&Pergolas/Freestanding/32.webp",
+    "assets/images/Products/Patios&Pergolas/Freestanding/33.webp",
   ];
 
   return (
     <section className="min-h-screen flex flex-col items-center bg-gray-100">
       <SectionBlock sections={sectionsData} />
-      <Slider images={images} />
+      <Slider images={images} withBorderT/>
       <MarqueeBanner />
 
       <div className="flex flex-col my-10 gap-10">

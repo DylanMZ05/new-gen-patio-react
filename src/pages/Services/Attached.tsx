@@ -3,13 +3,14 @@ import Slider from "../../components/Slider/Slider";
 import MarqueeBanner from "../../components/MarqueeBanner";
 import ImgTxtSection from "../../components/ImgTxtSection";
 import SectionBlock from "../../components/SectionBlock";
+import WhyUsLink from "./components/WhyUsLink";
 
 const sectionsData = [
   {
     id: 1,
-    title: "Attached Style Pergolas",
-    description: "Breve descripción de Attached Style",
-    backgroundImage: "assets/images/Attached24.jpg",
+    title: "Attached Cover Patio",
+    description: "An attached pergola that seamlessly connects to your home’s structure, providing shade and protection while maintaining a smooth transition between indoor and outdoor spaces.",
+    backgroundImage: "assets/images/Products/Patios&Pergolas/Attached/01.webp",
   },
 ];
 
@@ -89,37 +90,54 @@ const Attached: React.FC = () => {
   return (
     <section className="min-h-screen flex flex-col items-center bg-gray-100">
       <SectionBlock sections={sectionsData} />
-      <Slider images={validImages} />
+      <Slider images={validImages} withBorderT/>
       <MarqueeBanner />
+      <div className="pt-8">
+        <h3 className="font-semibold text-3xl mb-3">
+          Why might you need it?
+        </h3>
+        <div className="ml-1 w-15 h-[3px] bg-[#0d4754] mt-3 mb-2 rounded-full"></div>
+        <p className="text-lg">🔹 Your patio gets too much sun, making it uncomfortable during peak hours.</p>
+        <p className="text-lg">🔹 You want an outdoor space that feels like a natural extension of your home.</p>
+        <p className="text-lg">🔹 You're looking for an aesthetic and functional solution without taking up too much space.</p>
+      </div>
       <div className="flex flex-col my-10 gap-10">
         <ImgTxtSection
-          title="Visualizing Your Project"
-          text="Making your vision crystal clear before we even start is essential for us..."
-          imageUrl="assets/images/Attached24.jpg"
+          title="Seamless integration"
+          text="Attaches to your home’s structure, creating a cozy space without disrupting the design."
+          imageUrl="assets/images/Products/Patios&Pergolas/Attached/02.webp"
           imagePosition="right"
         />
 
         <ImgTxtSection
-          title="Built to Last with $0 cost of Maintenance"
-          text="Our aluminum structures are designed to endure the harshest conditions..."
-          imageUrl="assets/images/Free3.jpg"
+          title="Protection & comfort"
+          text="Shields you from the sun and rain, allowing year-round outdoor enjoyment."
+          imageUrl="assets/images/Products/Patios&Pergolas/Attached/03.webp"
           imagePosition="left"
         />
 
         <ImgTxtSection
-          title="Visualizing Your Project"
-          text="Making your vision crystal clear before we even start is essential for us..."
-          imageUrl="assets/images/Attached24.jpg"
+          title="Energy efficiency"
+          text="Reduces sun exposure on windows and doors, keeping your home cooler."
+          imageUrl="assets/images/Products/Patios&Pergolas/Attached/05.webp"
           imagePosition="right"
         />
 
         <ImgTxtSection
-          title="Built to Last with $0 cost of Maintenance"
-          text="Our aluminum structures are designed to endure the harshest conditions..."
-          imageUrl="assets/images/Free3.jpg"
+          title="Fully customizable"
+          text="A wide range of styles, materials, and finishes to match your taste."
+          imageUrl="assets/images/Products/Patios&Pergolas/Attached/08.webp"
           imagePosition="left"
+        />
+        
+        <ImgTxtSection
+          title="Increases home value"
+          text="Well-designed outdoor spaces boost property appeal and resale value."
+          imageUrl="assets/images/Products/Patios&Pergolas/Attached/13.webp"
+          imagePosition="right"
         />
       </div>
+      <WhyUsLink />
     </section>
   );
 };

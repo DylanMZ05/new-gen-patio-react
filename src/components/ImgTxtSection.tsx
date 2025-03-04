@@ -1,6 +1,7 @@
 import React from "react";
 
 type ImageTextSectionProps = {
+  stepLabel?: string; // Nuevo prop opcional para el subtítulo (ej. "Step 1:")
   title: string;
   text: string;
   imageUrl: string;
@@ -8,6 +9,7 @@ type ImageTextSectionProps = {
 };
 
 const ImageTextSection: React.FC<ImageTextSectionProps> = ({
+  stepLabel,
   title,
   text,
   imageUrl,
@@ -18,6 +20,11 @@ const ImageTextSection: React.FC<ImageTextSectionProps> = ({
       className={`flex flex-col ${imagePosition === "left" ? "sm:flex-row-reverse" : "sm:flex-row"} max-w-[1000px] items-start gap-5`}
     >
       <div className="flex flex-col items-center text-center mx-auto sm:mx-0 sm:text-start sm:items-start sm:w-1/2 sm:mt-3 px-5">
+        {stepLabel && (
+          <span className="text-lg font-semibold text-gray-500 uppercase mb-1">
+            {stepLabel}
+          </span>
+        )}
         <h3 className="text-3xl font-bold">{title}</h3>
         <div className="w-24 h-[3px] background-skyblue my-3 rounded-full"></div>
         <p className="text-xl text-gray-700">{text}</p>

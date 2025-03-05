@@ -1,4 +1,7 @@
-import { BrowserRouter as Router, Routes, Route, useLocation, } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
+import { memo, useMemo } from "react";
+
+// Componentes globales
 import Header from "./components/header/Header";
 import WspButton from "./components/WspButton";
 import Footer from "./components/footer/footer";
@@ -31,21 +34,15 @@ import AboutUsPage from "./pages/WeDoIt&About/AboutUsPage";
 // Blogs
 import BlogPage from "./pages/Blogs/BlogPage";
 
-// Free Quote
-import FreeQuote from "./pages/FreeQuote/FreeQuote"
-
-// FormPage
+// Free Quote & Forms
+import FreeQuote from "./pages/FreeQuote/FreeQuote";
 import FormPage from "./components/FormPage";
 
-// Página sin Header y Footer
-
-function Layout() {
+// **Layout sin Header y Footer**
+const Layout = memo(() => {
   const location = useLocation();
+  const noLayoutRoutes = useMemo(() => ["/financing-options"], []);
 
-  // Definir rutas sin Header y Footer
-  const noLayoutRoutes = ["/financing-options"];
-
-  // Verificar si la ruta actual está en la lista
   const isNoLayout = noLayoutRoutes.includes(location.pathname);
 
   return (
@@ -80,14 +77,12 @@ function Layout() {
         <Route path="/blog/:id" element={<BlogPage />} />
         <Route path="/freequote" element={<FreeQuote />} />
         <Route path="/formpage" element={<FormPage />} />
-
-        {/* Ruta sin Header y Footer */}
       </Routes>
       {!isNoLayout && <WspButton />}
       {!isNoLayout && <Footer />}
     </>
   );
-}
+});
 
 function App() {
   return (

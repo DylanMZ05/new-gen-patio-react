@@ -31,7 +31,7 @@ const SectionBlock: React.FC<Props> = ({ sections }) => {
           <div className="bg-black/80 w-full h-full flex flex-col items-center justify-center text-white">
             <h2 className="text-4xl font-semibold">{section.title}</h2>
             <div className="w-28 h-[3px] bg-orange-600 mt-3 mb-2 rounded-full"></div>
-            <p className="text-lg mb-5 mx-5 text-white/80 max-w-160">{section.description}</p>
+            <p className="text-xl mb-5 mx-5 text-white/80 max-w-160">{section.description}</p>
           </div>
         </div>
       ))}

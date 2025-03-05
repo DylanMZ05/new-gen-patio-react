@@ -14,11 +14,11 @@ const sectionsData = [
 
 const HowWeDoIt: React.FC = () => {
   return (
-    <section className="min-h-screen flex flex-col items-center bg-gray-100">
+    <section className="min-h-screen w-full flex flex-col items-center bg-gray-100">
       <SectionBlock sections={sectionsData} />
       <MarqueeBanner />
 
-      <div className="flex flex-col my-10 gap-10">
+      <div className="flex flex-col items-center my-10 gap-10">
         <ImgTxtSection
           stepLabel="Step 1:"
           title="Request a free online quote or call us for a rough estimate."
@@ -85,7 +85,7 @@ const HowWeDoIt: React.FC = () => {
         <hr className="text-black/20"/>
 
         <div>
-          <h3 className="text-center font-semibold text-3xl px-5"> From the first consultation to project completion, we guarantee a clear, professional, and hassle-free process.</h3>
+          <h3 className="text-center font-semibold text-3xl px-5 max-w-200"> From the first consultation to project completion, we guarantee a clear, professional, and hassle-free process.</h3>
           <div className="w-30 h-1 background-skyblue mx-auto rounded-full mt-5"></div>
         </div>
         

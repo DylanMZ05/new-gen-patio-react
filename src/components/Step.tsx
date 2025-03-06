@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { StepData } from "../hooks/useStepNavigation";
-import { X } from "lucide-react"; // Icono de "X" para cerrar el popup
+import { X } from "lucide-react";
 
 interface StepProps {
   stepData: StepData;
@@ -19,7 +19,7 @@ const Step: React.FC<StepProps> = ({ stepData, nextStep, previousStep, updateFor
   const getFormattedInputs = () => {
     return Object.entries(formData)
       .filter(([key]) => ["width", "length", "height", "linear-feet"].includes(key))
-      .map(([key, value]) => `📏 ${key.replace("-", " ")}: ${value}`)
+      .map(([key, value]) => `• ${key.replace("-", " ")}: ${value}`)
       .join("\n");
   };
 
@@ -36,15 +36,15 @@ const Step: React.FC<StepProps> = ({ stepData, nextStep, previousStep, updateFor
 
   // Construir mensaje para WhatsApp
   const buildMessage = () => {
-    return `*Request for Quotation* 📋
+    return `*Request for Quotation*
 
-    🔹 *Selected options:* ${selections.join(" | ")}
-    ${getFormattedInputs() ? `📐 *Measures:* \n${getFormattedInputs()}\n` : ""}
-        📌 *Name:* ${formData.name || "Not provided"}
-        📌 *Phone:* ${formData.phone || "Not provided"}
-        📌 *Email:* ${formData.email || "Not provided"}
-        📌 *Zip Code:* ${formData.zip || "Not provided"}
-        📝 *Notes:* ${formData.notes || "None"}
+    • *Selected options:* ${selections.join(" | ")}
+    ${getFormattedInputs() ? `• *Measures:* \n${getFormattedInputs()}\n` : ""}
+        • *Name:* ${formData.name || "Not provided"}
+        • *Phone:* ${formData.phone || "Not provided"}
+        • *Email:* ${formData.email || "Not provided"}
+        • *Zip Code:* ${formData.zip || "Not provided"}
+        • *Notes:* ${formData.notes || "None"}
     `;
   };
 
@@ -73,7 +73,7 @@ const Step: React.FC<StepProps> = ({ stepData, nextStep, previousStep, updateFor
   };
 
   return (
-    <div className="w-lvw max-w-[1080px] mx-10 mb-12 p-6 bg-white shadow-lg rounded-lg min-h-150 mt-25 flex flex-col justify-center items-center">
+    <div className="w-content min-w-[90vw] max-w-[1080px] mx-10 mb-12 p-6 bg-white shadow-lg rounded-lg min-h-150 mt-25 flex flex-col justify-center items-center">
       {/* Título */}
       <div>
         <h2 className="text-2xl font-semibold text-gray-800 text-center">{stepData.title}</h2>
@@ -133,7 +133,7 @@ const Step: React.FC<StepProps> = ({ stepData, nextStep, previousStep, updateFor
           {/* Mostrar las medidas ingresadas */}
           {getFormattedInputs() && (
             <div className="mt-4 bg-gray-200 p-3 rounded-md">
-              <h4 className="text-md font-semibold text-gray-700">📐 Measures:</h4>
+              <h4 className="text-md font-semibold text-gray-700">~ Measures:</h4>
               <p>{getFormattedInputs()}</p>
             </div>
           )}

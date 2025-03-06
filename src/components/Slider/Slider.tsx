@@ -4,27 +4,34 @@ import { Navigation, Pagination } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
-import "./Slider.css"; // Asegúrate de incluir estilos personalizados si es necesario
+import "./Slider.css"; // Estilos personalizados si son necesarios
 
 interface ImageSliderProps {
   images: string[];
-  withBorderT?: boolean; // Se asegura de que sea opcional
-  withBorderB?: boolean; // Se asegura de que sea opcional
+  withBorderT?: boolean; 
+  withBorderB?: boolean;
 }
 
-
 const Slider: React.FC<ImageSliderProps> = ({ images, withBorderT = false, withBorderB = false }) => {
+  // No renderizar si no hay imágenes
+  if (images.length === 0) return null;
+
   return (
-    <div className={`relative w-full overflow-hidden 
-      ${withBorderT ? "border-t-5 border-[#0d4754]" : ""} 
-      ${withBorderB ? "border-b-5 border-[#0d4754]" : ""}`}>
-      
+    <div 
+      role="region" 
+      aria-label="Image Slider" 
+      aria-live="polite"
+      className={`relative w-full overflow-hidden 
+        ${withBorderT ? "border-t-5 border-[#0d4754]" : ""} 
+        ${withBorderB ? "border-b-5 border-[#0d4754]" : ""}`}
+    >
       {/* Degradado para mejorar la visibilidad de la paginación */}
       <div className="slider-gradient"></div>
 
       <Swiper
         spaceBetween={10}
         navigation={true}
+        pagination={{ clickable: false }}
         modules={[Navigation, Pagination]}
         className="w-full"
         breakpoints={{
@@ -35,7 +42,12 @@ const Slider: React.FC<ImageSliderProps> = ({ images, withBorderT = false, withB
       >
         {images.map((src, index) => (
           <SwiperSlide key={index} className="flex items-center justify-center my-1">
-            <img src={src} alt={`Slide ${index}`} className="w-full h-64 object-cover" />
+            <img 
+              src={src} 
+              alt={`Project Image ${index + 1}`} 
+              className="w-full h-64 object-cover rounded-lg shadow-lg"
+              loading="lazy" 
+            />
           </SwiperSlide>
         ))}
       </Swiper>

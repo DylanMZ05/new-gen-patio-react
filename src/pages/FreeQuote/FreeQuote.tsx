@@ -6,8 +6,8 @@ const steps: Record<number, StepData> = {
   1: {
     title: "¿What are you looking for",
     options: [
-      { img: "assets/images/Attached24.jpg", text: "Patios & Pergolas", nextStep: 2 },
-      { img: "assets/images/Free3.jpg", text: "Outdoor Kitchens", nextStep: 10 },
+      { img: "assets/images/Products/Patios&Pergolas/Attached/11.webp", text: "Patios & Pergolas", nextStep: 2 },
+      { img: "assets/images/Products/OutdoorKitchen/Modern/01.webp", text: "Outdoor Kitchens", nextStep: 10 },
     ],
   },
   2: {
@@ -23,33 +23,33 @@ const steps: Record<number, StepData> = {
   3: {
     title: "Type",
     options: [
-      { img: "assets/images/Free3.jpg", text: "Attached", nextStep: 5 },
-      { img: "assets/images/Attached24.jpg", text: "Freestanding", nextStep: 4 },
+      { img: "assets/images/Products/Patios&Pergolas/Attached/12.webp", text: "Attached", nextStep: 5 },
+      { img: "assets/images/Products/Patios&Pergolas/Freestanding/11.webp", text: "Freestanding", nextStep: 4 },
     ],
     previousStep: 2,
   },
   4: {
     title: "Style",
     options: [
-      { img: "assets/images/Free3.jpg", text: "Regular", nextStep: 5 },
-      { img: "assets/images/Attached24.jpg", text: "Cantilever", nextStep: 5 },
+      { img: "assets/images/Products/Patios&Pergolas/Freestanding/03.webp", text: "Regular", nextStep: 5 },
+      { img: "assets/images/Products/Patios&Pergolas/Cantilever/01.webp", text: "Cantilever", nextStep: 5 },
     ],
     previousStep: 3,
   },
   5: {
     title: "Foundation",
     options: [
-      { img: "assets/images/Free3.jpg", text: "Concrete", nextStep: "final" },
-      { img: "assets/images/Attached24.jpg", text: "Turf", nextStep: "final" },
-      { img: "assets/images/Free3.jpg", text: "Travertine & Pavers", nextStep: "final" },
+      { img: "assets/images/Products/Patios&Pergolas/Attached/06.webp", text: "Concrete", nextStep: "final" },
+      { img: "assets/images/Products/Grass&Dirt.webp", text: "Turf", nextStep: "final" },
+      { img: "assets/images/Products/Travertine.webp", text: "Travertine & Pavers", nextStep: "final" },
     ],
     previousStep: 4,
   },
   10: {
     title: "Style",
     options: [
-      { img: "assets/images/Attached24.jpg", text: "Modern", nextStep: 11 },
-      { img: "assets/images/Free3.jpg", text: "Traditional", nextStep: 12 },
+      { img: "assets/images/Products/OutdoorKitchen/Modern/01.webp", text: "Modern", nextStep: 11 },
+      { img: "assets/images/Products/OutdoorKitchen/Traditional/03.webp", text: "Traditional", nextStep: 12 },
     ],
     previousStep: 1,
   },
@@ -68,17 +68,17 @@ const steps: Record<number, StepData> = {
   13: {
     title: "Outer Material",
     options: [
-      { img: "assets/images/Free3.jpg", text: "Compound", nextStep: "final" },
-      { img: "assets/images/Attached24.jpg", text: "Wood Thermo", nextStep: "final" },
+      { img: "assets/images/Products/OutdoorKitchen/Modern/06.webp", text: "Compound", nextStep: "final" },
+      { img: "assets/images/Products/OutdoorKitchen/Modern/07.webp", text: "Wood Thermo", nextStep: "final" },
     ],
     previousStep: 11,
   },
   14: {
     title: "Outer Material",
     options: [
-      { img: "assets/images/Attached24.jpg", text: "Brick", nextStep: "final" },
-      { img: "assets/images/Free3.jpg", text: "Stone", nextStep: "final" },
-      { img: "assets/images/Attached24.jpg", text: "Stucco", nextStep: "final" },
+      { img: "assets/images/Products/OutdoorKitchen/Traditional/02.webp", text: "Brick", nextStep: "final" },
+      { img: "assets/images/Products/OutdoorKitchen/Traditional/07.webp", text: "Stone", nextStep: "final" },
+      { img: "assets/images/Products/OutdoorKitchen/Traditional/08.webp", text: "Stucco", nextStep: "final" },
     ],
     previousStep: 12,
   },

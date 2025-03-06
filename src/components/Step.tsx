@@ -89,7 +89,7 @@ const Step: React.FC<StepProps> = ({ stepData, nextStep, previousStep, updateFor
               className="p-2 rounded-lg transition cursor-pointer"
               onClick={() => nextStep(option.nextStep, option.text)}
             >
-              <img src={option.img} alt={option.text} className="w-75 object-cover rounded-md transition-all hover:scale-105" />
+              <img src={option.img} alt={option.text} className="w-75 h-50 object-cover rounded-md transition-all hover:scale-105" />
               <p className="mt-2 text-center text-2xl font-semibold text-black/90">{option.text}</p>
             </button>
           ))}

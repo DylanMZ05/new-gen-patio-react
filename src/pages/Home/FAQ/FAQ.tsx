@@ -12,13 +12,13 @@ const faqData = [
   {
     question: "What is the process from start to finish?",
     answer: `1. Request a free quote online or call us.
-2. Schedule a free in-home consultation.
-3. Receive a formal quote with 3D renderings.
-4. Sign the contract and submit a 25% deposit.
-5. Schedule the construction start date.
-6. Get regular updates before construction.
-7. Construction begins with our quality assurance.
-8. Final walk-through and review.`,
+            2. Schedule a free in-home consultation.
+            3. Receive a formal quote with 3D renderings.
+            4. Sign the contract and submit a 25% deposit.
+            5. Schedule the construction start date.
+            6. Get regular updates before construction.
+            7. Construction begins with our quality assurance.
+            8. Final walk-through and review.`,
   },
   {
     question: "What payment methods do you accept?",
@@ -46,9 +46,9 @@ const FAQ: React.FC = () => {
       className="flex flex-col items-center justify-center py-12 px-6 border-t border-black/20 overflow-hidden"
     >
       <header className="text-center">
-        <h2 id="faq-heading" className="font-semibold text-2xl text-[#0d4754]">FAQ</h2>
+        <h2 id="faq-heading" className="font-semibold text-2xl text-[#0d4754]">FAQs</h2>
         <h3 className="font-semibold text-4xl text-center">Frequently Asked Questions</h3>
-        <div className="w-24 h-1 bg-[#0d4754] mt-4 mb-5 rounded-full"></div>
+        <div className="w-24 h-1 bg-[#0d4754] mt-4 mb-5 rounded-full mx-auto"></div>
       </header>
 
       <div className="w-full max-w-2xl">
@@ -65,7 +65,7 @@ const FAQ: React.FC = () => {
           href="https://wa.me/13463800845"
           target="_blank"
           rel="noopener noreferrer"
-          className="text-orange-500 font-semibold hover:underline"
+          className="text-orange-600 font-semibold hover:underline"
         >
           contact us
         </a>

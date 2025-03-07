@@ -34,7 +34,7 @@ const Header: React.FC = () => {
         <div className="flex items-center">
           <Link to="//" aria-label="Home" onClick={scrollToTop}>
             <img
-              src="/new-gen-patio-react/assets/images/IdentidadSVG/LogoColor.svg"
+              src={`/new-gen-patio-react/assets/images/IdentidadSVG/${isScrolled ? "LogoColor.svg" : "LogoBlanco.svg"}`}
               alt="New Gen Patio Logo"
               className="h-20 img-shadow p-2 pl-0"
               loading="lazy"
@@ -86,13 +86,11 @@ const Header: React.FC = () => {
               isScrolled ? "bg-black" : "bg-white"
             } ${menuOpen ? "rotate-45 translate-y-2.5" : ""}`}
           ></span>
-
           <span
             className={`block w-8 h-1 my-1.5 rounded transition-all duration-300 ${
               isScrolled ? "bg-black" : "bg-white"
             } ${menuOpen ? "opacity-0" : ""}`}
           ></span>
-
           <span
             className={`block w-8 h-1 my-1.5 rounded transition-all duration-300 ${
               isScrolled ? "bg-black" : "bg-white"
@@ -109,7 +107,7 @@ const Header: React.FC = () => {
         >
           <Link to="//" aria-label="Home" className="flex flex-col items-center">
             <img
-              src="/new-gen-patio-react/assets/images/IdentidadSVG/LogoBlanco.svg"
+              src={`/new-gen-patio-react/assets/images/IdentidadSVG/${isScrolled ? "LogoColor.svg" : "LogoBlanco.svg"}`}
               alt="New Gen Patio Logo"
               className="h-22 img-shadow p-2"
               loading="lazy"

@@ -31,7 +31,7 @@ const FAQItem: React.FC<FAQItemProps> = ({ question, answer }) => {
       <div
         id={`faq-answer-${question}`}
         className={`transition-all duration-300 ease-in-out overflow-hidden ${
-          isOpen ? "max-h-screen opacity-100 py-3" : "max-h-0 opacity-0"
+          isOpen ? "max-h-screen opacity-100 " : "max-h-0 opacity-0"
         }`}
         aria-hidden={!isOpen}
       >

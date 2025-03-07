@@ -16,9 +16,10 @@ const WhatsAppButton = () => {
         <FaWhatsapp size={28} />
       </a>
 
-      <Link to="/freequote"
+      <Link 
+        to="/freequote"
         onClick={scrollToTop}
-        className="fixed z-1000 bottom-2 right-2 text-[14px] bg-orange-500 font-semibold text-white text-center p-3 rounded-full shadow-lg hover:bg-orange-600 transition duration-300 flex items-center justify-center w-14 h-14"
+        className="fixed z-1000 bottom-2 right-2 text-[14px] bg-orange-500 font-semibold text-white text-center p-3 rounded-full shadow-lg hover:bg-orange-600 transition duration-300 flex items-center justify-center w-14 h-14 leading-4"
       >
         Free Quote
       </Link>

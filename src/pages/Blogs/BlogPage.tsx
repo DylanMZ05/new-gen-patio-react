@@ -33,7 +33,7 @@ const BlogPage: React.FC = () => {
                   <h3 className="text-xl font-semibold text-gray-800">{blog.title}</h3>
                   <p className="text-gray-600 mt-2 text-sm">{blog.subtitle}</p>
                   <Link 
-                    to={`/blog/${blog.id}`} 
+                    to={`/${blog.id}`} 
                     className="text-[#0d4754] font-semibold mt-3 inline-block hover:underline focus:ring-2 focus:ring-[#0d4754] focus:outline-none"
                     onClick={handleScrollToTop}
                   >

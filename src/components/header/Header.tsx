@@ -1,23 +1,31 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import useScroll from "./useScroll";
-import useActiveSection from "./useActiveSection";
 import "../../App.css";
 import useScrollToTop from "../../hooks/scrollToTop";
 
 const Header: React.FC = () => {
   const scrollToTop = useScrollToTop();
   const isScrolled = useScroll(50);
-  const sectionIds = ["services", "our-promise", "who-we-are", "reviews", "blogs", "contact"];
-  const [activeSection, setActiveSectionManually] = useActiveSection(sectionIds);
+  // Solo incluimos los ids que necesitamos para el mapeo:
+  const sectionIds = ["services", "our-promise", "who-we-are", "blogs", "contact"];
   const [menuOpen, setMenuOpen] = useState(false);
+
+  // Mapeo de ids a rutas:
+  const routeMap: { [key: string]: string } = {
+    "services": "/services",
+    "our-promise": "/howwedoit",
+    "who-we-are": "/aboutus",
+    "blogs": "/blogs",
+    "contact": "/formpage",
+  };
 
   useEffect(() => {
     document.body.style.overflow = menuOpen ? "hidden" : "auto";
   }, [menuOpen]);
 
   const handleClick = (id: string) => {
-    setActiveSectionManually(id);
+    // Este scrollIntoView se activa si la sección existe en la página actual.
     document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
     setMenuOpen(false);
   };
@@ -32,7 +40,7 @@ const Header: React.FC = () => {
       <div className="flex justify-between items-center text-white px-4 xl:px-15">
         {/* Logo */}
         <div className="flex items-center">
-          <Link to="//" aria-label="Home" onClick={scrollToTop}>
+          <Link to="//" aria-label="Home" onClick={() => scrollToTop()}>
             <img
               src={`/new-gen-patio-react/assets/images/IdentidadSVG/${isScrolled ? "LogoColor.svg" : "LogoBlanco.svg"}`}
               alt="New Gen Patio Logo"
@@ -56,15 +64,12 @@ const Header: React.FC = () => {
             {sectionIds.map((id) => (
               <li key={id}>
                 <Link
-                  to={`//#${id}`}
-                  onClick={() => handleClick(id)}
-                  className={`text-xl transition-all duration-150 font-neutral ${
-                    activeSection === id
-                      ? "text-orange-500 font-bold"
-                      : isScrolled
-                      ? "text-black hover:text-orange-500"
-                      : "text-white hover:text-orange-500"
-                  }`}
+                  to={routeMap[id]}
+                  onClick={() => {
+                    handleClick(id);
+                    scrollToTop();
+                  }}
+                  className={`text-xl transition-all duration-150 font-neutral}`}
                 >
                   {id.replace(/-/g, " ").charAt(0).toUpperCase() + id.replace(/-/g, " ").slice(1)}
                 </Link>
@@ -105,7 +110,7 @@ const Header: React.FC = () => {
             menuOpen ? "translate-x-0 opacity-100 visible" : "-translate-x-full opacity-0 invisible"
           }`}
         >
-          <Link to="//" aria-label="Home" className="flex flex-col items-center">
+          <Link to="/" aria-label="Home" className="flex flex-col items-center" onClick={() => scrollToTop()}>
             <img
               src={`/new-gen-patio-react/assets/images/IdentidadSVG/${isScrolled ? "LogoColor.svg" : "LogoBlanco.svg"}`}
               alt="New Gen Patio Logo"
@@ -119,11 +124,12 @@ const Header: React.FC = () => {
           {sectionIds.map((id) => (
             <Link
               key={id}
-              to={`//#${id}`}
-              onClick={() => handleClick(id)}
-              className={`text-2xl transition-all duration-150 ${
-                activeSection === id ? "text-orange-500 font-semibold" : "hover:text-orange-500"
-              }`}
+              to={routeMap[id]}
+              onClick={() => {
+                handleClick(id);
+                scrollToTop();
+              }}
+              className={`text-2xl transition-all duration-150`}
             >
               {id.replace(/-/g, " ").charAt(0).toUpperCase() + id.replace(/-/g, " ").slice(1)}
             </Link>

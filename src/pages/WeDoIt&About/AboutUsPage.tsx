@@ -128,63 +128,62 @@ const AboutUsPage: React.FC = () => {
             </div>
           </div>
 
-          <div className="mt-10 mx-5 grid grid-cols-1 gap-5 md:grid-cols-3">
-  {/* FILA 1: Tres elementos */}
-  <div className="flex flex-col justify-center items-center">
-    <img
-      className="w-full mt-3 object-cover rounded-2xl shadow-lg md:w-150"
-      src="assets/images/FotosDelEquipo/Marianne.webp"
-      alt=""
-    />
-    <h3 className="text-xl font-semibold mt-2">Marianne</h3>
-    <p>Office Supervisor</p>
-  </div>
+          <div className="mt-10 grid grid-cols-1 gap-5 md:grid-cols-2">
+            {/* Card 1: Marianne */}
+            <div className="flex flex-col justify-center items-center">
+              <img
+                className="w-full mt-3 object-cover rounded-2xl shadow-lg md:w-150"
+                src="assets/images/FotosDelEquipo/Marianne.webp"
+                alt=""
+              />
+              <h3 className="text-xl font-semibold mt-2">Marianne</h3>
+              <p>Office Supervisor</p>
+            </div>
 
-  <div className="flex flex-col items-center">
-    <img
-      className="w-full mt-3 object-cover rounded-2xl shadow-lg md:w-150"
-      src="assets/images/FotosDelEquipo/Javier.webp"
-      alt=""
-    />
-    <h3 className="text-xl font-semibold mt-2">Javier</h3>
-    <p>Project Consultant</p>
-  </div>
+            {/* Card 2: Javier */}
+            <div className="flex flex-col justify-center items-center">
+              <img
+                className="w-full mt-3 object-cover rounded-2xl shadow-lg md:w-150"
+                src="assets/images/FotosDelEquipo/Javier.webp"
+                alt=""
+              />
+              <h3 className="text-xl font-semibold mt-2">Javier</h3>
+              <p>Project Consultant</p>
+            </div>
 
-  <div className="flex flex-col items-center">
-    <img
-      className="w-full mt-3 object-cover rounded-2xl shadow-lg md:w-150"
-      src="assets/images/FotosDelEquipo/Rodolfo.webp"
-      alt=""
-    />
-    <h3 className="text-xl font-semibold mt-2">Rodolfo</h3>
-    <p>Office Assistant</p>
-  </div>
+            {/* Card 3: Rodolfo */}
+            <div className="flex flex-col justify-center items-center">
+              <img
+                className="w-full mt-3 object-cover rounded-2xl shadow-lg md:w-150"
+                src="assets/images/FotosDelEquipo/Rodolfo.webp"
+                alt=""
+              />
+              <h3 className="text-xl font-semibold mt-2">Rodolfo</h3>
+              <p>Office Assistant</p>
+            </div>
 
-  {/* FILA 2: Dos elementos centrados en md, sin afectar el móvil */}
-  <div className="md:col-span-3">
-    {/* En móvil, se mantendrá en una columna; en md se centran y limitan */}
-    <div className="flex flex-col gap-5 items-center md:flex-row md:justify-center md:max-w-[540px] md:mx-auto">
-      <div className="flex flex-col items-center">
-        <img
-          className="w-full mt-3 object-cover rounded-2xl shadow-lg md:w-150"
-          src="assets/images/FotosDelEquipo/Mujer.webp"
-          alt=""
-        />
-        <h3 className="text-xl font-semibold mt-2">Lisandra</h3>
-        <p>Customer Service</p>
-      </div>
-      <div className="flex flex-col items-center">
-        <img
-          className="w-full mt-3 object-cover rounded-2xl shadow-lg md:w-150"
-          src="assets/images/FotosDelEquipo/Hombre.webp"
-          alt=""
-        />
-        <h3 className="text-xl font-semibold mt-2">David</h3>
-        <p>Marketing Director</p>
-      </div>
-    </div>
-  </div>
-</div>
+            {/* Card 4: Lisandra */}
+            <div className="flex flex-col justify-center items-center">
+              <img
+                className="w-full mt-3 object-cover rounded-2xl shadow-lg md:w-150"
+                src="assets/images/FotosDelEquipo/Mujer.webp"
+                alt=""
+              />
+              <h3 className="text-xl font-semibold mt-2">Lisandra</h3>
+              <p>Customer Service</p>
+            </div>
+
+            {/* Card 5: David - se centra en md */}
+            <div className="flex flex-col justify-center items-center md:col-span-2 mx-auto">
+              <img
+                className="w-full mt-3 object-cover rounded-2xl shadow-lg md:w-150 md:max-w-127"
+                src="assets/images/FotosDelEquipo/Hombre.webp"
+                alt=""
+              />
+              <h3 className="text-xl font-semibold mt-2">David</h3>
+              <p>Marketing Director</p>
+            </div>
+          </div>
 
         </div>
       </div>

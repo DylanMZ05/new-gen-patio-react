@@ -39,7 +39,7 @@ const Main: React.FC = () => {
         Tu navegador no soporta videos.
       </video>
 
-      <div className="absolute top-0 left-0 w-full h-full bg-black/50"></div>
+      <div className="absolute top-0 left-0 w-full h-full bg-black/60"></div>
 
       <div
         className="relative z-10 flex flex-col items-start justify-center text-start w-full h-full px-4 text-white"
@@ -52,13 +52,10 @@ const Main: React.FC = () => {
 
           <div className="w-[45vw] md:w-80 h-[3px] bg-orange-500 mt-4 mb-1 ml-1 rounded-full"></div>
 
-          <h2 className="text-2xl md:text-4xl font-light opacity-90">
+          <h2 className="text-2xl md:text-4xl font-normal opacity-90">
             Modern & Durable Pergolas and Covered Patio for Texas Homes
           </h2>
 
-          <p className="text-lg md:text-xl opacity-80 mt-1 max-w-[600px]">
-          We design Custom patios, aluminum pergolas, and outdoor kitchens blending durability, style, and functionality for modern Texas living.
-          </p>
 
           <Link
           to="/aboutus"

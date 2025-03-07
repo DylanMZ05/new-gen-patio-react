@@ -5,6 +5,7 @@ import { memo, useMemo } from "react";
 import Header from "./components/header/Header";
 import WspButton from "./components/WspButton";
 import Footer from "./components/footer/footer";
+import BlockSection from "./components/BlockSection";
 
 // Home
 import Main from "./pages/Home/Main";
@@ -63,6 +64,30 @@ const Layout = memo(() => {
             </main>
           }
         />
+        <Route path="/services" element={
+          <>
+            <BlockSection />
+            <Services />
+          </>
+          } />
+        <Route path="/howwedoit" element={
+          <>
+            <BlockSection />
+            <HowWeDoIt />
+          </>
+          } />
+        <Route path="/aboutus" element={
+          <>
+            <BlockSection />
+            <AboutUsPage />
+          </>
+        } />
+        <Route path="/blogs" element={
+          <>
+            <BlockSection />
+            <BlogsSection />
+          </>
+          } />
         <Route path="/attached" element={<Attached />} />
         <Route path="/freestanding" element={<Freestanding />} />
         <Route path="/cantilever" element={<Cantilever />} />
@@ -70,8 +95,6 @@ const Layout = memo(() => {
         <Route path="/concrete-turf" element={<ConcreteTurf />} />
         <Route path="/calculator" element={<Calculator />} />
         <Route path="/financing-options" element={<FinancingOptions />} />
-        <Route path="/howwedoit" element={<HowWeDoIt />} />
-        <Route path="/aboutus" element={<AboutUsPage />} />
         <Route path="/blog/:id" element={<BlogPage />} />
         <Route path="/freequote" element={<FreeQuote />} />
         <Route path="/formpage" element={<FormPage />} />

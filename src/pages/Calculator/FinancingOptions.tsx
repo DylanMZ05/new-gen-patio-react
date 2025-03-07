@@ -33,7 +33,7 @@ const FinancingOptions: React.FC = () => {
         </a>
 
         <a
-          href="https://www.gethearth.com/"
+          href="https://app.gethearth.com/financing/43325/74891/prequalify?homeowner_id=hom_3f04c6373d69493f901e447dbd0f07b9&homeowner_name=Priscilla&utm_campaign=43325&utm_content=general&utm_medium=mobile-email&utm_source=contractor&utm_term=74891"
           target="_blank"
           rel="noopener noreferrer"
           className="shadow-md rounded-lg overflow-hidden border border-gray-300 hover:shadow-lg transition focus:ring-2 focus:ring-[#0d4754] focus:outline-none"

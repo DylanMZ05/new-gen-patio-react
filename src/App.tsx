@@ -39,9 +39,9 @@ import FreeQuote from "./pages/FreeQuote/FreeQuote";
 import FormPage from "./components/FormPage";
 import SectionBlock from "./components/SectionBlock";
 
-const sectionsData = [
+const sectionsData3 = [
   {
-    id: 1,
+    id: 6,
     title: "What We Offer",
     description: "Discover our modern, innovative solutions designed to enhance outdoor living with style, functionality, and durability.",
     backgroundImage: "assets/images/Products/Patios&Pergolas/Attached/04.webp",
@@ -77,7 +77,7 @@ const Layout = memo(() => {
         <Route path="/services" element={
           <>
             <BlockSection />
-            <SectionBlock sections={sectionsData} />
+            <SectionBlock sections={sectionsData3} />
             <MarqueeBanner />
             <Services />
           </>

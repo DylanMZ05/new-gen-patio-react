@@ -9,7 +9,7 @@ const sectionsData = [
     title: "About Us",
     description:
       "We craft high-quality aluminum patios and pergolas, enhancing your outdoor living with style and function.",
-    backgroundImage: "assets/images/Products/Patios&Pergolas/Attached/04.webp",
+    backgroundImage: "assets/images/Products/Patios&Pergolas/Attached/23.webp",
   },
 ];
 

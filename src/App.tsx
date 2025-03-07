@@ -37,6 +37,16 @@ import BlogPage from "./pages/Blogs/BlogPage";
 // Free Quote & Forms
 import FreeQuote from "./pages/FreeQuote/FreeQuote";
 import FormPage from "./components/FormPage";
+import SectionBlock from "./components/SectionBlock";
+
+const sectionsData = [
+  {
+    id: 1,
+    title: "What We Offer",
+    description: "Discover our modern, innovative solutions designed to enhance outdoor living with style, functionality, and durability.",
+    backgroundImage: "assets/images/Products/Patios&Pergolas/Attached/04.webp",
+  },
+];
 
 // **Layout sin Header y Footer**
 const Layout = memo(() => {
@@ -67,6 +77,8 @@ const Layout = memo(() => {
         <Route path="/services" element={
           <>
             <BlockSection />
+            <SectionBlock sections={sectionsData} />
+            <MarqueeBanner />
             <Services />
           </>
           } />

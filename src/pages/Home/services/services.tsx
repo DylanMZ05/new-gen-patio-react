@@ -19,7 +19,7 @@ const Services: React.FC = () => {
         <h2 id="services-heading" className="text-4xl font-semibold">Covered Patios</h2>
         <div className="w-24 h-1 bg-[#0d4754] my-3 rounded-full mx-auto"></div>
         <p className="text-center font-semibold text-black/80 mb-6 max-w-2xl">
-          At New Gen Patio, we craft premium patios, pergolas, and outdoor kitchens designed for style, durability, and functionality.
+          We craft premium patios, pergolas, and outdoor kitchens designed for style, durability, and functionality.
         </p>
       </header>
 

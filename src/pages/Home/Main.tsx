@@ -1,7 +1,12 @@
 import React, { useEffect, useState } from "react";
+import { FaInstagram, FaTiktok } from "react-icons/fa";
+import { Link } from 'react-router-dom';
+import useScrollToTop from "../../hooks/scrollToTop";
 
 const Main: React.FC = () => {
   const [videoLoaded, setVideoLoaded] = useState(false);
+
+  const handleScrollToTop = useScrollToTop();
 
   useEffect(() => {
     const video = document.getElementById("background-video") as HTMLVideoElement;
@@ -42,7 +47,7 @@ const Main: React.FC = () => {
       >
         <div className="w-[90vw] sm:w-[70vw]">
           <h1 id="main-heading" className="text-3xl md:text-5xl font-semibold">
-            Custom Aluminium Pergolas in Houston - New Gen Patio
+            Custom Aluminium Pergolas in Houston
           </h1>
 
           <div className="w-[45vw] md:w-80 h-[3px] bg-orange-500 mt-4 mb-1 ml-1 rounded-full"></div>
@@ -52,8 +57,36 @@ const Main: React.FC = () => {
           </h2>
 
           <p className="text-lg md:text-xl opacity-80 mt-1 max-w-[600px]">
-            Enhance your outdoor living space with our premium custom-built aluminium pergolas. Designed to withstand the Texas climate while adding modern elegance to your home.
+          We design Custom patios, aluminum pergolas, and outdoor kitchens blending durability, style, and functionality for modern Texas living.
           </p>
+
+          <Link
+          to="/aboutus"
+          className="bg-orange-500 text-white text-lg font-semibold px-4 py-1 rounded-full mt-2 mb-1 inline-block 
+            transition-all hover:bg-orange-600 hover:scale-102"
+          onClick={handleScrollToTop}
+        >
+          Discover Our Story
+        </Link>
+
+        </div>
+        <div className="flex gap-2 mt-2 ml-1">
+          <a
+            href="https://www.instagram.com/newgenpatio/"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Instagram"
+          >
+            <FaInstagram className="w-8 h-8 text-white hover:text-pink-500 transition-colors" />
+          </a>
+          <a
+            href="https://www.tiktok.com/@newgenpatio"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="TikTok"
+          >
+            <FaTiktok className="w-8 h-8 text-white hover:text-white/70 transition-colors" />
+          </a>
         </div>
       </div>
     </section>

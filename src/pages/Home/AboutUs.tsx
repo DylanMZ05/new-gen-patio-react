@@ -1,16 +1,8 @@
 import { Link } from "react-router-dom";
 import useScrollToTop from "../../hooks/scrollToTop";
-import { useState, useEffect } from "react";
 
 const AboutUs: React.FC = () => {
   const handleScrollToTop = useScrollToTop();
-  const [bgLoaded, setBgLoaded] = useState(false);
-
-  useEffect(() => {
-    const img = new Image();
-    img.src = "assets/images/Free3.jpg";
-    img.onload = () => setBgLoaded(true);
-  }, []);
 
   return (
     <section
@@ -18,44 +10,17 @@ const AboutUs: React.FC = () => {
       aria-labelledby="about-heading"
       className="relative flex flex-col items-center justify-center py-12 px-6 text-white text-center overflow-hidden"
     >
-      {/* Imagen de fondo con efecto fijo */}
-      <div
-        className={`absolute inset-0 bg-cover bg-center bg-fixed transition-opacity duration-700 ${
-          bgLoaded ? "opacity-100" : "opacity-0"
-        }`}
-        style={{ backgroundImage: "url('assets/images/Free3.jpg')" }}
-        aria-hidden="true"
-      ></div>
-
-      {/* Capa oscura para mejorar la legibilidad */}
-      <div className="absolute inset-0 bg-black/80"></div>
-
-      {/* Contenido sobre la imagen */}
-      <div className="relative max-w-3xl px-6">
-        <h2 id="about-heading" className="font-semibold text-3xl md:text-4xl">
-          About New Gen Patio: Outdoor Living Experts in Texas
-        </h2>
-
-        <div className="w-24 h-1 bg-orange-600 mt-4 mb-3 mx-auto rounded-full"></div>
-
-        <p className="text-lg leading-relaxed opacity-90">
-          At <strong>New Gen Patio</strong>, we specialize in designing and building custom
-          patio covers that enhance outdoor living spaces across Texas. Our
-          mission is to transform backyards into stunning, functional environments
-          with high-quality craftsmanship and innovative designs.
+      <div>
+        <h3 className="text-2xl font-semibold text-[#0d4754]">CRAFTED FOR LIFE</h3>
+        <h2 id="services-heading" className="text-4xl font-semibold text-black">About Us</h2>
+        <div className="w-24 h-1 bg-[#0d4754] my-3 rounded-full mx-auto"></div>
+        <p className="text-center font-semibold text-lg text-black/90 max-w-2xl">
+          We bring you outdoor dreams to life with premium custom patios, pergolas, and outdoor kitchens. Whether you're looking for a moder entertainment space or a cozy retrear, our expert team delivers high-quality craftsmanship to ensure durability, style, and functionality.
         </p>
-
-        <p className="text-lg leading-relaxed opacity-90 mt-4">
-          Whether you envision a cozy retreat or a luxurious entertainment area,
-          our expert team brings your outdoor dreams to life. With a focus on
-          durability, style, and personalization, we ensure that every project
-          exceeds expectations.
-        </p>
-
         <Link
           to="/aboutus"
-          className="text-gray-900 bg-white text-lg font-semibold px-6 py-2 rounded-full mt-6 inline-block 
-            transition-all hover:bg-white/90 hover:scale-105 focus:ring-2 focus:ring-orange-500 focus:outline-none"
+          className="bg-orange-500 text-white text-lg font-semibold px-5 py-2 rounded-full mt-5 inline-block 
+            transition-all hover:bg-orange-600 hover:scale-102"
           onClick={handleScrollToTop}
         >
           Discover Our Story

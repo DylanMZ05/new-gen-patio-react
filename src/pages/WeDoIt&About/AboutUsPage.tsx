@@ -8,7 +8,7 @@ const sectionsData = [
     id: 1,
     title: "About Us",
     description:
-      "At New Gen Patio, we craft high-quality aluminum patios and pergolas, enhancing your outdoor living with style and function.",
+      "We craft high-quality aluminum patios and pergolas, enhancing your outdoor living with style and function.",
     backgroundImage: "assets/images/Products/Patios&Pergolas/Attached/04.webp",
   },
 ];
@@ -26,7 +26,7 @@ const AboutUsPage: React.FC = () => {
           </h3>
           <div className="w-25 h-1 background-skyblue mt-4 mb-3 mx-auto rounded-4xl"></div>
           <p className="font-semibold text-black/80">
-            At New Gen Patio, we are more than builders. We are visionaries who transform outdoor spaces into stunning, functional extensions of your home. With a passion for design, craftsmanship, and customer satisfaction, we specialize in creating high quality aluminum covered patios and pergolas that enhance the way you live, relax and entertain.
+            We are more than builders. We are visionaries who transform outdoor spaces into stunning, functional extensions of your home. With a passion for design, craftsmanship, and customer satisfaction, we specialize in creating high quality aluminum covered patios and pergolas that enhance the way you live, relax and entertain.
           </p>
         </div>
 
@@ -95,7 +95,7 @@ const AboutUsPage: React.FC = () => {
           </h3>
           <div className="w-25 h-1 background-skyblue mt-4 mb-3 mx-auto rounded-4xl"></div>
           <p className="font-semibold text-black/80">
-            At New Gen Patio, we don’t just build patios. We create experiences. Whether you're looking to host gatherings, enjoy peaceful moments with your family, or enhance your property's value, we are dedicated to bringing your vision to life with superior craftsmanship and a commitment to excellence.
+            We don’t just build patios. We create experiences. Whether you're looking to host gatherings, enjoy peaceful moments with your family, or enhance your property's value, we are dedicated to bringing your vision to life with superior craftsmanship and a commitment to excellence.
           </p>
           <p className="font-semibold text-black/80 mt-5">
             Join the New Gen Patio family and let’s create the outdoor space of your dreams!

@@ -31,7 +31,6 @@ const Slider: React.FC<ImageSliderProps> = ({ images, withBorderT = false, withB
       <Swiper
         spaceBetween={10}
         navigation={true}
-        pagination={{ clickable: false }}
         modules={[Navigation, Pagination]}
         className="w-full"
         breakpoints={{

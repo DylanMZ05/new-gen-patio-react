@@ -1,35 +1,56 @@
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import useScrollToTop from "../../hooks/scrollToTop";
 
 const HowWeDoItHome: React.FC = () => {
-  const handleScrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: "instant" });
-  };
+  const handleScrollToTop = useScrollToTop();
+  const [bgLoaded, setBgLoaded] = useState(false);
+
+  useEffect(() => {
+    const img = new Image();
+    img.src = "assets/images/Free3.jpg";
+    img.onload = () => setBgLoaded(true);
+  }, []);
 
   return (
     <section
-      id="our-promise"
-      aria-labelledby="commitment-heading"
-      className="flex flex-col items-center justify-center py-12 px-6 border-t border-black/20"
+      id="who-we-are"
+      aria-labelledby="about-heading"
+      className="relative flex flex-col items-center justify-center py-12 px-6 text-white text-center overflow-hidden"
     >
-      <header className="text-center max-w-2xl">
-        <h2 id="commitment-heading" className="font-semibold text-4xl">
-          Quality & Sustainability Commitment
+      {/* Imagen de fondo con efecto fijo */}
+      <div
+        className={`absolute inset-0 bg-cover bg-center bg-fixed transition-opacity duration-700 ${
+          bgLoaded ? "opacity-100" : "opacity-0"
+        }`}
+        style={{ backgroundImage: "url('assets/images/Free3.jpg')" }}
+        aria-hidden="true"
+      ></div>
+
+      {/* Capa oscura para mejorar la legibilidad */}
+      <div className="absolute inset-0 bg-black/80"></div>
+
+      {/* Contenido sobre la imagen */}
+      <div className="relative max-w-2xl px-6 text-center">
+        <h2 id="about-heading" className="font-semibold text-3xl md:text-4xl">
+        Quality & Sustainability Commitment
         </h2>
-        <div className="w-24 h-1 bg-[#0d4754] mt-4 mb-3 rounded-full mx-auto"></div>
-      </header>
 
-      <p className="max-w-2xl text-lg leading-relaxed text-center opacity-90">
+        <div className="w-24 h-1 bg-orange-600 mt-4 mb-3 mx-auto rounded-full"></div>
+
+        <p className="text-lg leading-relaxed opacity-90">
         We design maintenance-free aluminum structures backed by a 5-year warranty. Our 100% recyclable materials ensure durability while reducing environmental impact. From custom 3D designs to seamless permit handling, we make your outdoor vision a reality.
-      </p>
+        </p>
 
-      <Link
-        to="/howwedoit"
-        className="text-white bg-black text-lg font-semibold px-6 py-2 rounded-full mt-6 transition-all 
-          hover:bg-black/90 hover:scale-105 focus:ring-2 focus:ring-white focus:outline-none"
-        onClick={handleScrollToTop}
-      >
-        Learn More
-      </Link>
+        <Link
+          to="/howwedoit"
+          className="text-black bg-white text-lg font-semibold px-6 py-2 rounded-full mt-6 inline-block 
+            transition-all hover:bg-white/90 hover:scale-103 focus:ring-2 focus:ring-white focus:outline-none"
+          onClick={handleScrollToTop}
+        >
+          Discover Our Story
+        </Link>
+      </div>
     </section>
   );
 };

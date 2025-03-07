@@ -11,7 +11,6 @@ import Main from "./pages/Home/Main";
 import MarqueeBanner from "./components/MarqueeBanner";
 import Services from "./pages/Home/services/services";
 import HowWeDoItHome from "./pages/Home/HowWeDoItHome";
-import AboutUs from "./pages/Home/AboutUs";
 import Clients from "./pages/Home/Clients";
 import FAQ from "./pages/Home/FAQ/FAQ";
 import BlogsSection from "./pages/Home/BlogsSection";
@@ -57,7 +56,6 @@ const Layout = memo(() => {
               <MarqueeBanner />
               <Services />
               <HowWeDoItHome />
-              <AboutUs />
               <Clients />
               <FAQ />
               <BlogsSection />

@@ -137,7 +137,7 @@ const Footer: React.FC = () => {
           {/* Redes Sociales */}
           <div className="flex gap-3 w-full justify-center">
             <a
-              href="https://www.instagram.com/tu_usuario"
+              href="https://www.instagram.com/newgenpatio/"
               target="_blank"
               rel="noopener noreferrer"
               aria-label="Instagram"
@@ -145,7 +145,7 @@ const Footer: React.FC = () => {
               <FaInstagram className="w-6 h-6 text-white hover:text-pink-500 transition-colors" />
             </a>
             <a
-              href="https://www.tiktok.com/@tu_usuario"
+              href="https://www.tiktok.com/@newgenpatio"
               target="_blank"
               rel="noopener noreferrer"
               aria-label="TikTok"

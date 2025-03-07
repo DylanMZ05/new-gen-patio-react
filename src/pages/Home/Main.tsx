@@ -53,7 +53,7 @@ const Main: React.FC = () => {
           <div className="w-[45vw] md:w-80 h-[3px] bg-orange-500 mt-4 mb-1 ml-1 rounded-full"></div>
 
           <h2 className="text-2xl md:text-4xl font-light opacity-90">
-            Modern, Stylish & Durable Patio Covers for Texas Homes
+            Modern & Durable Pergolas and Covered Patio for Texas Homes
           </h2>
 
           <p className="text-lg md:text-xl opacity-80 mt-1 max-w-[600px]">

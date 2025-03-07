@@ -40,7 +40,7 @@ const steps: Record<number, StepData> = {
     title: "Foundation",
     options: [
       { img: "assets/images/Products/Patios&Pergolas/Attached/06.webp", text: "Concrete", nextStep: "final" },
-      { img: "assets/images/Products/Grass&Dirt.webp", text: "Turf", nextStep: "final" },
+      { img: "assets/images/Products/Grass&Dirt.webp", text: "Grass or Dirt", nextStep: "final" },
       { img: "assets/images/Products/Travertine.webp", text: "Travertine & Pavers", nextStep: "final" },
     ],
     previousStep: 4,

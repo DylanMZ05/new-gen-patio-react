@@ -29,7 +29,8 @@ import Calculator from "./pages/Calculator/Calculator";
 import FinancingOptions from "./pages/Calculator/FinancingOptions";
 
 // How We Do It & About Us
-import HowWeDoIt from "./pages/WeDoIt&About/WeDoIt";
+import HowWeDoIt from "./pages/WeDoIt&About/OurPromise";
+import OurProcess from "./pages/WeDoIt&About/OurProcess";
 import AboutUsPage from "./pages/WeDoIt&About/AboutUsPage";
 
 // Blogs
@@ -125,6 +126,12 @@ const Layout = memo(() => {
           <>
             <BlockSection />
             <HowWeDoIt />
+          </>
+          } />
+        <Route path="/ourprocess" element={
+          <>
+            <BlockSection />
+            <OurProcess />
           </>
           } />
         <Route path="/aboutus" element={

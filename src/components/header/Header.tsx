@@ -41,7 +41,7 @@ const Header: React.FC = () => {
       <div className="flex justify-between items-center px-4 xl:px-15">
         {/* Logo */}
         <div className="flex items-center">
-          <Link to="/" aria-label="Home" onClick={scrollToTop}>
+          <Link to="//" aria-label="Home" onClick={scrollToTop}>
             <img
               src={`/new-gen-patio-react/assets/images/IdentidadSVG/${isScrolled ? "LogoColor.svg" : "LogoBlanco.svg"}`}
               alt="New Gen Patio Logo"
@@ -148,10 +148,28 @@ const Header: React.FC = () => {
         {/* Menú móvil */}
         <div
           className={`lg:hidden fixed z-50 top-0 left-0 w-full h-full bg-[#0d4754] text-white flex flex-col items-center justify-center 
-          space-y-4 transition-transform duration-500 ease-in-out cursor-pointer  ${
+          space-y-4 transition-transform duration-500 ease-in-out cursor-pointer ${
             menuOpen ? "translate-x-0 opacity-100 visible" : "-translate-x-full opacity-0 invisible"
           }`}
         >
+          {/* Logo - Cierra el menú y el desplegable */}
+          <Link 
+            to="//" 
+            aria-label="Home" 
+            onClick={() => { 
+              scrollToTop(); 
+              setMenuOpen(false); 
+              setMobileDropdownOpen(false); // Cierra el desplegable también
+            }}
+          >
+            <img
+              src={`/new-gen-patio-react/assets/images/IdentidadSVG/LogoBlanco.svg`}
+              alt="New Gen Patio Logo"
+              className="h-20 img-shadow p-2"
+              loading="lazy"
+            />
+          </Link>
+
           {sectionIds.map((id) => (
             id === "our-promise" ? (
               <div key={id} className="w-full text-center cursor-pointer">
@@ -162,23 +180,46 @@ const Header: React.FC = () => {
                   Our Promise
                   <FaChevronUp className={`${mobileDropdownOpen ? " rotate-180" : ""}`} />
                 </button>
+
                 {mobileDropdownOpen && (
                   <div className="flex flex-col w-full text-center mt-2">
-                    <Link to="/howwedoit" onClick={scrollToTop} className="block py-2 text-lg hover:text-orange-500">
+                    <Link 
+                      to="/howwedoit" 
+                      onClick={() => { 
+                        scrollToTop(); 
+                        setMenuOpen(false); 
+                        setMobileDropdownOpen(false); // Cierra el desplegable
+                      }} 
+                      className="block py-2 text-lg hover:text-orange-500"
+                    >
                       Our Promise
                     </Link>
-                    <Link to="/ourprocess" onClick={scrollToTop} className="block py-2 text-lg hover:text-orange-500">
+                    <Link 
+                      to="/ourprocess" 
+                      onClick={() => { 
+                        scrollToTop(); 
+                        setMenuOpen(false); 
+                        setMobileDropdownOpen(false); // Cierra el desplegable
+                      }} 
+                      className="block py-2 text-lg hover:text-orange-500"
+                    >
                       Our Process
                     </Link>
                   </div>
                 )}
               </div>
             ) : (
-              <Link key={id} to={routeMap[id]} onClick={() => {
-                handleClick(id);
-                scrollToTop();
-                setMenuOpen(false);
-              }} className="text-2xl transition-all duration-150 hover:text-orange-500">
+              <Link 
+                key={id} 
+                to={routeMap[id]} 
+                onClick={() => {
+                  handleClick(id);
+                  scrollToTop();
+                  setMenuOpen(false);
+                  setMobileDropdownOpen(false); // Cierra el desplegable
+                }} 
+                className="text-2xl transition-all duration-150 hover:text-orange-500"
+              >
                 {id.replace(/-/g, " ").charAt(0).toUpperCase() + id.replace(/-/g, " ").slice(1)}
               </Link>
             )

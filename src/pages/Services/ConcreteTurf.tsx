@@ -53,12 +53,13 @@ const ConcreteTurf: React.FC = () => {
   return (
     <section className="min-h-screen flex flex-col items-center bg-gray-100">
       <SectionBlock sections={sectionsData} />
-      <h2 className="text-4xl font-semibold my-5">Artificial Turf</h2>
-      <Slider images={imagesArtificialGrass} withBorderT withBorderB/>
+      <MarqueeBanner />
       <h2 className="text-4xl font-semibold my-5">Landscaping</h2>
       <Slider images={imagesLandscaping} withBorderT withBorderB/>
       <h2 className="text-4xl font-semibold my-5">Concrete</h2>
-      <Slider images={imagesConcrete} withBorderT/>
+      <Slider images={imagesConcrete} withBorderT withBorderB/>
+      <h2 className="text-4xl font-semibold my-5">Artificial Turf</h2>
+      <Slider images={imagesArtificialGrass} withBorderT/>
       <MarqueeBanner />
       <div className="pt-8 px-5">
         <h3 className="font-semibold text-3xl mb-3">
@@ -69,42 +70,7 @@ const ConcreteTurf: React.FC = () => {
           <p className="text-lg">🔹 You're looking for a low-maintenance and visually appealing backyard solution.</p>
           <p className="text-lg">🔹 You want a complete design that blends hardscapes, greenery, and outdoor cooking areas.</p>
       </div>
-      <div className="flex flex-col my-5 gap-10">
-        <div className="pt-8 px-5 flex flex-col items-center">
-          <h3 className="font-semibold text-4xl">
-            Benefits of Artificial Turf
-          </h3>
-          <div className="ml-1 w-15 h-[3px] bg-[#0d4754] mt-3 rounded-full"></div>
-        </div>
-        <ImgTxtSection
-          title="Efficient Drainage System"
-          text="High-quality artificial turf features a vertical drainage system with perforations every 4 inches, ensuring rapid water flow and preventing puddles or moisture buildup."
-          imageUrl="assets/images/Products/AdditionalServices/ArtificialGrass/01.webp"
-          imagePosition="right"
-        />
-
-        <ImgTxtSection
-          title="Lower Surface Temperature"
-          text="Advanced artificial turf models incorporate CoolTurf technology, which reflects sunlight and reduces surface temperature by up to 15°F, compared to traditional synthetic grass."
-          imageUrl="assets/images/Products/AdditionalServices/ArtificialGrass/02.webp"
-          imagePosition="left"
-        />
-
-        <ImgTxtSection
-          title="Chemical-Free and Pet-Friendly"
-          text="Unlike natural grass, artificial turf requires no pesticides or fertilizers, making it safer for children and pets. Additionally, its non-organic composition prevents the growth of pests such as ants and ticks."
-          imageUrl="assets/images/Products/AdditionalServices/ArtificialGrass/05.webp"
-          imagePosition="right"
-        />
-        
-        <ImgTxtSection
-          title="Even Surface with Minimal Maintenance"
-          text="Constructed with polyethylene backing and high-density synthetic fibers, the turf maintains a pristine appearance without requiring mowing, watering, or reseeding."
-          imageUrl="assets/images/Products/AdditionalServices/ArtificialGrass/04.webp"
-          imagePosition="left"
-        />
-      </div>
-      <div className="flex flex-col mb-5 gap-10">
+      <div className="flex flex-col mb-10 gap-10">
         <div className="pt-8 px-5 flex flex-col items-center">
           <h3 className="font-semibold text-4xl">
             Benefits of Concrete and Landscaping
@@ -139,8 +105,45 @@ const ConcreteTurf: React.FC = () => {
           imagePosition="left"
         />
       </div>
+      <MarqueeBanner />
+      <div className="flex flex-col mb-10 gap-10">
+        <div className="pt-8 px-5 flex flex-col items-center">
+          <h3 className="font-semibold text-4xl">
+            Benefits of Artificial Turf
+          </h3>
+          <div className="ml-1 w-15 h-[3px] bg-[#0d4754] mt-3 rounded-full"></div>
+        </div>
+        <ImgTxtSection
+          title="Efficient Drainage System"
+          text="High-quality artificial turf features a vertical drainage system with perforations every 4 inches, ensuring rapid water flow and preventing puddles or moisture buildup."
+          imageUrl="assets/images/Products/AdditionalServices/ArtificialGrass/01.webp"
+          imagePosition="right"
+        />
+
+        <ImgTxtSection
+          title="Lower Surface Temperature"
+          text="Advanced artificial turf models incorporate CoolTurf technology, which reflects sunlight and reduces surface temperature by up to 15°F, compared to traditional synthetic grass."
+          imageUrl="assets/images/Products/AdditionalServices/ArtificialGrass/02.webp"
+          imagePosition="left"
+        />
+
+        <ImgTxtSection
+          title="Chemical-Free and Pet-Friendly"
+          text="Unlike natural grass, artificial turf requires no pesticides or fertilizers, making it safer for children and pets. Additionally, its non-organic composition prevents the growth of pests such as ants and ticks."
+          imageUrl="assets/images/Products/AdditionalServices/ArtificialGrass/05.webp"
+          imagePosition="right"
+        />
+        
+        <ImgTxtSection
+          title="Even Surface with Minimal Maintenance"
+          text="Constructed with polyethylene backing and high-density synthetic fibers, the turf maintains a pristine appearance without requiring mowing, watering, or reseeding."
+          imageUrl="assets/images/Products/AdditionalServices/ArtificialGrass/04.webp"
+          imagePosition="left"
+        />
+      </div>
       <WhyUsLink backgroundImage={backgroundImage} />
       <Services />
+      <MarqueeBanner />
     </section>
   );
 };

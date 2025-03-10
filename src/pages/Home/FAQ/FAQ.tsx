@@ -14,7 +14,7 @@ const faqData = [
     answer: `1. Request a free quote online or call us.
             2. Schedule a free in-home consultation.
             3. Receive a formal quote with 3D renderings.
-            4. Sign the contract and submit a 25% deposit.
+            4. Sign the approve proposal and submit a 25% deposit.
             5. Schedule the construction start date.
             6. Get regular updates before construction.
             7. Construction begins with our quality assurance.

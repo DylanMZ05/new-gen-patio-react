@@ -157,14 +157,31 @@ const Footer: React.FC = () => {
           {/* Navigation con Separadores "•" */}
           <h3 className="text-white/90 text-xl font-semibold mt-2">Navigation</h3>
           <div className="flex flex-wrap justify-center text-white text-sm mt-4 gap-2">
-            {["services", "our-promise", "who-we-are", "reviews", "blogs", "contact"].map((id, index, array) => (
-              <span key={id}>
-                <a href={`/new-gen-patio-react/#${id}`} className="hover:text-orange-400 transition-colors">
-                  {id.replace(/-/g, " ").toUpperCase()}
-                </a>
-                {index !== array.length - 1 && <span className="text-white/70 mx-1">•</span>}
-              </span>
-            ))}
+            {["services", "our-promise", "who-we-are", "blogs", "contact"].map((id, index, array) => {
+              const routeMap: { [key: string]: string } = {
+                "services": "/services",
+                "our-promise": "/howwedoit",
+                "who-we-are": "/aboutus",
+                "blogs": "/blogs",
+                "contact": "/formpage",
+              };
+
+              // Usa la ruta mapeada o la predeterminada si no existe en el routeMap
+              const path = routeMap[id] || `/${id}`;
+
+              return (
+                <span key={id}>
+                  <Link 
+                    to={path} 
+                    className="hover:text-orange-400 transition-colors"
+                    onClick={scrollToTop} // Agregado el evento para hacer scroll arriba
+                  >
+                    {id.replace(/-/g, " ").toUpperCase()}
+                  </Link>
+                  {index !== array.length - 1 && <span className="text-white/70 mx-1"> •</span>}
+                </span>
+              );
+            })}
           </div>
 
           {/* Copyright */}

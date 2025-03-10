@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import { FaChevronUp } from "react-icons/fa"; // Ícono de flecha
 import useScroll from "./useScroll";
 import "../../App.css";
 import useScrollToTop from "../../hooks/scrollToTop";
@@ -7,11 +8,11 @@ import useScrollToTop from "../../hooks/scrollToTop";
 const Header: React.FC = () => {
   const scrollToTop = useScrollToTop();
   const isScrolled = useScroll(50);
-  // Solo incluimos los ids que necesitamos para el mapeo:
   const sectionIds = ["services", "our-promise", "who-we-are", "blogs", "contact"];
   const [menuOpen, setMenuOpen] = useState(false);
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+  let dropdownTimeout: ReturnType<typeof setTimeout>;
 
-  // Mapeo de ids a rutas:
   const routeMap: { [key: string]: string } = {
     "services": "/services",
     "our-promise": "/howwedoit",
@@ -25,7 +26,6 @@ const Header: React.FC = () => {
   }, [menuOpen]);
 
   const handleClick = (id: string) => {
-    // Este scrollIntoView se activa si la sección existe en la página actual.
     document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
     setMenuOpen(false);
   };
@@ -37,10 +37,10 @@ const Header: React.FC = () => {
       }`}
       role="banner"
     >
-      <div className="flex justify-between items-center text-white px-4 xl:px-15">
+      <div className="flex justify-between items-center px-4 xl:px-15">
         {/* Logo */}
         <div className="flex items-center">
-          <Link to="//" aria-label="Home" onClick={() => scrollToTop()}>
+          <Link to="//" aria-label="Home" onClick={scrollToTop}>
             <img
               src={`/new-gen-patio-react/assets/images/IdentidadSVG/${isScrolled ? "LogoColor.svg" : "LogoBlanco.svg"}`}
               alt="New Gen Patio Logo"
@@ -48,11 +48,9 @@ const Header: React.FC = () => {
               loading="lazy"
             />
           </Link>
-          <div
-            className={`hidden sm:block text-lg tracking-wider ml-3 transition-colors duration-300 ${
-              isScrolled ? "text-black" : "text-white"
-            }`}
-          >
+          <div className={`hidden sm:block text-lg tracking-wider ml-3 transition-colors duration-300 ${
+            isScrolled ? "text-black" : "text-white"
+          }`}>
             <h1 className="font-bold">NEW GEN PATIO</h1>
             <p className="font-medium opacity-90">Modern Outdoor Living</p>
           </div>
@@ -62,23 +60,70 @@ const Header: React.FC = () => {
         <nav aria-label="Main Menu" role="navigation" className="hidden lg:flex">
           <ul className="flex justify-between items-center space-x-10">
             {sectionIds.map((id) => (
-              <li key={id}>
-                <Link
-                  to={routeMap[id]}
-                  onClick={() => {
-                    handleClick(id);
-                    scrollToTop();
+              id === "our-promise" ? (
+                // Dropdown para "Our Promise"
+                <li
+                  key={id}
+                  className="relative"
+                  onMouseEnter={() => {
+                    clearTimeout(dropdownTimeout);
+                    setDropdownOpen(true);
                   }}
-                  className={`text-xl transition-all duration-150 font-neutral}`}
+                  onMouseLeave={() => {
+                    dropdownTimeout = setTimeout(() => setDropdownOpen(false), 300);
+                  }}
                 >
-                  {id.replace(/-/g, " ").charAt(0).toUpperCase() + id.replace(/-/g, " ").slice(1)}
-                </Link>
-              </li>
+                  <Link
+                    to={routeMap[id]}
+                    onClick={scrollToTop}
+                    className={`text-xl transition-all duration-150 font-neutral flex items-center gap-1 ${
+                      isScrolled ? "text-black hover:text-orange-500" : "text-white hover:text-orange-400"
+                    }`}
+                  >
+                    Our Promise
+                    <FaChevronUp className={`${dropdownOpen ? "rotate-180" : ""}`} />
+                  </Link>
+                  {/* Menú desplegable */}
+                  {dropdownOpen && (
+                    <div 
+                      className="absolute left-0 mt-2 bg-white shadow-lg w-48"
+                      onMouseEnter={() => clearTimeout(dropdownTimeout)}
+                      onMouseLeave={() => setDropdownOpen(false)}
+                    >
+                      <Link
+                        to="/ourprocess"
+                        onClick={() => {
+                          scrollToTop();
+                          setDropdownOpen(false);
+                        }}
+                        className="block pl-2 py-2 text-black/90 font-semibold hover:bg-gray-200 transition hover:text-orange-500"
+                      >
+                        Our Process
+                      </Link>
+                    </div>
+                  )}
+                </li>
+              ) : (
+                <li key={id}>
+                  <Link
+                    to={routeMap[id]}
+                    onClick={() => {
+                      handleClick(id);
+                      scrollToTop();
+                    }}
+                    className={`text-xl transition-all duration-150 font-neutral ${
+                      isScrolled ? "text-black hover:text-orange-500" : "text-white hover:text-orange-400"
+                    }`}
+                  >
+                    {id.replace(/-/g, " ").charAt(0).toUpperCase() + id.replace(/-/g, " ").slice(1)}
+                  </Link>
+                </li>
+              )
             ))}
           </ul>
         </nav>
 
-        {/* Botón de menú para móvil */}
+        {/* Botón de menú hamburguesa para móviles */}
         <button
           className="lg:hidden focus:outline-none absolute top-5 right-5 z-60 cursor-pointer pointer-events-auto"
           aria-label={menuOpen ? "Close menu" : "Open menu"}
@@ -110,29 +155,46 @@ const Header: React.FC = () => {
             menuOpen ? "translate-x-0 opacity-100 visible" : "-translate-x-full opacity-0 invisible"
           }`}
         >
-          <Link to="/" aria-label="Home" className="flex flex-col items-center" onClick={() => scrollToTop()}>
-            <img
-              src={`/new-gen-patio-react/assets/images/IdentidadSVG/${isScrolled ? "LogoColor.svg" : "LogoBlanco.svg"}`}
-              alt="New Gen Patio Logo"
-              className="h-22 img-shadow p-2"
-              loading="lazy"
-            />
-            <h2 className="font-semibold text-2xl">NEW GEN PATIO</h2>
-            <p className="text-xl opacity-80">Modern Outdoor Living</p>
-          </Link>
-
           {sectionIds.map((id) => (
-            <Link
-              key={id}
-              to={routeMap[id]}
-              onClick={() => {
-                handleClick(id);
-                scrollToTop();
-              }}
-              className={`text-2xl transition-all duration-150`}
-            >
-              {id.replace(/-/g, " ").charAt(0).toUpperCase() + id.replace(/-/g, " ").slice(1)}
-            </Link>
+            id === "our-promise" ? (
+              <div key={id} className="relative">
+                <button
+                  className="text-2xl transition-all duration-150 flex items-center gap-1"
+                  onClick={() => setDropdownOpen(!dropdownOpen)}
+                >
+                  Our Promise
+                  <FaChevronUp className={`${dropdownOpen ? "rotate-180" : ""}`} />
+                </button>
+                {dropdownOpen && (
+                  <div className="absolute left-0 mt-2 bg-white text-black rounded-md shadow-lg">
+                    <Link
+                      to="/ourprocess"
+                      onClick={() => {
+                        scrollToTop();
+                        setDropdownOpen(false);
+                        setMenuOpen(false);
+                      }}
+                      className="block px-4 py-2 hover:bg-gray-200 transition"
+                    >
+                      Our Process
+                    </Link>
+                  </div>
+                )}
+              </div>
+            ) : (
+              <Link
+                key={id}
+                to={routeMap[id]}
+                onClick={() => {
+                  handleClick(id);
+                  scrollToTop();
+                  setMenuOpen(false);
+                }}
+                className="text-2xl transition-all duration-150"
+              >
+                {id.replace(/-/g, " ").charAt(0).toUpperCase() + id.replace(/-/g, " ").slice(1)}
+              </Link>
+            )
           ))}
         </div>
       </div>

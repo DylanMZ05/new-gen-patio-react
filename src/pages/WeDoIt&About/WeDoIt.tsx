@@ -45,8 +45,8 @@ const HowWeDoIt: React.FC = () => {
 
         <ImgTxtSection
           stepLabel="Step 4:"
-          title="Sign the contract and submit a 25% deposit."
-          text="Signing the contract ensures that every detail is clearly defined and aligned with your expectations. The initial deposit allows us to begin planning and securing materials."
+          title="Sign the approve proposal and submit a 25% deposit."
+          text="Signing the approve proposal ensures that every detail is clearly defined and aligned with your expectations. The initial deposit allows us to begin planning and securing materials."
           imageUrl="assets/images/Products/Patios&Pergolas/Attached/20.webp"
           imagePosition="left"
         />

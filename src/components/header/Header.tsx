@@ -11,6 +11,7 @@ const Header: React.FC = () => {
   const sectionIds = ["services", "our-promise", "who-we-are", "blogs", "contact"];
   const [menuOpen, setMenuOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [mobileDropdownOpen, setMobileDropdownOpen] = useState(false);
   let dropdownTimeout: ReturnType<typeof setTimeout>;
 
   const routeMap: { [key: string]: string } = {
@@ -40,7 +41,7 @@ const Header: React.FC = () => {
       <div className="flex justify-between items-center px-4 xl:px-15">
         {/* Logo */}
         <div className="flex items-center">
-          <Link to="//" aria-label="Home" onClick={scrollToTop}>
+          <Link to="/" aria-label="Home" onClick={scrollToTop}>
             <img
               src={`/new-gen-patio-react/assets/images/IdentidadSVG/${isScrolled ? "LogoColor.svg" : "LogoBlanco.svg"}`}
               alt="New Gen Patio Logo"
@@ -73,16 +74,12 @@ const Header: React.FC = () => {
                     dropdownTimeout = setTimeout(() => setDropdownOpen(false), 300);
                   }}
                 >
-                  <Link
-                    to={routeMap[id]}
-                    onClick={scrollToTop}
-                    className={`text-xl transition-all duration-150 font-neutral flex items-center gap-1 ${
+                  <button className={`text-xl transition-all duration-150 font-neutral flex items-center gap-1 cursor-pointer ${
                       isScrolled ? "text-black hover:text-orange-500" : "text-white hover:text-orange-400"
-                    }`}
-                  >
+                    }`}>
                     Our Promise
                     <FaChevronUp className={`${dropdownOpen ? "rotate-180" : ""}`} />
-                  </Link>
+                  </button>
                   {/* Menú desplegable */}
                   {dropdownOpen && (
                     <div 
@@ -91,11 +88,15 @@ const Header: React.FC = () => {
                       onMouseLeave={() => setDropdownOpen(false)}
                     >
                       <Link
+                        to="/howwedoit"
+                        onClick={scrollToTop}
+                        className="block pl-2 py-2 text-black/90 font-semibold hover:bg-gray-200 transition hover:text-orange-500"
+                      >
+                        Our Promise
+                      </Link>
+                      <Link
                         to="/ourprocess"
-                        onClick={() => {
-                          scrollToTop();
-                          setDropdownOpen(false);
-                        }}
+                        onClick={scrollToTop}
                         className="block pl-2 py-2 text-black/90 font-semibold hover:bg-gray-200 transition hover:text-orange-500"
                       >
                         Our Process
@@ -130,19 +131,15 @@ const Header: React.FC = () => {
           aria-expanded={menuOpen}
           onClick={() => setMenuOpen((prev) => !prev)}
         >
-          {/* Líneas del botón de menú */}
-          <span
-            className={`block w-8 h-1 my-1.5 rounded transition-all duration-300 ${
+          <span className={`block w-8 h-1 my-1.5 rounded transition-all duration-300 ${
               isScrolled ? "bg-black" : "bg-white"
             } ${menuOpen ? "rotate-45 translate-y-2.5" : ""}`}
           ></span>
-          <span
-            className={`block w-8 h-1 my-1.5 rounded transition-all duration-300 ${
+          <span className={`block w-8 h-1 my-1.5 rounded transition-all duration-300 ${
               isScrolled ? "bg-black" : "bg-white"
             } ${menuOpen ? "opacity-0" : ""}`}
           ></span>
-          <span
-            className={`block w-8 h-1 my-1.5 rounded transition-all duration-300 ${
+          <span className={`block w-8 h-1 my-1.5 rounded transition-all duration-300 ${
               isScrolled ? "bg-black" : "bg-white"
             } ${menuOpen ? "-rotate-45 -translate-y-2.5" : ""}`}
           ></span>
@@ -151,47 +148,37 @@ const Header: React.FC = () => {
         {/* Menú móvil */}
         <div
           className={`lg:hidden fixed z-50 top-0 left-0 w-full h-full bg-[#0d4754] text-white flex flex-col items-center justify-center 
-          space-y-8 transition-transform duration-500 ease-in-out ${
+          space-y-4 transition-transform duration-500 ease-in-out cursor-pointer  ${
             menuOpen ? "translate-x-0 opacity-100 visible" : "-translate-x-full opacity-0 invisible"
           }`}
         >
           {sectionIds.map((id) => (
             id === "our-promise" ? (
-              <div key={id} className="relative">
+              <div key={id} className="w-full text-center cursor-pointer">
                 <button
-                  className="text-2xl transition-all duration-150 flex items-center gap-1"
-                  onClick={() => setDropdownOpen(!dropdownOpen)}
+                  className="text-2xl transition-all duration-150 flex items-center justify-center w-full cursor-pointer gap-2 hover:text-orange-500"
+                  onClick={() => setMobileDropdownOpen(!mobileDropdownOpen)}
                 >
                   Our Promise
-                  <FaChevronUp className={`${dropdownOpen ? "rotate-180" : ""}`} />
+                  <FaChevronUp className={`${mobileDropdownOpen ? " rotate-180" : ""}`} />
                 </button>
-                {dropdownOpen && (
-                  <div className="absolute left-0 mt-2 bg-white text-black rounded-md shadow-lg">
-                    <Link
-                      to="/ourprocess"
-                      onClick={() => {
-                        scrollToTop();
-                        setDropdownOpen(false);
-                        setMenuOpen(false);
-                      }}
-                      className="block px-4 py-2 hover:bg-gray-200 transition"
-                    >
+                {mobileDropdownOpen && (
+                  <div className="flex flex-col w-full text-center mt-2">
+                    <Link to="/howwedoit" onClick={scrollToTop} className="block py-2 text-lg hover:text-orange-500">
+                      Our Promise
+                    </Link>
+                    <Link to="/ourprocess" onClick={scrollToTop} className="block py-2 text-lg hover:text-orange-500">
                       Our Process
                     </Link>
                   </div>
                 )}
               </div>
             ) : (
-              <Link
-                key={id}
-                to={routeMap[id]}
-                onClick={() => {
-                  handleClick(id);
-                  scrollToTop();
-                  setMenuOpen(false);
-                }}
-                className="text-2xl transition-all duration-150"
-              >
+              <Link key={id} to={routeMap[id]} onClick={() => {
+                handleClick(id);
+                scrollToTop();
+                setMenuOpen(false);
+              }} className="text-2xl transition-all duration-150 hover:text-orange-500">
                 {id.replace(/-/g, " ").charAt(0).toUpperCase() + id.replace(/-/g, " ").slice(1)}
               </Link>
             )

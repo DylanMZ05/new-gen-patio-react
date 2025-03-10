@@ -70,29 +70,29 @@ const Freestanding: React.FC = () => {
       </div>
       <div className="flex flex-col my-10 gap-10">
         <ImgTxtSection
-          title="Independent & flexible"
-          text="Can be placed anywhere in your backyard, separate from the house."
+          title="Complete Structural Independence"
+          text="Unlike attached pergolas, freestanding structures are fully self-supporting and do not rely on existing buildings for support. A reinforced concrete base or deep-set anchors in compacted soil is used to ensure structural stability."
           imageUrl="assets/images/Products/Patios&Pergolas/Freestanding/01.webp"
           imagePosition="right"
         />
 
         <ImgTxtSection
-          title="Versatile design"
-          text="Perfect for gardens, pools, or relaxation areas."
+          title="Enhanced Design Flexibility and Customization "
+          text="Additional features such as built-in LED lighting, ceiling fans, privacy panels, and outdoor heating systems can be incorporated without affecting the main residence. Various aluminum profiles (6x6 or 8x8 posts, 2x8 or 2x10 beams) allow the structure to be customized to meet aesthetic and functional requirements."
           imageUrl="assets/images/Products/Patios&Pergolas/Freestanding/03.webp"
           imagePosition="left"
         />
 
         <ImgTxtSection
-          title="Durable structure"
-          text="High-quality materials built to withstand outdoor conditions."
+          title="Defined Outdoor Entertainment Areas"
+          text="Freestanding structures help create distinct outdoor zones for lounging, dining, or grilling. Architectural elements such as aluminum privacy screens or louvered panels can be added to improve privacy while maintaining airflow"
           imageUrl="assets/images/Products/Patios&Pergolas/Freestanding/06.webp"
           imagePosition="right"
         />
 
         <ImgTxtSection
-          title="Ideal for gatherings"
-          text="A perfect space for enjoying time with family and friends."
+          title="Adaptability to Uneven Surfaces"
+          text="These structures can be installed on grass, gravel, or concrete due to adaptable foundation systems. For soft ground, reinforced concrete bases with anchor bolts are used, while on level surfaces, mounting plates with bolted connections provide secure attachment."
           imageUrl="assets/images/Products/Patios&Pergolas/Freestanding/09.webp"
           imagePosition="left"
         />

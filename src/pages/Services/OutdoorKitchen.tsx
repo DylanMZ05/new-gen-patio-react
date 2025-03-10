@@ -67,29 +67,29 @@ const OutdoorKitchen: React.FC = () => {
       </div>
       <div className="flex flex-col my-10 gap-10">
         <ImgTxtSection
-          title="Seamless entertainment"
-          text="Cook and socialize without leaving your guests, making every gathering more enjoyable."
+          title="Weather-Resistant Materials"
+          text="Outdoor kitchens must withstand temperature fluctuations, humidity, and sun exposure. 304-grade stainless steel, granite or quartz countertops, and aluminum structures with anti-corrosion coatings are utilized to ensure maximum durability."
           imageUrl="assets/images/Products/OutdoorKitchen/Modern/01.webp"
           imagePosition="right"
         />
 
         <ImgTxtSection
-          title="Durable & weather-resistant"
-          text="Built with high-quality materials that withstand sun, rain, and wear over time."
+          title="Optimized Ventilation Systems"
+          text="To prevent heat buildup and smoke accumulation, range hoods with exhaust ducts or strategically placed openings are integrated. This enhances airflow and ensures a comfortable cooking experience, even in covered areas."
           imageUrl="assets/images/Products/OutdoorKitchen/Modern/02.webp"
           imagePosition="left"
         />
 
         <ImgTxtSection
-          title="Customizable design"
-          text="Options for built-in grills, countertops, storage, and seating to match your space and needs."
+          title="Functional Storage Solutions"
+          text="Cabinets are designed with sealed edges and airtight closures to prevent dust and insect intrusion. Additional features such as built-in refrigerators, standalone sinks with independent drainage, and modular shelving systems improve workspace efficiency."
           imageUrl="assets/images/Products/OutdoorKitchen/Traditional/03.webp"
           imagePosition="right"
         />
 
         <ImgTxtSection
-          title="Adds value to your home"
-          text="A well-designed outdoor kitchen increases property appeal and functionality."
+          title="Adaptability to Various Fuel Types"
+          text=" Outdoor kitchens can be configured for natural gas, propane, or wood-burning systems, allowing users to select the most convenient cooking method based on personal preferences and fuel availability."
           imageUrl="assets/images/Products/OutdoorKitchen/Traditional/06.webp"
           imagePosition="left"
         />

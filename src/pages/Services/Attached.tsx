@@ -46,29 +46,29 @@ const Attached: React.FC = () => {
         </ul>
       </div>
 
-      <div className="flex flex-col my-10 gap-10">
+      <div className="flex flex-col my-10 gap-10 items-center">
         {[
           {
             title: "Seamless integration",
-            text: "Attaches to your home’s structure, creating a cozy space without disrupting the design.",
+            text: "This type of cover is directly attached to the house using a wall header, ensuring even load distribution but  it’s not intrusive and we won’t modify the structure of your home. As a result, the structure extends the living space naturally, blending harmoniously with the existing architecture.",
             imageUrl: "assets/images/Products/Patios&Pergolas/Attached/02.webp",
-            imagePosition: "right" as const, // Corrige el tipado de TypeScript
+            imagePosition: "right" as const,
           },
           {
-            title: "Protection & comfort",
-            text: "Shields you from the sun and rain, allowing year-round outdoor enjoyment.",
+            title: "Energy efficiency",
+            text: "The use of 3-inch insulated roofing panels significantly reduces heat transfer, minimizing indoor temperatures. By decreasing direct sun exposure on windows and glass doors, energy efficiency is improved, leading to a 30% reduction in air conditioning costs.",
             imageUrl: "assets/images/Products/Patios&Pergolas/Attached/03.webp",
             imagePosition: "left" as const,
           },
           {
-            title: "Energy efficiency",
-            text: "Reduces sun exposure on windows and doors, keeping your home cooler.",
+            title: "Increased Stability and Durability",
+            text: "With an additional structural support point from the house, the cover gains enhanced resistance to impacts and high winds. A high-durability epoxy coated aluminum finish protects against corrosion and long term weather exposure.",
             imageUrl: "assets/images/Products/Patios&Pergolas/Attached/05.webp",
             imagePosition: "right" as const,
           },
           {
-            title: "Fully customizable",
-            text: "A wide range of styles, materials, and finishes to match your taste.",
+            title: "Optimized for Compact Patios",
+            text: "By utilizing the house as a structural support, the need for additional posts is eliminated, creating a more open and spacious environment—ideal for small patios where space is limited.",
             imageUrl: "assets/images/Products/Patios&Pergolas/Attached/08.webp",
             imagePosition: "left" as const,
           },

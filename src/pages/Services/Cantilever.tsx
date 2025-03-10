@@ -47,38 +47,31 @@ const Cantilever: React.FC = () => {
       </div>
       <div className="flex flex-col my-10 gap-10">
         <ImgTxtSection
-          title="Unobstructed design"
-          text="Provides shade without intrusive posts."
+          title="Unobstructed View and Maximized Usable Space"
+          text="Cantilever pergolas eliminate the need for front support posts by utilizing a cantilevered beam system. This design ensures an open view while providing greater freedom of movement beneath the structure. The load is evenly distributed across anchor points, and high-strength structural aluminum is used to maintain stability without compromising aesthetics."
           imageUrl="assets/images/Products/Patios&Pergolas/Cantilever/01.webp"
           imagePosition="right"
         />
 
         <ImgTxtSection
-          title="Cutting-edge aesthetics"
-          text="Sleek and contemporary, ideal for modern architecture."
+          title="Optimized for Small Spaces"
+          text="Due to their suspended design, cantilever pergolas can be installed in small patios, terraces, or side areas without occupying ground space with support columns. They are securely fixed to a structural base using reinforced brackets, allowing installation on concrete, brick, or metal structures without compromising integrity."
           imageUrl="assets/images/Products/Patios&Pergolas/Cantilever/04.webp"
           imagePosition="left"
         />
 
         <ImgTxtSection
-          title="Maximum functionality"
-          text="Efficient shade coverage with minimal visual impact."
+          title="Efficient Load Distribution"
+          text="High-strength aluminum beams (such as 2x8 or 2x10 profiles) are utilized to support the structure without additional supports. Additionally, insulated roofing panels enhance weight distribution, preventing warping or sagging over time."
           imageUrl="assets/images/Products/Patios&Pergolas/Cantilever/06.webp"
           imagePosition="right"
         />
 
         <ImgTxtSection
-          title="Strong & durable"
-          text="Made with high-quality materials to withstand the elements."
+          title="Superior Wind Resistance"
+          text="Designed for aerodynamic efficiency, these pergolas withstand wind speeds of up to 120 mph. Expansion bolts are used for anchoring to ensure stability in adverse weather conditions."
           imageUrl="assets/images/Products/Patios&Pergolas/Cantilever/03.webp"
           imagePosition="left"
-        />
-
-        <ImgTxtSection
-          title="Low maintenance"
-          text="Easy to clean and maintain for long-lasting beauty."
-          imageUrl="assets/images/Products/Patios&Pergolas/Cantilever/05.webp"
-          imagePosition="right"
         />
       </div>
       <WhyUsLink backgroundImage={backgroundImage} />

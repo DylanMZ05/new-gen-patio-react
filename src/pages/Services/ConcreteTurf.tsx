@@ -9,7 +9,7 @@ import Services from "../Home/services/services";
 const sectionsData = [
   {
     id: 1,
-    title: "Concrete & Turf",
+    title: "Artificial turf, Concrete and Landscaping",
     description: "A perfect combination of decorative concrete and artificial turf, offering a stylish, durable, and low-maintenance solution for outdoor spaces.",
     backgroundImage: "assets/images/Products/AdditionalServices/Landscaping/05.webp",
   },
@@ -65,30 +65,78 @@ const ConcreteTurf: React.FC = () => {
           Why might you need it?
         </h3>
         <div className="ml-1 w-15 h-[3px] bg-[#0d4754] mt-3 mb-2 rounded-full"></div>
-          <p className="text-lg">🔹 You want a low-maintenance outdoor space with a clean and polished look.</p>
-          <p className="text-lg">🔹 You're looking for a durable and weather-resistant flooring solution for patios, driveways, or walkways.</p>
-          <p className="text-lg">🔹 You need a lush, green lawn without the hassle of watering, mowing, or seasonal changes.</p>
+          <p className="text-lg">🔹 You want a fully functional outdoor space to enjoy year-round.</p>
+          <p className="text-lg">🔹 You're looking for a low-maintenance and visually appealing backyard solution.</p>
+          <p className="text-lg">🔹 You want a complete design that blends hardscapes, greenery, and outdoor cooking areas.</p>
       </div>
-      <div className="flex flex-col my-10 gap-10">
+      <div className="flex flex-col my-5 gap-10">
+        <div className="pt-8 px-5 flex flex-col items-center">
+          <h3 className="font-semibold text-4xl">
+            Benefits of Artificial Turf
+          </h3>
+          <div className="ml-1 w-15 h-[3px] bg-[#0d4754] mt-3 rounded-full"></div>
+        </div>
         <ImgTxtSection
-          title="Effortless beauty"
-          text="Artificial turf provides a lush, green look without watering or mowing."
-          imageUrl="assets/images/Products/AdditionalServices/ArtificialGrass/05.webp"
+          title="Efficient Drainage System"
+          text="High-quality artificial turf features a vertical drainage system with perforations every 4 inches, ensuring rapid water flow and preventing puddles or moisture buildup."
+          imageUrl="assets/images/Products/AdditionalServices/ArtificialGrass/01.webp"
           imagePosition="right"
         />
 
         <ImgTxtSection
-          title="Strong & weather-resistant"
-          text="Decorative concrete is built to last, requiring minimal upkeep."
-          imageUrl="assets/images/Products/AdditionalServices/Landscaping/02.webp"
+          title="Lower Surface Temperature"
+          text="Advanced artificial turf models incorporate CoolTurf technology, which reflects sunlight and reduces surface temperature by up to 15°F, compared to traditional synthetic grass."
+          imageUrl="assets/images/Products/AdditionalServices/ArtificialGrass/02.webp"
           imagePosition="left"
         />
 
         <ImgTxtSection
-          title="Versatile designs"
-          text="Mix textures, patterns, and colors for a unique and functional outdoor space."
-          imageUrl="assets/images/Products/AdditionalServices/Concrete/04.webp"
+          title="Chemical-Free and Pet-Friendly"
+          text="Unlike natural grass, artificial turf requires no pesticides or fertilizers, making it safer for children and pets. Additionally, its non-organic composition prevents the growth of pests such as ants and ticks."
+          imageUrl="assets/images/Products/AdditionalServices/ArtificialGrass/05.webp"
           imagePosition="right"
+        />
+        
+        <ImgTxtSection
+          title="Even Surface with Minimal Maintenance"
+          text="Constructed with polyethylene backing and high-density synthetic fibers, the turf maintains a pristine appearance without requiring mowing, watering, or reseeding."
+          imageUrl="assets/images/Products/AdditionalServices/ArtificialGrass/04.webp"
+          imagePosition="left"
+        />
+      </div>
+      <div className="flex flex-col mb-5 gap-10">
+        <div className="pt-8 px-5 flex flex-col items-center">
+          <h3 className="font-semibold text-4xl">
+            Benefits of Concrete and Landscaping
+          </h3>
+          <div className="ml-1 w-15 h-[3px] bg-[#0d4754] mt-3 rounded-full"></div>
+        </div>
+        <ImgTxtSection
+          title="Crack Resistant Concrete with Reinforced Additives"
+          text="Concrete mixes reinforced with glass fiber and waterproofing additives are used to minimize cracking and enhance durability against temperature fluctuations and impact stress."
+          imageUrl="assets/images/Products/AdditionalServices/Concrete/01.webp"
+          imagePosition="right"
+        />
+
+        <ImgTxtSection
+          title="Integrated Drainage Design"
+          text="To prevent water accumulation, hidden slopes and drainage channels are incorporated into the design, extending the lifespan of concrete surfaces and protecting adjacent landscaping."
+          imageUrl="assets/images/Products/AdditionalServices/Concrete/02.webp"
+          imagePosition="left"
+        />
+
+        <ImgTxtSection
+          title="Customizable Textured Finishes and Colors"
+          text="Stamped or polished concrete techniques allow the replication of wood, natural stone, or brick textures while maintaining the strength of concrete. This provides greater versatility in outdoor designs."
+          imageUrl="assets/images/Products/AdditionalServices/Landscaping/02.webp"
+          imagePosition="right"
+        />
+        
+        <ImgTxtSection
+          title="Compatibility with Built-In Lighting Systems"
+          text="Embedded low-energy LED lighting can be integrated into the pavement, improving nighttime visibility and enhancing outdoor aesthetics."
+          imageUrl="assets/images/Products/AdditionalServices/Landscaping/05.webp"
+          imagePosition="left"
         />
       </div>
       <WhyUsLink backgroundImage={backgroundImage} />

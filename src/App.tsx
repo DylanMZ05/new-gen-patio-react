@@ -115,10 +115,10 @@ const Layout = memo(() => {
               <BlockSection />
               <SectionBlock sections={sectionsData3} />
               <MarqueeBanner />
-              <Services />
               {sections.map((section, index) => (
                 <ImageTextSection key={index} {...section} />
               ))}
+              <Services />
             </main>
           </>
           } />

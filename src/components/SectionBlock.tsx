@@ -14,8 +14,11 @@ interface Props {
 const SectionBlock: React.FC<Props> = ({ sections }) => {
   if (sections.length === 0) {
     return (
-      <div className="w-full h-[55vh] flex items-center justify-center bg-gray-200 text-gray-700">
-        <p className="text-lg font-semibold">No hay secciones disponibles</p>
+      <div
+        className="w-full h-[55vh] flex items-center justify-center bg-gray-200 text-gray-700"
+        role="alert"
+      >
+        <p className="text-lg font-semibold">No sections available</p>
       </div>
     );
   }
@@ -23,17 +26,28 @@ const SectionBlock: React.FC<Props> = ({ sections }) => {
   return (
     <div className="w-full">
       {sections.map((section) => (
-        <div
+        <section
           key={section.id}
-          className="flex flex-col items-center justify-center text-center w-full h-[55vh] bg-cover bg-center"
-          style={{ backgroundImage: `url(${section.backgroundImage})` }}
+          className="relative flex flex-col items-center justify-center text-center w-full h-[55vh] bg-cover bg-center"
+          aria-labelledby={`section-title-${section.id}`}
+          role="region"
+          style={{
+            backgroundImage: `url(${section.backgroundImage})`,
+            backgroundAttachment: "fixed",
+          }}
         >
-          <div className="bg-black/80 w-full h-full flex flex-col items-center justify-center text-white">
-            <h2 className="text-4xl font-semibold mx-5">{section.title}</h2>
+          {/* Capa de opacidad */}
+          <div className="absolute inset-0 bg-black/80"></div>
+
+          {/* Contenido */}
+          <div className="relative z-10 flex flex-col items-center text-white px-6 max-w-3xl">
+            <h2 id={`section-title-${section.id}`} className="text-4xl font-semibold">
+              {section.title}
+            </h2>
             <div className="w-28 h-[3px] bg-orange-600 mt-3 mb-2 rounded-full"></div>
-            <p className="text-xl mb-5 mx-5 text-white/80 max-w-160">{section.description}</p>
+            <p className="text-xl mb-5 text-white/80">{section.description}</p>
           </div>
-        </div>
+        </section>
       ))}
     </div>
   );

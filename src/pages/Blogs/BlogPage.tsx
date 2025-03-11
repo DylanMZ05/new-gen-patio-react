@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import { blogs } from "./blogData";
 import BlogPost from "./BlogPost";
 import BlogSection from "../Home/BlogsSection";
+import MarqueeBanner from "../../components/MarqueeBanner";
 
 const BlogPage: React.FC = () => {
   const { id } = useParams();
@@ -18,6 +19,7 @@ const BlogPage: React.FC = () => {
   return (
     <>
       <BlogPost {...blog} />
+      <MarqueeBanner />
       <BlogSection />
     </>
   );

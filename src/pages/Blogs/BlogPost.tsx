@@ -11,16 +11,15 @@ const BlogPost: React.FC<{
   lastContent?: string[];
   date: string; 
 }> = ({ title, subtitle, content, imageUrl, secondaryImage, moreContent, finalImage, lastContent, date }) => {
-  const formattedDate = new Date(date).toLocaleDateString("en-US", {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  });
+  const formattedDate = date
+    ? new Date(date).toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" })
+    : "Unknown Date";
 
   return (
     <>
       <BlockSection />
       <section>
+        {/* Imagen principal */}
         <img 
           src={imageUrl} 
           alt={title} 
@@ -34,22 +33,27 @@ const BlogPost: React.FC<{
             <h2 className="text-xl text-gray-600">{subtitle}</h2>
           </header>
 
+          {/* Contenido principal */}
           {content.map((paragraph, index) => (
             <p key={index} className="text-gray-700 mt-4 whitespace-pre-line">{paragraph}</p>
           ))}
 
+          {/* Imagen secundaria (Opcional) */}
           {secondaryImage && (
-            <img src={secondaryImage} alt="Additional view" loading="lazy" className="w-full h-auto object-cover rounded-lg mt-4" />
+            <img src={secondaryImage} alt={`Additional view of ${title}`} loading="lazy" className="w-full h-auto object-cover rounded-lg mt-4" />
           )}
 
+          {/* Más contenido (Opcional) */}
           {moreContent?.map((paragraph, index) => (
             <p key={index} className="text-gray-700 mt-4 whitespace-pre-line">{paragraph}</p>
           ))}
 
+          {/* Imagen final (Opcional) */}
           {finalImage && (
-            <img src={finalImage} alt="Final perspective" loading="lazy" className="w-full h-auto object-cover rounded-lg mt-4" />
+            <img src={finalImage} alt={`Final perspective of ${title}`} loading="lazy" className="w-full h-auto object-cover rounded-lg mt-4" />
           )}
 
+          {/* Último contenido (Opcional) */}
           {lastContent?.map((paragraph, index) => (
             <p key={index} className="text-gray-700 mt-4 whitespace-pre-line">{paragraph}</p>
           ))}

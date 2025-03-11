@@ -51,7 +51,7 @@ const Footer: React.FC = () => {
                   onClick={scrollToTop}
                   aria-label="Go to contact form"
                 >
-                  CLICK HERE
+                  CONTACT US
                 </Link>
               </div>  
             </div>

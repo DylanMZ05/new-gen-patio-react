@@ -35,6 +35,7 @@ import AboutUsPage from "./pages/WeDoIt&About/AboutUsPage";
 
 // Blogs
 import BlogPage from "./pages/Blogs/BlogPage";
+import BlogSectionPage from "./pages/Blogs/BlogsSectionPage";
 
 // Free Quote & Forms
 import FreeQuote from "./pages/FreeQuote/FreeQuote";
@@ -143,7 +144,7 @@ const Layout = memo(() => {
         <Route path="/blogs" element={
           <>
             <BlockSection />
-            <BlogsSection />
+            <BlogSectionPage />
           </>
           } />
         <Route path="/attached" element={<Attached />} />
@@ -153,6 +154,7 @@ const Layout = memo(() => {
         <Route path="/concrete-turf" element={<ConcreteTurf />} />
         <Route path="/calculator" element={<Calculator />} />
         <Route path="/financing-options" element={<FinancingOptions />} />
+        <Route path="/blogs/blog/:id" element={<BlogPage />} />
         <Route path="/blog/:id" element={<BlogPage />} />
         <Route path="/freequote" element={<FreeQuote />} />
         <Route path="/formpage" element={<FormPage />} />

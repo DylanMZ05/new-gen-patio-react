@@ -1,12 +1,13 @@
 import React from "react";
 
-type ImageTextSectionProps = {
-  stepLabel?: string;
+interface ImageTextSectionProps {
   title: string;
   text: string;
   imageUrl: string;
-  imagePosition?: "left" | "right";
-};
+  imagePosition: "left" | "right";
+  stepLabel?: string;
+  imageProps?: React.ImgHTMLAttributes<HTMLImageElement>;
+}
 
 const ImageTextSection: React.FC<ImageTextSectionProps> = ({
   stepLabel,

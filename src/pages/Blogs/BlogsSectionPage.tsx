@@ -10,7 +10,7 @@ const BlogsSectionPage: React.FC = () => {
   const sortedBlogs = [...blogs].sort((a, b) => b.id - a.id);
 
   return (
-    <section className="py-16 px-6 bg-gray-100 border-t border-black/10">
+    <section className="py-16 px-6 bg-gray-200 border-t border-black/10">
       <div className="max-w-6xl mx-auto">
         <header className="text-center">
           <h2 className="text-2xl font-semibold text-[#0d4754]">Our Blog</h2>
@@ -30,7 +30,7 @@ const BlogsSectionPage: React.FC = () => {
             return (
               <article
                 key={blog.id}
-                className={`bg-white rounded-lg shadow-lg overflow-hidden ${
+                className={`bg-white border border-gray-600/60 rounded-lg shadow-lg overflow-hidden transition-transform transform hover:scale-[1.02] cursor-pointer ${
                   sortedBlogs.length % 2 !== 0 && index === sortedBlogs.length - 1 ? "lg:col-span-2" : ""
                 }`}
               >
@@ -43,7 +43,7 @@ const BlogsSectionPage: React.FC = () => {
                   <div className="flex justify-between items-center mt-3">
                     <Link
                       to={`/blog/${blog.id}`}
-                      className="text-[#0d4754] font-semibold hover:underline focus:ring-2 focus:ring-[#0d4754] focus:outline-none"
+                      className="text-blue-600 font-semibold hover:underline focus:ring-2 focus:ring-[#0d4754] focus:outline-none"
                       onClick={handleScrollToTop}
                     >
                       Read More →

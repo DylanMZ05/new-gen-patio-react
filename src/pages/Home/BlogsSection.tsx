@@ -16,7 +16,7 @@ const BlogSection: React.FC = () => {
     <section
       id="blogs"
       aria-labelledby="blogs-heading"
-      className="py-16 px-6 bg-gray-100 border-t border-black/10"
+      className="py-16 px-6 bg-gray-200 border-t border-black/10"
     >
       <div className="max-w-6xl mx-auto">
         <header className="text-center">
@@ -41,7 +41,7 @@ const BlogSection: React.FC = () => {
             return (
               <article
                 key={blog.id}
-                className="bg-white rounded-lg shadow-lg overflow-hidden"
+                className="bg-white border border-gray-600/60 rounded-lg shadow-lg overflow-hidden transition-transform transform hover:scale-[1.02] cursor-pointer"
                 style={{ gridRow: index >= 2 ? "span 1 / span 1" : "auto" }} // Forzar 2 filas en desktop
                 aria-labelledby={`blog-title-${blog.id}`}
               >
@@ -63,7 +63,7 @@ const BlogSection: React.FC = () => {
                   {/* Contenedor flex para alinear botón y fecha */}
                   <div className="flex justify-between items-center mt-3">
                     <Link
-                      to={`blog/${blog.id}`}
+                      to={`/blog/${blog.id}`}
                       className="text-blue-500 font-semibold hover:underline focus:ring-2 focus:ring-blue-400 focus:outline-none"
                       onClick={handleScrollToTop}
                     >

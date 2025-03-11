@@ -11,53 +11,42 @@ interface StepProps {
   selections: string[];
 }
 
-const Step: React.FC<StepProps> = ({ stepData, nextStep, previousStep, updateFormData, formData, selections }) => {
+const Step: React.FC<StepProps> = ({
+  stepData,
+  nextStep,
+  previousStep,
+  updateFormData,
+  formData,
+  selections,
+}) => {
   const [showPopup, setShowPopup] = useState(false);
   const [whatsappUrl, setWhatsappUrl] = useState("");
 
-  // Función para obtener todas las medidas ingresadas
-  const getFormattedInputs = () => {
-    return Object.entries(formData)
+  const getFormattedInputs = () =>
+    Object.entries(formData)
       .filter(([key]) => ["width", "length", "height", "linear-feet"].includes(key))
       .map(([key, value]) => `• ${key.replace("-", " ")}: ${value}`)
       .join("\n");
-  };
 
-  // Validar que todos los campos requeridos estén completos
   const allRequiredFieldsFilled = stepData.fields
     ? stepData.fields.every((field) => !field.required || formData[field.id])
     : true;
 
-    const allRequiredMeasuresFilled = stepData.fields
-  ? stepData.fields
-      .filter((field) => ["width", "length", "height", "linear-feet"].includes(field.id)) // Solo los campos de medidas
-      .every((field) => !field.required || formData[field.id])
-  : true;
-
-  // Construir mensaje para WhatsApp
-  const buildMessage = () => {
-    return `*Request for Quotation*
-
+  const buildMessage = () => `
+    *Request for Quotation*
     • *Selected options:* ${selections.join(" | ")}
     ${getFormattedInputs() ? `• *Measures:* \n${getFormattedInputs()}\n` : ""}
-        • *Name:* ${formData.name || "Not provided"}
-        • *Phone:* ${formData.phone || "Not provided"}
-        • *Email:* ${formData.email || "Not provided"}
-        • *Zip Code:* ${formData.zip || "Not provided"}
-        • *Notes:* ${formData.notes || "None"}
-    `;
-  };
+    • *Name:* ${formData.name || "Not provided"}
+    • *Phone:* ${formData.phone || "Not provided"}
+    • *Email:* ${formData.email || "Not provided"}
+    • *Zip Code:* ${formData.zip || "Not provided"}
+    • *Notes:* ${formData.notes || "None"}
+  `;
 
-  // Función para copiar mensaje al portapapeles
   const copyToClipboard = (message: string) => {
-    navigator.clipboard.writeText(message).then(() => {
-      setShowPopup(true);
-    }).catch(() => {
-      alert("The message could not be copied. Please copy it manually.");
-    });
+    navigator.clipboard.writeText(message).then(() => setShowPopup(true));
   };
 
-  // Función para enviar el mensaje a WhatsApp
   const handleSendWhatsApp = () => {
     if (!allRequiredFieldsFilled) {
       alert("Please complete all required fields before submitting.");
@@ -65,24 +54,22 @@ const Step: React.FC<StepProps> = ({ stepData, nextStep, previousStep, updateFor
     }
 
     const message = buildMessage();
-    copyToClipboard(message); // Copia el mensaje antes de mostrar el popup
+    copyToClipboard(message);
 
-    const numeroWhatsApp = "13463800845";
-    const url = `https://wa.me/${numeroWhatsApp}?text=${encodeURIComponent(message)}`;
-    setWhatsappUrl(url);
+    const whatsappURL = `https://wa.me/13463800845?text=${encodeURIComponent(message)}`;
+    setWhatsappUrl(whatsappURL);
   };
 
   return (
-    <div className="w-content min-w-[90vw] max-w-[1080px] mx-10 mb-12 p-6 bg-white shadow-lg rounded-lg min-h-150 mt-25 flex flex-col justify-center items-center">
-      {/* Título */}
-      <div>
-        <h2 className="text-2xl font-semibold text-gray-800 text-center">{stepData.title}</h2>
-        <div className="w-20 h-[3px] background-skyblue mx-auto mb-1 mt-2 rounded-full"></div>
-      </div>
+    <div className="w-full max-w-[1080px] mx-5 mb-12 p-6 bg-white shadow-lg rounded-lg flex flex-col items-center">
+      <header className="text-center">
+        <h2 className="text-2xl font-semibold text-gray-800">{stepData.title}</h2>
+        <div className="w-20 h-[3px] bg-[#0d4754] mx-auto mb-1 mt-2 rounded-full"></div>
+      </header>
 
-      {/* Renderizar opciones con imágenes */}
+      {/* Opciones con imágenes */}
       {stepData.options && (
-        <div className="flex flex-col mt-4 md:flex-row">
+        <div className="flex flex-wrap justify-center mt-4 gap-4">
           {stepData.options.map((option, index) => (
             <button
               key={index}
@@ -96,13 +83,16 @@ const Step: React.FC<StepProps> = ({ stepData, nextStep, previousStep, updateFor
         </div>
       )}
 
-      {/* Renderizar inputs del formulario */}
+      {/* Campos del formulario */}
       {stepData.fields && (
-        <div className="mt-4 w-full max-w-md">
+        <fieldset className="mt-4 w-full max-w-md">
           {stepData.fields.map((field) => (
             <div key={field.id} className="mb-4">
-              <label className="block text-gray-700">{field.label}</label>
+              <label htmlFor={field.id} className="block text-gray-700">
+                {field.label}
+              </label>
               <input
+                id={field.id}
                 type="text"
                 className={`w-full px-3 py-2 border ${
                   field.required && !formData[field.id] ? "border-red-500" : "border-gray-300"
@@ -116,13 +106,12 @@ const Step: React.FC<StepProps> = ({ stepData, nextStep, previousStep, updateFor
               )}
             </div>
           ))}
-        </div>
+        </fieldset>
       )}
 
-      {/* Último paso: mostrar resumen y botón de WhatsApp */}
+      {/* Último paso con resumen y botón WhatsApp */}
       {stepData.title === "Contact and Resume" ? (
         <div className="w-full max-w-md">
-          {/* Mostrar opciones seleccionadas SOLO en el formulario final */}
           {selections.length > 0 && (
             <div className="bg-gray-200 p-3 rounded-md text-center">
               <h4 className="text-md font-semibold text-gray-700">Selected options:</h4>
@@ -130,7 +119,6 @@ const Step: React.FC<StepProps> = ({ stepData, nextStep, previousStep, updateFor
             </div>
           )}
 
-          {/* Mostrar las medidas ingresadas */}
           {getFormattedInputs() && (
             <div className="mt-4 bg-gray-200 p-3 rounded-md">
               <h4 className="text-md font-semibold text-gray-700">~ Measures:</h4>
@@ -141,21 +129,18 @@ const Step: React.FC<StepProps> = ({ stepData, nextStep, previousStep, updateFor
           <button
             onClick={handleSendWhatsApp}
             disabled={!allRequiredFieldsFilled}
-            className={`w-full py-2 rounded-full transition cursor-pointer ${
-              allRequiredFieldsFilled
-                ? "bg-green-500 text-white hover:bg-green-600"
-                : "bg-gray-400 text-gray-700 cursor-not-allowed"
+            className={`w-full py-2 rounded-full transition ${
+              allRequiredFieldsFilled ? "bg-green-500 text-white hover:bg-green-600" : "bg-gray-400 text-gray-700 cursor-not-allowed"
             } mt-4`}
           >
             {allRequiredFieldsFilled ? "Send to WhatsApp 📩" : "Complete all fields"}
           </button>
         </div>
       ) : (
-        // Mostrar botón "Continue" solo si el paso tiene inputs y no es el último
         stepData.fields && (
           <button
             onClick={() => nextStep(stepData.nextStep!)}
-            disabled={!allRequiredMeasuresFilled}
+            disabled={!allRequiredFieldsFilled}
             className="w-full max-w-75 bg-blue-500 text-white py-2 rounded-full hover:bg-blue-600 transition mt-3 cursor-pointer"
           >
             Continue
@@ -170,33 +155,22 @@ const Step: React.FC<StepProps> = ({ stepData, nextStep, previousStep, updateFor
         </button>
       )}
 
-       {/* Popup de confirmación */}
-        {showPopup && (
-          <div className="fixed inset-0 flex items-center justify-center bg-black/70 bg-opacity-50 z-50">
-            <div className="bg-white p-6 mx-5 rounded-lg shadow-lg text-center relative">
-              {/* Botón para cerrar el popup */}
-              <button
-                onClick={() => setShowPopup(false)}
-                className="absolute top-3 right-3 text-gray-600 hover:text-gray-800 cursor-pointer"
-              >
-                <X size={20} />
-              </button>
+      {/* Popup de confirmación */}
+      {showPopup && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black/70 bg-opacity-50 z-50">
+          <div className="bg-white p-6 mx-5 rounded-lg shadow-lg text-center relative">
+            <button onClick={() => setShowPopup(false)} className="absolute top-3 right-3 text-gray-600 hover:text-gray-800">
+              <X size={20} />
+            </button>
 
-              <p className="text-lg font-semibold">Message Copied</p>
-              <p className="text-red-500/80 font-semibold">If you use WhatsApp Desktop, copy it when you enter the chat</p>
-              <button
-                onClick={() => {
-                  setShowPopup(false);
-                  window.scrollTo(0, 0); // Llevar al inicio de la página
-                  window.open(whatsappUrl, "_blank"); // Redirigir a WhatsApp
-                }}
-                className="mt-4 bg-green-500 text-white px-4 py-2 rounded-full hover:bg-green-600 cursor-pointer"
-              >
-                Go to WhatsApp
-              </button>
-            </div>
+            <p className="text-lg font-semibold">Message Copied</p>
+            <p className="text-red-500/80 font-semibold">If you use WhatsApp Desktop, copy it when you enter the chat</p>
+            <button onClick={() => window.open(whatsappUrl, "_blank")} className="mt-4 bg-green-500 text-white px-4 py-2 rounded-full hover:bg-green-600">
+              Go to WhatsApp
+            </button>
           </div>
-        )}
+        </div>
+      )}
     </div>
   );
 };

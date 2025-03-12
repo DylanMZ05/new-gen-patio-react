@@ -2,18 +2,18 @@ import "../../styles/googleCards.css";
 import React, { useRef, useState, useEffect } from "react";
 
 const images: string[] = [
-  "assets/images/opinions/1.jpeg",
-  "assets/images/opinions/2.jpeg",
-  "assets/images/opinions/3.jpeg",
-  "assets/images/opinions/4.jpeg",
-  "assets/images/opinions/5.jpeg",
-  "assets/images/opinions/6.jpeg",
-  "assets/images/opinions/7.jpeg",
-  "assets/images/opinions/8.jpeg",
-  "assets/images/opinions/9.jpeg",
-  "assets/images/opinions/10.jpeg",
-  "assets/images/opinions/11.jpeg",
-  "assets/images/opinions/12.jpeg",
+  "assets/images/opinions/01.webp",
+  "assets/images/opinions/02.webp",
+  "assets/images/opinions/03.webp",
+  "assets/images/opinions/04.webp",
+  "assets/images/opinions/05.webp",
+  "assets/images/opinions/06.webp",
+  "assets/images/opinions/07.webp",
+  "assets/images/opinions/08.webp",
+  "assets/images/opinions/09.webp",
+  "assets/images/opinions/10.webp",
+  "assets/images/opinions/11.webp",
+  "assets/images/opinions/12.webp",
 ];
 
 const Clients: React.FC = () => {

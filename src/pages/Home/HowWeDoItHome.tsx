@@ -8,7 +8,7 @@ const HowWeDoItHome: React.FC = () => {
 
   useEffect(() => {
     const img = new Image();
-    img.src = "assets/images/Free3.jpg";
+    img.src = "assets/images/Products/Patios&Pergolas/Attached/02.webp";
     img.onload = () => setBgLoaded(true);
   }, []);
 
@@ -23,7 +23,7 @@ const HowWeDoItHome: React.FC = () => {
         className={`absolute inset-0 bg-cover bg-center bg-fixed transition-opacity duration-700 ${
           bgLoaded ? "opacity-100" : "opacity-0"
         }`}
-        style={{ backgroundImage: "url('assets/images/Free3.jpg')" }}
+        style={{ backgroundImage: "url('assets/images/Products/Patios&Pergolas/Attached/02.webp')" }}
         aria-hidden="true"
       ></div>
 

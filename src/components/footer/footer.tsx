@@ -106,12 +106,14 @@ const Footer: React.FC = () => {
               src="/new-gen-patio-react/assets/images/IdentidadSVG/LogoBlanco.svg"
               alt="New Gen Patio Logo"
               className="h-20 p-2 pl-0"
+              width="65"
+              height="80"
               loading="lazy"
             />
           </div>
 
           {/* Footer Information */}
-          <div className="text-white flex flex-col w-full max-w-[1920px] gap-8 md:flex-row md:justify-between px-5 mt-10">
+          <div className="text-white flex flex-col w-full max-w-[1920px] gap-8 md:flex-row md:justify-between px-5 mt-3">
             {/* Company Info */}
             <div className="flex flex-col">
               <h3 className="font-semibold text-2xl mb-3">NEW GEN PATIO</h3>

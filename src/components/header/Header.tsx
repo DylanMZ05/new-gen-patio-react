@@ -47,6 +47,8 @@ const Header: React.FC = () => {
               alt="New Gen Patio Logo"
               className="h-20 img-shadow p-2 pl-0"
               loading="lazy"
+              width="65"
+              height="80"
             />
           </Link>
           <div className={`hidden sm:block text-lg tracking-wider ml-3 transition-colors duration-300 ${

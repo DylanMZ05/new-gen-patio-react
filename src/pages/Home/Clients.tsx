@@ -97,6 +97,8 @@ const Clients: React.FC = () => {
                   src={image}
                   alt={`Customer review ${index % images.length + 1}`}
                   loading="lazy"
+                  width="320"
+                  height="250"
                   className="max-w-full max-h-full object-contain"
                   draggable="false"
                 />

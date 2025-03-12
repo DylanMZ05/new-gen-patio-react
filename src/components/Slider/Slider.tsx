@@ -4,7 +4,7 @@ import { Navigation, Pagination } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
-import "./Slider.css"; // Estilos personalizados si son necesarios
+import "./Slider.css";
 
 interface ImageSliderProps {
   images: string[];
@@ -35,8 +35,10 @@ const Slider: React.FC<ImageSliderProps> = ({ images, withBorderT = false, withB
         className="w-full"
         breakpoints={{
           0: { slidesPerView: 1, spaceBetween: 5 },
-          500: { slidesPerView: 2, spaceBetween: 5 },
-          1024: { slidesPerView: 3, spaceBetween: 5 },
+          400: { slidesPerView: 2, spaceBetween: 5 },
+          600: { slidesPerView: 4, spaceBetween: 5 },
+          1024: { slidesPerView: 6, spaceBetween: 5 },
+          1324: { slidesPerView: 8, spaceBetween: 5 },
         }}
       >
         {images.map((src, index) => (
@@ -44,7 +46,7 @@ const Slider: React.FC<ImageSliderProps> = ({ images, withBorderT = false, withB
             <img 
               src={src} 
               alt={`Project Image ${index + 1}`} 
-              className="w-full h-64 object-cover rounded-lg shadow-lg"
+              className="w-full aspect-square object-cover rounded-lg shadow-lg"
               loading="lazy" 
             />
           </SwiperSlide>

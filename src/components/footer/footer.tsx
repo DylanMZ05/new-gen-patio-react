@@ -1,29 +1,52 @@
+import { useState } from "react";
 import { FaInstagram, FaTiktok, FaPhoneAlt, FaEnvelope } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import useScrollToTop from "../../hooks/scrollToTop";
 
 const Footer: React.FC = () => {
   const scrollToTop = useScrollToTop();
+  const [isMapOpen, setIsMapOpen] = useState(false);
 
   return (
     <>
       {/* Sección superior con estadísticas y mapa */}
-      <section className="border-t-1 border-black/20 relative w-full">
+      <section className="border-t border-black/20 relative w-full">
+        {/* Título y Estadísticas */}
         <div className="flex flex-col items-center justify-center pt-[70px]">
           <h2 className="font-semibold text-4xl text-center px-1">
             +300 Projects Completed
           </h2>
           <div className="w-30 h-[3px] bg-[#0d4754] my-4 rounded-full"></div>
         </div>
-        <div className="relative w-full">
-          <div className="absolute top-0 left-0 w-full h-[67px] bg-white z-10"></div>
-          <iframe
-            className="w-full h-[500px] relative z-0"
-            title="New Gen Patio Location"
-            src="https://www.google.com/maps/d/embed?mid=1vO80YEvHvKl5MYKvlnHiZ6L6cdQo4Xc&amp;ehbc=2E312F"
-            loading="lazy"
-          ></iframe>
+
+        {/* Botón para Mostrar/Ocultar Mapa */}
+        <div className="flex justify-center mt-5">
+          <button
+            onClick={() => setIsMapOpen(!isMapOpen)}
+            className="bg-orange-500 text-white px-4 py-2 font-semibold rounded-full shadow-md hover:bg-orange-600 transition-transform duration-300 hover:scale-105 cursor-pointer mb-5"
+            aria-expanded={isMapOpen}
+            aria-controls="project-map"
+            aria-label={isMapOpen ? "📍 CLOSE MAP" : "📍 VIEW MAP"}
+          >
+            {isMapOpen ? "📍 CLOSE MAP" : "📍 VIEW MAP"}
+          </button>
         </div>
+
+        {/* Contenedor del Mapa - Solo se muestra si isMapOpen es true */}
+        {isMapOpen && (
+          <div
+            id="project-map"
+            className="w-full mt-5 flex items-center justify-center bg-gray-200 rounded-lg shadow-lg transition-all duration-700 overflow-hidden"
+          >
+            <iframe
+              className="w-full h-[500px] relative z-0 transition-opacity duration-700 -top-17 -mb-17"
+              title="New Gen Patio Locations"
+              src="https://www.google.com/maps/d/embed?mid=1vO80YEvHvKl5MYKvlnHiZ6L6cdQo4Xc&amp;ehbc=2E312F"
+              loading="lazy"
+              aria-label="Google Map showing multiple project locations"
+            ></iframe>
+          </div>
+        )}
       </section>
 
       {/* Footer principal */}

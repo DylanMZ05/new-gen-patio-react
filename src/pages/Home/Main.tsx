@@ -14,6 +14,7 @@ const Main: React.FC = () => {
       video.onloadeddata = () => setVideoLoaded(true);
     }
   }, []);
+  
 
   return (
     <section id="home" className="relative flex w-full h-screen max-h-[1080px]">

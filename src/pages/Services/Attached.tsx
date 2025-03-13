@@ -72,12 +72,6 @@ const Attached: React.FC = () => {
             imageUrl: "assets/images/Products/Patios&Pergolas/Attached/08.webp",
             imagePosition: "left" as const,
           },
-          {
-            title: "Increases home value",
-            text: "Well-designed outdoor spaces boost property appeal and resale value.",
-            imageUrl: "assets/images/Products/Patios&Pergolas/Attached/13.webp",
-            imagePosition: "right" as const,
-          },
         ].map((section, index) => (
           <ImgTxtSection key={index} {...section} />
         ))}

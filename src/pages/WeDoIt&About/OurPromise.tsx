@@ -12,7 +12,7 @@ const sectionsData = [
   },
 ];
 
-const HowWeDoIt: React.FC = () => {
+const OurPromise: React.FC = () => {
   return (
     <section
       className="min-h-screen w-full flex flex-col items-center bg-gray-100"
@@ -20,7 +20,7 @@ const HowWeDoIt: React.FC = () => {
       aria-labelledby="process-heading"
     >
       <header className="sr-only">
-        <h1 id="process-heading">Our Process – How We Do It</h1>
+        <h1 id="process-heading">How we do it – How We Do It</h1>
       </header>
 
       <SectionBlock sections={sectionsData} />
@@ -34,7 +34,7 @@ const HowWeDoIt: React.FC = () => {
           <div className="w-24 h-1 bg-[#0d4754] mx-auto rounded-full mt-5"></div>
           <p className="mt-4 text-lg leading-relaxed">
             Your satisfaction is at the heart of what we do. We use **high-quality materials** and **innovative techniques** to ensure durability and aesthetics. 
-            Our process is transparent, ensuring you feel confident every step of the way.
+            How we do it is transparent, ensuring you feel confident every step of the way.
           </p>
         </header>
 
@@ -102,4 +102,4 @@ const HowWeDoIt: React.FC = () => {
   );
 };
 
-export default HowWeDoIt;
+export default OurPromise;

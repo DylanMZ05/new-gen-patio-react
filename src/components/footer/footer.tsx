@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { FaInstagram, FaTiktok, FaPhoneAlt, FaEnvelope } from "react-icons/fa";
+import { FaInstagram, FaTiktok, FaPhoneAlt, FaEnvelope, FaPinterest, FaFacebookF } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import useScrollToTop from "../../hooks/scrollToTop";
 
@@ -159,25 +159,48 @@ const Footer: React.FC = () => {
             </div>
           </div>
 
-          {/* Redes Sociales */}
-          <div className="flex gap-3 w-full justify-center">
-            <a
-              href="https://www.instagram.com/newgenpatio/"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="Instagram"
-            >
-              <FaInstagram className="w-6 h-6 text-white hover:text-pink-500 transition-colors" />
-            </a>
-            <a
-              href="https://www.tiktok.com/@newgenpatio"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="TikTok"
-            >
-              <FaTiktok className="w-6 h-6 text-white hover:text-white/70 transition-colors" />
-            </a>
-          </div>
+       {/* Redes Sociales */}
+        <div className="flex gap-3 w-full justify-center mt-2">
+          {/* Instagram */}
+          <a
+            href="https://www.instagram.com/newgenpatio/"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Instagram"
+          >
+            <FaInstagram className="w-6 h-6 text-white hover:text-pink-500 transition-colors" />
+          </a>
+
+          {/* TikTok */}
+          <a
+            href="https://www.tiktok.com/@newgenpatio"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="TikTok"
+          >
+            <FaTiktok className="w-6 h-6 text-white hover:text-white/70 transition-colors" />
+          </a>
+
+          {/* Pinterest */}
+          <a
+            href="https://www.pinterest.com/newgenpatio/"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Pinterest"
+          >
+            <FaPinterest className="w-6 h-6 text-white hover:text-red-500 transition-colors" />
+          </a>
+
+          {/* Facebook */}
+          <a
+            href="https://www.facebook.com/newgenpatio"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Facebook"
+          >
+            <FaFacebookF className="w-6 h-6 text-white hover:text-blue-500 transition-colors" />
+          </a>
+        </div>
 
           {/* Navigation con Separadores "•" */}
           <h3 className="text-white/90 text-xl font-semibold mt-2">Navigation</h3>

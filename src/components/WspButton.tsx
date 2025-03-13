@@ -15,9 +15,9 @@ const WhatsAppButton = () => {
         title="Chat with us on WhatsApp"
         aria-label="Chat with us on WhatsApp"
         className="fixed bottom-20 sm:bottom-24 right-2 sm:right-4 md:right-5 lg:right-8 
-                  bg-green-500 text-white p-3 rounded-full shadow-lg 
+                  bg-green-500 text-white p-3 rounded-full shadow-xl 
                   hover:bg-green-600 transition duration-300 flex items-center justify-center 
-                  w-14 h-14 focus:ring-2 focus:ring-green-300 border border-black z-2000"
+                  w-14 h-14 focus:ring-2 focus:ring-green-300 border border-black/10 z-2000"
         tabIndex={0}
       >
         <FaWhatsapp size={28} />
@@ -29,9 +29,9 @@ const WhatsAppButton = () => {
         onClick={scrollToTop}
         aria-label="Request a free quote"
         className="fixed bottom-5 right-2 sm:right-4 md:right-5 lg:right-8 
-                  bg-orange-500 text-sm font-semibold text-white text-center p-3 rounded-full shadow-lg 
+                  bg-orange-500 text-sm font-semibold text-white text-center p-3 rounded-full shadow-xl 
                   hover:bg-orange-600 transition duration-300 flex items-center justify-center 
-                  w-14 h-14 leading-4 focus:ring-2 focus:ring-orange-300 border border-black z-2000"
+                  w-14 h-14 leading-4 focus:ring-2 focus:ring-orange-300 border border-black/10 z-2000"
         tabIndex={0}
       >
         Free Quote

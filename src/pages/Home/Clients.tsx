@@ -73,7 +73,7 @@ const Clients: React.FC = () => {
     <section
       id="reviews"
       aria-labelledby="clients-heading"
-      className="flex flex-col items-center justify-center py-12 px-6 border-t border-black/20 overflow-hidden"
+      className="flex flex-col items-center justify-center py-12 px-6 border-t border-black/20 overflow-hidden bg-gray-100"
     >
       <h2 id="clients-heading" className="font-semibold text-4xl text-center">
         Our Clients

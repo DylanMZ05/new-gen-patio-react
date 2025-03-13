@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { FaInstagram, FaTiktok } from "react-icons/fa";
+import { FaInstagram, FaTiktok, FaPinterest, FaFacebookF } from "react-icons/fa";
 import { Link } from 'react-router-dom';
 import useScrollToTop from "../../hooks/scrollToTop";
 
@@ -69,6 +69,7 @@ const Main: React.FC = () => {
 
         </div>
         <div className="flex gap-2 mt-2 ml-1">
+          {/* Instagram */}
           <a
             href="https://www.instagram.com/newgenpatio/"
             target="_blank"
@@ -77,6 +78,8 @@ const Main: React.FC = () => {
           >
             <FaInstagram className="w-8 h-8 text-white hover:text-pink-500 transition-colors" />
           </a>
+
+          {/* TikTok */}
           <a
             href="https://www.tiktok.com/@newgenpatio"
             target="_blank"
@@ -84,6 +87,26 @@ const Main: React.FC = () => {
             aria-label="TikTok"
           >
             <FaTiktok className="w-8 h-8 text-white hover:text-white/70 transition-colors" />
+          </a>
+
+          {/* Pinterest */}
+          <a
+            href="https://www.pinterest.com/newgenpatio/"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Pinterest"
+          >
+            <FaPinterest className="w-8 h-8 text-white hover:text-red-500 transition-colors" />
+          </a>
+
+          {/* Facebook */}
+          <a
+            href="https://www.facebook.com/newgenpatio"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Facebook"
+          >
+            <FaFacebookF className="w-8 h-8 text-white hover:text-blue-500 transition-colors" />
           </a>
         </div>
       </div>

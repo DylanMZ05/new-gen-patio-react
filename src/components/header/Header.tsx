@@ -101,7 +101,7 @@ const Header: React.FC = () => {
                         onClick={scrollToTop}
                         className="block pl-2 py-2 text-black/90 font-semibold hover:bg-gray-200 transition hover:text-orange-500"
                       >
-                        Our Process
+                        How we do it
                       </Link>
                     </div>
                   )}
@@ -205,7 +205,7 @@ const Header: React.FC = () => {
                       }} 
                       className="block py-2 text-lg hover:text-orange-500"
                     >
-                      Our Process
+                      How we do it
                     </Link>
                   </div>
                 )}

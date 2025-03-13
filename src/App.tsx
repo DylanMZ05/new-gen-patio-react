@@ -12,8 +12,9 @@ import ImageTextSection from "./components/ImgTxtSection";
 import Main from "./pages/Home/Main";
 import MarqueeBanner from "./components/MarqueeBanner";
 import Services from "./pages/Home/services/services";
-import HowWeDoItHome from "./pages/Home/HowWeDoItHome";
+import OurProcessHome from "./pages/Home/OurPromiseHome";
 import Clients from "./pages/Home/Clients";
+import HowWeDoItHome from "./pages/Home/HowWeDoItHome";
 import FAQ from "./pages/Home/FAQ/FAQ";
 import BlogsSection from "./pages/Home/BlogsSection";
 
@@ -29,7 +30,7 @@ import Calculator from "./pages/Calculator/Calculator";
 import FinancingOptions from "./pages/Calculator/FinancingOptions";
 
 // How We Do It & About Us
-import HowWeDoIt from "./pages/WeDoIt&About/OurPromise";
+import OurPromise from "./pages/WeDoIt&About/OurPromise";
 import OurProcess from "./pages/WeDoIt&About/OurProcess";
 import AboutUsPage from "./pages/WeDoIt&About/AboutUsPage";
 
@@ -102,7 +103,9 @@ const Layout = memo(() => {
               <Main />
               <MarqueeBanner />
               <Services />
+              <hr className="text-black/20"/>
               <HowWeDoItHome />
+              <OurProcessHome />
               <Clients />
               <FAQ />
               <BlogsSection />
@@ -123,13 +126,13 @@ const Layout = memo(() => {
             </main>
           </>
           } />
-        <Route path="/howwedoit" element={
+        <Route path="/ourpromise" element={
           <>
             <BlockSection />
-            <HowWeDoIt />
+            <OurPromise />
           </>
           } />
-        <Route path="/ourprocess" element={
+        <Route path="/howwedoit" element={
           <>
             <BlockSection />
             <OurProcess />

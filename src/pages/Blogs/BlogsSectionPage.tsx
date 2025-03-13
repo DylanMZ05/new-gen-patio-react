@@ -6,6 +6,8 @@ const BlogsSectionPage: React.FC = () => {
     window.scrollTo({ top: 0, behavior: "instant" });
   };
 
+  const maxSubtitleLength = 100;
+
   return (
     <section className="py-16 px-6 bg-gray-200 border-t border-black/10">
       <div className="max-w-6xl mx-auto">
@@ -32,7 +34,11 @@ const BlogsSectionPage: React.FC = () => {
                 <img src={blog.imageUrl} alt={blog.title} loading="lazy" className="w-full h-64 object-cover" />
                 <div className="p-5">
                   <h3 className="text-xl font-semibold text-gray-800">{blog.title}</h3>
-                  <p className="text-gray-600 mt-2 text-sm">{blog.subtitle}</p>
+                  <p className="text-gray-600 mt-2 text-sm">
+                    {blog.subtitle.length > maxSubtitleLength 
+                      ? `${blog.subtitle.substring(0, maxSubtitleLength)}...` 
+                      : blog.subtitle}
+                  </p>
 
                   {/* Flex para mantener alineado el botón y la fecha */}
                   <div className="flex justify-between items-center mt-3">

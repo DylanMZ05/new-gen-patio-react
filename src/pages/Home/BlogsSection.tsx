@@ -12,6 +12,8 @@ const BlogSection: React.FC = () => {
     window.scrollTo({ top: 0, behavior: "instant" });
   };
 
+  const maxSubtitleLength = 100;
+
   return (
     <section
       id="blogs"
@@ -58,8 +60,11 @@ const BlogSection: React.FC = () => {
                   <h3 id={`blog-title-${blog.id}`} className="text-xl font-semibold text-gray-800">
                     {blog.title}
                   </h3>
-                  <p className="text-gray-600 mt-2 text-sm">{blog.subtitle}</p>
-
+                  <p className="text-gray-600 mt-2 text-sm">
+                    {blog.subtitle.length > maxSubtitleLength 
+                      ? `${blog.subtitle.substring(0, maxSubtitleLength)}...` 
+                      : blog.subtitle}
+                  </p>
                   {/* Contenedor flex para alinear botón y fecha */}
                   <div className="flex justify-between items-center mt-3">
                     <Link

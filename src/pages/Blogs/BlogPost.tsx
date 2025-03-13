@@ -1,5 +1,27 @@
 import BlockSection from "../../components/BlockSection";
 
+const formatTextWithBold = (text: string) => {
+  return text.split(/(\*\*\*\*.*?\*\*\*\*|\*\*\*.*?\*\*\*|\*\*.*?\*\*)/g).map((part, index) => {
+    if (part.startsWith("****") && part.endsWith("****")) {
+      return (
+        <strong key={index} className="text-black text-3xl">
+          {part.slice(4, -4)}
+        </strong>
+      );
+    } else if (part.startsWith("***") && part.endsWith("***")) {
+      return (
+        <strong key={index} className="text-black text-lg">
+          {part.slice(3, -3)}
+        </strong>
+      );
+    } else if (part.startsWith("**") && part.endsWith("**")) {
+      return <strong key={index} className="text-black/90">{part.slice(2, -2)}</strong>;
+    } else {
+      return part;
+    }
+  });
+};
+
 const BlogPost: React.FC<{ 
   title: string; 
   subtitle: string; 
@@ -35,7 +57,9 @@ const BlogPost: React.FC<{
 
           {/* Contenido principal */}
           {content.map((paragraph, index) => (
-            <p key={index} className="text-gray-700 mt-4 whitespace-pre-line">{paragraph}</p>
+            <p key={index} className="text-gray-700 mt-4 whitespace-pre-line">
+              {formatTextWithBold(paragraph)}
+            </p>
           ))}
 
           {/* Imagen secundaria (Opcional) */}
@@ -45,7 +69,9 @@ const BlogPost: React.FC<{
 
           {/* Más contenido (Opcional) */}
           {moreContent?.map((paragraph, index) => (
-            <p key={index} className="text-gray-700 mt-4 whitespace-pre-line">{paragraph}</p>
+            <p key={index} className="text-gray-700 mt-4 whitespace-pre-line">
+              {formatTextWithBold(paragraph)}
+            </p>
           ))}
 
           {/* Imagen final (Opcional) */}
@@ -55,7 +81,9 @@ const BlogPost: React.FC<{
 
           {/* Último contenido (Opcional) */}
           {lastContent?.map((paragraph, index) => (
-            <p key={index} className="text-gray-700 mt-4 whitespace-pre-line">{paragraph}</p>
+            <p key={index} className="text-gray-700 mt-4 whitespace-pre-line">
+              {formatTextWithBold(paragraph)}
+            </p>
           ))}
           
           <p className="text-gray-500 text-sm mt-2">{formattedDate}</p>

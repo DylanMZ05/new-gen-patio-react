@@ -90,14 +90,14 @@ const Header: React.FC = () => {
                       onMouseLeave={() => setDropdownOpen(false)}
                     >
                       <Link
-                        to="/howwedoit"
+                        to="/ourpromise"
                         onClick={scrollToTop}
                         className="block pl-2 py-2 text-black/90 font-semibold hover:bg-gray-200 transition hover:text-orange-500"
                       >
                         Our Promise
                       </Link>
                       <Link
-                        to="/ourprocess"
+                        to="/howwedoit"
                         onClick={scrollToTop}
                         className="block pl-2 py-2 text-black/90 font-semibold hover:bg-gray-200 transition hover:text-orange-500"
                       >
@@ -186,7 +186,7 @@ const Header: React.FC = () => {
                 {mobileDropdownOpen && (
                   <div className="flex flex-col w-full text-center mt-2">
                     <Link 
-                      to="/howwedoit" 
+                      to="/ourpromise" 
                       onClick={() => { 
                         scrollToTop(); 
                         setMenuOpen(false); 
@@ -197,7 +197,7 @@ const Header: React.FC = () => {
                       Our Promise
                     </Link>
                     <Link 
-                      to="/ourprocess" 
+                      to="/howwedoit" 
                       onClick={() => { 
                         scrollToTop(); 
                         setMenuOpen(false); 

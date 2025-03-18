@@ -3,14 +3,14 @@ export const blogs = [
     id: 1,
     title: "Aluminum vs. Wood Pergolas: Which Is the Best Choice for Your Outdoor Space?",
     subtitle: "Choosing the right pergola material impacts durability, maintenance, and aesthetics.",
-    imageUrl: "public/assets/images/Products/Patios&Pergolas/Attached/01.webp",
+    imageUrl: "assets/images/Products/Patios&Pergolas/Attached/01.webp",
     
     content: [
       { text: "A pergola is more than just a decorative structure; it serves as an essential element in outdoor spaces, providing **shade**, **style**, and an extended living area." },
       { text: "Choosing the right material—**aluminum** or **wood**—is a key decision that influences the **longevity, maintenance, and overall aesthetics** of your space." },
       { text: "Climate conditions, upkeep requirements, and durability should be carefully considered when selecting a pergola. In regions with **intense sun, humidity, or frequent storms like Houston**, choosing a **weather-resistant** material is crucial to ensuring the pergola remains beautiful and functional for years." },
       
-      { image: "public/assets/images/Products/Patios&Pergolas/Attached/02.webp" },
+      { image: "assets/images/Products/Patios&Pergolas/Attached/02.webp" },
 
       { text: "****General Comparison: Aluminum vs. Wood****" },
       { text: "Both aluminum and wood are widely used materials for pergolas, each offering unique benefits and challenges." },
@@ -27,7 +27,7 @@ export const blogs = [
       { text: "✅ ***Cost*** – Wood has a **lower initial cost**, but aluminum offers **long-term savings** due to its **durability**." },
       { text: "✅ ***Sustainability*** – Aluminum is **recyclable and environmentally friendly**, while wood may require **harvesting of natural resources**." },
 
-      { image: "public/assets/images/Products/Patios&Pergolas/Attached/04.webp" },
+      { image: "assets/images/Products/Patios&Pergolas/Attached/04.webp" },
 
       { text: "****Advantages of Aluminum Pergolas****" },
       { text: "✅ **Exceptional Durability & Weather Resistance** – Unlike wood, aluminum **does not rot, crack, or warp** over time. It is **resistant to moisture, termites, and UV exposure**, making it perfect for **areas with high humidity, extreme heat, or heavy rainfall**." },
@@ -55,7 +55,7 @@ export const blogs = [
       { text: "• **Susceptibility to Weather Damage** – In **humid climates, wood can swell, crack, or develop mold**, shortening its lifespan." },
       { text: "• **Vulnerability to Insects** – Unlike aluminum, wood **attracts termites and other pests**, requiring **additional treatments**." },
 
-      { image: "public/assets/images/Products/Patios&Pergolas/Attached/07.webp" },
+      { image: "assets/images/Products/Patios&Pergolas/Attached/07.webp" },
 
       { text: "****Which Pergola Is Best for You?****" },
       { text: "***Consider These Key Factors Before Making a Decision:***" },
@@ -64,7 +64,7 @@ export const blogs = [
       { text: "✔ ***Budget:*** Wood is **cheaper upfront**, but **aluminum saves money** in the **long run** due to its **durability**." },
       { text: "✔ ***Aesthetic Preference:*** If you want a **modern, sleek design**, aluminum is the **better fit**. If you prefer a **rustic, traditional look**, wood may be the **right choice**." },
 
-      { image: "public/assets/images/Products/Patios&Pergolas/Attached/06.webp" },
+      { image: "assets/images/Products/Patios&Pergolas/Attached/06.webp" },
 
       { text: "****Conclusion****" },
       { text: "Both **aluminum and wood pergolas** have **unique advantages**, but the **right choice** depends on your **climate, maintenance preferences, budget, and design goals**." },

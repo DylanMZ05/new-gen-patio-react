@@ -170,7 +170,7 @@ const Layout = memo(() => {
 
 function App() {
   return (
-    <Router basename="/new-gen-patio-react">
+    <Router basename="/new-gen-patio-react/">
       <Layout />
     </Router>
   );

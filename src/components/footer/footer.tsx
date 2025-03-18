@@ -103,7 +103,7 @@ const Footer: React.FC = () => {
 
           <div className="w-full px-5">
             <img
-              src="/new-gen-patio-react/assets/images/IdentidadSVG/LogoBlanco.svg"
+              src="assets/images/IdentidadSVG/LogoBlanco.svg"
               alt="New Gen Patio Logo"
               className="h-20 p-2 pl-0"
               width="65"

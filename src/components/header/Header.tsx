@@ -41,9 +41,9 @@ const Header: React.FC = () => {
       <div className="flex justify-between items-center px-4 xl:px-15">
         {/* Logo */}
         <div className="flex items-center">
-          <Link to="//" aria-label="Home" onClick={scrollToTop}>
+          <Link to="/" aria-label="Home" onClick={scrollToTop}>
             <img
-              src={`/new-gen-patio-react/assets/images/IdentidadSVG/${isScrolled ? "LogoColor.svg" : "LogoBlanco.svg"}`}
+              src={`public/assets/images/IdentidadSVG/${isScrolled ? "LogoColor.svg" : "LogoBlanco.svg"}`}
               alt="New Gen Patio Logo"
               className="h-20 img-shadow p-2 pl-0"
               loading="lazy"
@@ -156,7 +156,7 @@ const Header: React.FC = () => {
         >
           {/* Logo - Cierra el menú y el desplegable */}
           <Link 
-            to="//" 
+            to="/" 
             aria-label="Home" 
             onClick={() => { 
               scrollToTop(); 
@@ -165,7 +165,7 @@ const Header: React.FC = () => {
             }}
           >
             <img
-              src={`/new-gen-patio-react/assets/images/IdentidadSVG/LogoBlanco.svg`}
+              src={`public/assets/images/IdentidadSVG/LogoBlanco.svg`}
               alt="New Gen Patio Logo"
               className="h-20 img-shadow p-2"
               loading="lazy"

@@ -47,36 +47,37 @@ const BlogSection: React.FC = () => {
                 style={{ gridRow: index >= 2 ? "span 1 / span 1" : "auto" }} // Forzar 2 filas en desktop
                 aria-labelledby={`blog-title-${blog.id}`}
               >
-                <figure className="w-full h-48">
-                  <img
-                    src={blog.imageUrl}
-                    alt={blog.title}
-                    loading="lazy"
-                    className="w-full h-full object-cover"
-                  />
-                  <figcaption className="sr-only">{blog.title}</figcaption>
-                </figure>
-                <div className="p-5">
-                  <h3 id={`blog-title-${blog.id}`} className="text-xl font-semibold text-gray-800">
-                    {blog.title}
-                  </h3>
-                  <p className="text-gray-600 mt-2 text-sm">
-                    {blog.subtitle.length > maxSubtitleLength 
-                      ? `${blog.subtitle.substring(0, maxSubtitleLength)}...` 
-                      : blog.subtitle}
-                  </p>
-                  {/* Contenedor flex para alinear botón y fecha */}
-                  <div className="flex justify-between items-center mt-3">
-                    <Link
-                      to={`/blog/${blog.id}`}
-                      className="text-blue-500 font-semibold hover:underline focus:ring-2 focus:ring-blue-400 focus:outline-none"
-                      onClick={handleScrollToTop}
-                    >
-                      Read More →
-                    </Link>
-                    <span className="text-gray-500 text-sm text-right">{formattedDate}</span>
+                {/* Envolvemos todo el contenido del artículo dentro de un Link */}
+                <Link
+                  to={`/blog/${blog.id}`}
+                  className="block"
+                  onClick={handleScrollToTop}
+                >
+                  <figure className="w-full h-48">
+                    <img
+                      src={`${import.meta.env.BASE_URL}${blog.imageUrl}`}
+                      alt={blog.title}
+                      loading="lazy"
+                      className="w-full h-full object-cover"
+                      onError={(e) => (e.currentTarget.src = "/assets/images/default-placeholder.webp")}
+                    />
+                    <figcaption className="sr-only">{blog.title}</figcaption>
+                  </figure>
+                  <div className="p-5">
+                    <h3 id={`blog-title-${blog.id}`} className="text-xl font-semibold text-gray-800">
+                      {blog.title}
+                    </h3>
+                    <p className="text-gray-600 mt-2 text-sm">
+                      {blog.subtitle.length > maxSubtitleLength 
+                        ? `${blog.subtitle.substring(0, maxSubtitleLength)}...` 
+                        : blog.subtitle}
+                    </p>
+                    {/* Contenedor flex para alinear botón y fecha */}
+                    <div className="flex justify-between items-center mt-3">
+                      <span className="text-gray-500 text-sm text-right">{formattedDate}</span>
+                    </div>
                   </div>
-                </div>
+                </Link>
               </article>
             );
           })}

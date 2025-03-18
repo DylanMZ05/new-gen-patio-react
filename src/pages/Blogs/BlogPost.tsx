@@ -1,16 +1,17 @@
 import BlockSection from "../../components/BlockSection";
+import MarqueeBanner from "../../components/MarqueeBanner";
 
-const formatTextWithBold = (text: string) => {
+const formatTextWithStyles = (text: string) => {
   return text.split(/(\*\*\*\*.*?\*\*\*\*|\*\*\*.*?\*\*\*|\*\*.*?\*\*)/g).map((part, index) => {
     if (part.startsWith("****") && part.endsWith("****")) {
       return (
-        <strong key={index} className="text-black text-3xl">
+        <strong key={index} className="text-black text-3xl mt-4">
           {part.slice(4, -4)}
         </strong>
       );
     } else if (part.startsWith("***") && part.endsWith("***")) {
       return (
-        <strong key={index} className="text-black text-lg">
+        <strong key={index} className="text-black text-xl mt-3">
           {part.slice(3, -3)}
         </strong>
       );
@@ -25,17 +26,21 @@ const formatTextWithBold = (text: string) => {
 const BlogPost: React.FC<{ 
   title: string; 
   subtitle: string; 
-  content: string[]; 
+  content: { text?: string; image?: string }[]; 
   imageUrl: string; 
-  secondaryImage?: string; 
-  moreContent?: string[]; 
-  finalImage?: string; 
-  lastContent?: string[];
   date: string; 
-}> = ({ title, subtitle, content, imageUrl, secondaryImage, moreContent, finalImage, lastContent, date }) => {
+}> = ({ title, subtitle, content, imageUrl, date }) => {
+  
   const formattedDate = date
     ? new Date(date).toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" })
     : "Unknown Date";
+
+  // Asegurar que las imágenes tengan la URL correcta
+  const baseUrl = import.meta.env.BASE_URL || "/";
+  const defaultImage = "/assets/images/default-placeholder.webp"; // Imagen de respaldo si la imagen principal falla
+  const resolvedImageUrl = imageUrl ? `${baseUrl}${imageUrl}` : `${baseUrl}${defaultImage}`;
+
+  console.log("BlogPost Image URL:", resolvedImageUrl);
 
   return (
     <>
@@ -43,50 +48,46 @@ const BlogPost: React.FC<{
       <section>
         {/* Imagen principal */}
         <img 
-          src={imageUrl} 
+          src={resolvedImageUrl} 
           alt={title} 
           loading="lazy" 
           className="w-full h-[45vh] object-cover mx-0 px-0"
+          onError={(e) => (e.currentTarget.src = `${baseUrl}${defaultImage}`)} 
         />
+
+        <MarqueeBanner />
 
         <article className="max-w-3xl mx-auto p-6">
           <header>
-            <h1 className="text-3xl font-semibold">{title}</h1>
-            <h2 className="text-xl text-gray-600">{subtitle}</h2>
+            <h1 className="text-3xl font-semibold mb-4">{title}</h1>
+            <h2 className="text-xl text-black/80 mb-3">{subtitle}</h2>
+            <div className="w-full h-[3px] bg-[#0d4754] mx-auto rounded-full"></div>
           </header>
 
-          {/* Contenido principal */}
-          {content.map((paragraph, index) => (
-            <p key={index} className="text-gray-700 mt-4 whitespace-pre-line">
-              {formatTextWithBold(paragraph)}
-            </p>
-          ))}
-
-          {/* Imagen secundaria (Opcional) */}
-          {secondaryImage && (
-            <img src={secondaryImage} alt={`Additional view of ${title}`} loading="lazy" className="w-full h-auto object-cover rounded-lg mt-4" />
-          )}
-
-          {/* Más contenido (Opcional) */}
-          {moreContent?.map((paragraph, index) => (
-            <p key={index} className="text-gray-700 mt-4 whitespace-pre-line">
-              {formatTextWithBold(paragraph)}
-            </p>
-          ))}
-
-          {/* Imagen final (Opcional) */}
-          {finalImage && (
-            <img src={finalImage} alt={`Final perspective of ${title}`} loading="lazy" className="w-full h-auto object-cover rounded-lg mt-4" />
-          )}
-
-          {/* Último contenido (Opcional) */}
-          {lastContent?.map((paragraph, index) => (
-            <p key={index} className="text-gray-700 mt-4 whitespace-pre-line">
-              {formatTextWithBold(paragraph)}
-            </p>
-          ))}
+          {/* Contenido y manejo de imágenes intercaladas */}
+          {content.map((item, index) => {
+            if (item.text) {
+              return (
+                <p key={index} className="text-gray-700 mt-4 whitespace-pre-line">
+                  {formatTextWithStyles(item.text)}
+                </p>
+              );
+            } else if (item.image) {
+              return (
+                <img 
+                  key={index} 
+                  src={`${baseUrl}${item.image}`} 
+                  alt={`Blog image ${index + 1}`} 
+                  loading="lazy" 
+                  className="w-full object-cover aspect-[2/1] rounded-lg mt-4" 
+                  onError={(e) => (e.currentTarget.src = `${baseUrl}${defaultImage}`)}
+                />
+              );
+            }
+            return null;
+          })}
           
-          <p className="text-gray-500 text-sm mt-2">{formattedDate}</p>
+          <p className="text-gray-600 text-md mt-5">{formattedDate}</p>
         </article>
       </section>
     </>

@@ -1,0 +1,12 @@
+User-agent: *
+Disallow: /wp-admin/
+Disallow: /wp-includes/
+Disallow: /financing-options/   # Evitamos que esta ruta sin header/footer sea indexada
+Disallow: /calculator/
+Disallow: /formpage/
+Disallow: /freequote/
+
+Allow: /public/
+Allow: /assets/
+
+Sitemap: https://www.newgenpatio.com/sitemap.xml

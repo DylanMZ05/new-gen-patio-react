@@ -1,5 +1,5 @@
 {
-  "name": "newgenreact",
+  "name": "new-gen-patio-react",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -68,13 +68,13 @@
   "main": "eslint.config.js",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/DylanMZ05/newgenreact.git"
+    "url": "git+https://github.com/DylanMZ05/new-gen-patio-react.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/DylanMZ05/newgenreact/issues"
+    "url": "https://github.com/DylanMZ05/new-gen-patio-react/issues"
   },
-  "homepage": "https://github.com/DylanMZ05/newgenreact#readme"
+  "homepage": "https://github.com/DylanMZ05/new-gen-patio-react#readme"
 }

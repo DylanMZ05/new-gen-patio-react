@@ -8,5 +8,6 @@ Disallow: /freequote/
 
 Allow: /public/
 Allow: /assets/
+Allow: /favicon.ico
 
 Sitemap: https://www.newgenpatio.com/sitemap.xml

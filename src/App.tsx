@@ -15,6 +15,7 @@ import Services from "./pages/Home/services/services";
 import OurProcessHome from "./pages/Home/OurPromiseHome";
 import Clients from "./pages/Home/Clients";
 import HowWeDoItHome from "./pages/Home/HowWeDoItHome";
+import AboutUsHome from "./pages/Home/AboutUsHome";
 import FAQ from "./pages/Home/FAQ/FAQ";
 import BlogsSection from "./pages/Home/BlogsSection";
 
@@ -146,6 +147,7 @@ const Layout = memo(() => {
               <hr className="text-black/20" />
               <HowWeDoItHome />
               <OurProcessHome />
+              <AboutUsHome />
               <Clients />
               <FAQ />
               <BlogsSection />

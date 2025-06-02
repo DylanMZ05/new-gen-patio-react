@@ -54,7 +54,7 @@ const Header: React.FC = () => {
           <div className={`hidden sm:block text-lg tracking-wider ml-3 transition-colors duration-300 ${
             isScrolled ? "text-black" : "text-white"
           }`}>
-            <h2 className="font-bold">NEW GEN PATIO</h2>
+            <p className="font-bold">NEW GEN PATIO</p>
             <p className="font-medium opacity-90">Modern Outdoor Living</p>
           </div>
         </div>

@@ -11,12 +11,12 @@ const HowWeDoItHome: React.FC = () => {
       className="relative flex flex-col items-center justify-center py-12 px-6 text-center bg-gray-100"
     >
       <header>
-        <p className="text-2xl font-semibold text-[#0d4754] tracking-wide uppercase">
-          Quality & Durability
-        </p>
-        <h2 id="how-we-do-it-heading" className="text-4xl font-semibold text-black mt-2">
+        <h2 id="how-we-do-it-heading" className="text-2xl font-semibold text-[#0d4754] tracking-wide uppercase">
           How We Do It
         </h2>
+        <p className="text-4xl font-semibold text-black mt-2">
+          From idea to reality
+        </p>
         <div className="w-24 h-1 bg-[#0d4754] my-3 rounded-full mx-auto"></div>
       </header>
 

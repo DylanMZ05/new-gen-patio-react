@@ -4,42 +4,127 @@
   <!-- Página principal -->
   <url>
     <loc>https://www.newgenpatio.com/</loc>
-    <lastmod>2025-03-23</lastmod>
+    <lastmod>2025-06-01</lastmod>
     <priority>1.0</priority>
     <changefreq>weekly</changefreq>
   </url>
 
-  <!-- Páginas principales -->
+  <!-- Servicios principales -->
   <url>
     <loc>https://www.newgenpatio.com/custom-aluminium-pergola-and-cover-patio-houston</loc>
-    <lastmod>2025-03-23</lastmod>
+    <lastmod>2025-06-01</lastmod>
     <priority>0.9</priority>
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://www.newgenpatio.com/about_us_patiobuildershouston</loc>
-    <lastmod>2025-03-23</lastmod>
+    <loc>https://www.newgenpatio.com/attached-covered-patio-houston</loc>
+    <lastmod>2025-06-01</lastmod>
+    <priority>0.9</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://www.newgenpatio.com/freestanding-covered-patio-houston</loc>
+    <lastmod>2025-06-01</lastmod>
+    <priority>0.9</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://www.newgenpatio.com/cantilever-cover-patio-houston</loc>
+    <lastmod>2025-06-01</lastmod>
+    <priority>0.9</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://www.newgenpatio.com/outdoor-kitchens-houston</loc>
+    <lastmod>2025-06-01</lastmod>
+    <priority>0.9</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://www.newgenpatio.com/modern-outdoor-kitchens-houston</loc>
+    <lastmod>2025-06-01</lastmod>
     <priority>0.8</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://www.newgenpatio.com/traditional-outdoor-kitchens-houston</loc>
+    <lastmod>2025-06-01</lastmod>
+    <priority>0.8</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://www.newgenpatio.com/concrete-and-turf-installation-houston</loc>
+    <lastmod>2025-06-01</lastmod>
+    <priority>0.8</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+
+  <!-- Empresa / Info -->
+  <url>
+    <loc>https://www.newgenpatio.com/our-promise-patio-builders-houston</loc>
+    <lastmod>2025-06-01</lastmod>
+    <priority>0.7</priority>
     <changefreq>monthly</changefreq>
   </url>
   <url>
     <loc>https://www.newgenpatio.com/howwedoit_patiobuildershouston</loc>
-    <lastmod>2025-03-23</lastmod>
-    <priority>0.8</priority>
+    <lastmod>2025-06-01</lastmod>
+    <priority>0.7</priority>
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://www.newgenpatio.com/blogs</loc>
-    <lastmod>2025-03-23</lastmod>
+    <loc>https://www.newgenpatio.com/about-us</loc>
+    <lastmod>2025-06-01</lastmod>
+    <priority>0.7</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+
+  <!-- Blog index -->
+  <url>
+    <loc>https://www.newgenpatio.com/blog</loc>
+    <lastmod>2025-06-01</lastmod>
     <priority>0.9</priority>
     <changefreq>weekly</changefreq>
   </url>
 
+  <!-- Blogs individuales (manual) -->
   <url>
-    <loc>https://www.newgenpatio.com/blog/1</loc>
-    <lastmod>2025-03-14</lastmod>
+    <loc>https://www.newgenpatio.com/blog/best-patio-cover-types</loc>
+    <lastmod>2025-05-15</lastmod>
     <priority>0.8</priority>
-    <changefreq>weekly</changefreq>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://www.newgenpatio.com/blog/aluminum-vs-wood-pergolas</loc>
+    <lastmod>2025-05-18</lastmod>
+    <priority>0.8</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+
+  <!-- Cotización y contacto -->
+  <url>
+    <loc>https://www.newgenpatio.com/patio-financing-houston</loc>
+    <lastmod>2025-06-01</lastmod>
+    <priority>0.7</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://www.newgenpatio.com/get-a-free-quote-houston</loc>
+    <lastmod>2025-06-01</lastmod>
+    <priority>0.8</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://www.newgenpatio.com/contact-us</loc>
+    <lastmod>2025-06-01</lastmod>
+    <priority>0.6</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://www.newgenpatio.com/formpage</loc>
+    <lastmod>2025-06-01</lastmod>
+    <priority>0.6</priority>
+    <changefreq>monthly</changefreq>
   </url>
 
 </urlset>

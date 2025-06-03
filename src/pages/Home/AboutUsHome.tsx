@@ -20,9 +20,9 @@ const AboutUsHome: React.FC = () => {
         <div className="w-24 h-1 bg-[#0d4754] my-3 rounded-full mx-auto"></div>
       </header>
 
-      <p className="text-lg font-medium text-black/90 max-w-2xl">
+      <h3 className="text-lg font-medium text-black/90 max-w-2xl">
         We’re more than builders — we’re a team dedicated to designing outdoor spaces that inspire connection, comfort, and lasting memories.
-      </p>
+      </h3>
 
       <Link
         to="/about-us"

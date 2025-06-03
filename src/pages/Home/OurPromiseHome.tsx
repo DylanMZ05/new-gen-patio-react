@@ -38,9 +38,9 @@ const OurProcessHome: React.FC = () => {
 
         <div className="w-24 h-1 bg-orange-600 mt-4 mb-3 mx-auto rounded-full"></div>
 
-        <p className="text-lg leading-relaxed opacity-90">
+        <h3 className="text-lg leading-relaxed opacity-90">
         We design maintenance-free aluminum structures backed by a 5-year warranty. Our 100% recyclable materials ensure durability while reducing environmental impact. From custom 3D designs to seamless permit handling, we make your outdoor vision a reality.
-        </p>
+        </h3>
 
         <Link
           to="/our-promise-patio-builders-houston"

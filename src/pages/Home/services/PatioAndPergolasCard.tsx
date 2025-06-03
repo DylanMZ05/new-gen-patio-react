@@ -10,17 +10,17 @@ const serviceCards = [
   {
     title: "Attached Style",
     imageUrl: "assets/images/Products/Patios&Pergolas/Attached/01.webp",
-    link: "/attached-covered-patio-houston",
+    link: "/attached-aluminium-pergola-covered-patio",
   },
   {
     title: "Freestanding Style",
     imageUrl: "assets/images/Products/Patios&Pergolas/Attached/01.webp",
-    link: "/freestanding-covered-patio-houston",
+    link: "/free-standing-aluminium-pergola-covered-patio",
   },
     {
     title: "Cantilever Style",
     imageUrl: "assets/images/Products/OutdoorKitchen/Modern/01.webp",
-    link: "/cantilever-cover-patio-houston",
+    link: "/cantilever-aluminium-pergola",
   },
 ];
 

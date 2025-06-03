@@ -93,7 +93,7 @@ export const blogs = [
       
       { image: "assets/images/Blogs/Blog-2/01.webp" },
 
-      { link: { to: "/freestanding-covered-patio-houston", label: "****1. Freestanding Pergola****" } },
+      { link: { to: "/free-standing-aluminium-pergola-covered-patio", label: "****1. Freestanding Pergola****" } },
       { text: "A standalone pergola that can be placed anywhere in your backyard, offering a versatile and customizable space for relaxation, entertainment, or shade." },
       { text: "✅ ***Best suited for:*** Large patios or standalone garden areas." },
       { text: "● Installed independently from your home’s structure." },
@@ -103,7 +103,7 @@ export const blogs = [
     
       { image: "assets/images/Blogs/Blog-2/02.webp" },
 
-      { link: { to: "/cantilever-cover-patio-houston", label: "****2. Cantilevered Pergola****" } },
+      { link: { to: "/cantilever-aluminium-pergola", label: "****2. Cantilevered Pergola****" } },
       { text: "A modern, innovative pergola with a cantilevered structure, providing shade without traditional corner posts, resulting in a clean and sophisticated look." },
       { text: "✅ ***Best suited for:*** Areas with restricted space or scenic views." },
       { text: "● Designed without front posts for open visual flow." },
@@ -113,7 +113,7 @@ export const blogs = [
     
       { image: "assets/images/Blogs/Blog-2/03.webp" },
 
-      { link: { to: "/attached-covered-patio-houston", label: "****3. Attached Covered Patio****" } },
+      { link: { to: "/attached-aluminium-pergola-covered-patio", label: "****3. Attached Covered Patio****" } },
       { text: "An attached pergola that seamlessly connects to your home’s structure, providing shade and protection while maintaining a smooth transition between indoor and outdoor spaces." },
       { text: "✅ ***Best suited for:*** Patios that connect directly to the home." },
       { text: "● Seamlessly extends the indoor living space outward." },

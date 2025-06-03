@@ -20,10 +20,10 @@ const HowWeDoItHome: React.FC = () => {
         <div className="w-24 h-1 bg-[#0d4754] my-3 rounded-full mx-auto"></div>
       </header>
 
-      <p className="text-lg font-medium text-black/90 max-w-2xl">
+      <h3 className="text-lg font-medium text-black/90 max-w-2xl">
         From concept to completion, we craft premium outdoor spaces that blend elegance and functionality. 
         Our process ensures durability, style, and efficiency, delivering a hassle-free experience from start to finish.
-      </p>
+      </h3>
 
       <Link
         to="/howwedoit_patiobuildershouston"

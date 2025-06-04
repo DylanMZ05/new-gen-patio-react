@@ -15,7 +15,7 @@ const Header: React.FC = () => {
   let dropdownTimeout: ReturnType<typeof setTimeout>;
 
   const routeMap: { [key: string]: string } = {
-    "services": "/custom-aluminium-pergola-and-cover-patio-houston",
+    "services": "/outdoor-living-pergola-covered-patio",
     "our-promise": "/howwedoit_patiobuildershouston",
     "who-we-are": "/about-us",
     "blogs": "/blog",

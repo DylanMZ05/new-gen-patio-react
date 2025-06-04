@@ -34,6 +34,7 @@ const Freestanding: React.FC = () => {
           name="description"
           content="Explore our freestanding aluminium pergolas in Houston—self-supported, elegant, and perfect for any area of your backyard. Ideal for modern outdoor living."
         />
+        <link rel="canonical" href="https://www.newgenpatio.com/free-standing-aluminium-pergola-covered-patio" />
       </Helmet>
 
       <section className="min-h-screen flex flex-col items-center bg-gray-100" aria-labelledby="freestanding-heading">

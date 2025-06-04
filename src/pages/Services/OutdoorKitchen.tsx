@@ -28,6 +28,7 @@ const OutdoorKitchen: React.FC = () => {
           name="description"
           content="Transform your backyard with a custom outdoor kitchen in Houston. Built to last, designed for entertaining, and optimized for year-round use."
         />
+        <link rel="canonical" href="https://www.newgenpatio.com/custom-outdoor-kitchen" />
       </Helmet>
 
       <section className="min-h-screen flex flex-col items-center bg-gray-100" aria-labelledby="outdoor-kitchen-heading">

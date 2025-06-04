@@ -33,6 +33,7 @@ const OutdoorKitchenModern: React.FC = () => {
           name="description"
           content="Discover our modern outdoor kitchens in Houston—designed with smart materials, integrated technology, and sleek aesthetics for a premium cooking experience."
         />
+        <link rel="canonical" href="https://www.newgenpatio.com/modern-outdoor-kitchens-houston" />
       </Helmet>
 
       <section className="min-h-screen flex flex-col items-center bg-gray-100" aria-labelledby="outdoor-kitchen-heading">

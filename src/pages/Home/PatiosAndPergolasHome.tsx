@@ -58,6 +58,7 @@ const PatiosAndPergolasHome = () => {
           name="description"
           content="Explore modern pergolas and covered patio solutions in Houston. Custom-designed for comfort, elegance, and long-lasting outdoor living spaces."
         />
+        <link rel="canonical" href="https://www.newgenpatio.com/outdoor-living-pergola-covered-patio" />
       </Helmet>
 
       <main className="flex flex-col justify-center items-center mb-10">

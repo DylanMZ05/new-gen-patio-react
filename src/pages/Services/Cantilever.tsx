@@ -34,6 +34,7 @@ const Cantilever: React.FC = () => {
           name="description"
           content="Explore our cantilever aluminium pergolas in Houston. Modern shade structures with no front posts, ideal for sleek, open outdoor living spaces."
         />
+        <link rel="canonical" href="https://www.newgenpatio.com/cantilever-aluminium-pergola" />
       </Helmet>
 
       <section className="min-h-screen flex flex-col items-center bg-gray-100" aria-labelledby="cantilever-heading">

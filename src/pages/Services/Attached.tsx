@@ -34,6 +34,7 @@ const Attached: React.FC = () => {
           name="description"
           content="Discover our Attached Aluminium Pergolas in Houston—elegant, durable, and seamlessly connected to your home for modern outdoor living."
         />
+        <link rel="canonical" href="https://www.newgenpatio.com/attached-aluminium-pergola-covered-patio" />
       </Helmet>
 
       <section className="min-h-screen flex flex-col items-center bg-gray-100" aria-labelledby="attached-heading">

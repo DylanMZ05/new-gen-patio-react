@@ -196,7 +196,7 @@ const Footer: React.FC = () => {
           <div className="flex flex-wrap justify-center text-white text-sm mt-4 gap-2">
             {["services", "our-promise", "who-we-are", "blogs", "contact"].map((id, index, array) => {
               const routeMap: { [key: string]: string } = {
-                "services": "/outdoor-living-pergola-covered-patio",
+                "services": "/aluminium-custom-pergola-cover-patio",
                 "our-promise": "/howwedoit_patiobuildershouston",
                 "who-we-are": "/about-us",
                 "blogs": "/blog",

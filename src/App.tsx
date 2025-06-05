@@ -53,7 +53,7 @@ const Layout = memo(() => {
   const location = useLocation();
 
   const layoutRoutes = useMemo(() => [
-    "/", "/outdoor-living-pergola-covered-patio",
+    "/", "/aluminium-custom-pergola-cover-patio",
     "/our-promise-patio-builders-houston", "/howwedoit_patiobuildershouston", "/about-us",
     "/blog", "/blogs/blog/:slug", "/blog/:slug",
     "/attached-aluminium-pergola-covered-patio", "/free-standing-aluminium-pergola-covered-patio",
@@ -61,7 +61,7 @@ const Layout = memo(() => {
     "/modern-outdoor-kitchens-houston", "/traditional-outdoor-kitchens-houston",
     "/concrete-and-turf-installation-houston", "/patio-financing-houston",
     "/get-a-free-quote-houston", "/contact-us", "/formpage", "/blog/best-patio-cover-types",
-    "/blog/aluminum-vs-wood-pergolas", "/outdoor-living-services-patios-houston"
+    "/blog/aluminum-vs-wood-pergolas", "/outdoor-living-services"
   ], []);
 
   const noLayoutRoutes = useMemo(() => ["/financing-options", "/get-a-free-quote-houston-tracking", "/whatsapp-redirect"], []);
@@ -93,10 +93,10 @@ const Layout = memo(() => {
             <MainHome />
           }
         />
-        <Route path="/outdoor-living-pergola-covered-patio" element={
+        <Route path="/aluminium-custom-pergola-cover-patio" element={
           <PatiosAndPergolasHome />
         } />
-        <Route path="/outdoor-living-services-patios-houston" element={
+        <Route path="/outdoor-living-services" element={
           <ServicesMain />
         } />
         <Route path="/our-promise-patio-builders-houston" element={<><BlockSection /><OurPromise /></>} />

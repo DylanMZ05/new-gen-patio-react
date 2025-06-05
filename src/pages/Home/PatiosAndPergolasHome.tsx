@@ -10,7 +10,7 @@ import ImageTextSection from "../../components/ImgTxtSection";
 const sectionsData3 = [
   {
     id: 6,
-    title: "Custom outdoor living spaces, Pergola and Cover Patio",
+    title: "Aluminium Custom Pergola and Cover Patios",
     description: "Discover our modern, innovative solutions designed to enhance outdoor living with style, functionality, and durability.",
     backgroundImage: "assets/images/Products/Patios&Pergolas/Attached/04.webp",
   },
@@ -53,12 +53,12 @@ const PatiosAndPergolasHome = () => {
   return (
     <>
       <Helmet>
-        <title>Custom Outdoor Living Solution | New Gen Patio</title>
+        <title>Aluminium Cover Patios and Pergolas in Texas | New Gen Patio</title>
         <meta
           name="description"
           content="Explore modern pergolas and covered patio solutions in Houston. Custom-designed for comfort, elegance, and long-lasting outdoor living spaces."
         />
-        <link rel="canonical" href="https://www.newgenpatio.com/outdoor-living-pergola-covered-patio" />
+        <link rel="canonical" href="https://www.newgenpatio.com/aluminium-custom-pergola-cover-patio" />
       </Helmet>
 
       <main className="flex flex-col justify-center items-center mb-10">

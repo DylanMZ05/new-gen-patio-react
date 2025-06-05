@@ -15,7 +15,7 @@ const Header: React.FC = () => {
   let dropdownTimeout: ReturnType<typeof setTimeout>;
 
   const routeMap: { [key: string]: string } = {
-    "services": "/outdoor-living-services-patios-houston",
+    "services": "/outdoor-living-services",
     "our-promise": "/howwedoit_patiobuildershouston",
     "who-we-are": "/about-us",
     "blogs": "/blog",

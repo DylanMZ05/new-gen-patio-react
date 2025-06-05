@@ -11,7 +11,7 @@
 
   <!-- Servicios principales -->
   <url>
-    <loc>https://www.newgenpatio.com/outdoor-living-pergola-covered-patio</loc>
+    <loc>https://www.newgenpatio.com/aluminium-custom-pergola-cover-patio</loc>
     <lastmod>2025-06-01</lastmod>
     <priority>0.9</priority>
     <changefreq>monthly</changefreq>
@@ -83,6 +83,13 @@
   <url>
     <loc>https://www.newgenpatio.com/blog</loc>
     <lastmod>2025-06-01</lastmod>
+    <priority>0.9</priority>
+    <changefreq>weekly</changefreq>
+  </url>
+
+    <url>
+    <loc>https://www.newgenpatio.com/outdoor-living-services</loc>
+    <lastmod>2025-06-05</lastmod>
     <priority>0.9</priority>
     <changefreq>weekly</changefreq>
   </url>

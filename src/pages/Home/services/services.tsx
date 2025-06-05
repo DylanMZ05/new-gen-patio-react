@@ -10,7 +10,7 @@ const serviceCards = [
   {
     title: "Covered Patios & Pergolas",
     imageUrl: "assets/images/Products/Patios&Pergolas/Attached/01.webp",
-    link: "/outdoor-living-pergola-covered-patio",
+    link: "/aluminium-custom-pergola-cover-patio",
   },
     {
     title: "Outdoor Kitchens",

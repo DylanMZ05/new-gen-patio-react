@@ -41,13 +41,13 @@ const Main: React.FC = () => {
         aria-labelledby="main-heading"
       >
         <div className="w-[90vw] sm:w-[70vw]">
-          <h1 id="main-heading" className="text-3xl md:text-5xl font-bold">
-            Custom Aluminum Pergolas in Houston
+          <h1 id="main-heading" className="text-2xl md:text-4xl font-bold">
+            Custom Outdoor Space Builders, Cover Patios and Pergolas
           </h1>
 
           <div className="w-[45vw] md:w-80 h-[3px] bg-orange-700 mt-4 mb-1 ml-1 rounded-full"></div>
 
-          <h2 className="text-2xl md:text-4xl font-semibold">
+          <h2 className="text-xl md:text-3xl font-semibold">
             Modern & Durable Pergolas and Covered Patio for Texas Homes
           </h2>
 

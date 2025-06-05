@@ -19,6 +19,7 @@ import ConcreteTurf from "./pages/Services/ConcreteTurf";
 import OutdoorKitchenModern from "./pages/Services/OutdoorKitchenModern";
 import OutdoorKitchenTraditional from "./pages/Services/OutdoorKitchenTraditional";
 import PatiosAndPergolasHome from "./pages/Home/PatiosAndPergolasHome";
+import ServicesMain from "./pages/Home/ServicesMain";
 
 // Calculator
 import Calculator from "./pages/Calculator/Calculator";
@@ -60,7 +61,7 @@ const Layout = memo(() => {
     "/modern-outdoor-kitchens-houston", "/traditional-outdoor-kitchens-houston",
     "/concrete-and-turf-installation-houston", "/patio-financing-houston",
     "/get-a-free-quote-houston", "/contact-us", "/formpage", "/blog/best-patio-cover-types",
-    "/blog/aluminum-vs-wood-pergolas"
+    "/blog/aluminum-vs-wood-pergolas", "/outdoor-living-services-patios-houston"
   ], []);
 
   const noLayoutRoutes = useMemo(() => ["/financing-options", "/get-a-free-quote-houston-tracking", "/whatsapp-redirect"], []);
@@ -94,6 +95,9 @@ const Layout = memo(() => {
         />
         <Route path="/outdoor-living-pergola-covered-patio" element={
           <PatiosAndPergolasHome />
+        } />
+        <Route path="/outdoor-living-services-patios-houston" element={
+          <ServicesMain />
         } />
         <Route path="/our-promise-patio-builders-houston" element={<><BlockSection /><OurPromise /></>} />
         <Route path="/howwedoit_patiobuildershouston" element={<><BlockSection /><OurProcess /></>} />

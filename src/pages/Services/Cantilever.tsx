@@ -42,14 +42,19 @@ const Cantilever: React.FC = () => {
         <Slider images={validImages} withBorderT />
         <MarqueeBanner />
 
-        <div className="pt-8 px-5">
-          <h2 className="font-semibold text-3xl mb-3">Why might you need it?</h2>
-          <div className="ml-1 w-16 h-[3px] bg-[#0d4754] mt-3 mb-2 rounded-full"></div>
+        <div className="pt-8 px-5 max-w-3xl">
+          <h2 className="font-semibold text-3xl mb-3 text-center">Why might you need it?</h2>
+          <div className="w-16 h-[3px] bg-[#0d4754] mt-3 mb-2 mx-auto rounded-full"></div>
           <ul className="list-disc pl-6 text-lg">
             <li>You want a modern pergola without posts blocking your view or movement.</li>
             <li>You need a shading solution that takes up minimal space.</li>
             <li>You prefer a sleek, sophisticated design that complements a contemporary home.</li>
           </ul>
+        </div>
+
+        <div className="pt-8 px-5 max-w-3xl">
+          <h2 className="font-bold text-4xl mb-3 text-center text-black/90">Benefits</h2>
+          <div className="w-16 h-[3px] bg-[#0d4754] mt-3 mx-auto rounded-full"></div>
         </div>
 
         <div className="flex flex-col my-10 gap-10 items-center">

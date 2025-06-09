@@ -42,9 +42,9 @@ const Attached: React.FC = () => {
         <Slider images={validImages} withBorderT />
         <MarqueeBanner />
 
-        <div className="pt-8 px-5">
-          <h2 className="font-semibold text-3xl mb-3">Why might you need it?</h2>
-          <div className="ml-1 w-16 h-[3px] bg-[#0d4754] mt-3 mb-2 rounded-full"></div>
+        <div className="pt-8 px-5 max-w-3xl">
+          <h2 className="font-semibold text-3xl mb-3 text-center">Why might you need it?</h2>
+          <div className="w-16 h-[3px] bg-[#0d4754] mt-3 mb-2 mx-auto rounded-full"></div>
           <ul className="list-disc pl-6 text-lg">
             <li>Your patio gets too much sun, making it uncomfortable during peak hours.</li>
             <li>You want an outdoor space that feels like a natural extension of your home.</li>
@@ -52,16 +52,21 @@ const Attached: React.FC = () => {
           </ul>
         </div>
 
+        <div className="pt-8 px-5 max-w-3xl">
+          <h2 className="font-bold text-4xl mb-3 text-center text-black/90">Benefits</h2>
+          <div className="w-16 h-[3px] bg-[#0d4754] mt-3 mx-auto rounded-full"></div>
+        </div>
+
         <div className="flex flex-col my-10 gap-10 items-center">
           {[
             {
-              title: "Seamless integration",
-              text: "This type of cover is directly attached to the house using a wall header, ensuring even load distribution but  it’s not intrusive and we won’t modify the structure of your home. As a result, the structure extends the living space naturally, blending harmoniously with the existing architecture.",
+              title: "Seamless Integration",
+              text: "This type of cover is directly attached to the house using a wall header, ensuring even load distribution but it’s not intrusive and we won’t modify the structure of your home. As a result, the structure extends the living space naturally, blending harmoniously with the existing architecture.",
               imageUrl: "assets/images/Products/Patios&Pergolas/Attached/02.webp",
               imagePosition: "right" as const,
             },
             {
-              title: "Energy efficiency",
+              title: "Energy Efficiency",
               text: "The use of 3-inch insulated roofing panels significantly reduces heat transfer, minimizing indoor temperatures. By decreasing direct sun exposure on windows and glass doors, energy efficiency is improved, leading to a 30% reduction in air conditioning costs.",
               imageUrl: "assets/images/Products/Patios&Pergolas/Attached/03.webp",
               imagePosition: "left" as const,
@@ -78,7 +83,8 @@ const Attached: React.FC = () => {
               imageUrl: "assets/images/Products/Patios&Pergolas/Attached/08.webp",
               imagePosition: "left" as const,
             },
-          ].map((section, index) => (
+          ]
+          .map((section, index) => (
             <ImgTxtSection key={index} {...section} />
           ))}
           <FreeQuoteButton />

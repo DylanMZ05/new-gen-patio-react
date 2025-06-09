@@ -42,14 +42,20 @@ const Freestanding: React.FC = () => {
         <Slider images={validImages} withBorderT />
         <MarqueeBanner />
 
-        <div className="pt-8 px-5">
-          <h2 className="font-semibold text-3xl mb-3">Why might you need it?</h2>
-          <div className="ml-1 w-16 h-[3px] bg-[#0d4754] mt-3 mb-2 rounded-full"></div>
+
+        <div className="pt-8 px-5 max-w-3xl">
+          <h2 className="font-semibold text-3xl mb-3 text-center">Why might you need it?</h2>
+          <div className="w-16 h-[3px] bg-[#0d4754] mt-3 mb-2 mx-auto rounded-full"></div>
           <ul className="list-disc pl-6 text-lg">
             <li>You want a shaded entertainment area in the middle of your garden or by the pool.</li>
             <li>You're looking to define a space without building walls or heavy structures.</li>
             <li>You need a shaded retreat that doesn’t rely on your home’s structure.</li>
           </ul>
+        </div>
+
+        <div className="pt-8 px-5 max-w-3xl">
+          <h2 className="font-bold text-4xl mb-3 text-center text-black/90">Benefits</h2>
+          <div className="w-16 h-[3px] bg-[#0d4754] mt-3 mx-auto rounded-full"></div>
         </div>
 
         <div className="flex flex-col my-10 gap-10 items-center">
@@ -78,7 +84,8 @@ const Freestanding: React.FC = () => {
               imageUrl: "assets/images/Products/Patios&Pergolas/Freestanding/09.webp",
               imagePosition: "left" as const,
             },
-          ].map((section, index) => (
+          ]
+          .map((section, index) => (
             <ImgTxtSection key={index} {...section} />
           ))}
         </div>

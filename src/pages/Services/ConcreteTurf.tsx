@@ -47,15 +47,15 @@ const ConcreteTurf: React.FC = () => {
 
       <MarqueeBanner />
 
-      <div className="pt-8 px-5">
-        <h2 className="font-semibold text-3xl mb-3">Why might you need it?</h2>
-        <div className="ml-1 w-16 h-[3px] bg-[#0d4754] mt-3 mb-2 rounded-full"></div>
-        <ul className="list-disc pl-6 text-lg">
-          <li>You want a fully functional outdoor space to enjoy year-round.</li>
-          <li>You're looking for a low-maintenance and visually appealing backyard solution.</li>
-          <li>You want a complete design that blends hardscapes, greenery, and outdoor cooking areas.</li>
-        </ul>
-      </div>
+        <div className="pt-8 px-5 max-w-3xl">
+          <h2 className="font-semibold text-3xl mb-3 text-center">Why might you need it?</h2>
+          <div className="w-16 h-[3px] bg-[#0d4754] mt-3 mb-2 mx-auto rounded-full"></div>
+          <ul className="list-disc pl-6 text-lg">
+            <li>You want a fully functional outdoor space to enjoy year-round.</li>
+            <li>You're looking for a low-maintenance and visually appealing backyard solution.</li>
+            <li>You want a complete design that blends hardscapes, greenery, and outdoor cooking areas.</li>
+          </ul>
+        </div>
 
       {/* Beneficios de Concrete y Landscaping */}
       <div className="flex flex-col my-10 gap-10 items-center">

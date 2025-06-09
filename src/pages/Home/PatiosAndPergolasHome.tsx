@@ -18,36 +18,37 @@ const sectionsData3 = [
 
 const sections = [
   {
-    title: "Custom & Exclusive Design",
-    text: "Every project is uniquely tailored to your needs, style, and space. We don't offer generic solutions. We create personalized designs that reflect your personality and maximize your patio’s functionality.",
-    imageUrl: "assets/images/Products/Patios&Pergolas/Attached/02.webp",
-    imagePosition: "right" as const,
-  },
-  {
-    title: "High-Quality & Durable Materials",
-    text: "We use premium materials that ensure weather resistance, low maintenance, and a flawless appearance for years to come. Investing in quality means enjoying your outdoor space worry-free.",
-    imageUrl: "assets/images/Products/Patios&Pergolas/Attached/03.webp",
-    imagePosition: "left" as const,
-  },
-  {
-    title: "Expertise & Professionalism Guaranteed",
-    text: "Our team of specialists transforms patios with meticulous attention to detail. From design to installation, we ensure the final result exceeds your expectations.",
-    imageUrl: "assets/images/Products/Patios&Pergolas/Attached/05.webp",
-    imagePosition: "right" as const,
-  },
-  {
-    title: "Increased Property Value",
-    text: "A well-designed outdoor space not only enhances your lifestyle but also boosts your home’s value. It’s a smart investment that improves both the aesthetics and functionality of your property.",
-    imageUrl: "assets/images/Products/Patios&Pergolas/Attached/08.webp",
-    imagePosition: "left" as const,
-  },
-  {
     title: "Stress-Free Experience: We Handle Everything",
     text: "From planning to construction, we manage every aspect of the project so you can simply enjoy the process. We commit to meeting deadlines, providing a transparent service, and delivering exactly what you envisioned.",
-    imageUrl: "assets/images/Products/Patios&Pergolas/Attached/13.webp",
+    imageUrl: "assets/images/Products/Patios&Pergolas/Attached/07.webp",
+    imagePosition: "right" as const,
+  },
+  {
+    title: "Built with High-Grade Structural Aluminum",
+    text: "We use aluminum engineered to withstand up to 120 mph winds, resistant to rust, corrosion, and pests—perfect for Houston’s demanding climate.",
+    imageUrl: "assets/images/Products/Patios&Pergolas/Freestanding/14.webp",
+    imagePosition: "left" as const,
+  },
+  {
+    title: "Custom Design for Your Space and Style",
+    text: "Each patio cover is made to measure, adapting to your home’s dimensions and design preferences. We offer options like attached, freestanding, or cantilevered models, all customizable in color and finish.",
+    imageUrl: "assets/images/Products/Patios&Pergolas/Cantilever/05.webp",
+    imagePosition: "right" as const,
+  },
+  {
+    title: "Roofing Panels with Insulated Core",
+    text: "Our insulated roofing panels reduce heat and noise, making your patio cooler and more comfortable even during peak summer.",
+    imageUrl: "assets/images/Products/Patios&Pergolas/Attached/16.webp",
+    imagePosition: "left" as const,
+  },
+  {
+    title: "Smart Integration of Lighting and Fans",
+    text: "Electrical systems are professionally installed to power ceiling fans, recessed lights, outlets, and more—everything concealed and securely connected for a clean, modern finish.",
+    imageUrl: "assets/images/Products/Patios&Pergolas/Freestanding/17.webp",
     imagePosition: "right" as const,
   },
 ];
+
 
 const PatiosAndPergolasHome = () => {
   return (
@@ -66,6 +67,16 @@ const PatiosAndPergolasHome = () => {
         <SectionBlock sections={sectionsData3} />
         <MarqueeBanner />
         <PatiosAndPergolasCard />
+        <div className="pt-8 px-5 max-w-3xl">
+          <h3 className="font-semibold text-xl mb-4 text-center text-black/90">Adding a patio cover to your outdoor space isn’t just a design choice—it’s an upgrade in comfort, protection, and year-round usability.</h3>
+          <h2 className="font-semibold text-3xl mb-3 text-center">Why might you need it?</h2>
+          <div className="w-16 h-[3px] bg-[#0d4754] mt-3 mb-2 mx-auto rounded-full"></div>
+          <ul className="list-disc pl-6 text-lg">
+            <li>Your patio gets too much sun, making it uncomfortable during peak hours.</li>
+            <li>You want an outdoor space that feels like a natural extension of your home.</li>
+            <li>You're looking for an aesthetic and functional solution without taking up too much space.</li>
+          </ul>
+        </div>
         {sections.map((section, index) => (
           <ImageTextSection key={index} {...section} />
         ))}

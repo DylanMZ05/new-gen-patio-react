@@ -37,8 +37,8 @@ const OutdoorKitchen: React.FC = () => {
         <OutdorKitchenCard showQuoteButton={false} />
 
         <div className="pt-8 px-5">
-          <h2 className="font-semibold text-3xl mb-3">Why might you need it?</h2>
-          <div className="ml-1 w-16 h-[3px] bg-[#0d4754] mt-3 mb-2 rounded-full"></div>
+          <h2 className="font-semibold text-3xl mb-3 text-center">Why might you need it?</h2>
+          <div className="w-16 h-[3px] bg-[#0d4754] mt-3 mb-2 mx-auto rounded-full"></div>
           <ul className="list-disc pl-6 text-lg">
             <li>You love hosting gatherings and want a dedicated space for outdoor cooking and dining.</li>
             <li>You want to enhance your backyard with a functional and stylish entertainment area.</li>
@@ -46,10 +46,12 @@ const OutdoorKitchen: React.FC = () => {
           </ul>
         </div>
 
-        <div className="flex flex-col my-10 gap-10 items-center">
-          <h2 className="font-semibold text-4xl text-center">Key Features</h2>
-          <div className="w-16 h-[3px] bg-[#0d4754] rounded-full"></div>
+        <div className="pt-8 px-5 max-w-3xl">
+          <h2 className="font-bold text-4xl mb-3 text-center text-black/90">Benefits</h2>
+          <div className="w-16 h-[3px] bg-[#0d4754] mt-3 mx-auto rounded-full"></div>
+        </div>
 
+        <div className="flex flex-col my-10 gap-10 items-center">
           {[
             {
               title: "Weather-Resistant Materials",

@@ -64,6 +64,30 @@ const ConcreteTurf: React.FC = () => {
 
         {[
           {
+            title: "Efficient Drainage System",
+            text: "High-quality artificial turf features a vertical drainage system with perforations every 4 inches, ensuring rapid water flow and preventing puddles or moisture buildup.",
+            imageUrl: "assets/images/Products/AdditionalServices/Landscaping/01.webp",
+            imagePosition: "right" as const,
+          },
+          {
+            title: "Lower Surface Temperature",
+            text: "Advanced artificial turf models incorporate CoolTurf technology, which reflects sunlight and reduces surface temperature by up to 15°F, compared to traditional synthetic grass.",
+            imageUrl: "assets/images/Products/AdditionalServices/Landscaping/04.webp",
+            imagePosition: "left" as const,
+          },
+          {
+            title: "Chemical-Free and Pet-Friendly",
+            text: "Unlike natural grass, artificial turf requires no pesticides or fertilizers, making it safer for children and pets. Additionally, its non-organic composition prevents the growth of pests such as ants and ticks.",
+            imageUrl: "assets/images/Products/AdditionalServices/ArtificialGrass/03.webp",
+            imagePosition: "right" as const,
+          },
+          {
+            title: "Even Surface with Minimal Maintenance",
+            text: "Constructed with polyethylene backing and high-density synthetic fibers, the turf maintains a pristine appearance without requiring mowing, watering, or reseeding.",
+            imageUrl: "assets/images/Products/AdditionalServices/ArtificialGrass/04.webp",
+            imagePosition: "left" as const,
+          },
+          {
             title: "Crack-Resistant Concrete with Reinforced Additives",
             text: "Concrete mixes reinforced with glass fiber and waterproofing additives are used to minimize cracking and enhance durability against temperature fluctuations and impact stress.",
             imageUrl: "assets/images/Products/AdditionalServices/Concrete/01.webp",

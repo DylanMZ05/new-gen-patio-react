@@ -55,7 +55,7 @@ const ConcreteTurf: React.FC = () => {
             <li>You're looking for a low-maintenance and visually appealing backyard solution.</li>
             <li>You want a complete design that blends hardscapes, greenery, and outdoor cooking areas.</li>
           </ul>
-        </div>
+        </div> 
 
       {/* Beneficios de Concrete y Landscaping */}
       <div className="flex flex-col my-10 gap-10 items-center">

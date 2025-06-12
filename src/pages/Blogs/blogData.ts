@@ -9,19 +9,19 @@ type BlogContentBlock =
   | { type: "h2"; text: string }
   | { type: "h3"; text: string }
   | { type: "linkedHeading"; level: "h2" | "h3"; to: string; label: string };
+
 export interface Blog {
   id: number;
   slug: string;
   title: string;
-  metaTitle?: string; // Nuevo campo para SEO
+  metaTitle?: string;
   subtitle: string;
   imageUrl: string;
   content: BlogContentBlock[];
   date: string;
 }
 
-
-export const blogs = [
+export const blogs: Blog[] = [
   {
     id: 1,
     slug: "aluminum-vs-wood-pergolas",

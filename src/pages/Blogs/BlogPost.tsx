@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import BlockSection from "../../components/BlockSection";
 import MarqueeBanner from "../../components/MarqueeBanner";
 import useScrollToTop from "../../hooks/scrollToTop";
+import type { Blog } from "./blogData";
 
 const formatTextWithStyles = (text: string) => {
   return text.split(/(\*\*\*\*.*?\*\*\*\*|\*\*\*.*?\*\*\*|\*\*.*?\*\*)/g).map((part, index) => {
@@ -25,21 +26,7 @@ const formatTextWithStyles = (text: string) => {
   });
 };
 
-const BlogPost: React.FC<{
-  title: string;
-  subtitle: string;
-  content: (
-    | { type: "text"; text: string }
-    | { type: "image"; image: string }
-    | { type: "link"; link: { to: string; label: string } }
-    | { type: "inlineText"; inlineText: ({ text?: string; link?: { to: string; label: string } })[] }
-    | { type: "h2"; text: string }
-    | { type: "h3"; text: string }
-    | { type: "linkedHeading"; level: "h2" | "h3"; to: string; label: string }
-  )[];
-  imageUrl: string;
-  date: string;
-}> = ({ title, subtitle, content, imageUrl, date }) => {
+const BlogPost: React.FC<Blog> = ({ title, subtitle, content, imageUrl, date }) => {
   const scrollToTop = useScrollToTop();
 
   const formattedDate = date

@@ -7,8 +7,8 @@ type BlogContentBlock =
   | { type: "inlineText"; inlineText: { text?: string; link?: { to: string; label: string } }[] }
   | { type: "h1"; text: string }
   | { type: "h2"; text: string }
-  | { type: "h3"; text: string };
-
+  | { type: "h3"; text: string }
+  | { type: "linkedHeading"; level: "h2" | "h3"; to: string; label: string };
 export interface Blog {
   id: number;
   slug: string;

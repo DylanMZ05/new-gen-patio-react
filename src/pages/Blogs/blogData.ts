@@ -19,6 +19,7 @@ export interface Blog {
   imageUrl: string;
   content: BlogContentBlock[];
   date: string;
+  author?: string;
 }
 
 export const blogs: Blog[] = [
@@ -30,6 +31,7 @@ export const blogs: Blog[] = [
     subtitle: "Choosing the right pergola material impacts durability, maintenance, and aesthetics.",
     imageUrl: "assets/images/Products/Patios&Pergolas/Attached/01.webp",
     date: "2025-03-14",
+    author: "New Gen Patio LLC",
 
     content: [
       { type: "text", text: "A pergola is more than just a decorative structure; it serves as an essential element in outdoor spaces, providing **shade**, **style**, and an extended living area." },
@@ -105,6 +107,7 @@ export const blogs: Blog[] = [
     subtitle: "Discover the ideal cover for your patio based on your layout, style, and goals.",
     imageUrl: "assets/images/Products/Patios&Pergolas/Attached/10.webp",
     date: "2025-04-23",
+    author: "New Gen Patio LLC",
     content: [
       {
         type: "text",
@@ -123,7 +126,7 @@ export const blogs: Blog[] = [
         type: "linkedHeading",
         level: "h2",
         to: "/free-standing-aluminium-pergola-covered-patio",
-        label: "1. Freestanding Pergola"
+        label: "Freestanding Pergola"
       },
       {
         type: "text",
@@ -141,7 +144,7 @@ export const blogs: Blog[] = [
         type: "linkedHeading",
         level: "h2",
         to: "/cantilever-aluminium-pergola",
-        label: "2. Cantilevered Pergola"
+        label: "Cantilevered Pergola"
       },
       {
         type: "text",
@@ -159,7 +162,7 @@ export const blogs: Blog[] = [
         type: "linkedHeading",
         level: "h2",
         to: "/attached-aluminium-pergola-covered-patio",
-        label: "3. Attached Covered Patio"
+        label: "Attached Covered Patio"
       },
       {
         type: "text",
@@ -171,7 +174,7 @@ export const blogs: Blog[] = [
       { type: "text", text: "● Easily integrated with lighting, fans, and electrical outlets." },
       { type: "text", text: "💡 **An ideal solution for outdoor dining or hosting guests with home-level comfort.**" },
 
-      { type: "h2", text: "4. How the Best Option Is Chosen" },
+      { type: "h2", text: "How the Best Option Is Chosen" },
       { type: "text", text: "The right patio cover is selected based on:" },
       { type: "text", text: "✅ Patio layout and size." },
       { type: "text", text: "✅ Desired function (dining area, lounge, outdoor kitchen, etc.)." },
@@ -181,7 +184,7 @@ export const blogs: Blog[] = [
         type: "linkedHeading",
         level: "h2",
         to: "/our-promise-patio-builders-houston",
-        label: "5. Why New Gen Patio"
+        label: "Why New Gen Patio"
       },
       {
         type: "text",
@@ -208,12 +211,11 @@ export const blogs: Blog[] = [
     subtitle: "Everything You Need to Know About Outdoor Kitchens",
     imageUrl: "assets/images/Products/OutdoorKitchen/Modern/03.webp",
     date: "2025-05-10",
+    author: "New Gen Patio LLC",
     content: [
       {
-        type: "linkedHeading",
-        level: "h2",
-        to: "/custom-outdoor-kitchen",
-        label: "What is an outdoor kitchen?"
+        type: "h2",
+        text: "What is an outdoor kitchen?"
       },
       {
         type: "text",
@@ -225,10 +227,8 @@ export const blogs: Blog[] = [
       },
 
       {
-        type: "linkedHeading",
-        level: "h2",
-        to: "/custom-outdoor-kitchen",
-        label: "How to build an outdoor kitchen?"
+        type: "h2",
+        text: "How to build an outdoor kitchen?"
       },
       {
         type: "text",
@@ -243,30 +243,38 @@ export const blogs: Blog[] = [
       { type: "image", image: "assets/images/Products/OutdoorKitchen/Modern/09.webp" },
 
       {
-        type: "linkedHeading",
-        level: "h2",
-        to: "/custom-outdoor-kitchen",
-        label: "What materials are used in outdoor kitchens?"
+        type: "h2",
+        text: "What materials are used in outdoor kitchens?"
       },
       {
         type: "text",
         text: "Modern kitchens are often built using **aluminum framing and composite finishes**, while traditional ones are built with **brick, stone, or block masonry**."
       },
-      { type: "text", text: "**For Modern Outdoor Kitchens:**" },
+      {
+        type: "link",
+        link: {
+          to: "/modern-outdoor-kitchens-houston",
+          label: "***For Modern Outdoor Kitchens:***"
+        }
+      },
       { type: "text", text: "• **Composite Panels**: Moisture-resistant, UV-stable, and low-maintenance." },
       { type: "text", text: "• **Stainless Steel or Aluminum**: Used in appliances and drawers, it resists rust and corrosion." },
       { type: "text", text: "• **Quartz or Granite Countertops**: Durable, elegant, and heat-resistant." },
 
-      { type: "text", text: "**For Traditional Outdoor Kitchens:**" },
+      {
+        type: "link",
+        link: {
+          to: "/traditional-outdoor-kitchens-houston",
+          label: "***For Traditional Outdoor Kitchens:***"
+        }
+      },
       { type: "text", text: "• **Brick or Stone Veneer**: Aesthetic and durable, ideal for rustic and classic styles." },
       { type: "text", text: "• **Concrete Blocks**: Provide a strong structural core." },
       { type: "text", text: "• **Natural Stone Countertops**: Create a handcrafted look and handle high temperatures well." },
 
       {
-        type: "linkedHeading",
-        level: "h2",
-        to: "/custom-outdoor-kitchen",
-        label: "How much does an outdoor kitchen cost?"
+        type: "h2",
+        text: "How much does an outdoor kitchen cost?"
       },
       {
         type: "text",
@@ -280,10 +288,8 @@ export const blogs: Blog[] = [
       },
 
       {
-        type: "linkedHeading",
-        level: "h2",
-        to: "/custom-outdoor-kitchen",
-        label: "What are the benefits of having an outdoor kitchen?"
+        type: "h2",
+        text: "What are the benefits of having an outdoor kitchen?"
       },
       {
         type: "text",
@@ -303,10 +309,8 @@ export const blogs: Blog[] = [
       },
 
       {
-        type: "linkedHeading",
-        level: "h2",
-        to: "/custom-outdoor-kitchen",
-        label: "Can I use my outdoor kitchen year-round?"
+        type: "h2",
+        text: "Can I use my outdoor kitchen year-round?"
       },
       {
         type: "text",

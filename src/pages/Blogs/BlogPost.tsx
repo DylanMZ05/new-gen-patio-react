@@ -26,7 +26,7 @@ const formatTextWithStyles = (text: string) => {
   });
 };
 
-const BlogPost: React.FC<Blog> = ({ title, subtitle, content, imageUrl, date }) => {
+const BlogPost: React.FC<Blog> = ({ title, subtitle, content, imageUrl, date, author }) => {
   const scrollToTop = useScrollToTop();
 
   const formattedDate = date
@@ -60,7 +60,11 @@ const BlogPost: React.FC<Blog> = ({ title, subtitle, content, imageUrl, date }) 
         <article className="max-w-3xl mx-auto p-6">
           <header>
             <h1 className="text-3xl font-semibold mb-4">{title}</h1>
-            <h2 className="text-xl text-black/80 mb-3">{subtitle}</h2>
+            <h2 className="text-xl text-black/80 mb-2">{subtitle}</h2>
+            <p className="text-sm text-black/70 mb-4">
+              {formattedDate}
+              {author ? `, by ${author}` : ""}
+            </p>
             <div className="w-full h-[3px] bg-[#0d4754] mx-auto rounded-full"></div>
           </header>
 
@@ -89,7 +93,7 @@ const BlogPost: React.FC<Blog> = ({ title, subtitle, content, imageUrl, date }) 
                   <Link
                     to={to}
                     onClick={scrollToTop}
-                    className={`text-blue-600 font-bold hover:text-blue-900 ${
+                    className={`text-[#0d4754] font-bold hover:text-[#0d4754] ${
                       label.startsWith("****") ? "text-3xl block text-black" :
                       label.startsWith("***") ? "text-xl block text-black" :
                       label.startsWith("**") ? "font-semibold text-black/90" :
@@ -142,7 +146,7 @@ const BlogPost: React.FC<Blog> = ({ title, subtitle, content, imageUrl, date }) 
                   <Link
                     to={item.to}
                     onClick={scrollToTop}
-                    className="text-blue-600 hover:underline"
+                    className="text-[#0d4754] hover:underline"
                   >
                     {item.label}
                   </Link>
@@ -151,8 +155,6 @@ const BlogPost: React.FC<Blog> = ({ title, subtitle, content, imageUrl, date }) 
             }
             return null;
           })}
-
-          <p className="text-black text-md mt-5 font-semibold">{formattedDate}</p>
         </article>
       </section>
     </>

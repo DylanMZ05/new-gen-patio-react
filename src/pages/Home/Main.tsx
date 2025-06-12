@@ -48,7 +48,7 @@ const Main: React.FC = () => {
           <div className="w-[45vw] md:w-80 h-[3px] bg-orange-700 mt-4 mb-1 ml-1 rounded-full"></div>
 
           <h2 className="text-xl md:text-3xl font-semibold">
-            Modern & Durable Pergolas and Covered Patio for Texas Homes
+            Aluminum Pergolas and Covered Patios for Texas Homes
           </h2>
 
           <Link

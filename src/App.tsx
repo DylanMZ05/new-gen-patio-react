@@ -61,7 +61,7 @@ const Layout = memo(() => {
     "/modern-outdoor-kitchens-houston", "/traditional-outdoor-kitchens-houston",
     "/concrete-and-turf-installation-houston", "/patio-financing-houston",
     "/get-a-free-quote-houston", "/contact-us", "/formpage", "/blog/best-patio-cover-types",
-    "/blog/aluminum-vs-wood-pergolas", "/outdoor-living-services"
+    "/blog/aluminum-vs-wood-pergolas", "/outdoor-living-services", "/blog/cost-build-purpose-outdoor-kitchen"
   ], []);
 
   const noLayoutRoutes = useMemo(() => ["/financing-options", "/get-a-free-quote-houston-tracking", "/whatsapp-redirect"], []);

@@ -18,7 +18,7 @@ const formatTextWithStyles = (text: string) => {
         </strong>
       );
     } else if (part.startsWith("**") && part.endsWith("**")) {
-      return <strong key={index} className="text-black/90">{part.slice(2, -2)}</strong>;
+      return <strong key={index} className="text-black font-semibold">{part.slice(2, -2)}</strong>;
     } else {
       return part;
     }
@@ -28,16 +28,19 @@ const formatTextWithStyles = (text: string) => {
 const BlogPost: React.FC<{
   title: string;
   subtitle: string;
-  content: ({
-    text?: string;
-    image?: string;
-    link?: { to: string; label: string };
-    inlineText?: ({ text?: string; link?: { to: string; label: string } })[];
-  })[];
+  content: (
+    | { type: "text"; text: string }
+    | { type: "image"; image: string }
+    | { type: "link"; link: { to: string; label: string } }
+    | { type: "inlineText"; inlineText: ({ text?: string; link?: { to: string; label: string } })[] }
+    | { type: "h2"; text: string }
+    | { type: "h3"; text: string }
+    | { type: "linkedHeading"; level: "h2" | "h3"; to: string; label: string }
+  )[];
   imageUrl: string;
   date: string;
 }> = ({ title, subtitle, content, imageUrl, date }) => {
-  const scrollToTop = useScrollToTop(); // ✅ usás el hook acá
+  const scrollToTop = useScrollToTop();
 
   const formattedDate = date
     ? new Date(date).toLocaleDateString("en-US", {
@@ -75,16 +78,13 @@ const BlogPost: React.FC<{
           </header>
 
           {content.map((item, index) => {
-            if (item.text) {
+            if (item.type === "text") {
               return (
-                <p
-                  key={index}
-                  className="text-gray-700 mt-4 whitespace-pre-line"
-                >
+                <p key={index} className="text-gray-700 mt-4 whitespace-pre-line">
                   {formatTextWithStyles(item.text)}
                 </p>
               );
-            } else if (item.image) {
+            } else if (item.type === "image") {
               return (
                 <img
                   key={index}
@@ -92,12 +92,10 @@ const BlogPost: React.FC<{
                   alt={`Blog image ${index + 1}`}
                   loading="lazy"
                   className="w-full object-cover aspect-[2/1] rounded-lg mt-4"
-                  onError={(e) =>
-                    (e.currentTarget.src = `${baseUrl}${defaultImage}`)
-                  }
+                  onError={(e) => (e.currentTarget.src = `${baseUrl}${defaultImage}`)}
                 />
               );
-            } else if (item.link) {
+            } else if (item.type === "link") {
               const { to, label } = item.link;
               return (
                 <p key={index} className="mt-4">
@@ -115,7 +113,7 @@ const BlogPost: React.FC<{
                   </Link>
                 </p>
               );
-            } else if (item.inlineText) {
+            } else if (item.type === "inlineText") {
               return (
                 <p key={index} className="text-gray-700 mt-4">
                   {item.inlineText.map((part, i) => {
@@ -137,6 +135,31 @@ const BlogPost: React.FC<{
                     return null;
                   })}
                 </p>
+              );
+            } else if (item.type === "h2") {
+              return (
+                <h2 key={index} className="text-2xl font-semibold mt-6 text-black">
+                  {item.text}
+                </h2>
+              );
+            } else if (item.type === "h3") {
+              return (
+                <h3 key={index} className="text-xl font-semibold mt-4 text-black">
+                  {item.text}
+                </h3>
+              );
+            } else if (item.type === "linkedHeading") {
+              const HeadingTag = item.level;
+              return (
+                <HeadingTag key={index} className="mt-6 text-black font-semibold text-2xl">
+                  <Link
+                    to={item.to}
+                    onClick={scrollToTop}
+                    className="text-blue-600 hover:underline"
+                  >
+                    {item.label}
+                  </Link>
+                </HeadingTag>
               );
             }
             return null;

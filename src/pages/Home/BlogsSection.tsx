@@ -1,7 +1,7 @@
 // src/pages/Blogs/BlogCardSlider.tsx
 import { blogs } from "../Blogs/blogData";
 import { Link } from "react-router-dom";
-import Slider from "../../components/Slider/Slider";
+import Slider from "../../components/Slider/SliderBlogs";
 
 const BlogCardSlider: React.FC = () => {
   const latestBlogs = [...blogs].sort(

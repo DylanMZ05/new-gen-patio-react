@@ -2,11 +2,14 @@
 import { blogs } from "../Blogs/blogData";
 import { Link } from "react-router-dom";
 import Slider from "../../components/Slider/SliderBlogs";
+import useScrollToTop from "../../hooks/scrollToTop";
 
 const BlogCardSlider: React.FC = () => {
   const latestBlogs = [...blogs].sort(
     (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
   );
+
+  const scrollToTop = useScrollToTop();
 
   const baseUrl = import.meta.env.BASE_URL || "/";
 
@@ -21,6 +24,7 @@ const BlogCardSlider: React.FC = () => {
       <div key={blog.id} className="h-full flex">
         <Link
           to={`/blog/${blog.slug}`}
+          onClick={scrollToTop}
           className="h-[420px] flex flex-col justify-between w-full bg-white border border-gray-300 rounded-lg shadow-md overflow-hidden hover:scale-[1.02] transition-transform"
         >
           <figure className="w-full h-52">

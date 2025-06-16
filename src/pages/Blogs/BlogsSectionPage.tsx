@@ -17,10 +17,10 @@ const BlogsSectionPage: React.FC = () => {
       <section className="pt-16 pb-10 px-6 bg-gray-200 border-t border-black/10">
         <div className="max-w-6xl mx-auto">
           <header className="text-center">
-            <h2 className="text-2xl font-semibold text-[#0d4754]">NEW GEN PATIO BLOGS</h2>
-            <p className="text-4xl font-semibold text-black">
+            <h1 className="text-2xl font-semibold text-[#0d4754]">NEW GEN PATIO BLOGS</h1>
+            <h2 className="text-4xl font-semibold text-black">
               Latest Insights & Outdoor Living Ideas
-            </p>
+            </h2>
             <div className="w-24 h-1 bg-[#0d4754] mt-4 mb-6 mx-auto rounded-full"></div>
           </header>
 

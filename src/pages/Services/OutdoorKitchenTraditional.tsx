@@ -42,8 +42,7 @@ const OutdoorKitchenTraditional: React.FC = () => {
 
         {[{ title: "Traditional Style", images: imagesTraditional }].map((section, index) => (
           <div key={index} className="w-full">
-            <h2 className="text-4xl font-semibold my-5 text-center">{section.title}</h2>
-            <Slider images={section.images} withBorderT withBorderB />
+            <Slider images={section.images} withBorderB />
           </div>
         ))}
 
@@ -60,7 +59,7 @@ const OutdoorKitchenTraditional: React.FC = () => {
 
         <div className="flex flex-col my-10 gap-10 items-center">
           <div className="flex flex-col items-center">
-            <h2 className="font-semibold text-4xl text-center">Key Features</h2>
+            <h2 className="font-semibold text-4xl text-center">Benefits</h2>
             <div className="w-16 h-[3px] bg-[#0d4754] rounded-full mt-4"></div>
           </div>
 

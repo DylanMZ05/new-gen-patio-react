@@ -11,7 +11,7 @@ import FreeQuoteButton from "../../components/FreeQuoteButton";
 const sectionsData = [
   {
     id: 1,
-    title: "Concrete and Turf Installation in Houston – Low Maintenance Landscaping",
+    title: "Concrete and Turf Installation – Low Maintenance Landscaping",
     description:
       "A perfect combination of decorative concrete and artificial turf, offering a stylish, durable, and low-maintenance solution for outdoor spaces.",
     backgroundImage: "assets/images/Products/AdditionalServices/Landscaping/05.webp",

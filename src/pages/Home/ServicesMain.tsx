@@ -78,6 +78,10 @@ const ServicesMain = () => {
           <p className="text-xl">Maximizing your outdoor spaces isn’t just about aesthetics—it’s about extending your lifestyle. When you invest in your backyard, patio, or outdo``or kitchen, you're creating a <strong>functional living area that increases your home’s value, comfort, and versatility.</strong></p>
           <p className="text-xl">Here are four strong reasons why taking full advantage of your outdoor space is a smart decision:</p>
         </section>
+        <div className="pt-8 px-5 max-w-3xl">
+          <h2 className="font-bold text-4xl mb-3 text-center text-black/90">Benefits</h2>
+          <div className="w-16 h-[3px] bg-[#0d4754] mt-3 mx-auto rounded-full"></div>
+        </div>
         {sections.map((section, index) => (
           <ImageTextSection key={index} {...section} />
         ))}

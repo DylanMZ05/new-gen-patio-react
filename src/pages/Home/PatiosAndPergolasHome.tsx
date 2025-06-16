@@ -67,10 +67,10 @@ const PatiosAndPergolasHome = () => {
         <SectionBlock sections={sectionsData3} />
         <MarqueeBanner />
         <PatiosAndPergolasCard />
-        <div className="pt-8 px-5 max-w-3xl">
-          <h3 className="font-semibold text-xl mb-4 text-center text-black/90">Adding a patio cover to your outdoor space isn’t just a design choice—it’s an upgrade in comfort, protection, and year-round usability.</h3>
+        <div className="px-5 max-w-3xl">
           <h2 className="font-semibold text-3xl mb-3 text-center">Why might you need it?</h2>
           <div className="w-16 h-[3px] bg-[#0d4754] mt-3 mb-2 mx-auto rounded-full"></div>
+          <h3 className="font-semibold text-lg text-center">Adding a patio cover to your outdoor space isn’t just a design choice—it’s an upgrade in comfort, protection, and year-round usability.</h3>
           <ul className="list-disc pl-6 text-lg">
             <li>Your patio gets too much sun, making it uncomfortable during peak hours.</li>
             <li>You want an outdoor space that feels like a natural extension of your home.</li>

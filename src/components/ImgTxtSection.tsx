@@ -33,9 +33,9 @@ const ImageTextSection: React.FC<ImageTextSectionProps> = ({
             {stepLabel}
           </span>
         )}
-        <h2 id={sectionId} className="text-3xl font-bold text-black/90">
+        <h3 id={sectionId} className="text-3xl font-bold text-black/90">
           {title}
-        </h2>
+        </h3>
         <div className="w-24 h-[3px] bg-[#0d4754] my-3 rounded-full"></div>
         <p className="text-xl text-gray-700">{text}</p>
       </div>

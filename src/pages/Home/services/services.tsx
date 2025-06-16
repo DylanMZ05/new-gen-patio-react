@@ -36,9 +36,9 @@ const Services: React.FC<ServicesProps> = ({ showQuoteButton = true }) => {
         <h2 className="text-2xl font-semibold text-[#0d4754]">OUR SERVICES</h2>
         <p id="services-heading" className="text-4xl font-semibold">What We Offer</p>
         <div className="w-24 h-1 bg-[#0d4754] my-3 rounded-full mx-auto"></div>
-        <h3 className="text-center font-semibold text-black/80 mb-6 max-w-2xl">
+        <p className="text-center font-semibold text-black/80 mb-6 max-w-2xl">
           We craft premium patios, pergolas, and outdoor kitchens designed for style, durability, and functionality.
-        </h3>
+        </p>
       </header>
 
       <CardGrid cards={serviceCards} />

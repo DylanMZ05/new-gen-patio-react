@@ -65,9 +65,9 @@ const BlogCardSlider: React.FC = () => {
     >
       <div className="max-w-6xl mx-auto">
         <header className="text-center mb-10">
-          <p id="blogs-heading" className="text-2xl font-semibold text-[#0d4754]">
-            Our Blogs
-          </p>
+          <h2 id="blogs-heading" className="text-2xl font-semibold text-[#0d4754]">
+            NEW GEN PATIO BLOGS
+          </h2>
           <p className="text-4xl font-semibold text-black">
             Latest Insights & Outdoor Living Ideas
           </p>

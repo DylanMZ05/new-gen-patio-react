@@ -40,7 +40,7 @@ export const blogs: Blog[] = [
 
       { type: "image", image: "assets/images/Products/Patios&Pergolas/Attached/02.webp" },
 
-      { type: "h2", text: "General Comparison: Aluminum vs. Wood" },
+      { type: "h2", text: "Aluminum vs. Wood: General Comparison" },
       { type: "text", text: "Both aluminum and wood are widely used materials for pergolas, each offering unique benefits and challenges." },
 
       { type: "h3", text: "Wood Pergolas" },
@@ -59,44 +59,44 @@ export const blogs: Blog[] = [
       { type: "image", image: "assets/images/Products/Patios&Pergolas/Attached/04.webp" },
 
       { type: "h2", text: "Advantages of Aluminum Pergolas" },
-      { type: "text", text: "✅ **Exceptional Durability & Weather Resistance** – Unlike wood, aluminum **does not rot, crack, or warp** over time. It is **resistant to moisture, termites, and UV exposure**, making it perfect for **areas with high humidity, extreme heat, or heavy rainfall**." },
-      { type: "text", text: "✅ **Low Maintenance & Longevity** – Wood pergolas require **frequent sanding, staining, and sealing** to prevent decay. In contrast, **aluminum never needs repainting** and only requires **occasional cleaning with soap and water**. This saves **time, effort, and long-term maintenance costs**." },
-      { type: "text", text: "✅ **Modern Aesthetic with Customization Options** – Aluminum pergolas are designed for **contemporary outdoor spaces**, offering **minimalist structures, clean lines, and various color finishes**. Unlike wood, **aluminum can be powder-coated in multiple shades, such as Dark Bronze and White**, to match your home’s exterior." },
-      { type: "text", text: "✅ **Eco-Friendly & Sustainable Choice** – Aluminum is **100% recyclable**, making it a more **sustainable** option than wood, which requires **tree harvesting**. Additionally, **it does not require chemical treatments like wood preservatives**, making it a **safer, greener choice** for homeowners." },
+      { type: "text", text: "✅ **Exceptional Durability & Weather Resistance** – Unlike wood, aluminum **does not rot, crack, or warp** over time. It is **resistant to moisture, termites, and UV exposure**." },
+      { type: "text", text: "✅ **Low Maintenance & Longevity** – Requires only **occasional cleaning**, saving **time and money** long term." },
+      { type: "text", text: "✅ **Modern Aesthetic with Customization Options** – Available in **various finishes**, matching modern homes with clean, minimalist lines." },
+      { type: "text", text: "✅ **Eco-Friendly & Sustainable** – Fully recyclable and free from toxic treatments." },
 
       { type: "h2", text: "Advantages of Wood Pergolas" },
-      { type: "text", text: "✅ ***Natural Warmth & Aesthetic Appeal***" },
-      { type: "text", text: "Wood pergolas provide an **organic, rustic feel** that seamlessly integrates with **gardens, patios, and natural landscapes**. They create a **cozy, inviting outdoor ambiance**, which is particularly appealing for **traditional or farmhouse-style homes**." },
-      { type: "text", text: "✅ ***Customizable with Various Stains & Finishes***" },
-      { type: "text", text: "Unlike aluminum, wood **can be stained, painted, or carved** to achieve **different styles**, from **classic cedar tones to bold, dark finishes**. This allows homeowners to **modify the pergola’s appearance over time**." },
-      { type: "text", text: "✅ ***Initial Cost Savings***" },
-      { type: "text", text: "Wood pergolas typically have a **lower upfront cost** compared to aluminum. However, homeowners should factor in **long-term maintenance expenses** such as **sealing, staining, and potential repairs** due to weather damage." },
-
-      { type: "h2", text: "Disadvantages of Each Material" },
-      { type: "h3", text: "Aluminum Pergolas" },
-      { type: "text", text: "❌ **Higher Initial Cost** – The upfront investment is **greater**, but this is **offset by its longevity and low maintenance**." },
-      { type: "text", text: "❌ **Less of a 'Natural' Look** – While **aluminum can mimic wood finishes**, it does not provide the **organic warmth of real wood**." },
-
-      { type: "h3", text: "Wood Pergolas" },
-      { type: "text", text: "❌ **High Maintenance Requirements** – Wood requires **frequent sealing, staining, and potential repairs** to prevent **rot, termites, and warping**." },
-      { type: "text", text: "❌ **Susceptibility to Weather Damage** – In **humid climates, wood can swell, crack, or develop mold**, shortening its lifespan." },
-      { type: "text", text: "❌ **Vulnerability to Insects** – Unlike aluminum, wood **attracts termites and other pests**, requiring **additional treatments**." },
+      { type: "text", text: "✅ ***Natural Warmth & Aesthetic Appeal*** – Offers a **classic, organic feel** for traditional spaces." },
+      { type: "text", text: "✅ ***Customizable Finishes*** – Can be stained or painted to suit changing styles." },
+      { type: "text", text: "✅ ***Lower Initial Cost*** – Generally more affordable upfront." },
 
       { type: "image", image: "assets/images/Products/Patios&Pergolas/Attached/07.webp" },
 
-      { type: "h2", text: "Which Pergola Is Best for You?" },
-      { type: "h3", text: "Consider These Key Factors Before Making a Decision:" },
-      { type: "text", text: "✔ ***Climate:*** If you live in a **humid, hot, or rainy area**, **aluminum is the superior choice** due to its **weather resistance**." },
-      { type: "text", text: "✔ ***Maintenance:*** If you prefer a **hassle-free structure**, **aluminum is ideal**. If you're willing to **invest time and money into maintenance**, wood can be a charming option." },
-      { type: "text", text: "✔ ***Budget:*** Wood is **cheaper upfront**, but **aluminum saves money** in the **long run** due to its **durability**." },
-      { type: "text", text: "✔ ***Aesthetic Preference:*** If you want a **modern, sleek design**, aluminum is the **better fit**. If you prefer a **rustic, traditional look**, wood may be the **right choice**." },
+      { type: "h2", text: "Disadvantages of Each Material" },
+
+      { type: "h3", text: "Aluminum Pergolas" },
+      { type: "text", text: "❌ **Higher Initial Cost** – More expensive at first, but lower long-term maintenance." },
+      { type: "text", text: "❌ **Less Natural Look** – May lack the organic warmth of real wood, despite modern finishes." },
+
+      { type: "h3", text: "Wood Pergolas" },
+      { type: "text", text: "❌ **High Maintenance** – Needs regular care to avoid rot, warping, and pests." },
+      { type: "text", text: "❌ **Weather Damage** – Susceptible to mold and deterioration in humid climates." },
+      { type: "text", text: "❌ **Pest Risk** – Can attract termites without treatment." },
 
       { type: "image", image: "assets/images/Products/Patios&Pergolas/Attached/06.webp" },
 
+      { type: "h2", text: "Which Pergola Is Right for You?" },
+
+      { type: "h3", text: "Key Considerations Before Choosing" },
+      { type: "text", text: "✔ ***Climate:*** Aluminum excels in hot, humid, or rainy environments." },
+      { type: "text", text: "✔ ***Maintenance:*** Choose aluminum for low upkeep; wood for a traditional look if you don’t mind the care." },
+      { type: "text", text: "✔ ***Budget:*** Wood is cheaper short-term, aluminum is smarter long-term." },
+      { type: "text", text: "✔ ***Style:*** Sleek = aluminum. Rustic = wood." },
+
       { type: "h2", text: "Conclusion" },
-      { type: "text", text: "Both **aluminum and wood pergolas** have **unique advantages**, but the **right choice** depends on your **climate, maintenance preferences, budget, and design goals**." },
-      { type: "h3", text: "Ready to Transform Your Outdoor Space?" },
-      { type: "text", text: "If you’re looking for a **custom aluminum pergola designed for style and durability**, contact our team today! We specialize in **high-quality, weather-resistant pergolas** that enhance **outdoor living areas** with **minimal upkeep and maximum elegance**. Let’s create the **perfect outdoor space for you**!" }
+      { type: "text", text: "Both **aluminum and wood pergolas** have benefits. The best choice depends on your **climate, style, and maintenance goals**." },
+
+      { type: "h2", text: "Ready to Transform Your Outdoor Space?" },
+      { type: "text", text: "If you’re ready for a **custom aluminum pergola**, contact our team! We design **durable, stylish, low-maintenance** outdoor spaces built for life." }
     ]
   },
   {
@@ -114,20 +114,15 @@ export const blogs: Blog[] = [
         text: "Designing the perfect patio isn’t just about style—it’s also about choosing the right type of space you have. The ideal cover can make the difference between a barely usable patio and one that becomes your favorite spot. At **New Gen Patio**, we help you find the best solution based on your surroundings, lifestyle, and needs."
       },
 
-      { type: "h2", text: "Best Patio Cover Types Based on Your Outdoor Space" },
+      { type: "h2", text: "Top Patio Cover Options for Your Outdoor Space" },
       {
         type: "text",
-        text: "Creating the perfect patio doesn’t just depend on aesthetics—it depends on choosing the right structure for your specific layout. The ideal cover can transform a simple space into a functional and enjoyable extension of your home. At **New Gen Patio**, tailored solutions are provided based on your environment, lifestyle, and design goals."
+        text: "Choosing the right patio cover depends on your layout, sun exposure, and aesthetic goals. Below are the three most popular options we recommend for Houston homeowners."
       },
 
       { type: "image", image: "assets/images/Blogs/Blog-2/01.webp" },
 
-      {
-        type: "linkedHeading",
-        level: "h2",
-        to: "/free-standing-aluminium-pergola-covered-patio",
-        label: "Freestanding Pergola"
-      },
+      { type: "h3", text: "Freestanding Pergola" },
       {
         type: "text",
         text: "A standalone pergola that can be placed anywhere in your backyard, offering a versatile and customizable space for relaxation, entertainment, or shade."
@@ -140,12 +135,7 @@ export const blogs: Blog[] = [
 
       { type: "image", image: "assets/images/Blogs/Blog-2/02.webp" },
 
-      {
-        type: "linkedHeading",
-        level: "h2",
-        to: "/cantilever-aluminium-pergola",
-        label: "Cantilevered Pergola"
-      },
+      { type: "h3", text: "Cantilevered Pergola" },
       {
         type: "text",
         text: "A modern, innovative pergola with a cantilevered structure, providing shade without traditional corner posts, resulting in a clean and sophisticated look."
@@ -158,12 +148,7 @@ export const blogs: Blog[] = [
 
       { type: "image", image: "assets/images/Blogs/Blog-2/03.webp" },
 
-      {
-        type: "linkedHeading",
-        level: "h2",
-        to: "/attached-aluminium-pergola-covered-patio",
-        label: "Attached Covered Patio"
-      },
+      { type: "h3", text: "Attached Covered Patio" },
       {
         type: "text",
         text: "An attached pergola that seamlessly connects to your home’s structure, providing shade and protection while maintaining a smooth transition between indoor and outdoor spaces."
@@ -174,24 +159,19 @@ export const blogs: Blog[] = [
       { type: "text", text: "● Easily integrated with lighting, fans, and electrical outlets." },
       { type: "text", text: "💡 **An ideal solution for outdoor dining or hosting guests with home-level comfort.**" },
 
-      { type: "h2", text: "How the Best Option Is Chosen" },
+      { type: "h2", text: "How to Choose the Right Patio Cover" },
       { type: "text", text: "The right patio cover is selected based on:" },
       { type: "text", text: "✅ Patio layout and size." },
       { type: "text", text: "✅ Desired function (dining area, lounge, outdoor kitchen, etc.)." },
       { type: "text", text: "✅ Preferred architectural style and privacy level." },
 
-      {
-        type: "linkedHeading",
-        level: "h2",
-        to: "/our-promise-patio-builders-houston",
-        label: "Why New Gen Patio"
-      },
+      { type: "h2", text: "Why Choose New Gen Patio?" },
       {
         type: "text",
         text: "At **New Gen Patio**, structures are crafted using high-quality insulated aluminum, designed to last and impress. Every project is guided by a professional team—from the initial consultation to the final installation—ensuring a result that feels personal, premium, and built for life."
       },
 
-      { type: "h3", text: "Ready to Reimagine Your Space?" },
+      { type: "h2", text: "Ready to Reimagine Your Space?" },
       {
         type: "inlineText",
         inlineText: [
@@ -215,7 +195,7 @@ export const blogs: Blog[] = [
     content: [
       {
         type: "h2",
-        text: "What is an outdoor kitchen?"
+        text: "What Is an Outdoor Kitchen?"
       },
       {
         type: "text",
@@ -228,7 +208,11 @@ export const blogs: Blog[] = [
 
       {
         type: "h2",
-        text: "How to build an outdoor kitchen?"
+        text: "How to Build an Outdoor Kitchen"
+      },
+      {
+        type: "h3",
+        text: "Step-by-Step Overview"
       },
       {
         type: "text",
@@ -244,28 +228,31 @@ export const blogs: Blog[] = [
 
       {
         type: "h2",
-        text: "What materials are used in outdoor kitchens?"
+        text: "What Materials Are Used in Outdoor Kitchens?"
       },
       {
         type: "text",
         text: "Modern kitchens are often built using **aluminum framing and composite finishes**, while traditional ones are built with **brick, stone, or block masonry**."
       },
+
+      { type: "h3", text: "Modern Materials" },
       {
         type: "link",
         link: {
           to: "/modern-outdoor-kitchens-houston",
-          label: "***For Modern Outdoor Kitchens:***"
+          label: "***Modern Outdoor Kitchens***"
         }
       },
       { type: "text", text: "• **Composite Panels**: Moisture-resistant, UV-stable, and low-maintenance." },
       { type: "text", text: "• **Stainless Steel or Aluminum**: Used in appliances and drawers, it resists rust and corrosion." },
       { type: "text", text: "• **Quartz or Granite Countertops**: Durable, elegant, and heat-resistant." },
 
+      { type: "h3", text: "Traditional Materials" },
       {
         type: "link",
         link: {
           to: "/traditional-outdoor-kitchens-houston",
-          label: "***For Traditional Outdoor Kitchens:***"
+          label: "***Traditional Outdoor Kitchens***"
         }
       },
       { type: "text", text: "• **Brick or Stone Veneer**: Aesthetic and durable, ideal for rustic and classic styles." },
@@ -274,7 +261,11 @@ export const blogs: Blog[] = [
 
       {
         type: "h2",
-        text: "How much does an outdoor kitchen cost?"
+        text: "How Much Does an Outdoor Kitchen Cost?"
+      },
+      {
+        type: "h3",
+        text: "Typical Price Ranges"
       },
       {
         type: "text",
@@ -289,8 +280,9 @@ export const blogs: Blog[] = [
 
       {
         type: "h2",
-        text: "What are the benefits of having an outdoor kitchen?"
+        text: "Benefits of an Outdoor Kitchen"
       },
+      { type: "h3", text: "Functionality & Value" },
       {
         type: "text",
         text: "✅ **Increases your home's usable living space**\nIt creates a new area for dining, cooking, and socializing without adding enclosed square footage."
@@ -310,7 +302,11 @@ export const blogs: Blog[] = [
 
       {
         type: "h2",
-        text: "Can I use my outdoor kitchen year-round?"
+        text: "Can I Use My Outdoor Kitchen Year-Round?"
+      },
+      {
+        type: "h3",
+        text: "Tips for Seasonal Use"
       },
       {
         type: "text",
@@ -319,7 +315,11 @@ export const blogs: Blog[] = [
 
       {
         type: "h2",
-        text: "Do I need permits or special electrical connections?"
+        text: "Permits and Electrical Requirements"
+      },
+      {
+        type: "h3",
+        text: "Installation & Safety"
       },
       {
         type: "text",
@@ -328,7 +328,10 @@ export const blogs: Blog[] = [
 
       { type: "image", image: "assets/images/Products/OutdoorKitchen/Traditional/05.webp" },
 
-      { type: "h3", text: "Need a quote or want to explore design options?" },
+      {
+        type: "h2",
+        text: "Ready to Build Your Dream Outdoor Kitchen?"
+      },
       {
         type: "text",
         text: "We offer **free estimates and 3D designs** to help you visualize your outdoor kitchen before construction starts. Whether you prefer a **sleek modern setup** or a **classic brick style**, we’ll build a space that fits your lifestyle.\n\n**Contact us today and start building your outdoor dream kitchen!**"

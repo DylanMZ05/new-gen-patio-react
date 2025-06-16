@@ -1,5 +1,6 @@
 import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
 import { memo, useMemo } from "react";
+import { HelmetProvider } from "react-helmet-async";
 
 // Componentes globales
 import Header from "./components/header/Header";
@@ -48,7 +49,6 @@ import WhatsAppRedirect from "./pages/traking/WhatsAppRedirect";
 // Free Quote Popup
 import QuotePopup from "./components/QuotePopup";
 
-
 const Layout = memo(() => {
   const location = useLocation();
 
@@ -64,7 +64,10 @@ const Layout = memo(() => {
     "/blog/aluminum-vs-wood-pergolas", "/outdoor-living-services", "/blog/cost-build-purpose-outdoor-kitchen"
   ], []);
 
-  const noLayoutRoutes = useMemo(() => ["/financing-options", "/get-a-free-quote-houston-tracking", "/whatsapp-redirect"], []);
+  const noLayoutRoutes = useMemo(() => [
+    "/financing-options", "/get-a-free-quote-houston-tracking", "/whatsapp-redirect"
+  ], []);
+
   const isLayoutRoute = layoutRoutes.includes(location.pathname);
   const isNoLayout = noLayoutRoutes.includes(location.pathname);
 
@@ -87,18 +90,9 @@ const Layout = memo(() => {
     <>
       {!isNoLayout && <Header />}
       <Routes>
-        <Route
-          path="/"
-          element={
-            <MainHome />
-          }
-        />
-        <Route path="/aluminium-custom-pergola-cover-patio" element={
-          <PatiosAndPergolasHome />
-        } />
-        <Route path="/outdoor-living-services" element={
-          <ServicesMain />
-        } />
+        <Route path="/" element={<MainHome />} />
+        <Route path="/aluminium-custom-pergola-cover-patio" element={<PatiosAndPergolasHome />} />
+        <Route path="/outdoor-living-services" element={<ServicesMain />} />
         <Route path="/our-promise-patio-builders-houston" element={<><BlockSection /><OurPromise /></>} />
         <Route path="/howwedoit_patiobuildershouston" element={<><BlockSection /><OurProcess /></>} />
         <Route path="/about-us" element={<><BlockSection /><AboutUsPage /></>} />
@@ -129,9 +123,11 @@ const Layout = memo(() => {
 
 function App() {
   return (
-    <Router basename="/">
-      <Layout />
-    </Router>
+    <HelmetProvider>
+      <Router basename="/">
+        <Layout />
+      </Router>
+    </HelmetProvider>
   );
 }
 

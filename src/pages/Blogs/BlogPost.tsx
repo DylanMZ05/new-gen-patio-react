@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { Helmet } from "react-helmet-async";
 import BlockSection from "../../components/BlockSection";
 import MarqueeBanner from "../../components/MarqueeBanner";
 import useScrollToTop from "../../hooks/scrollToTop";
@@ -26,7 +27,16 @@ const formatTextWithStyles = (text: string) => {
   });
 };
 
-const BlogPost: React.FC<Blog> = ({ title, subtitle, content, imageUrl, date, author }) => {
+const BlogPost: React.FC<Blog & { slug: string }> = ({
+  title,
+  metaTitle,
+  subtitle,
+  content,
+  imageUrl,
+  date,
+  author,
+  slug
+}) => {
   const scrollToTop = useScrollToTop();
 
   const formattedDate = date
@@ -39,13 +49,27 @@ const BlogPost: React.FC<Blog> = ({ title, subtitle, content, imageUrl, date, au
 
   const baseUrl = import.meta.env.BASE_URL || "/";
   const defaultImage = "/assets/images/default-placeholder.webp";
+
   const resolvedImageUrl = imageUrl
-    ? `${baseUrl}${imageUrl}`
+    ? (imageUrl.startsWith("http") ? imageUrl : `${baseUrl}${imageUrl}`)
     : `${baseUrl}${defaultImage}`;
+
+  const pageUrl = `https://www.newgenpatio.com/blog/${slug}`;
 
   return (
     <>
+      <Helmet>
+        <title>{metaTitle || title}</title>
+        <meta name="description" content={subtitle} />
+        <meta property="og:title" content={metaTitle || title} />
+        <meta property="og:description" content={subtitle} />
+        <meta property="og:image" content={resolvedImageUrl} />
+        <meta property="og:type" content="article" />
+        <meta property="og:url" content={pageUrl} />
+      </Helmet>
+
       <BlockSection />
+
       <section>
         <img
           src={resolvedImageUrl}

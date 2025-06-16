@@ -79,9 +79,9 @@ const FAQ: React.FC = () => {
         >
           FAQs
         </p>
-        <h3 className="font-semibold text-4xl text-center">
+        <h2 className="font-semibold text-4xl text-center">
           Frequently Asked Questions
-        </h3>
+        </h2>
         <div className="w-24 h-1 bg-[#0d4754] mt-4 mb-5 rounded-full mx-auto"></div>
       </header>
 

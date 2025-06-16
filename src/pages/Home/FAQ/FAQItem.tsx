@@ -10,23 +10,25 @@ const FAQItem: React.FC<FAQItemProps> = ({ question, answer }) => {
 
   return (
     <article className="w-full max-w-2xl border-b border-gray-300 py-4">
-      <button
-        onClick={() => setIsOpen(!isOpen)}
-        className={`w-full text-left text-xl font-semibold flex justify-between items-center text-white bg-[#0d4754] p-3 cursor-pointer transition-all duration-300 ${
-          isOpen ? "rounded-t-xl" : "rounded-xl"
-        }`}
-        aria-expanded={isOpen}
-        aria-controls={`faq-answer-${question}`}
-      >
-        {question}
-        <span
-          className={`text-2xl transition-transform duration-300 ${
-            isOpen ? "rotate-180" : "rotate-0"
+      <h3>
+        <button
+          onClick={() => setIsOpen(!isOpen)}
+          className={`w-full text-left text-xl font-semibold flex justify-between items-center text-white bg-[#0d4754] p-3 cursor-pointer transition-all duration-300 ${
+            isOpen ? "rounded-t-xl" : "rounded-xl"
           }`}
+          aria-expanded={isOpen}
+          aria-controls={`faq-answer-${question}`}
         >
-          ▲
-        </span>
-      </button>
+          {question}
+          <span
+            className={`text-2xl transition-transform duration-300 ${
+              isOpen ? "rotate-180" : "rotate-0"
+            }`}
+          >
+            ▲
+          </span>
+        </button>
+      </h3>
 
       <div
         id={`faq-answer-${question}`}

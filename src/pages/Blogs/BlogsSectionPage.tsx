@@ -17,7 +17,7 @@ const BlogsSectionPage: React.FC = () => {
       <section className="pt-16 pb-10 px-6 bg-gray-200 border-t border-black/10">
         <div className="max-w-6xl mx-auto">
           <header className="text-center">
-            <h2 className="text-2xl font-semibold text-[#0d4754]">Our Blog</h2>
+            <h2 className="text-2xl font-semibold text-[#0d4754]">NEW GEN PATIO BLOGS</h2>
             <p className="text-4xl font-semibold text-black">
               Latest Insights & Outdoor Living Ideas
             </p>

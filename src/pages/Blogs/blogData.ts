@@ -103,7 +103,7 @@ export const blogs: Blog[] = [
     id: 2,
     slug: "best-patio-cover-types",
     title: "Best Patio Cover Types Based on Your Outdoor Space",
-    metaTitle: "Top 3 Patio Cover Options to Upgrade Your Outdoor Space | New Gen Patio",
+    metaTitle: "Best Patio Cover Types Based on Your Outdoor Space",
     subtitle: "Discover the ideal cover for your patio based on your layout, style, and goals.",
     imageUrl: "assets/images/Products/Patios&Pergolas/Attached/10.webp",
     date: "2025-04-23",

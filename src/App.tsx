@@ -54,7 +54,7 @@ const Layout = memo(() => {
 
   const layoutRoutes = useMemo(() => [
     "/", "/aluminium-custom-pergola-cover-patio",
-    "/our-promise-patio-builders-houston", "/howwedoit_patiobuildershouston", "/about-us",
+    "/our-promise", "/how-we-doit", "/about-us",
     "/blog", "/blogs/blog/:slug", "/blog/:slug",
     "/attached-aluminium-pergola-covered-patio", "/free-standing-aluminium-pergola-covered-patio",
     "/cantilever-aluminium-pergola", "/custom-outdoor-kitchen",
@@ -93,8 +93,8 @@ const Layout = memo(() => {
         <Route path="/" element={<MainHome />} />
         <Route path="/aluminium-custom-pergola-cover-patio" element={<PatiosAndPergolasHome />} />
         <Route path="/outdoor-living-services" element={<ServicesMain />} />
-        <Route path="/our-promise-patio-builders-houston" element={<><BlockSection /><OurPromise /></>} />
-        <Route path="/howwedoit_patiobuildershouston" element={<><BlockSection /><OurProcess /></>} />
+        <Route path="/our-promise" element={<><BlockSection /><OurPromise /></>} />
+        <Route path="/how-we-doit" element={<><BlockSection /><OurProcess /></>} />
         <Route path="/about-us" element={<><BlockSection /><AboutUsPage /></>} />
         <Route path="/blog" element={<><BlockSection /><BlogSectionPage /></>} />
         <Route path="/blogs/blog/:slug" element={<BlogPage />} />

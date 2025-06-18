@@ -26,7 +26,7 @@ const HowWeDoItHome: React.FC = () => {
       </h3>
 
       <Link
-        to="/howwedoit_patiobuildershouston"
+        to="/how-we-doit"
         className="bg-orange-500 border border-white/10 text-white text-lg font-semibold px-6 py-2 rounded-full mt-6 inline-block 
           transition-all hover:bg-orange-600 hover:scale-105 focus:ring-2 focus:ring-orange-500 focus:outline-none"
         onClick={handleScrollToTop}

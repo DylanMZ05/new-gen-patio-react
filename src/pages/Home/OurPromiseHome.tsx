@@ -43,7 +43,7 @@ const OurProcessHome: React.FC = () => {
         </h3>
 
         <Link
-          to="/our-promise-patio-builders-houston"
+          to="/our-promise"
           className="text-black bg-white text-lg font-semibold px-6 py-2 rounded-full mt-6 inline-block 
             transition-all hover:bg-white/90 hover:scale-103 focus:ring-2 focus:ring-white focus:outline-none"
           onClick={handleScrollToTop}

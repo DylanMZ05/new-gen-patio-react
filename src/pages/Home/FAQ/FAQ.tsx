@@ -34,7 +34,7 @@ const FAQ: React.FC = () => {
           <p className="mt-3">
             Want to learn more?{" "}
             <Link
-              to="/howwedoit_patiobuildershouston"
+              to="/how-we-doit"
               onClick={scrollToTop}
               className="text-orange-600 font-semibold hover:underline"
             >

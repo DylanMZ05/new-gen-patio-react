@@ -5,6 +5,7 @@ import ImgTxtSection from "../../components/ImgTxtSection";
 import SectionBlock from "../../components/SectionBlock";
 import WhyUsLink from "./components/WhyUsLink";
 import Services from "../Home/services/services";
+import { Helmet } from "react-helmet";
 
 import FreeQuoteButton from "../../components/FreeQuoteButton";
 
@@ -30,6 +31,10 @@ const imagesConcrete = generateImagePaths("assets/images/Products/AdditionalServ
 const ConcreteTurf: React.FC = () => {
   return (
     <section className="min-h-screen flex flex-col items-center bg-gray-100" aria-labelledby="concrete-turf-heading">
+      <Helmet>
+        <title>Extra Services, Concrete and Turf | New Gen Patio</title>
+        <meta name="description" content="Transform your yard with concrete and artificial turf solutions. Low maintenance, stylish, and durable landscaping services." />
+      </Helmet>
 
       <SectionBlock sections={sectionsData} />
       <MarqueeBanner />

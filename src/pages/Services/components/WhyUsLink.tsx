@@ -25,7 +25,7 @@ const WhyUsLink = ({ backgroundImage }: WhyUsLinkProps) => {
         </p>
 
         <Link
-          to="/howwedoit_patiobuildershouston"
+          to="/how-we-doit"
           className="text-black bg-white text-xl font-semibold px-5 py-2 rounded-full transition-all hover:bg-white/90 hover:scale-105"
           onClick={scrollToTop}
         >

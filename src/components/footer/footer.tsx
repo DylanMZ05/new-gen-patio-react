@@ -197,7 +197,7 @@ const Footer: React.FC = () => {
             {["services", "our-promise", "who-we-are", "blogs", "contact"].map((id, index, array) => {
               const routeMap: { [key: string]: string } = {
                 "services": "/aluminium-custom-pergola-cover-patio",
-                "our-promise": "/howwedoit_patiobuildershouston",
+                "our-promise": "/how-we-doit",
                 "who-we-are": "/about-us",
                 "blogs": "/blog",
                 "contact": "/contact-us",

@@ -3,6 +3,8 @@ import MarqueeBanner from "../../components/MarqueeBanner";
 import ImgTxtSection from "../../components/ImgTxtSection";
 import SectionBlock from "../../components/SectionBlock";
 import FreeQuoteButton from "../../components/FreeQuoteButton";
+import { Helmet } from "react-helmet";
+
 
 const sectionsData = [
   {
@@ -20,6 +22,10 @@ const OurPromise: React.FC = () => {
       lang="en"
       aria-labelledby="process-heading"
     >
+      <Helmet>
+        <title>Our Promise and Warranty Building Outdoor Spaces</title>
+        <meta name="description" content="Discover our commitment to quality, durability, and customer satisfaction in building outdoor spaces. Learn more about our service guarantees and warranty coverage." />
+      </Helmet>
 
 
       <SectionBlock sections={sectionsData} />

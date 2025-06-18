@@ -16,7 +16,7 @@ const Header: React.FC = () => {
 
   const routeMap: { [key: string]: string } = {
     "services": "/outdoor-living-services",
-    "our-promise": "/howwedoit_patiobuildershouston",
+    "our-promise": "/how-we-doit",
     "who-we-are": "/about-us",
     "blogs": "/blog",
     "contact": "/contact-us",
@@ -90,14 +90,14 @@ const Header: React.FC = () => {
                       onMouseLeave={() => setDropdownOpen(false)}
                     >
                       <Link
-                        to="/our-promise-patio-builders-houston"
+                        to="/our-promise"
                         onClick={scrollToTop}
                         className="block pl-2 py-2 text-black/90 font-semibold hover:bg-gray-200 transition hover:text-orange-500"
                       >
                         Our Promise
                       </Link>
                       <Link
-                        to="/howwedoit_patiobuildershouston"
+                        to="/how-we-doit"
                         onClick={scrollToTop}
                         className="block pl-2 py-2 text-black/90 font-semibold hover:bg-gray-200 transition hover:text-orange-500"
                       >
@@ -188,7 +188,7 @@ const Header: React.FC = () => {
                 {mobileDropdownOpen && (
                   <div className="flex flex-col w-full text-center mt-2">
                     <Link 
-                      to="/our-promise-patio-builders-houston" 
+                      to="/our-promise" 
                       onClick={() => { 
                         scrollToTop(); 
                         setMenuOpen(false); 
@@ -199,7 +199,7 @@ const Header: React.FC = () => {
                       Our Promise
                     </Link>
                     <Link 
-                      to="/howwedoit_patiobuildershouston" 
+                      to="/how-we-doit" 
                       onClick={() => { 
                         scrollToTop(); 
                         setMenuOpen(false); 

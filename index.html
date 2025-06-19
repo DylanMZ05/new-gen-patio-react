@@ -197,30 +197,23 @@
         const acceptBtn = document.getElementById('accept-cookies');
         const closeBtn = document.getElementById('close-cookies');
 
-        // Si ya aceptó/cerró antes, no mostrar
-        if (localStorage.getItem('cookiesAccepted') === 'true') {
-          popup.style.display = 'none';
-        }
+        // Mostrar cartel siempre
+        popup.style.display = 'flex';
 
-        // Al aceptar
+        // Mostrar solo aviso, no bloqueo
+        loadTrackingScripts(); // 👈 Esto ahora se ejecuta siempre
+
+        // Al cerrar con la cruz o aceptar, solo ocultar el cartel
         acceptBtn.addEventListener('click', () => {
-          localStorage.setItem('cookiesAccepted', 'true');
           popup.style.display = 'none';
-          loadTrackingScripts();
         });
 
-        if (localStorage.getItem('cookiesAccepted') === 'true') {
-          popup.style.display = 'none';
-          loadTrackingScripts();
-        }
-
-        // Al cerrar con la cruz
         closeBtn.addEventListener('click', () => {
-          localStorage.setItem('cookiesAccepted', 'true');
           popup.style.display = 'none';
         });
       });
     </script>
+
 
     <script type="module" src="/src/main.tsx"></script>
   </body>

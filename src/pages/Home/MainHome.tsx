@@ -24,6 +24,7 @@ const MainHome = () => {
 
       <main>
         <Main />
+        <div className="h-3"></div>
         <MarqueeBanner />
         <Services />
         <hr className="text-black/20" />

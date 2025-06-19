@@ -45,7 +45,7 @@ const Slider: React.FC<ImageSliderProps> = ({ images, withBorderT = false, withB
           <SwiperSlide key={index} className="flex items-center justify-center my-1">
             <img 
               src={src} 
-              alt={`Project Image ${index + 1}`} 
+              alt={`New Gen Patio Project Image ${index + 1}`} 
               className="w-full aspect-square object-cover rounded-lg shadow-lg"
               loading="lazy" 
             />

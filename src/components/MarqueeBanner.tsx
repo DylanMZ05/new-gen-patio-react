@@ -12,7 +12,7 @@ const MarqueeBanner = () => {
       className="marquee-container w-full block bg-[#0d4754] py-3 overflow-hidden relative"
       onClick={handleScrollToTop}
       aria-label="Go to financing calculator - Up to 18 months at 0% interest"
-      role="banner"
+      data-discover="true"
     >
       <div className="marquee w-max flex items-center gap-3">
         <p className="text-white text-lg font-bold">

@@ -104,7 +104,7 @@ const BlogPost: React.FC<Blog & { slug: string }> = ({
                 <img
                   key={index}
                   src={`${baseUrl}${item.image}`}
-                  alt={`Blog image ${index + 1}`}
+                  alt={`Representative ${title} image`}
                   loading="lazy"
                   className="w-full object-cover aspect-[2/1] rounded-lg mt-4"
                   onError={(e) => (e.currentTarget.src = `${baseUrl}${defaultImage}`)}

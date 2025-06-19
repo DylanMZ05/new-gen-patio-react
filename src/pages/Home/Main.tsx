@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { FaInstagram, FaTiktok, FaPinterest, FaFacebookF } from "react-icons/fa";
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
 import useScrollToTop from "../../hooks/scrollToTop";
 
 const Main: React.FC = () => {
@@ -15,11 +15,19 @@ const Main: React.FC = () => {
   }, []);
 
   return (
-    <section id="home" className="relative flex w-full h-screen max-h-[1080px]">
+    <section id="home" className="relative flex w-full h-screen max-h-[1080px] overflow-hidden">
+      {/* Imagen de fallback rápida mientras el video carga */}
+      {!videoLoaded && (
+        <div
+          className="absolute top-0 left-0 w-full h-full bg-cover bg-center z-0"
+          style={{ backgroundImage: "url('/assets/videos/homevideo-poster.jpg')" }}
+        />
+      )}
+
       {/* Video de fondo */}
       <video
         id="background-video"
-        className={`absolute top-0 left-0 w-full h-full object-cover max-h-[1080px] transition-opacity duration-700 ${videoLoaded ? "opacity-100" : "opacity-0"}`}
+        className="absolute top-0 left-0 w-full h-full object-cover max-h-[1080px] z-0"
         autoPlay
         loop
         muted
@@ -33,14 +41,15 @@ const Main: React.FC = () => {
       </video>
 
       {/* Capa oscura */}
-      <div className="absolute top-0 left-0 w-full h-full bg-black/60"></div>
+      <div className="absolute top-0 left-0 w-full h-full bg-black/60 z-10"></div>
 
       {/* Contenido principal */}
       <div
-        className="relative z-10 flex flex-col items-start justify-center text-start w-full h-full px-4 text-white"
+        className="relative z-20 flex flex-col items-start justify-center text-start w-full h-full px-4 text-white"
         aria-labelledby="main-heading"
       >
         <div className="w-[90vw] sm:w-[70vw]">
+          {/* ✅ Prioridad visual inmediata */}
           <h1 id="main-heading" className="text-2xl md:text-4xl font-bold">
             Custom Outdoor Space Builders, Cover Patios and Pergolas
           </h1>

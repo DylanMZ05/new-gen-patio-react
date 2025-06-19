@@ -45,12 +45,14 @@ import ContactRedirect from "./pages/Contact/ContactRedirect";
 // Tracking
 import FreeQuoteTracking from "./pages/traking/freequote-tracking";
 import WhatsAppRedirect from "./pages/traking/WhatsAppRedirect";
+import useGoogleAdsTracking from "./hooks/useGoogleAdsTracking";
 
 // Free Quote Popup
 import QuotePopup from "./components/QuotePopup";
 
 const Layout = memo(() => {
   const location = useLocation();
+  useGoogleAdsTracking();
 
   const layoutRoutes = useMemo(() => [
     "/", "/aluminium-custom-pergola-cover-patio",

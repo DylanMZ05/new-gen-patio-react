@@ -108,30 +108,32 @@ const FreeQuote = () => {
       <BlockSection />
 
       <main className="bg-black/60 min-h-[calc(100vh-80px)] flex flex-col items-center justify-center px-4 py-10">
-        {/* Título principal optimizado */}
         <h1 className="text-white/90 text-3xl md:text-4xl font-bold text-center mb-2 max-w-3xl leading-tight">
           Get a Free Quote for Your Patio Project in Houston
         </h1>
         <div className="bg-orange-500 border border-white/10 h-1 w-50 rounded-full mx-auto mb-6" aria-hidden="true" />
 
-        {/* Paso interactivo */}
-        <fieldset
+        {/* Paso interactivo envuelto en formulario con ID */}
+        <form
+          id="free-quote-form"
           aria-labelledby="free-quote-heading"
           className="w-full max-w-4xl mx-auto px-4"
         >
-          <legend id="free-quote-heading" className="sr-only">
-            Free Quote Step Form
-          </legend>
+          <fieldset>
+            <legend id="free-quote-heading" className="sr-only">
+              Free Quote Step Form
+            </legend>
 
-          <Step
-            stepData={stepData}
-            nextStep={nextStep}
-            previousStep={previousStep}
-            updateFormData={updateFormData}
-            formData={formData}
-            selections={selections}
-          />
-        </fieldset>
+            <Step
+              stepData={stepData}
+              nextStep={nextStep}
+              previousStep={previousStep}
+              updateFormData={updateFormData}
+              formData={formData}
+              selections={selections}
+            />
+          </fieldset>
+        </form>
       </main>
     </section>
   );

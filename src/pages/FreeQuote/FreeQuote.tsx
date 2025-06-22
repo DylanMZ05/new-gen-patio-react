@@ -96,12 +96,6 @@ const steps: Record<number, StepData> = {
   },
 };
 
-import Step from "./Step";
-import { useStepNavigation, StepData } from "../../hooks/useStepNavigation";
-import BlockSection from "../../components/BlockSection";
-
-// Definición de pasos igual que antes...
-
 const FreeQuote = () => {
   const { stepData, nextStep, previousStep, updateFormData, formData, selections } = useStepNavigation(steps);
 

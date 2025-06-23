@@ -22,8 +22,6 @@
     <link rel="shortcut icon" href="/LogoColor.ico" type="image/x-icon" />
 
     <!-- Open Graph (Para compartir en Facebook, LinkedIn, WhatsApp) -->
-    <!-- <meta property="og:title" content="New Gen Patio | Custom Aluminum Pergolas" />
-    <meta property="og:description" content="Enhance your outdoor space with custom aluminum pergolas. Durable, stylish, and maintenance-free structures tailored to your needs." /> -->
     <meta property="og:image" content="https://www.newgenpatio.com/assets/images/Products/Patios&Pergolas/Attached/03.webp" />
     <meta property="og:url" content="https://www.newgenpatio.com/" />
     <meta property="og:type" content="website" />
@@ -56,6 +54,16 @@
     }
     </script>
 
+    <!-- Google Tag Manager -->
+    <script>
+      (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+      new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+      j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+      'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+      })(window,document,'script','dataLayer','GTM-NVRGTGFV');
+    </script>
+    <!-- End Google Tag Manager -->
+
     <script>
       function loadTrackingScripts() {
         // Google Analytics
@@ -63,7 +71,7 @@
         gaScript.src = "https://www.googletagmanager.com/gtag/js?id=G-KQH5V68PG7";
         gaScript.async = true;
         document.head.appendChild(gaScript);
-    
+
         gaScript.onload = () => {
           window.dataLayer = window.dataLayer || [];
           function gtag() { dataLayer.push(arguments); }
@@ -71,7 +79,7 @@
           gtag('config', 'G-KQH5V68PG7');
           gtag('config', 'AW-16836532366');
         };
-    
+
         // TikTok
         const tiktokScript = document.createElement("script");
         tiktokScript.innerHTML = `
@@ -87,7 +95,7 @@
           }(window, document, 'ttq');
         `;
         document.head.appendChild(tiktokScript);
-    
+
         // Meta Pixel (Facebook)
         const fbScript = document.createElement("script");
         fbScript.innerHTML = `
@@ -104,7 +112,7 @@
           fbq('track', 'PageView');
         `;
         document.head.appendChild(fbScript);
-    
+
         // Fallback image
         const fbImg = document.createElement("img");
         fbImg.src = "https://www.facebook.com/tr?id=982749890451861&ev=PageView&noscript=1";
@@ -123,6 +131,11 @@
     <noscript><link rel="stylesheet" href="/assets/index-xxxxx.css"></noscript>
   </head>
   <body>
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NVRGTGFV"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+
     <!-- Pixel Metricool -->
     <img 
       src="https://tracker.metricool.com/c3po.jpg?hash=61915cfe2be2f81cb147a95d34086a6e" 
@@ -151,9 +164,7 @@
       box-shadow: 0 -2px 10px rgba(0,0,0,0.2); 
       z-index: 9999;
       animation: slideUp 0.6s ease-out forwards;
-      position: fixed;
     ">
-      <!-- Botón de cerrar (cruz) -->
       <button id="close-cookies" style="
         position: absolute;
         top: 10px;
@@ -176,7 +187,6 @@
       </button>
     </div>
 
-    <!-- Animación CSS -->
     <style>
     @keyframes slideUp {
       0% {
@@ -190,20 +200,15 @@
     }
     </style>
 
-    <!-- Script para manejar la lógica -->
     <script>
       document.addEventListener('DOMContentLoaded', function() {
         const popup = document.getElementById('cookie-popup');
         const acceptBtn = document.getElementById('accept-cookies');
         const closeBtn = document.getElementById('close-cookies');
 
-        // Mostrar cartel siempre
         popup.style.display = 'flex';
+        loadTrackingScripts();
 
-        // Mostrar solo aviso, no bloqueo
-        loadTrackingScripts(); // 👈 Esto ahora se ejecuta siempre
-
-        // Al cerrar con la cruz o aceptar, solo ocultar el cartel
         acceptBtn.addEventListener('click', () => {
           popup.style.display = 'none';
         });
@@ -213,7 +218,6 @@
         });
       });
     </script>
-
 
     <script type="module" src="/src/main.tsx"></script>
   </body>

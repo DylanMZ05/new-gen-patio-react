@@ -46,7 +46,7 @@ const Header: React.FC = () => {
               src={`/assets/images/IdentidadSVG/${isScrolled ? "LogoColor.svg" : "LogoBlanco.svg"}`}
               alt="New Gen Patio Logo"
               className="h-20 img-shadow p-2 pl-0"
-              loading="lazy"
+              loading="eager"
               width="65"
               height="80"
             />
@@ -161,7 +161,7 @@ const Header: React.FC = () => {
             onClick={() => { 
               scrollToTop(); 
               setMenuOpen(false); 
-              setMobileDropdownOpen(false); // Cierra el desplegable también
+              setMobileDropdownOpen(false); 
             }}
           >
             <img
@@ -170,7 +170,7 @@ const Header: React.FC = () => {
               width="200"
               height="80"
               className="h-20 img-shadow p-2"
-              loading="lazy"
+              loading="eager"
             />
           </Link>
 

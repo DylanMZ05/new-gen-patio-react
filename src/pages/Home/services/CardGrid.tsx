@@ -70,8 +70,12 @@ const Card: React.FC<CardProps> = ({ title, imageUrl, link, options, subtitle })
       <figure className="w-full h-64 overflow-hidden rounded-lg relative">
         <img
           src={imageUrl}
-          alt={`${title} service`}
+          alt={`New Gen Patio service: ${title}`}
           loading="lazy"
+          width={640}
+          height={256} // h-64 ≈ 256px
+          decoding="async"
+          onError={(e) => (e.currentTarget.src = "/assets/images/default-placeholder.webp")}
           className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
         />
         <motion.figcaption
@@ -111,7 +115,12 @@ const Card: React.FC<CardProps> = ({ title, imageUrl, link, options, subtitle })
               >
                 <img
                   src={opt.imageUrl}
-                  alt={opt.title}
+                  alt={`Service option: ${opt.title}`}
+                  loading="lazy"
+                  width={640}
+                  height={256}
+                  decoding="async"
+                  onError={(e) => (e.currentTarget.src = "/assets/images/default-placeholder.webp")}
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                 />
                 <div className="absolute inset-0 bg-black/30 flex items-center justify-center">

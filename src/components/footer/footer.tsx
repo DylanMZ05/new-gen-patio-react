@@ -93,13 +93,13 @@ const Footer: React.FC = () => {
           {/* Footer Information */}
           <div className="w-full px-5">
             <img
-              src="assets/images/IdentidadSVG/LogoBlanco.svg"
+              src="/assets/images/IdentidadSVG/LogoBlanco.svg"
               alt="New Gen Patio Logo"
               className="h-20 p-2 pl-0"
               width="65"
               height="80"
               loading="lazy"
-              />
+            />
           </div>
           <div className="text-white flex flex-col w-full max-w-[1920px] gap-8 md:flex-row md:justify-between px-5 mt-3">
 

@@ -17,10 +17,7 @@ const ImageSlider: React.FC<ImageSliderProps> = ({ images, alt }) => {
     if (images.length <= 1) return;
 
     startAutoSlide();
-
-    return () => {
-      stopAutoSlide();
-    };
+    return () => stopAutoSlide();
   }, [images.length]);
 
   const startAutoSlide = () => {
@@ -37,14 +34,12 @@ const ImageSlider: React.FC<ImageSliderProps> = ({ images, alt }) => {
 
   const handleTransitionEnd = () => {
     if (currentIndex === images.length) {
-      // Terminó la transición al clon -> salta sin animar al index 0
       setIsTransitioning(false);
       setCurrentIndex(0);
     }
   };
 
   useEffect(() => {
-    // Cuando se salta al index 0 sin transición, la volvemos a activar
     if (!isTransitioning && currentIndex === 0) {
       requestAnimationFrame(() => {
         requestAnimationFrame(() => {
@@ -62,6 +57,9 @@ const ImageSlider: React.FC<ImageSliderProps> = ({ images, alt }) => {
         src={images[0]}
         alt={alt}
         className="rounded-lg shadow-md w-full object-cover aspect-[3/2]"
+        loading="lazy"
+        width={800} // ⬅️ estimado, podés ajustar según el diseño
+        height={533}
       />
     );
   }
@@ -70,9 +68,7 @@ const ImageSlider: React.FC<ImageSliderProps> = ({ images, alt }) => {
     <div className="relative w-full overflow-hidden aspect-[3/2] rounded-lg shadow-md">
       <div
         ref={sliderRef}
-        className={`flex h-full ${
-          isTransitioning ? "transition-transform duration-500 ease-in-out" : ""
-        }`}
+        className={`flex h-full ${isTransitioning ? "transition-transform duration-500 ease-in-out" : ""}`}
         onTransitionEnd={handleTransitionEnd}
         style={{
           width: `${totalSlides * 100}%`,
@@ -83,17 +79,24 @@ const ImageSlider: React.FC<ImageSliderProps> = ({ images, alt }) => {
           <img
             key={index}
             src={img}
-            alt={`${alt} - ${index}`}
+            alt={`${alt} - Slide ${index + 1}`}
             className="w-full h-full object-cover flex-shrink-0"
             style={{ width: `${100 / totalSlides}%` }}
+            loading="lazy"
+            width={800}
+            height={533}
           />
         ))}
-        {/* Clon de la primera imagen */}
+
+        {/* Clon de la primera imagen para loop */}
         <img
           src={images[0]}
-          alt={`${alt} - clone`}
+          alt={`${alt} - Slide 1 (clone)`}
           className="w-full h-full object-cover flex-shrink-0"
           style={{ width: `${100 / totalSlides}%` }}
+          loading="lazy"
+          width={800}
+          height={533}
         />
       </div>
     </div>

@@ -82,10 +82,16 @@ const Step: React.FC<StepProps> = ({
             >
               <img
                 src={option.img}
-                alt={option.text}
+                alt={`Option: ${option.text}`}
                 className="w-75 h-50 object-cover rounded-md transition-all hover:scale-105"
+                loading="lazy"
+                width={300} // Ajustá según el diseño real
+                height={200}
+                onError={(e) => (e.currentTarget.src = "/assets/images/default-placeholder.webp")}
               />
-              <p className="mt-2 text-center text-2xl font-semibold text-black/90">{option.text}</p>
+              <p className="mt-2 text-center text-2xl font-semibold text-black/90">
+                {option.text}
+              </p>
             </button>
           ))}
         </div>

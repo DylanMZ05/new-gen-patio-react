@@ -20,7 +20,10 @@ const BlogPage: React.FC = () => {
   return (
     <>
       <BlogPost {...blog} />
-      <FreeQuoteButton />
+      <FreeQuoteButton 
+        questionText="Ready to transform your outdoor space?"
+        buttonText="Request Your Free Estimate"
+      />
       <div className="h-6"></div>
       <MarqueeBanner />
       <BlogSection />

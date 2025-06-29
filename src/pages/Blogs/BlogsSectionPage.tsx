@@ -47,8 +47,10 @@ const BlogsSectionPage: React.FC = () => {
                     <figure className="w-full h-64">
                       <img
                         src={resolvedImageUrl}
-                        alt={blog.title}
+                        alt={`Blog post: ${blog.title}`}
                         loading="lazy"
+                        width={800} // Ajustá según diseño real (thumbnail, posiblemente 800x400)
+                        height={400}
                         className="w-full h-full object-cover"
                         onError={(e) => (e.currentTarget.src = defaultImage)}
                       />

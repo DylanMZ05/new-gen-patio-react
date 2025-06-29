@@ -7,7 +7,7 @@ interface ImageTextSectionProps {
   imagePosition: "left" | "right";
   stepLabel?: string;
   imageProps?: React.ImgHTMLAttributes<HTMLImageElement>;
-  children?: React.ReactNode;
+  children?: React.ReactNode; // ✅ Asegurado en la desestructuración
 }
 
 const ImageTextSection: React.FC<ImageTextSectionProps> = ({
@@ -16,7 +16,8 @@ const ImageTextSection: React.FC<ImageTextSectionProps> = ({
   text,
   imageUrl,
   imagePosition = "right",
-  children, // <<<<--- AGREGA ESTO AQUÍ EN LA DESESTRUCTURACIÓN
+  children,
+  imageProps
 }) => {
   const sectionId = `section-title-${title.replace(/\s+/g, "-").toLowerCase()}`;
 
@@ -47,10 +48,13 @@ const ImageTextSection: React.FC<ImageTextSectionProps> = ({
         ) : (
           <img
             src={imageUrl}
-            alt={title}
+            alt={`Illustration of ${title}`}
             loading="lazy"
-            className="rounded-lg shadow-md w-150 object-cover aspect-[3/2]"
+            width={800} // Puedes ajustar según diseño real
+            height={533}
+            className="rounded-lg shadow-md w-full object-cover aspect-[3/2]"
             onError={(e) => (e.currentTarget.src = "/assets/images/default-image.webp")}
+            {...imageProps} // Permite override si es necesario
           />
         )}
       </figure>

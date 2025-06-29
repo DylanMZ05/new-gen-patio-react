@@ -8,12 +8,12 @@ const images: string[] = Array.from(
 
 const Clients: React.FC = () => {
   const marqueeRef = useRef<HTMLDivElement>(null);
-  const [animationDuration, setAnimationDuration] = useState("20s"); // Ajustable dinámicamente
+  const [animationDuration, setAnimationDuration] = useState("20s");
 
   useEffect(() => {
     if (marqueeRef.current) {
-      const totalWidth = marqueeRef.current.scrollWidth / 2; // Ancho total de imágenes
-      const speed = 50; // 🔥 Aumentamos la velocidad (px/s) para que sea más rápido
+      const totalWidth = marqueeRef.current.scrollWidth / 2;
+      const speed = 50;
       const duration = totalWidth / speed;
 
       setAnimationDuration(`${duration}s`);
@@ -41,10 +41,12 @@ const Clients: React.FC = () => {
             <div key={index} className="review-card">
               <img
                 src={image}
-                alt={`Customer review ${index + 1}`}
+                alt={`Google review image ${index + 1} for New Gen Patio`}
                 width={320}
                 height={260}
                 loading="lazy"
+                decoding="async"
+                onError={(e) => (e.currentTarget.style.display = "none")}
               />
             </div>
           ))}

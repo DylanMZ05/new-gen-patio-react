@@ -73,8 +73,10 @@ const BlogPost: React.FC<Blog & { slug: string }> = ({
       <section>
         <img
           src={resolvedImageUrl}
-          alt={title}
+          alt={`Blog cover image: ${title}`}
           loading="lazy"
+          width={1200}
+          height={600}
           className="w-full h-[45vh] object-cover mx-0 px-0"
           onError={(e) => (e.currentTarget.src = `${baseUrl}${defaultImage}`)}
         />
@@ -104,8 +106,10 @@ const BlogPost: React.FC<Blog & { slug: string }> = ({
                 <img
                   key={index}
                   src={`${baseUrl}${item.image}`}
-                  alt={`Representative ${title} image`}
+                  alt={`Illustration for: ${title}`}
                   loading="lazy"
+                  width={800} // Ajustá según diseño real
+                  height={400}
                   className="w-full object-cover aspect-[2/1] rounded-lg mt-4"
                   onError={(e) => (e.currentTarget.src = `${baseUrl}${defaultImage}`)}
                 />

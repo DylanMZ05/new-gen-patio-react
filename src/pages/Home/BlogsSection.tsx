@@ -30,8 +30,10 @@ const BlogCardSlider: React.FC = () => {
           <figure className="w-full h-52">
             <img
               src={`${baseUrl}${blog.imageUrl}`}
-              alt={blog.title}
+              alt={`Cover image for blog post: ${blog.title}`}
               loading="lazy"
+              width={600}  // Estimado: ajustable según diseño real
+              height={208} // Para h-52 (~13rem) ≈ 208px
               className="w-full h-full object-cover"
               onError={(e) =>
                 (e.currentTarget.src = "/assets/images/default-placeholder.webp")

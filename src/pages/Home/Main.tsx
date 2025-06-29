@@ -51,7 +51,7 @@ const Main: React.FC = () => {
         <div className="w-[90vw] sm:w-[70vw]">
           {/* ✅ Prioridad visual inmediata */}
           <h1 id="main-heading" className="text-2xl md:text-4xl font-bold">
-            Custom Outdoor Space Builders, Cover Patios and Pergolas
+            Custom Aluminium Outdoor Space Builders, Cover Patios and Pergolas
           </h1>
 
           <div className="w-[45vw] md:w-80 h-[3px] bg-orange-700 mt-4 mb-1 ml-1 rounded-full"></div>

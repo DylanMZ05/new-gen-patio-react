@@ -106,7 +106,10 @@ const FAQ: React.FC = () => {
         .
       </p>
 
-      <FreeQuoteButton />
+      <FreeQuoteButton 
+        questionText="Got a project in mind?"
+        buttonText="Let’s Talk"
+      />
     </section>
   );
 };

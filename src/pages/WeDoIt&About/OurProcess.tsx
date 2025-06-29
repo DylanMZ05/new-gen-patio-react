@@ -164,7 +164,10 @@ const OurProcess: React.FC = () => {
           </ImgTxtSection>
         </article>
 
-        <FreeQuoteButton />
+        <FreeQuoteButton 
+          questionText="¿Do you want to get a Free Quote?"
+          buttonText="Get a Free Quote"
+        />
       </div>
 
       <MarqueeBanner />

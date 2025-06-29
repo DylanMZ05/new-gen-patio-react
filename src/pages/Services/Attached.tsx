@@ -87,7 +87,10 @@ const Attached: React.FC = () => {
           .map((section, index) => (
             <ImgTxtSection key={index} {...section} />
           ))}
-          <FreeQuoteButton />
+          <FreeQuoteButton 
+            questionText="Got a project in mind?"
+            buttonText="Let’s Talk"
+          />
         </div>
 
         <WhyUsLink backgroundImage={backgroundImage} />

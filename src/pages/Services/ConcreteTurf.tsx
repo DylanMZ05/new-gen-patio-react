@@ -120,7 +120,10 @@ const ConcreteTurf: React.FC = () => {
           <ImgTxtSection key={index} {...section} />
         ))}
 
-        <FreeQuoteButton />
+          <FreeQuoteButton 
+            questionText="Got a project in mind?"
+            buttonText="Let’s Talk"
+          />
       </div>
 
       <MarqueeBanner />
@@ -159,7 +162,10 @@ const ConcreteTurf: React.FC = () => {
           <ImgTxtSection key={index} {...section} />
         ))}
 
-        <FreeQuoteButton />
+        <FreeQuoteButton 
+            questionText="We’d love to hear about your ideas!"
+            buttonText="Tell Us Your Vision"
+          />
       </div>
 
       <WhyUsLink backgroundImage={backgroundImage} />

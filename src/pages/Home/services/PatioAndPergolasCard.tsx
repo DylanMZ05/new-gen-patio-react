@@ -42,7 +42,10 @@ const PatiosAndPergolasCard: React.FC<ServicesProps> = ({ showQuoteButton = true
 
       <CardGrid cards={serviceCards} />
 
-      {showQuoteButton && <FreeQuoteButton />}
+      {showQuoteButton && <FreeQuoteButton 
+                      questionText="Got a project in mind?"
+                      buttonText="Let’s Talk"
+                    />}
     </section>
   );
 };

@@ -75,7 +75,10 @@ const BlogsSectionPage: React.FC = () => {
             })}
           </div>
         </div>
-        <FreeQuoteButton />
+        <FreeQuoteButton 
+          questionText="Ready to transform your outdoor space?"
+          buttonText="Request Your Free Estimate"
+        />
       </section>
       <MarqueeBanner />
     </>

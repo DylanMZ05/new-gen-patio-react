@@ -197,7 +197,10 @@ const AboutUsPage: React.FC = () => {
           </div>
         </div>
 
-      <FreeQuoteButton />
+      <FreeQuoteButton 
+        questionText="Not sure where to start? We’re here to help"
+        buttonText="Talk to an Expert"
+      />
       
       </div>
     </section>

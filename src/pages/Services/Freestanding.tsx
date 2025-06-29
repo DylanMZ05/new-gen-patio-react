@@ -92,7 +92,10 @@ const Freestanding: React.FC = () => {
 
         <WhyUsLink backgroundImage={backgroundImage} />
         <Services showQuoteButton={false} />
-        <FreeQuoteButton />
+        <FreeQuoteButton 
+          questionText="Got a project in mind?"
+          buttonText="Let’s Talk"
+        />
       </section>
     </>
   );

@@ -103,7 +103,10 @@ const OurPromise: React.FC = () => {
           />
         </article>
 
-      <FreeQuoteButton />
+        <FreeQuoteButton 
+          questionText="¿Do you want to get a Free Quote?"
+          buttonText="Get a Free Quote"
+        />
       
       </div>
     </section>

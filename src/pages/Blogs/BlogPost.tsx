@@ -3,6 +3,7 @@ import { Helmet } from "react-helmet-async";
 import BlockSection from "../../components/BlockSection";
 import MarqueeBanner from "../../components/MarqueeBanner";
 import useScrollToTop from "../../hooks/scrollToTop";
+import FreeQuoteButton from "../../components/FreeQuoteButton";
 import type { Blog } from "./blogData";
 
 const formatTextWithStyles = (text: string) => {
@@ -186,13 +187,13 @@ const BlogPost: React.FC<Blog & { slug: string }> = ({
                 <div key={index} className="flex flex-col md:flex-row gap-6 items-start mt-6">
                   {imageFirst && (
                     <img
-                    src={`${baseUrl}${item.image}`}
-                    alt="Illustration"
-                    loading="lazy"
-                    className="w-full md:w-1/2 h-full object-cover rounded-lg max-h-[100%]"
-                    onError={(e) => (e.currentTarget.src = `${baseUrl}${defaultImage}`)}
-                    style={{ maxHeight: "100%" }}
-                  />
+                      src={`${baseUrl}${item.image}`}
+                      alt="Illustration"
+                      loading="lazy"
+                      className="w-full md:w-1/2 h-full object-cover rounded-lg max-h-[100%]"
+                      onError={(e) => (e.currentTarget.src = `${baseUrl}${defaultImage}`)}
+                      style={{ maxHeight: "100%" }}
+                    />
                   )}
                   <div className="flex-1 text-gray-700">
                     {item.textBlocks.map((block, i) => {
@@ -229,10 +230,21 @@ const BlogPost: React.FC<Blog & { slug: string }> = ({
                   )}
                 </div>
               );
+            } else if (item.type === "freeQuote") {
+              return (
+                <div key={index} className="mt-10 mb-10">
+                  <FreeQuoteButton
+                    questionText={item.questionText}
+                    buttonText={item.buttonText}
+                    linkTo={item.linkTo}
+                  />
+                </div>
+              );
             }
 
             return null;
           })}
+
 
         </article>
       </section>

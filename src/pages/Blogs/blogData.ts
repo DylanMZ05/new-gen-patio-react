@@ -9,7 +9,8 @@ type BlogContentBlock =
   | { type: "h1"; text: string }
   | { type: "h2"; text: string }
   | { type: "h3"; text: string }
-  | { type: "linkedHeading"; level: "h2" | "h3"; to: string; label: string };
+  | { type: "linkedHeading"; level: "h2" | "h3"; to: string; label: string }
+  | { type: "freeQuote"; questionText?: string; buttonText?: string; linkTo?: string };
 
 export interface Blog {
   id: number;
@@ -85,6 +86,14 @@ export const blogs: Blog[] = [
         type: "text",
         text: "• **Visual appeal** and the perception of square footage can be **boosted**.\n• **Buyer interest** and the time spent looking at the property's listings can be **increased**.\n• **Higher asking prices** can be **justified** as added lifestyle benefits are demonstrated."
       },
+      
+      {
+        type: "freeQuote",
+        questionText: "Ready to upgrade your outdoor space?",
+        buttonText: "Request a Free Quote Now",
+        linkTo: "/get-a-free-quote-houston"
+      },
+
       {
         type: "h2",
         text: "The Ideal Material: Why Aluminum is Considered the Smartest Choice for Resale"
@@ -184,6 +193,13 @@ export const blogs: Blog[] = [
       { type: "text", text: "✅ ***Cost*** – Wood has a **lower initial cost**, but aluminum offers **long-term savings** due to its **durability**." },
       { type: "text", text: "✅ ***Sustainability*** – Aluminum is **recyclable and environmentally friendly**, while wood may require **harvesting of natural resources**." },
 
+      {
+        type: "freeQuote",
+        questionText: "Ready to upgrade your outdoor space?",
+        buttonText: "Request a Free Quote Now",
+        linkTo: "/get-a-free-quote-houston"
+      },
+
       { type: "image", image: "assets/images/Products/Patios&Pergolas/Attached/04.webp" },
 
       { type: "h2", text: "Advantages of Aluminum Pergolas" },
@@ -273,6 +289,13 @@ export const blogs: Blog[] = [
       { type: "text", text: "● Ideal for poolside areas or patios with panoramic landscapes." },
       { type: "text", text: "● Offers shade without obstructing pathways or sightlines." },
       { type: "text", text: "💡 **A sleek and modern option where elegance and space efficiency are prioritized.**" },
+
+      {
+        type: "freeQuote",
+        questionText: "Ready to upgrade your outdoor space?",
+        buttonText: "Request a Free Quote Now",
+        linkTo: "/get-a-free-quote-houston"
+      },
 
       { type: "image", image: "assets/images/Blogs/Blog-2/03.webp" },
 
@@ -404,6 +427,13 @@ export const blogs: Blog[] = [
       {
         type: "text",
         text: "_(The prices shown in this section are approximate, based on global searches, they are not official costs of our company)_"
+      },
+
+      {
+        type: "freeQuote",
+        questionText: "Ready to upgrade your outdoor space?",
+        buttonText: "Request a Free Quote Now",
+        linkTo: "/get-a-free-quote-houston"
       },
 
       {

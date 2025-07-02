@@ -9,12 +9,12 @@ interface ServicesProps {
 const serviceCards = [
   {
     title: "Modern Outdoor Kitchens",
-    imageUrl: "assets/images/Products/Patios&Pergolas/Attached/01.webp",
+    imageUrl: "assets/images/Products/OutdoorKitchen/Modern/11.webp",
     link: "/modern-outdoor-kitchens-houston",
   },
     {
     title: "Traditional Outdoor Kitchens",
-    imageUrl: "assets/images/Products/OutdoorKitchen/Modern/01.webp",
+    imageUrl: "assets/images/Products/OutdoorKitchen/Traditional/03.webp",
     link: "/traditional-outdoor-kitchens-houston",
   },
 ];

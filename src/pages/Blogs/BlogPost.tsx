@@ -108,7 +108,7 @@ const BlogPost: React.FC<Blog & { slug: string }> = ({
                   src={`${baseUrl}${item.image}`}
                   alt={`Illustration for: ${title}`}
                   loading="lazy"
-                  width={800} // Ajustá según diseño real
+                  width={800}
                   height={400}
                   className="w-full object-cover aspect-[2/1] rounded-lg mt-4"
                   onError={(e) => (e.currentTarget.src = `${baseUrl}${defaultImage}`)}
@@ -180,9 +180,60 @@ const BlogPost: React.FC<Blog & { slug: string }> = ({
                   </Link>
                 </HeadingTag>
               );
+            } else if (item.type === "sideBySide") {
+              const imageFirst = item.imagePosition !== "right";
+              return (
+                <div key={index} className="flex flex-col md:flex-row gap-6 items-start mt-6">
+                  {imageFirst && (
+                    <img
+                    src={`${baseUrl}${item.image}`}
+                    alt="Illustration"
+                    loading="lazy"
+                    className="w-full md:w-1/2 h-full object-cover rounded-lg max-h-[100%]"
+                    onError={(e) => (e.currentTarget.src = `${baseUrl}${defaultImage}`)}
+                    style={{ maxHeight: "100%" }}
+                  />
+                  )}
+                  <div className="flex-1 text-gray-700">
+                    {item.textBlocks.map((block, i) => {
+                      if (block.type === "h2") {
+                        return (
+                          <h2 key={i} className="text-2xl font-semibold text-black mb-2">
+                            {block.text}
+                          </h2>
+                        );
+                      } else if (block.type === "h3") {
+                        return (
+                          <h3 key={i} className="text-xl font-semibold text-black mb-2">
+                            {block.text}
+                          </h3>
+                        );
+                      } else if (block.type === "text") {
+                        return (
+                          <p key={i} className="mb-2 whitespace-pre-line">
+                            {formatTextWithStyles(block.text)}
+                          </p>
+                        );
+                      }
+                      return null;
+                    })}
+                  </div>
+                  {!imageFirst && (
+                    <img
+                      src={`${baseUrl}${item.image}`}
+                      alt="Illustration"
+                      loading="lazy"
+                      className="w-full md:w-1/2 rounded-lg object-cover"
+                      onError={(e) => (e.currentTarget.src = `${baseUrl}${defaultImage}`)}
+                    />
+                  )}
+                </div>
+              );
             }
+
             return null;
           })}
+
         </article>
       </section>
     </>

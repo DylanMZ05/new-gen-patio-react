@@ -3,6 +3,7 @@
 type BlogContentBlock =
   | { type: "text"; text: string }
   | { type: "image"; image: string }
+  | { type: "sideBySide"; image: string; imagePosition?: "left" | "right"; textBlocks: BlogContentBlock[] }
   | { type: "link"; link: { to: string; label: string } }
   | { type: "inlineText"; inlineText: { text?: string; link?: { to: string; label: string } }[] }
   | { type: "h1"; text: string }
@@ -23,6 +24,133 @@ export interface Blog {
 }
 
 export const blogs: Blog[] = [
+  {
+    id: 4,
+    slug: "how-increased-home-value-with-aluminum-covered-patio",
+    title: "How Home Resale Value in Houston Can Be Increased by a Premium Aluminum Patio",
+    metaTitle: "Boost Home Value in Houston with an Aluminum Patio Cover",
+    subtitle: "Learn how a high-quality aluminum patio can increase resale value and curb appeal.",
+    imageUrl: "assets/images/Blogs/Blog-4/01.webp",
+    date: "2025-07-01",
+    author: "New Gen Patio LLC",
+    content: [
+      {
+        type: "h1",
+        text: "How Home Resale Value in Houston Can Be Increased by a Premium Aluminum Patio"
+      },
+      {
+        type: "text",
+        text: "In the competitive Houston real estate market, homes that offer not only comfort but also long-term durability are sought by buyers, especially where outdoor spaces are concerned."
+      },
+      {
+        type: "text",
+        text: "Attention is now being captured by one feature for both its visual appeal and functional benefits: the **premium aluminum patio cover**. The addition of a high-quality aluminum structure is not just for creating shade; it is a strategic investment by which a home's resale value can be significantly increased and by which it can be made to stand out in listings."
+      },
+      {
+        type: "image",
+        image: "assets/images/Blogs/Blog-4/01.webp"
+      },
+      {
+        type: "h2",
+        text: "Why Outdoor Living is Prioritized in Houston"
+      },
+      {
+        type: "text",
+        text: "A warm climate is enjoyed by Houston homeowners for most of the year, by which outdoor living is turned into a major selling point. A higher demand is seen for properties with well-designed outdoor areas, especially those where shade, protection, and comfort are offered."
+      },
+      {
+        type: "text",
+        text: "A simple backyard is transformed by a premium quality patio cover into a shaded, functional space where entertaining guests, relaxing, or cooking outdoors can be easily imagined by potential buyers."
+      },
+      {
+        type: "sideBySide",
+        image: "assets/images/Blogs/Blog-4/02.webp",
+        imagePosition: "left", // este campo es opcional si siempre default a left
+        textBlocks: [
+          {
+            type: "h2",
+            text: "The Return on Investment: How Much Value Can Truly Be Added?"
+          },
+          {
+            type: "text",
+            text: "Although the exact return on investment can be varied, it has been shown by various studies that resale value can be **increased by 8% to 12%** by well-built outdoor structures, like patio covers, depending on the size, materials, and additional features."
+          }
+        ]
+      },
+      {
+        type: "text",
+        text: "In Houston, where great appeal is added by outdoor functionality, by a premium aluminum cover:"
+      },
+      {
+        type: "text",
+        text: "• **Visual appeal** and the perception of square footage can be **boosted**.\n• **Buyer interest** and the time spent looking at the property's listings can be **increased**.\n• **Higher asking prices** can be **justified** as added lifestyle benefits are demonstrated."
+      },
+      {
+        type: "h2",
+        text: "The Ideal Material: Why Aluminum is Considered the Smartest Choice for Resale"
+      },
+      {
+        type: "text",
+        text: "Not all patio covers are created equal. Aluminum, especially the structural-grade type, is considered the ideal choice for maximizing resale value for several key reasons:"
+      },
+      {
+        type: "text",
+        text: "✅ **Weather Resistance**: Houston's heat, humidity, and storm seasons are withstood without warping, rusting, or deteriorating."
+      },
+      {
+        type: "text",
+        text: "✅ **Low Maintenance**: Unlike wood, repainting, sanding, or treatment against termites is not needed for aluminum. A major advantage is represented by this for future owners."
+      },
+      {
+        type: "text",
+        text: "✅ **Modern Appearance**: A sleek, sophisticated look that is found attractive by modern buyers is given to aluminum by its high-quality powder-coated finishes."
+      },
+      {
+        type: "text",
+        text: "✅ **Structural Integrity**: With a wind-resistance rating of up to **120 mph**, a level of durability that adds confidence for future homeowners is offered by aluminum covers."
+      },
+      {
+        type: "h2",
+        text: "Additional Features by Which Appeal is Maximized"
+      },
+      {
+        type: "text",
+        text: "Upgrades are loved by buyers. When additional features are included on a patio cover, its perceived value is increased even more. These upgrades should be considered:"
+      },
+      {
+        type: "text",
+        text: "• Insulated roof panels by which heat and noise are reduced.\n• Integrated ceiling fans and lighting.\n• Built-in gutter and drainage systems.\n• Electrical access for entertainment systems or appliances."
+      },
+      {
+        type: "text",
+        text: "Not only are buyers impressed by these details, but a home is also differentiated from others in the same price range."
+      },
+      {
+        type: "image",
+        image: "assets/images/Blogs/Blog-4/03.webp"
+      },
+      {
+        type: "h2",
+        text: "A Smart Long-Term Investment"
+      },
+      {
+        type: "text",
+        text: "The addition of a premium aluminum patio cover is considered more than a simple aesthetic improvement; it is a functional upgrade by which useful living space is added, a home's exterior is protected, and lasting value is created. For homeowners in Houston, it is one of the few improvements that can be enjoyed daily while a great return on investment is also offered when it is time to sell."
+      },
+      {
+        type: "h2",
+        text: "Is Maximizing Your Property's Value of Interest to You?"
+      },
+      {
+        type: "text",
+        text: "At **New Gen Patio**, a specialization is held in custom aluminum patio covers that are designed for comfort to be enhanced, durability to be increased, and a home's value to be boosted."
+      },
+      {
+        type: "text",
+        text: "📞 **We should be contacted for a free estimate and a 3D design preview.** Let it be discovered how your outdoor space can be made into your home's best feature by us."
+      }
+    ]
+  },
   {
     id: 1,
     slug: "aluminum-vs-wood-pergolas",

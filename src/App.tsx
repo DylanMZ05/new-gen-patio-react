@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, useLocation, Navigate } from "react-router-dom";
 import { memo, useMemo } from "react";
 import { HelmetProvider } from "react-helmet-async";
 
@@ -62,7 +62,7 @@ const Layout = memo(() => {
     "/cantilever-aluminium-pergola", "/custom-outdoor-kitchen",
     "/modern-outdoor-kitchens-houston", "/traditional-outdoor-kitchens-houston",
     "/concrete-and-turf-installation-houston", "/patio-financing-houston",
-    "/get-a-free-quote-houston", "/contact-us", "/formpage", "/blog/best-patio-cover-types",
+    "/get-a-free-quote-houston", "/contact-us", "/contact", "/formpage", "/blog/best-patio-cover-types",
     "/blog/aluminum-vs-wood-pergolas", "/outdoor-living-services", "/blog/cost-build-purpose-outdoor-kitchen", "/blog/how-increased-home-value-with-aluminum-covered-patio"
   ], []);
 
@@ -115,6 +115,9 @@ const Layout = memo(() => {
         <Route path="/formpage" element={<FormPage />} />
         <Route path="/get-a-free-quote-houston-tracking" element={<FreeQuoteTracking />} />
         <Route path="/whatsapp-redirect" element={<WhatsAppRedirect />} />
+
+        {/* 🔁 Redirección de /contact a /contact-us */}
+        <Route path="/contact" element={<Navigate to="/contact-us" replace />} />
       </Routes>
       {!isNoLayout && <QuotePopup />}
       {!isNoLayout && <WspButton />}

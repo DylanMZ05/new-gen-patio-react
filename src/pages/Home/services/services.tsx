@@ -14,7 +14,7 @@ const serviceCards = [
   },
     {
     title: "Outdoor Kitchens",
-    imageUrl: "assets/images/Products/OutdoorKitchen/Modern/01.webp",
+    imageUrl: "assets/images/Products/OutdoorKitchen/Modern/11.webp",
     link: "/custom-outdoor-kitchen",
   },
   {

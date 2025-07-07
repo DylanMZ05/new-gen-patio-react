@@ -44,9 +44,9 @@ const FreeQuoteTracking = () => {
           <div className="bg-white p-6 rounded-lg shadow-xl w-full text-center relative">
 
 
-            <p className="text-xl font-semibold mb-2">Message Copied</p>
+            <p className="text-xl font-semibold mb-2">Thanks you for your Request</p>
             <p className="text-red-500/80 font-semibold text-sm mb-4">
-            If your message is not displayed correctly when you enter the chat, paste the message into the chat.
+              You’ve been redirected to WhatsApp for faster assistance. If nothing happens, please try again.
             </p>
 
             <button

@@ -1,11 +1,9 @@
 import { useEffect, useState } from "react";
 import { FaWhatsapp } from "react-icons/fa";
-import { useNavigate } from "react-router-dom";
 
 const WhatsAppButton = () => {
   const [showPopup, setShowPopup] = useState(false);
   const [fadeOut, setFadeOut] = useState(false);
-  const navigate = useNavigate();
 
   useEffect(() => {
     let timeoutId: ReturnType<typeof setTimeout>;
@@ -34,7 +32,7 @@ const WhatsAppButton = () => {
 
   return (
     <>
-      {/* Popup burbuja */}
+      {/* Popup bubble */}
       {showPopup && (
         <div
           className={`fixed z-[2100] bottom-[80px] right-[27px]
@@ -42,16 +40,18 @@ const WhatsAppButton = () => {
                       border border-green-500/70 
                       ${fadeOut ? "animate-fadeOut" : "animate-popup"}`}
         >
-          Contact Us
+          Contact us
           <div className="absolute -bottom-2 right-3 w-0 h-0 
                 border-l-8 border-r-8 border-t-8 
                 border-l-transparent border-r-transparent border-t-white" />
         </div>
       )}
 
-      {/* Botón de WhatsApp */}
-      <button
-        onClick={() => navigate("/whatsapp-redirect")}
+      {/* WhatsApp button with hyperlink */}
+      <a
+        href="https://wa.me/5491123456789?text=Hello%2C+I%27m+interested+in+your+services&utm_source=web&utm_medium=button&utm_campaign=whatsapp_contact"
+        target="_blank"
+        rel="noopener noreferrer"
         title="Chat with us on WhatsApp"
         aria-label="Chat with us on WhatsApp"
         className="fixed bottom-5 right-2 sm:right-4 md:right-5 lg:right-8 
@@ -60,7 +60,7 @@ const WhatsAppButton = () => {
                   w-14 h-14 focus:ring-2 focus:ring-green-300 border border-black/10 z-[2000] cursor-pointer"
       >
         <FaWhatsapp size={28} />
-      </button>
+      </a>
     </>
   );
 };

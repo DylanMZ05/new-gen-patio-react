@@ -1,4 +1,3 @@
-import React from "react";
 import SectionBlock from "../../../components/SectionBlock";
 import MarqueeBanner from "../../../components/MarqueeBanner";
 import ProjectCard from "./ProjectCard";

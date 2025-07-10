@@ -50,6 +50,9 @@ import useGoogleAdsTracking from "./hooks/useGoogleAdsTracking";
 // Free Quote Popup
 import QuotePopup from "./components/QuotePopup";
 
+// Catalog
+import ProjectsList from "./pages/Home/Catalogo/Catalogo";
+
 const Layout = memo(() => {
   const location = useLocation();
   useGoogleAdsTracking();
@@ -63,7 +66,8 @@ const Layout = memo(() => {
     "/modern-outdoor-kitchens-houston", "/traditional-outdoor-kitchens-houston",
     "/concrete-and-turf-installation-houston", "/patio-financing-houston",
     "/get-a-free-quote-houston", "/contact-us", "/contact", "/formpage", "/blog/best-patio-cover-types",
-    "/blog/aluminum-vs-wood-pergolas", "/outdoor-living-services", "/blog/cost-build-purpose-outdoor-kitchen", "/blog/how-increased-home-value-with-aluminum-covered-patio"
+    "/blog/aluminum-vs-wood-pergolas", "/outdoor-living-services", "/blog/cost-build-purpose-outdoor-kitchen", "/blog/how-increased-home-value-with-aluminum-covered-patio",
+    "/project-catalog"
   ], []);
 
   const noLayoutRoutes = useMemo(() => [
@@ -115,6 +119,7 @@ const Layout = memo(() => {
         <Route path="/formpage" element={<FormPage />} />
         <Route path="/get-a-free-quote-houston-tracking" element={<FreeQuoteTracking />} />
         <Route path="/whatsapp-redirect" element={<WhatsAppRedirect />} />
+        <Route path="/project-catalog" element={<ProjectsList />} />
 
         {/* 🔁 Redirección de /contact a /contact-us */}
         <Route path="/contact" element={<Navigate to="/contact-us" replace />} />

@@ -25,7 +25,7 @@ const AdminRoute: React.FC<Props> = ({ children }) => {
     return <div className="text-center py-10">Loading...</div>;
   }
 
-  return isAuthenticated ? <>{children}</> : <Navigate to="/login" />;
+  return isAuthenticated ? <>{children}</> : <Navigate to="/login/dashboard" />;
 };
 
 export default AdminRoute;

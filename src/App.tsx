@@ -7,11 +7,10 @@ import Header from "./components/header/Header";
 import WspButton from "./components/WspButton";
 import Footer from "./components/footer/footer";
 import BlockSection from "./components/BlockSection";
+import QuotePopup from "./components/QuotePopup";
 
-// Home
+// Páginas
 import MainHome from "./pages/Home/MainHome";
-
-// Services
 import Attached from "./pages/Services/Attached";
 import Freestanding from "./pages/Services/Freestanding";
 import Cantilever from "./pages/Services/Cantilever";
@@ -21,37 +20,25 @@ import OutdoorKitchenModern from "./pages/Services/OutdoorKitchenModern";
 import OutdoorKitchenTraditional from "./pages/Services/OutdoorKitchenTraditional";
 import PatiosAndPergolasHome from "./pages/Home/PatiosAndPergolasHome";
 import ServicesMain from "./pages/Home/ServicesMain";
-
-// Calculator
 import Calculator from "./pages/Calculator/Calculator";
 import FinancingOptions from "./pages/Calculator/FinancingOptions";
-
-// How We Do It & About Us
 import OurPromise from "./pages/WeDoIt&About/OurPromise";
 import OurProcess from "./pages/WeDoIt&About/OurProcess";
 import AboutUsPage from "./pages/WeDoIt&About/AboutUsPage";
-
-// Blogs
 import BlogPage from "./pages/Blogs/BlogPage";
 import BlogSectionPage from "./pages/Blogs/BlogsSectionPage";
-
-// Free Quote & Forms
 import FreeQuote from "./pages/FreeQuote/FreeQuote";
-
-// Forms
 import FormPage from "./pages/Contact/FormPage";
 import ContactRedirect from "./pages/Contact/ContactRedirect";
-
-// Tracking
 import FreeQuoteTracking from "./pages/traking/freequote-tracking";
 import WhatsAppRedirect from "./pages/traking/WhatsAppRedirect";
 import useGoogleAdsTracking from "./hooks/useGoogleAdsTracking";
-
-// Free Quote Popup
-import QuotePopup from "./components/QuotePopup";
-
-// Catalog
 import ProjectsList from "./pages/Home/Catalogo/Catalogo";
+
+// Páginas Admin
+import AdminDashboard from "./pages/Admin/AdminDashboard";
+import Login from "./pages/Admin/Login";
+import AdminRoute from "./pages/Admin/AdminRoute"; // 🔐 Ruta protegida
 
 const Layout = memo(() => {
   const location = useLocation();
@@ -71,7 +58,7 @@ const Layout = memo(() => {
   ], []);
 
   const noLayoutRoutes = useMemo(() => [
-    "/financing-options", "/get-a-free-quote-houston-tracking", "/whatsapp-redirect"
+    "/financing-options", "/get-a-free-quote-houston-tracking", "/whatsapp-redirect", "/login/dashboard", "/admin/dashboard"
   ], []);
 
   const isLayoutRoute = layoutRoutes.includes(location.pathname);
@@ -120,6 +107,14 @@ const Layout = memo(() => {
         <Route path="/get-a-free-quote-houston-tracking" element={<FreeQuoteTracking />} />
         <Route path="/whatsapp-redirect" element={<WhatsAppRedirect />} />
         <Route path="/project-catalog" element={<ProjectsList />} />
+
+        {/* 🔐 Admin */}
+        <Route path="/login/dashboard" element={<Login />} />
+        <Route path="/admin/dashboard" element={
+          <AdminRoute>
+            <AdminDashboard />
+          </AdminRoute>
+        } />
 
         {/* 🔁 Redirección de /contact a /contact-us */}
         <Route path="/contact" element={<Navigate to="/contact-us" replace />} />

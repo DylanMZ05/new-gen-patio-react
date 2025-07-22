@@ -1,9 +1,10 @@
 // src/pages/Admin/AdminDashboard.tsx
 import React, { useEffect, useState } from "react";
 import { signOut } from "firebase/auth";
-import { collection, getDocs } from "firebase/firestore";
+import { collection, getDocs, setDoc, doc } from "firebase/firestore";
 import { auth, db } from "../../firebase";
 import { useNavigate } from "react-router-dom";
+import { projects as localProjects } from "../Home/Catalogo/CatalogoCard";
 
 interface Project {
   id: string;
@@ -19,6 +20,10 @@ interface Project {
 const AdminDashboard: React.FC = () => {
   const [projects, setProjects] = useState<Project[]>([]);
   const [loading, setLoading] = useState(true);
+  const [uploading, setUploading] = useState(false);
+  const [uploaded, setUploaded] = useState(false);
+  const [errores, setErrores] = useState<string[]>([]);
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -29,7 +34,6 @@ const AdminDashboard: React.FC = () => {
           id: doc.id,
           ...doc.data(),
         })) as Project[];
-
         setProjects(data);
       } catch (err) {
         console.error("Error fetching projects:", err);
@@ -46,17 +50,67 @@ const AdminDashboard: React.FC = () => {
     navigate("/login/dashboard");
   };
 
+  const subirProyectosAFirestore = async () => {
+    setUploading(true);
+    setUploaded(false);
+    setErrores([]);
+
+    for (const project of localProjects) {
+      try {
+        const proyectoFirestore = {
+          ...project,
+          imageUrl: project.imageUrl, // se sube como string tal cual
+        };
+
+        await setDoc(doc(db, "projects", project.id), proyectoFirestore);
+        console.log(`✅ Subido: ${project.title}`);
+      } catch (error: any) {
+        console.error(`❌ Error al subir ${project.title}:`, error);
+        setErrores((prev) => [...prev, `${project.title}: ${error.message || error}`]);
+      }
+    }
+
+    setUploading(false);
+    setUploaded(true);
+  };
+
   return (
     <div className="min-h-screen bg-gray-100 p-6">
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-3xl font-bold">Admin Dashboard</h1>
-        <button
-          onClick={handleLogout}
-          className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 transition"
-        >
-          Cerrar sesión
-        </button>
+        <div className="flex gap-4">
+          <button
+            onClick={subirProyectosAFirestore}
+            disabled={uploading}
+            className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition"
+          >
+            {uploading ? "Subiendo..." : "Subir proyectos a Firestore"}
+          </button>
+          <button
+            onClick={handleLogout}
+            className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 transition"
+          >
+            Cerrar sesión
+          </button>
+        </div>
       </div>
+
+      {uploaded && (
+        <div className="mb-4">
+          {errores.length === 0 ? (
+            <p className="text-green-600">✅ Todos los proyectos fueron subidos correctamente.</p>
+          ) : (
+            <div className="text-red-600">
+              <p>⚠️ Algunos proyectos no se subieron:</p>
+              <ul className="list-disc pl-6 mt-2">
+                {errores.map((err, idx) => (
+                  <li key={idx}>{err}</li>
+                ))}
+              </ul>
+            </div>
+          )}
+        </div>
+      )}
 
       {loading ? (
         <p className="text-gray-600">Cargando proyectos...</p>

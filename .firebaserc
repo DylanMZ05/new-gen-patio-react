@@ -1,5 +1,8 @@
 {
   "projects": {
-    "default": "new-gen-patio-a95f1"
-  }
+    "default": "new-gen-patio-a95f1",
+    "y": "new-gen-patio-a95f1"
+  },
+  "targets": {},
+  "etags": {}
 }

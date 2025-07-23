@@ -21,7 +21,7 @@ export const projects: Project[] = [
   {
     id: "1",
     title: "Attached Covered Patio",
-    imageUrl: "assets/images/placeholder/attached.jpg",
+    imageUrl: "https://firebasestorage.googleapis.com/v0/b/new-gen-patio-a95f1.firebasestorage.app/o/03.webp?alt=media&token=aa05b14f-631c-4ac9-a011-7182043970a8",
     stain: "Walnut",
     size: "12 x 10",
     rafterTail: "Standard",
@@ -32,7 +32,7 @@ export const projects: Project[] = [
   {
     id: "2",
     title: "FreeStanding Pergola",
-    imageUrl: "assets/images/placeholder/freestanding.jpg",
+    imageUrl: "https://firebasestorage.googleapis.com/v0/b/new-gen-patio-a95f1.firebasestorage.app/o/03.webp?alt=media&token=aa05b14f-631c-4ac9-a011-7182043970a8",
     stain: "Walnut",
     size: "12 x 10",
     rafterTail: "Standard",
@@ -43,7 +43,7 @@ export const projects: Project[] = [
   {
     id: "3",
     title: "Cantilevered Pergola",
-    imageUrl: "assets/images/placeholder/cantilever.jpg",
+    imageUrl: "https://firebasestorage.googleapis.com/v0/b/new-gen-patio-a95f1.firebasestorage.app/o/03.webp?alt=media&token=aa05b14f-631c-4ac9-a011-7182043970a8",
     stain: "Walnut",
     size: "12 x 10",
     rafterTail: "Standard",
@@ -56,7 +56,7 @@ export const projects: Project[] = [
   {
     id: "4",
     title: "Modern Outdoor Kitchen",
-    imageUrl: "assets/images/placeholder/modern-kitchen.jpg",
+    imageUrl: "https://firebasestorage.googleapis.com/v0/b/new-gen-patio-a95f1.firebasestorage.app/o/03.webp?alt=media&token=aa05b14f-631c-4ac9-a011-7182043970a8",
     stain: "Black",
     size: "10 x 8",
     rafterTail: "None",
@@ -67,7 +67,7 @@ export const projects: Project[] = [
   {
     id: "5",
     title: "Traditional Outdoor Kitchen",
-    imageUrl: "assets/images/placeholder/traditional-kitchen.jpg",
+    imageUrl: "https://firebasestorage.googleapis.com/v0/b/new-gen-patio-a95f1.firebasestorage.app/o/03.webp?alt=media&token=aa05b14f-631c-4ac9-a011-7182043970a8",
     stain: "Cherry",
     size: "10 x 8",
     rafterTail: "Traditional",
@@ -80,7 +80,7 @@ export const projects: Project[] = [
   {
     id: "6",
     title: "Dark Bronze Panels",
-    imageUrl: "assets/images/placeholder/bronze-panel.jpg",
+    imageUrl: "https://firebasestorage.googleapis.com/v0/b/new-gen-patio-a95f1.firebasestorage.app/o/03.webp?alt=media&token=aa05b14f-631c-4ac9-a011-7182043970a8",
     stain: "Bronze",
     size: "12 x 10",
     rafterTail: "Modern",
@@ -91,7 +91,7 @@ export const projects: Project[] = [
   {
     id: "7",
     title: "White Panels",
-    imageUrl: "assets/images/placeholder/white-panel.jpg",
+    imageUrl: "https://firebasestorage.googleapis.com/v0/b/new-gen-patio-a95f1.firebasestorage.app/o/03.webp?alt=media&token=aa05b14f-631c-4ac9-a011-7182043970a8",
     stain: "White",
     size: "12 x 10",
     rafterTail: "Modern",
@@ -102,7 +102,7 @@ export const projects: Project[] = [
   {
     id: "8",
     title: "Wood Imitation Panels",
-    imageUrl: "assets/images/placeholder/wood-panel.jpg",
+    imageUrl: "https://firebasestorage.googleapis.com/v0/b/new-gen-patio-a95f1.firebasestorage.app/o/03.webp?alt=media&token=aa05b14f-631c-4ac9-a011-7182043970a8",
     stain: "Oak",
     size: "12 x 10",
     rafterTail: "Rustic",
@@ -115,7 +115,7 @@ export const projects: Project[] = [
   {
     id: "9",
     title: "Black Composite",
-    imageUrl: "assets/images/placeholder/black-composite.jpg",
+    imageUrl: "https://firebasestorage.googleapis.com/v0/b/new-gen-patio-a95f1.firebasestorage.app/o/03.webp?alt=media&token=aa05b14f-631c-4ac9-a011-7182043970a8",
     stain: "Black",
     size: "10 x 8",
     rafterTail: "None",
@@ -126,7 +126,7 @@ export const projects: Project[] = [
   {
     id: "10",
     title: "Wood Imitation Composite",
-    imageUrl: "assets/images/placeholder/wood-composite.jpg",
+    imageUrl: "https://firebasestorage.googleapis.com/v0/b/new-gen-patio-a95f1.firebasestorage.app/o/03.webp?alt=media&token=aa05b14f-631c-4ac9-a011-7182043970a8",
     stain: "Wood",
     size: "10 x 8",
     rafterTail: "Rustic",
@@ -139,7 +139,7 @@ export const projects: Project[] = [
   {
     id: "11",
     title: "Polycarbonate Hybrid",
-    imageUrl: "assets/images/placeholder/polycarbonate.jpg",
+    imageUrl: "https://firebasestorage.googleapis.com/v0/b/new-gen-patio-a95f1.firebasestorage.app/o/03.webp?alt=media&token=aa05b14f-631c-4ac9-a011-7182043970a8",
     stain: "Clear",
     size: "12 x 12",
     rafterTail: "None",
@@ -150,7 +150,7 @@ export const projects: Project[] = [
   {
     id: "12",
     title: "Naked Pergola Hybrid",
-    imageUrl: "assets/images/placeholder/naked.jpg",
+    imageUrl: "https://firebasestorage.googleapis.com/v0/b/new-gen-patio-a95f1.firebasestorage.app/o/03.webp?alt=media&token=aa05b14f-631c-4ac9-a011-7182043970a8",
     stain: "Natural",
     size: "12 x 12",
     rafterTail: "None",
@@ -163,7 +163,7 @@ export const projects: Project[] = [
   {
     id: "13",
     title: "TV Wall Add-on",
-    imageUrl: "assets/images/placeholder/tv-wall.jpg",
+    imageUrl: "https://firebasestorage.googleapis.com/v0/b/new-gen-patio-a95f1.firebasestorage.app/o/03.webp?alt=media&token=aa05b14f-631c-4ac9-a011-7182043970a8",
     stain: "Gray",
     size: "10 x 6",
     rafterTail: "Hidden",
@@ -174,7 +174,7 @@ export const projects: Project[] = [
   {
     id: "14",
     title: "Privacy Wall Add-on",
-    imageUrl: "assets/images/placeholder/privacy-wall.jpg",
+    imageUrl: "https://firebasestorage.googleapis.com/v0/b/new-gen-patio-a95f1.firebasestorage.app/o/03.webp?alt=media&token=aa05b14f-631c-4ac9-a011-7182043970a8",
     stain: "Dark",
     size: "10 x 6",
     rafterTail: "Hidden",
@@ -185,7 +185,7 @@ export const projects: Project[] = [
   {
     id: "15",
     title: "Slags Add-on",
-    imageUrl: "assets/images/placeholder/slags.jpg",
+    imageUrl: "https://firebasestorage.googleapis.com/v0/b/new-gen-patio-a95f1.firebasestorage.app/o/03.webp?alt=media&token=aa05b14f-631c-4ac9-a011-7182043970a8",
     stain: "Gray",
     size: "10 x 6",
     rafterTail: "None",
@@ -196,7 +196,7 @@ export const projects: Project[] = [
   {
     id: "16",
     title: "Fire Pit Add-on",
-    imageUrl: "assets/images/placeholder/firepit.jpg",
+    imageUrl: "https://firebasestorage.googleapis.com/v0/b/new-gen-patio-a95f1.firebasestorage.app/o/03.webp?alt=media&token=aa05b14f-631c-4ac9-a011-7182043970a8",
     stain: "Brick",
     size: "6 x 6",
     rafterTail: "None",
@@ -209,7 +209,7 @@ export const projects: Project[] = [
   {
     id: "17",
     title: "Concrete Slab Foundation",
-    imageUrl: "assets/images/placeholder/slab.jpg",
+    imageUrl: "https://firebasestorage.googleapis.com/v0/b/new-gen-patio-a95f1.firebasestorage.app/o/03.webp?alt=media&token=aa05b14f-631c-4ac9-a011-7182043970a8",
     stain: "Gray",
     size: "14 x 14",
     rafterTail: "None",
@@ -220,7 +220,7 @@ export const projects: Project[] = [
   {
     id: "18",
     title: "Concrete Stamped Foundation",
-    imageUrl: "assets/images/placeholder/stamped.jpg",
+    imageUrl: "https://firebasestorage.googleapis.com/v0/b/new-gen-patio-a95f1.firebasestorage.app/o/03.webp?alt=media&token=aa05b14f-631c-4ac9-a011-7182043970a8",
     stain: "Gray",
     size: "14 x 14",
     rafterTail: "None",
@@ -231,7 +231,7 @@ export const projects: Project[] = [
   {
     id: "19",
     title: "Spray Decking Foundation",
-    imageUrl: "assets/images/placeholder/spray.jpg",
+    imageUrl: "https://firebasestorage.googleapis.com/v0/b/new-gen-patio-a95f1.firebasestorage.app/o/03.webp?alt=media&token=aa05b14f-631c-4ac9-a011-7182043970a8",
     stain: "Gray",
     size: "14 x 14",
     rafterTail: "None",
@@ -242,7 +242,7 @@ export const projects: Project[] = [
   {
     id: "20",
     title: "Paver Foundation",
-    imageUrl: "assets/images/placeholder/paver.jpg",
+    imageUrl: "https://firebasestorage.googleapis.com/v0/b/new-gen-patio-a95f1.firebasestorage.app/o/03.webp?alt=media&token=aa05b14f-631c-4ac9-a011-7182043970a8",
     stain: "Gray",
     size: "14 x 14",
     rafterTail: "None",
@@ -253,7 +253,7 @@ export const projects: Project[] = [
   {
     id: "21",
     title: "Tiles Foundation",
-    imageUrl: "assets/images/placeholder/tiles.jpg",
+    imageUrl: "https://firebasestorage.googleapis.com/v0/b/new-gen-patio-a95f1.firebasestorage.app/o/03.webp?alt=media&token=aa05b14f-631c-4ac9-a011-7182043970a8",
     stain: "Gray",
     size: "14 x 14",
     rafterTail: "None",
@@ -264,7 +264,7 @@ export const projects: Project[] = [
   {
     id: "22",
     title: "Turf Foundation",
-    imageUrl: "assets/images/placeholder/turf.jpg",
+    imageUrl: "https://firebasestorage.googleapis.com/v0/b/new-gen-patio-a95f1.firebasestorage.app/o/03.webp?alt=media&token=aa05b14f-631c-4ac9-a011-7182043970a8",
     stain: "Green",
     size: "14 x 14",
     rafterTail: "None",

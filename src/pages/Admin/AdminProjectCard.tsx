@@ -1,0 +1,35 @@
+import React from "react";
+import { Project } from "./AdminDashboard";
+
+interface Props {
+  project: Project;
+  onEdit: () => void;
+}
+
+const ProjectCard: React.FC<Props> = ({ project, onEdit }) => {
+  return (
+    <div className="bg-white shadow rounded p-4">
+      <img
+        src={project.imageUrl}
+        alt={project.title}
+        className="w-full h-48 object-cover rounded mb-4"
+      />
+      <h2 className="text-lg font-semibold">{project.title}</h2>
+      <ul className="text-sm text-gray-700 mt-2 space-y-1">
+        {project.stain && <li><strong>Stain:</strong> {project.stain}</li>}
+        {project.size && <li><strong>Size:</strong> {project.size}</li>}
+        {project.rafterTail && <li><strong>Rafter Tail:</strong> {project.rafterTail}</li>}
+        {project.kneeBrace && <li><strong>Knee Brace:</strong> {project.kneeBrace}</li>}
+        {project.timberSize && <li><strong>Timber Size:</strong> {project.timberSize}</li>}
+      </ul>
+      <button
+        onClick={onEdit}
+        className="mt-4 bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition w-full cursor-pointer"
+      >
+        Editar
+      </button>
+    </div>
+  );
+};
+
+export default ProjectCard;

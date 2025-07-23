@@ -6,7 +6,6 @@ import { auth, db } from "../../firebase";
 import ProjectCard from "./AdminProjectCard";
 import EditProjectModal from "./EditProjectModal";
 import CreateProjectModal from "./CreateProjectModal";
-import UploadTestButton from "./UploadTestButton";
 
 export interface Project {
   id: string;
@@ -62,7 +61,6 @@ const AdminDashboard: React.FC = () => {
           >
             + Nuevo Proyecto
           </button>
-          <UploadTestButton />
           <button
             onClick={handleLogout}
             className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 transition"

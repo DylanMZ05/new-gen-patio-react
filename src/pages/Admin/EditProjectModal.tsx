@@ -10,7 +10,6 @@ interface Props {
   setProjects: React.Dispatch<React.SetStateAction<Project[]>>;
 }
 
-// Función para comprimir la imagen y convertirla a webp
 const compressImage = (file: File): Promise<Blob> => {
   return new Promise((resolve, reject) => {
     const img = new Image();
@@ -45,6 +44,16 @@ const compressImage = (file: File): Promise<Blob> => {
   });
 };
 
+const categoryOptions = {
+  coveredPatios: ["Attached Covered Patio", "FreeStanding Pergola", "Cantilevered Pergola"],
+  outdoorKitchen: ["Modern Outdoor Kitchen", "Traditional Outdoor Kitchen"],
+  panels: ["Dark Bronze", "White", "Wood Imitation Panels"],
+  composite: ["Black", "Wood Imitation"],
+  hybrid: ["Polycarbonate", "Naked Pergola"],
+  addons: ["TV Walls", "Privacy Walls", "Slags", "Fire Pit"],
+  foundation: ["Concrete Slab", "Concrete Stamped", "Spray Decking", "Paver", "Tiles", "Turf"],
+};
+
 const EditProjectModal: React.FC<Props> = ({ project, onClose, setProjects }) => {
   const [editedFields, setEditedFields] = useState<Partial<Project>>({
     title: project.title,
@@ -59,6 +68,15 @@ const EditProjectModal: React.FC<Props> = ({ project, onClose, setProjects }) =>
   const [newImageFile, setNewImageFile] = useState<File | null>(null);
   const [submittingChanges, setSubmittingChanges] = useState(false);
 
+  const [categorySelections, setCategorySelections] = useState<{ [key: string]: string[] }>(() => {
+    const initial: { [key: string]: string[] } = {};
+    Object.keys(categoryOptions).forEach((category) => {
+      const values = (project as any)[category];
+      initial[category] = values ? values.split(",") : [];
+    });
+    return initial;
+  });
+
   const handleEditChange = (e: ChangeEvent<HTMLInputElement>) => {
     setEditedFields({ ...editedFields, [e.target.name]: e.target.value });
   };
@@ -71,29 +89,37 @@ const EditProjectModal: React.FC<Props> = ({ project, onClose, setProjects }) =>
     }
   };
 
+  const handleCategoryToggle = (category: string, value: string) => {
+    setCategorySelections((prev) => {
+      const current = prev[category] || [];
+      if (current.includes(value)) {
+        return {
+          ...prev,
+          [category]: current.filter((v) => v !== value),
+        };
+      } else {
+        return {
+          ...prev,
+          [category]: [...current, value],
+        };
+      }
+    });
+  };
+
   const handleSubmitChanges = async () => {
     setSubmittingChanges(true);
     let imageUrl = project.imageUrl;
 
     try {
       if (newImageFile) {
-        console.log("📦 Comprimendo imagen...");
         const blob = await compressImage(newImageFile);
-
         const storageRef = ref(storage, `projects/${project.id}.webp`);
-        const metadata = {
-          contentType: "image/webp",
-        };
-
-        console.log("⬆️ Subiendo imagen comprimida a Firebase Storage...");
+        const metadata = { contentType: "image/webp" };
         await uploadBytes(storageRef, blob, metadata);
-        console.log("✅ Imagen subida");
-
         imageUrl = await getDownloadURL(storageRef);
-        console.log("🔗 URL obtenida:", imageUrl);
       }
 
-      const updatePayload = {
+      const updatePayload: any = {
         title: editedFields.title || "",
         stain: editedFields.stain || "",
         size: editedFields.size || "",
@@ -103,9 +129,11 @@ const EditProjectModal: React.FC<Props> = ({ project, onClose, setProjects }) =>
         imageUrl,
       };
 
-      console.log("📝 Actualizando documento en Firestore:", updatePayload);
+      Object.keys(categorySelections).forEach((key) => {
+        updatePayload[key] = categorySelections[key].join(",");
+      });
+
       await updateDoc(doc(db, "projects", project.id), updatePayload);
-      console.log("✅ Documento actualizado");
 
       setProjects((prev) =>
         prev.map((p) => (p.id === project.id ? { ...p, ...updatePayload } : p))
@@ -168,6 +196,29 @@ const EditProjectModal: React.FC<Props> = ({ project, onClose, setProjects }) =>
           )}
         </div>
 
+        <div className="mb-6">
+          <h3 className="font-semibold text-lg mb-2">Categorías</h3>
+          {Object.entries(categoryOptions).map(([categoryKey, options]) => (
+            <div key={categoryKey} className="mb-4">
+              <p className="font-medium capitalize mb-1">
+                {categoryKey.replace(/([A-Z])/g, " $1")}
+              </p>
+              <div className="pl-2 space-y-1">
+                {options.map((option) => (
+                  <label key={option} className="flex items-center gap-2 text-sm">
+                    <input
+                      type="checkbox"
+                      checked={categorySelections[categoryKey]?.includes(option) || false}
+                      onChange={() => handleCategoryToggle(categoryKey, option)}
+                    />
+                    {option}
+                  </label>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+
         <div className="flex justify-end gap-3 mt-4">
           <button
             onClick={onClose}
@@ -179,9 +230,7 @@ const EditProjectModal: React.FC<Props> = ({ project, onClose, setProjects }) =>
             onClick={handleSubmitChanges}
             disabled={submittingChanges}
             className={`px-4 py-2 rounded text-white transition ${
-              submittingChanges
-                ? "bg-green-400 cursor-wait"
-                : "bg-green-600 hover:bg-green-700"
+              submittingChanges ? "bg-green-400 cursor-wait" : "bg-green-600 hover:bg-green-700"
             }`}
           >
             {submittingChanges ? "Subiendo..." : "Subir Cambios"}

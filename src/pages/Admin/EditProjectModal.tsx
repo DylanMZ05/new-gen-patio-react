@@ -1,6 +1,6 @@
 import React, { useState, ChangeEvent } from "react";
-import { updateDoc, doc } from "firebase/firestore";
-import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { updateDoc, doc, deleteDoc } from "firebase/firestore";
+import { ref, uploadBytes, getDownloadURL, deleteObject } from "firebase/storage";
 import { db, storage } from "../../firebase";
 import { Project } from "./AdminDashboard";
 
@@ -57,16 +57,12 @@ const categoryOptions = {
 const EditProjectModal: React.FC<Props> = ({ project, onClose, setProjects }) => {
   const [editedFields, setEditedFields] = useState<Partial<Project>>({
     title: project.title,
-    stain: project.stain,
+    projectType: project.projectType,
     size: project.size,
-    rafterTail: project.rafterTail,
-    kneeBrace: project.kneeBrace,
-    timberSize: project.timberSize,
+    structureColor: project.structureColor,
+    colorsPanels: project.colorsPanels,
+    more: project.more,
   });
-
-  const [previewImage, setPreviewImage] = useState(project.imageUrl);
-  const [newImageFile, setNewImageFile] = useState<File | null>(null);
-  const [submittingChanges, setSubmittingChanges] = useState(false);
 
   const [categorySelections, setCategorySelections] = useState<{ [key: string]: string[] }>(() => {
     const initial: { [key: string]: string[] } = {};
@@ -76,6 +72,12 @@ const EditProjectModal: React.FC<Props> = ({ project, onClose, setProjects }) =>
     });
     return initial;
   });
+
+  const [previewImage, setPreviewImage] = useState(project.imageUrl);
+  const [newImageFile, setNewImageFile] = useState<File | null>(null);
+  const [submittingChanges, setSubmittingChanges] = useState(false);
+  const [deleting, setDeleting] = useState(false);
+  const [showConfirmDelete, setShowConfirmDelete] = useState(false);
 
   const handleEditChange = (e: ChangeEvent<HTMLInputElement>) => {
     setEditedFields({ ...editedFields, [e.target.name]: e.target.value });
@@ -92,17 +94,9 @@ const EditProjectModal: React.FC<Props> = ({ project, onClose, setProjects }) =>
   const handleCategoryToggle = (category: string, value: string) => {
     setCategorySelections((prev) => {
       const current = prev[category] || [];
-      if (current.includes(value)) {
-        return {
-          ...prev,
-          [category]: current.filter((v) => v !== value),
-        };
-      } else {
-        return {
-          ...prev,
-          [category]: [...current, value],
-        };
-      }
+      return current.includes(value)
+        ? { ...prev, [category]: current.filter((v) => v !== value) }
+        : { ...prev, [category]: [...current, value] };
     });
   };
 
@@ -119,18 +113,18 @@ const EditProjectModal: React.FC<Props> = ({ project, onClose, setProjects }) =>
         imageUrl = await getDownloadURL(storageRef);
       }
 
-      const updatePayload: any = {
+      const updatePayload: Partial<Project> = {
         title: editedFields.title || "",
-        stain: editedFields.stain || "",
+        projectType: editedFields.projectType || "",
         size: editedFields.size || "",
-        rafterTail: editedFields.rafterTail || "",
-        kneeBrace: editedFields.kneeBrace || "",
-        timberSize: editedFields.timberSize || "",
+        structureColor: editedFields.structureColor || "",
+        colorsPanels: editedFields.colorsPanels || "",
+        more: editedFields.more || "",
         imageUrl,
       };
 
       Object.keys(categorySelections).forEach((key) => {
-        updatePayload[key] = categorySelections[key].join(",");
+        updatePayload[key as keyof Project] = categorySelections[key].join(",") as any;
       });
 
       await updateDoc(doc(db, "projects", project.id), updatePayload);
@@ -148,53 +142,55 @@ const EditProjectModal: React.FC<Props> = ({ project, onClose, setProjects }) =>
     }
   };
 
+  const confirmDelete = async () => {
+    setDeleting(true);
+    try {
+      await deleteDoc(doc(db, "projects", project.id));
+
+      if (project.imageUrl) {
+        try {
+          const storageRef = ref(storage, `projects/${project.id}.webp`);
+          await deleteObject(storageRef);
+        } catch {
+          console.warn("⚠️ No se pudo borrar la imagen del storage.");
+        }
+      }
+
+      setProjects((prev) => prev.filter((p) => p.id !== project.id));
+      onClose();
+    } catch (err) {
+      console.error("❌ Error al eliminar proyecto:", err);
+      alert("No se pudo eliminar el proyecto. Revisá la consola.");
+    } finally {
+      setDeleting(false);
+      setShowConfirmDelete(false);
+    }
+  };
+
   return (
     <div className="fixed inset-0 bg-black/40 flex justify-center items-center z-50">
-      <div className="bg-white p-6 rounded shadow w-full max-w-md max-h-[90vh] overflow-y-auto">
+      <div className="bg-white p-6 rounded shadow w-full max-w-md max-h-[90vh] overflow-y-auto relative">
         <h2 className="text-xl font-bold mb-4">Editar Proyecto</h2>
 
-        {["title", "stain", "size", "rafterTail", "kneeBrace", "timberSize"].map((field) => (
-          <div key={field} className="mb-3">
-            <label className="block text-sm font-medium capitalize mb-1">{field}</label>
+        {[
+          { name: "title", label: "Title" },
+          { name: "projectType", label: "Project Type" },
+          { name: "size", label: "Size" },
+          { name: "structureColor", label: "Structure Color" },
+          { name: "colorsPanels", label: "Colors Panels" },
+          { name: "more", label: "More" },
+        ].map((field) => (
+          <div key={field.name} className="mb-3">
+            <label className="block text-sm font-medium mb-1">{field.label}</label>
             <input
               type="text"
-              name={field}
-              value={(editedFields as any)[field] || ""}
+              name={field.name}
+              value={(editedFields as any)[field.name] || ""}
               onChange={handleEditChange}
               className="w-full border px-3 py-2 rounded"
             />
           </div>
         ))}
-
-        <div className="mb-4">
-          <label className="block text-sm font-medium text-gray-700 mb-1">Cambiar Imagen</label>
-          <label
-            htmlFor="fileInput"
-            className="flex items-center justify-center px-4 py-2 bg-blue-600 text-white rounded cursor-pointer hover:bg-blue-700 transition w-full text-center"
-          >
-            Seleccionar imagen
-          </label>
-          <input
-            id="fileInput"
-            type="file"
-            accept="image/*"
-            onChange={handleImageChange}
-            className="hidden"
-          />
-
-          {previewImage && (
-            <div className="mt-3 relative group">
-              <img
-                src={previewImage}
-                alt="Previsualización"
-                className="w-full h-56 object-cover rounded shadow border border-gray-200 transition-transform group-hover:scale-105"
-              />
-              <p className="absolute bottom-1 right-2 text-xs text-white bg-black bg-opacity-60 px-2 py-1 rounded">
-                Previsualización
-              </p>
-            </div>
-          )}
-        </div>
 
         <div className="mb-6">
           <h3 className="font-semibold text-lg mb-2">Categorías</h3>
@@ -219,23 +215,90 @@ const EditProjectModal: React.FC<Props> = ({ project, onClose, setProjects }) =>
           ))}
         </div>
 
-        <div className="flex justify-end gap-3 mt-4">
-          <button
-            onClick={onClose}
-            className="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400"
+        <div className="mb-4">
+          <label className="block text-sm font-medium text-gray-700 mb-1">Cambiar Imagen</label>
+          <label
+            htmlFor="fileInput"
+            className="flex items-center justify-center px-4 py-2 bg-blue-600 text-white rounded cursor-pointer hover:bg-blue-700 transition w-full text-center"
           >
-            Cancelar
-          </button>
+            Seleccionar imagen
+          </label>
+          <input
+            id="fileInput"
+            type="file"
+            accept="image/*"
+            onChange={handleImageChange}
+            className="hidden"
+          />
+
+          {previewImage && (
+            <div className="mt-3 relative group">
+              <img
+                src={previewImage}
+                alt="Previsualización"
+                className="w-full h-56 object-cover rounded shadow border border-gray-200"
+              />
+            </div>
+          )}
+        </div>
+
+        <div className="flex justify-between mt-4">
           <button
-            onClick={handleSubmitChanges}
-            disabled={submittingChanges}
+            onClick={() => setShowConfirmDelete(true)}
+            disabled={deleting}
             className={`px-4 py-2 rounded text-white transition ${
-              submittingChanges ? "bg-green-400 cursor-wait" : "bg-green-600 hover:bg-green-700"
+              deleting ? "bg-red-400 cursor-wait" : "bg-red-600 hover:bg-red-700"
             }`}
           >
-            {submittingChanges ? "Subiendo..." : "Subir Cambios"}
+            {deleting ? "Eliminando..." : "Eliminar"}
           </button>
+
+          <div className="flex gap-3">
+            <button
+              onClick={onClose}
+              className="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400"
+            >
+              Cancelar
+            </button>
+            <button
+              onClick={handleSubmitChanges}
+              disabled={submittingChanges}
+              className={`px-4 py-2 rounded text-white transition ${
+                submittingChanges ? "bg-green-400 cursor-wait" : "bg-green-600 hover:bg-green-700"
+              }`}
+            >
+              {submittingChanges ? "Subiendo..." : "Guardar Cambios"}
+            </button>
+          </div>
         </div>
+
+        {showConfirmDelete && (
+          <div className="fixed inset-0 bg-black/50 flex justify-center items-center z-50">
+            <div className="bg-white p-6 rounded shadow w-full max-w-sm">
+              <h3 className="text-lg font-bold mb-4 text-center text-red-600">
+                Confirmar Eliminación
+              </h3>
+              <p className="text-sm text-gray-600 mb-6 text-center">
+                ¿Seguro que querés eliminar este proyecto? Esta acción no se puede deshacer.
+              </p>
+              <div className="flex justify-between gap-4">
+                <button
+                  onClick={() => setShowConfirmDelete(false)}
+                  className="w-1/2 px-4 py-2 bg-gray-300 rounded hover:bg-gray-400"
+                >
+                  Cancelar
+                </button>
+                <button
+                  onClick={confirmDelete}
+                  disabled={deleting}
+                  className="w-1/2 px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700"
+                >
+                  {deleting ? "Eliminando..." : "Eliminar"}
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

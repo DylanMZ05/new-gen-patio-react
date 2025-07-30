@@ -27,7 +27,7 @@ const filterConfig = {
     field: "outdoorKitchen",
     options: ["Modern Outdoor Kitchen", "Traditional Outdoor Kitchen"],
   },
-  "Panels": {
+  "Structure Colors": {
     field: "panels",
     options: ["Dark Bronze", "White", "Wood Imitation Panels"],
   },

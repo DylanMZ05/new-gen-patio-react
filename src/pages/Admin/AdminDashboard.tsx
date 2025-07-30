@@ -11,12 +11,13 @@ export interface Project {
   id: string;
   title: string;
   imageUrl: string;
-  stain?: string;
+  projectType?: string;
   size?: string;
-  rafterTail?: string;
-  kneeBrace?: string;
-  timberSize?: string;
+  structureColor?: string;
+  colorsPanels?: string;
+  more?: string;
 }
+
 
 const AdminDashboard: React.FC = () => {
   const [projects, setProjects] = useState<Project[]>([]);
@@ -55,12 +56,12 @@ const AdminDashboard: React.FC = () => {
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-3xl font-bold">Admin Dashboard</h1>
         <div className="flex gap-4">
-          {/* <button
+          <button
             onClick={() => setCreatingProject(true)}
             className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition"
           >
             + Nuevo Proyecto
-          </button> */}
+          </button>
           <button
             onClick={handleLogout}
             className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 transition"

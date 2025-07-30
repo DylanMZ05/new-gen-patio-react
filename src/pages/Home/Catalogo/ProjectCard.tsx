@@ -18,11 +18,31 @@ const ProjectCard: React.FC<Props> = ({ project }) => {
           {project.title}
         </h2>
         <ul className="text-sm text-gray-700 space-y-1">
-          <li><span className="font-semibold">Stain:</span> {project.stain}</li>
-          <li><span className="font-semibold">Size:</span> {project.size}</li>
-          <li><span className="font-semibold">Rafter Tail:</span> {project.rafterTail}</li>
-          <li><span className="font-semibold">Knee Brace:</span> {project.kneeBrace}</li>
-          <li><span className="font-semibold">Timber Size:</span> {project.timberSize}</li>
+          {project.stain && (
+            <li>
+              <span className="font-semibold">Stain:</span> {project.stain}
+            </li>
+          )}
+          {project.size && (
+            <li>
+              <span className="font-semibold">Size:</span> {project.size}
+            </li>
+          )}
+          {project.rafterTail && (
+            <li>
+              <span className="font-semibold">Rafter Tail:</span> {project.rafterTail}
+            </li>
+          )}
+          {project.kneeBrace && (
+            <li>
+              <span className="font-semibold">Knee Brace:</span> {project.kneeBrace}
+            </li>
+          )}
+          {project.timberSize && (
+            <li>
+              <span className="font-semibold">Timber Size:</span> {project.timberSize}
+            </li>
+          )}
         </ul>
       </div>
     </div>

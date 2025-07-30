@@ -9,14 +9,32 @@ interface Props {
   setProjects: React.Dispatch<React.SetStateAction<Project[]>>;
 }
 
+const categoryOptions = {
+  coveredPatios: ["Attached Covered Patio", "FreeStanding Pergola", "Cantilevered Pergola"],
+  outdoorKitchen: ["Modern Outdoor Kitchen", "Traditional Outdoor Kitchen"],
+  panels: ["Dark Bronze", "White", "Wood Imitation Panels"],
+  composite: ["Black", "Wood Imitation"],
+  hybrid: ["Polycarbonate", "Naked Pergola"],
+  addons: ["TV Walls", "Privacy Walls", "Slags", "Fire Pit"],
+  foundation: ["Concrete Slab", "Concrete Stamped", "Spray Decking", "Paver", "Tiles", "Turf"],
+};
+
 const CreateProjectModal: React.FC<Props> = ({ onClose, setProjects }) => {
   const [fields, setFields] = useState<Partial<Project>>({
     title: "",
-    stain: "",
+    projectType: "",
     size: "",
-    rafterTail: "",
-    kneeBrace: "",
-    timberSize: "",
+    structureColor: "",
+    colorsPanels: "",
+    more: "",
+  });
+
+  const [categorySelections, setCategorySelections] = useState<{ [key: string]: string[] }>(() => {
+    const initial: { [key: string]: string[] } = {};
+    Object.keys(categoryOptions).forEach((category) => {
+      initial[category] = [];
+    });
+    return initial;
   });
 
   const [imageFile, setImageFile] = useState<File | null>(null);
@@ -35,6 +53,17 @@ const CreateProjectModal: React.FC<Props> = ({ onClose, setProjects }) => {
     }
   };
 
+  const handleCategoryToggle = (category: string, value: string) => {
+    setCategorySelections((prev) => {
+      const current = prev[category] || [];
+      if (current.includes(value)) {
+        return { ...prev, [category]: current.filter((v) => v !== value) };
+      } else {
+        return { ...prev, [category]: [...current, value] };
+      }
+    });
+  };
+
   const handleSubmit = async () => {
     if (!fields.title?.trim() || !imageFile) {
       alert("Debes ingresar un título y una imagen.");
@@ -45,12 +74,18 @@ const CreateProjectModal: React.FC<Props> = ({ onClose, setProjects }) => {
 
     try {
       // 1. Crear documento en Firestore sin imagen aún
-      const docRef = await addDoc(collection(db, "projects"), {
+      const updatePayload: any = {
         ...fields,
         imageUrl: "", // temporal
+      };
+
+      Object.keys(categorySelections).forEach((key) => {
+        updatePayload[key] = categorySelections[key].join(",");
       });
 
-      // 2. Subir imagen original a Storage
+      const docRef = await addDoc(collection(db, "projects"), updatePayload);
+
+      // 2. Subir imagen a Storage
       const extension = imageFile.name.split(".").pop() || "jpg";
       const storageRef = ref(storage, `projects/${docRef.id}.${extension}`);
       const metadata = { contentType: imageFile.type };
@@ -58,18 +93,18 @@ const CreateProjectModal: React.FC<Props> = ({ onClose, setProjects }) => {
       await uploadBytes(storageRef, imageFile, metadata);
       const imageUrl = await getDownloadURL(storageRef);
 
-      // 3. Actualizar el documento con imageUrl
+      // 3. Actualizar documento con la URL final
       await updateDoc(doc(db, "projects", docRef.id), {
-        ...fields,
+        ...updatePayload,
         imageUrl,
       });
 
-      // 4. Actualizar UI local
+      // 4. Actualizar estado local
       setProjects((prev) => [
         ...prev,
         {
           id: docRef.id,
-          ...fields,
+          ...updatePayload,
           imageUrl,
         } as Project,
       ]);
@@ -88,18 +123,48 @@ const CreateProjectModal: React.FC<Props> = ({ onClose, setProjects }) => {
       <div className="bg-white p-6 rounded shadow w-full max-w-md max-h-[90vh] overflow-y-auto">
         <h2 className="text-xl font-bold mb-4">Crear Proyecto</h2>
 
-        {["title", "stain", "size", "rafterTail", "kneeBrace", "timberSize"].map((field) => (
-          <div key={field} className="mb-3">
-            <label className="block text-sm font-medium capitalize mb-1">{field}</label>
+        {[
+          { name: "title", label: "Title" },
+          { name: "projectType", label: "Project Type" },
+          { name: "size", label: "Size" },
+          { name: "structureColor", label: "Structure Color" },
+          { name: "colorsPanels", label: "Colors Panels" },
+          { name: "more", label: "More" },
+        ].map((field) => (
+          <div key={field.name} className="mb-3">
+            <label className="block text-sm font-medium mb-1">{field.label}</label>
             <input
               type="text"
-              name={field}
-              value={(fields as any)[field] || ""}
+              name={field.name}
+              value={(fields as any)[field.name] || ""}
               onChange={handleChange}
               className="w-full border px-3 py-2 rounded"
             />
           </div>
         ))}
+
+        <div className="mb-6">
+          <h3 className="font-semibold text-lg mb-2">Categorías</h3>
+          {Object.entries(categoryOptions).map(([categoryKey, options]) => (
+            <div key={categoryKey} className="mb-4">
+              <p className="font-medium capitalize mb-1">
+                {categoryKey.replace(/([A-Z])/g, " $1")}
+              </p>
+              <div className="pl-2 space-y-1">
+                {options.map((option) => (
+                  <label key={option} className="flex items-center gap-2 text-sm">
+                    <input
+                      type="checkbox"
+                      checked={categorySelections[categoryKey]?.includes(option) || false}
+                      onChange={() => handleCategoryToggle(categoryKey, option)}
+                    />
+                    {option}
+                  </label>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
 
         <div className="mb-4">
           <label className="block text-sm font-medium text-gray-700 mb-1">Imagen</label>

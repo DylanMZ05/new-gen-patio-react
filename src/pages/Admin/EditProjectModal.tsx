@@ -47,7 +47,7 @@ const compressImage = (file: File): Promise<Blob> => {
 const categoryOptions = {
   coveredPatios: ["Attached Covered Patio", "FreeStanding Pergola", "Cantilevered Pergola"],
   outdoorKitchen: ["Modern Outdoor Kitchen", "Traditional Outdoor Kitchen"],
-  panels: ["Dark Bronze", "White", "Wood Imitation Panels"],
+  StructureColors: ["Dark Bronze", "White", "Wood Imitation Panels"],
   composite: ["Black", "Wood Imitation"],
   hybrid: ["Polycarbonate", "Naked Pergola"],
   addons: ["TV Walls", "Privacy Walls", "Slags", "Fire Pit"],

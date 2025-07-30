@@ -16,7 +16,23 @@ export interface Project {
   structureColor?: string;
   colorsPanels?: string;
   more?: string;
+
+  // Agrego estos opcionales
+  stain?: string;
+  rafterTail?: string;
+  kneeBrace?: string;
+  timberSize?: string;
+
+  // Campos para filtros
+  coveredPatios?: string;
+  outdoorKitchen?: string;
+  panels?: string;
+  composite?: string;
+  hybrid?: string;
+  addons?: string;
+  foundation?: string;
 }
+
 
 
 const AdminDashboard: React.FC = () => {

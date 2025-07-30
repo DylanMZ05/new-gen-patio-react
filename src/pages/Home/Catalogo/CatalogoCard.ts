@@ -2,11 +2,19 @@ export interface Project {
   id: string;
   title: string;
   imageUrl: string;
+
+  // Campos generales
   projectType?: string;
   size?: string;
   structureColor?: string;
   colorsPanels?: string;
   more?: string;
+
+  // Campos adicionales
+  stain?: string;
+  rafterTail?: string;
+  kneeBrace?: string;
+  timberSize?: string;
 
   // Campos para filtros
   coveredPatios?: string;
@@ -17,6 +25,7 @@ export interface Project {
   addons?: string;
   foundation?: string;
 }
+
 
 
 export const projects: Project[] = [

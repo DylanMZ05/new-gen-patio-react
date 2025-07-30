@@ -16,11 +16,33 @@ const ProjectCard: React.FC<Props> = ({ project, onEdit }) => {
       />
       <h2 className="text-lg font-semibold">{project.title}</h2>
       <ul className="text-sm text-gray-700 mt-2 space-y-1">
-        {project.stain && <li><strong>Stain:</strong> {project.stain}</li>}
-        {project.size && <li><strong>Size:</strong> {project.size}</li>}
-        {project.rafterTail && <li><strong>Rafter Tail:</strong> {project.rafterTail}</li>}
-        {project.kneeBrace && <li><strong>Knee Brace:</strong> {project.kneeBrace}</li>}
-        {project.timberSize && <li><strong>Timber Size:</strong> {project.timberSize}</li>}
+        {project.projectType && (
+          <li><strong>Project Type:</strong> {project.projectType}</li>
+        )}
+        {project.stain && (
+          <li><strong>Stain:</strong> {project.stain}</li>
+        )}
+        {project.size && (
+          <li><strong>Size:</strong> {project.size}</li>
+        )}
+        {project.structureColor && (
+          <li><strong>Structure Color:</strong> {project.structureColor}</li>
+        )}
+        {project.colorsPanels && (
+          <li><strong>Colors Panels:</strong> {project.colorsPanels}</li>
+        )}
+        {project.more && (
+          <li><strong>More:</strong> {project.more}</li>
+        )}
+        {project.rafterTail && (
+          <li><strong>Rafter Tail:</strong> {project.rafterTail}</li>
+        )}
+        {project.kneeBrace && (
+          <li><strong>Knee Brace:</strong> {project.kneeBrace}</li>
+        )}
+        {project.timberSize && (
+          <li><strong>Timber Size:</strong> {project.timberSize}</li>
+        )}
       </ul>
       <button
         onClick={onEdit}

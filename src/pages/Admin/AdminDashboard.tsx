@@ -16,14 +16,12 @@ export interface Project {
   structureColor?: string;
   colorsPanels?: string;
   more?: string;
-
-  // Agrego estos opcionales
   stain?: string;
   rafterTail?: string;
   kneeBrace?: string;
   timberSize?: string;
 
-  // Campos para filtros
+  // Filtros
   coveredPatios?: string;
   outdoorKitchen?: string;
   panels?: string;
@@ -32,6 +30,7 @@ export interface Project {
   addons?: string;
   foundation?: string;
 }
+
 
 
 

@@ -33,7 +33,7 @@ import ContactRedirect from "./pages/Contact/ContactRedirect";
 import FreeQuoteTracking from "./pages/traking/freequote-tracking";
 import WhatsAppRedirect from "./pages/traking/WhatsAppRedirect";
 import useGoogleAdsTracking from "./hooks/useGoogleAdsTracking";
-import ProjectsList from "./pages/Home/Catalogo/Catalogo";
+import ProjectsList from "./pages/Catalogo/Catalogo";
 
 // Páginas Admin
 import AdminDashboard from "./pages/Admin/AdminDashboard";

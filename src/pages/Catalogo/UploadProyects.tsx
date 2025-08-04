@@ -1,7 +1,7 @@
 // src/pages/Admin/SubirProyectos.tsx
 import { useState } from "react";
-import { projects } from "../Catalogo/CatalogoCard";
-import { db } from "../../../firebase";
+import { projects } from "./CatalogoCard";
+import { db } from "../../firebase";
 import { setDoc, doc } from "firebase/firestore";
 
 const SubirProyectos = () => {

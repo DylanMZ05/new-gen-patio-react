@@ -1,8 +1,9 @@
 import React, { useState, ChangeEvent } from "react";
-import { updateDoc, doc, deleteDoc } from "firebase/firestore";
+import { updateDoc, doc } from "firebase/firestore";
 import { ref, uploadBytes, getDownloadURL, deleteObject } from "firebase/storage";
 import { db, storage } from "../../firebase";
 import { Project } from "./AdminDashboard";
+import { X } from "lucide-react";
 
 interface Props {
   project: Project;
@@ -10,6 +11,7 @@ interface Props {
   setProjects: React.Dispatch<React.SetStateAction<Project[]>>;
 }
 
+// 🔹 Compresor a WebP
 const compressImage = (file: File): Promise<Blob> => {
   return new Promise((resolve, reject) => {
     const img = new Image();
@@ -36,7 +38,7 @@ const compressImage = (file: File): Promise<Blob> => {
           else reject(new Error("Error al comprimir imagen"));
         },
         "image/webp",
-        0.75
+        0.8
       );
     };
 
@@ -55,6 +57,8 @@ const categoryOptions = {
 };
 
 const EditProjectModal: React.FC<Props> = ({ project, onClose, setProjects }) => {
+  if (!project) return null;
+
   const [editedFields, setEditedFields] = useState<Partial<Project>>({
     title: project.title,
     projectType: project.projectType,
@@ -73,22 +77,42 @@ const EditProjectModal: React.FC<Props> = ({ project, onClose, setProjects }) =>
     return initial;
   });
 
-  const [previewImage, setPreviewImage] = useState(project.imageUrl);
-  const [newImageFile, setNewImageFile] = useState<File | null>(null);
+  // Soporte para imageUrl (viejo) e images (nuevo)
+  const [existingImages, setExistingImages] = useState<string[]>(() => {
+    if (project.images && project.images.length > 0) {
+      return project.images;
+    } else if (project.imageUrl) {
+      return [project.imageUrl];
+    }
+    return [];
+  });
+
+  const [newImages, setNewImages] = useState<File[]>([]);
+  const [previewNewImages, setPreviewNewImages] = useState<string[]>([]);
+  const [removedImages, setRemovedImages] = useState<string[]>([]);
   const [submittingChanges, setSubmittingChanges] = useState(false);
-  const [deleting, setDeleting] = useState(false);
-  const [showConfirmDelete, setShowConfirmDelete] = useState(false);
 
   const handleEditChange = (e: ChangeEvent<HTMLInputElement>) => {
     setEditedFields({ ...editedFields, [e.target.name]: e.target.value });
   };
 
-  const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      setNewImageFile(file);
-      setPreviewImage(URL.createObjectURL(file));
+  const handleImagesChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files ? Array.from(e.target.files) : [];
+    if (files.length > 0) {
+      const previews = files.map((f) => URL.createObjectURL(f));
+      setNewImages((prev) => [...prev, ...files]);
+      setPreviewNewImages((prev) => [...prev, ...previews]);
     }
+  };
+
+  const handleRemoveExistingImage = (index: number) => {
+    setRemovedImages((prev) => [...prev, existingImages[index]]);
+    setExistingImages((prev) => prev.filter((_, i) => i !== index));
+  };
+
+  const handleRemoveNewImage = (index: number) => {
+    setNewImages((prev) => prev.filter((_, i) => i !== index));
+    setPreviewNewImages((prev) => prev.filter((_, i) => i !== index));
   };
 
   const handleCategoryToggle = (category: string, value: string) => {
@@ -102,16 +126,33 @@ const EditProjectModal: React.FC<Props> = ({ project, onClose, setProjects }) =>
 
   const handleSubmitChanges = async () => {
     setSubmittingChanges(true);
-    let imageUrl = project.imageUrl;
 
     try {
-      if (newImageFile) {
-        const blob = await compressImage(newImageFile);
-        const storageRef = ref(storage, `projects/${project.id}.webp`);
-        const metadata = { contentType: "image/webp" };
-        await uploadBytes(storageRef, blob, metadata);
-        imageUrl = await getDownloadURL(storageRef);
+      const uploadedUrls: string[] = [];
+
+      // Subir nuevas imágenes comprimidas
+      for (let i = 0; i < newImages.length; i++) {
+        const file = newImages[i];
+        const blob = await compressImage(file);
+        const storageRef = ref(storage, `projects/${project.id}_${Date.now()}_${i}.webp`);
+        await uploadBytes(storageRef, blob, { contentType: "image/webp" });
+        const url = await getDownloadURL(storageRef);
+        uploadedUrls.push(url);
       }
+
+      // Eliminar del Storage las imágenes quitadas
+      for (const url of removedImages) {
+        try {
+          const path = decodeURIComponent(url.split("/o/")[1].split("?")[0]);
+          const storageRef = ref(storage, path);
+          await deleteObject(storageRef);
+        } catch (err) {
+          console.warn("⚠️ No se pudo borrar del storage:", err);
+        }
+      }
+
+      // Imágenes finales con links nuevos
+      const finalImages = [...existingImages, ...uploadedUrls];
 
       const updatePayload: Partial<Project> = {
         title: editedFields.title || "",
@@ -120,17 +161,28 @@ const EditProjectModal: React.FC<Props> = ({ project, onClose, setProjects }) =>
         structureColor: editedFields.structureColor || "",
         colorsPanels: editedFields.colorsPanels || "",
         more: editedFields.more || "",
-        imageUrl,
+        images: finalImages,
       };
 
       Object.keys(categorySelections).forEach((key) => {
-        updatePayload[key as keyof Project] = categorySelections[key].join(",") as any;
+        updatePayload[key as keyof Project] = categorySelections[key].join(",");
       });
 
+      // Actualizar Firestore
       await updateDoc(doc(db, "projects", project.id), updatePayload);
 
+      // ✅ Actualizar UI inmediatamente
+      setExistingImages(finalImages);
+      setNewImages([]);
+      setPreviewNewImages([]);
+      setRemovedImages([]);
+
       setProjects((prev) =>
-        prev.map((p) => (p.id === project.id ? { ...p, ...updatePayload } : p))
+        prev.map((p) =>
+          p.id === project.id
+            ? { ...p, ...updatePayload, images: finalImages }
+            : p
+        )
       );
 
       onClose();
@@ -142,36 +194,14 @@ const EditProjectModal: React.FC<Props> = ({ project, onClose, setProjects }) =>
     }
   };
 
-  const confirmDelete = async () => {
-    setDeleting(true);
-    try {
-      await deleteDoc(doc(db, "projects", project.id));
 
-      if (project.imageUrl) {
-        try {
-          const storageRef = ref(storage, `projects/${project.id}.webp`);
-          await deleteObject(storageRef);
-        } catch {
-          console.warn("⚠️ No se pudo borrar la imagen del storage.");
-        }
-      }
-
-      setProjects((prev) => prev.filter((p) => p.id !== project.id));
-      onClose();
-    } catch (err) {
-      console.error("❌ Error al eliminar proyecto:", err);
-      alert("No se pudo eliminar el proyecto. Revisá la consola.");
-    } finally {
-      setDeleting(false);
-      setShowConfirmDelete(false);
-    }
-  };
 
   return (
     <div className="fixed inset-0 bg-black/40 flex justify-center items-center z-50">
       <div className="bg-white p-6 rounded shadow w-full max-w-md max-h-[90vh] overflow-y-auto relative">
         <h2 className="text-xl font-bold mb-4">Editar Proyecto</h2>
 
+        {/* Campos de texto */}
         {[
           { name: "title", label: "Title" },
           { name: "projectType", label: "Project Type" },
@@ -185,13 +215,14 @@ const EditProjectModal: React.FC<Props> = ({ project, onClose, setProjects }) =>
             <input
               type="text"
               name={field.name}
-              value={(editedFields as any)[field.name] || ""}
+              value={editedFields[field.name as keyof Project] as string || ""}
               onChange={handleEditChange}
               className="w-full border px-3 py-2 rounded"
             />
           </div>
         ))}
 
+        {/* Categorías */}
         <div className="mb-6">
           <h3 className="font-semibold text-lg mb-2">Categorías</h3>
           {Object.entries(categoryOptions).map(([categoryKey, options]) => (
@@ -215,90 +246,85 @@ const EditProjectModal: React.FC<Props> = ({ project, onClose, setProjects }) =>
           ))}
         </div>
 
+        {/* Renderizado de imágenes */}
+        {(existingImages.length > 0 || previewNewImages.length > 0) && (
+          <div className="mt-3 grid grid-cols-2 gap-3">
+            {[
+              ...existingImages.map((src, index) => ({
+                src,
+                type: "existing" as const,
+                index,
+              })),
+              ...previewNewImages.map((src, index) => ({
+                src,
+                type: "new" as const,
+                index,
+              })),
+            ].map((item, globalIndex) => (
+              <div key={`${item.type}-${item.index}`} className="relative group">
+                <img
+                  src={item.src}
+                  alt={`Imagen ${globalIndex + 1}`}
+                  className="w-full h-40 object-cover rounded shadow border border-gray-200"
+                />
+                <button
+                  type="button"
+                  onClick={() =>
+                    item.type === "existing"
+                      ? handleRemoveExistingImage(item.index)
+                      : handleRemoveNewImage(item.index)
+                  }
+                  className="absolute top-1 right-1 bg-black bg-opacity-60 text-white rounded-full p-1 hover:bg-red-600 transition"
+                >
+                  <X size={16} />
+                </button>
+                <p className="absolute bottom-1 right-2 text-xs text-white bg-black bg-opacity-60 px-2 py-1 rounded">
+                  {globalIndex + 1}
+                </p>
+              </div>
+            ))}
+          </div>
+        )}
+
+        {/* Subida de nuevas imágenes */}
         <div className="mb-4">
-          <label className="block text-sm font-medium text-gray-700 mb-1">Cambiar Imagen</label>
+          <h3 className="font-semibold text-lg mb-2">Añadir Imágenes</h3>
           <label
             htmlFor="fileInput"
             className="flex items-center justify-center px-4 py-2 bg-blue-600 text-white rounded cursor-pointer hover:bg-blue-700 transition w-full text-center"
           >
-            Seleccionar imagen
+            Seleccionar imágenes
           </label>
           <input
             id="fileInput"
             type="file"
             accept="image/*"
-            onChange={handleImageChange}
+            multiple
+            onChange={handleImagesChange}
             className="hidden"
           />
-
-          {previewImage && (
-            <div className="mt-3 relative group">
-              <img
-                src={previewImage}
-                alt="Previsualización"
-                className="w-full h-56 object-cover rounded shadow border border-gray-200"
-              />
-            </div>
-          )}
         </div>
 
-        <div className="flex justify-between mt-4">
+        {/* Botones */}
+        <div className="flex justify-end mt-4 gap-3">
           <button
-            onClick={() => setShowConfirmDelete(true)}
-            disabled={deleting}
+            onClick={onClose}
+            className="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400"
+          >
+            Cancelar
+          </button>
+          <button
+            onClick={handleSubmitChanges}
+            disabled={submittingChanges}
             className={`px-4 py-2 rounded text-white transition ${
-              deleting ? "bg-red-400 cursor-wait" : "bg-red-600 hover:bg-red-700"
+              submittingChanges
+                ? "bg-green-400 cursor-wait"
+                : "bg-green-600 hover:bg-green-700"
             }`}
           >
-            {deleting ? "Eliminando..." : "Eliminar"}
+            {submittingChanges ? "Guardando..." : "Guardar Cambios"}
           </button>
-
-          <div className="flex gap-3">
-            <button
-              onClick={onClose}
-              className="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400"
-            >
-              Cancelar
-            </button>
-            <button
-              onClick={handleSubmitChanges}
-              disabled={submittingChanges}
-              className={`px-4 py-2 rounded text-white transition ${
-                submittingChanges ? "bg-green-400 cursor-wait" : "bg-green-600 hover:bg-green-700"
-              }`}
-            >
-              {submittingChanges ? "Subiendo..." : "Guardar Cambios"}
-            </button>
-          </div>
         </div>
-
-        {showConfirmDelete && (
-          <div className="fixed inset-0 bg-black/50 flex justify-center items-center z-50">
-            <div className="bg-white p-6 rounded shadow w-full max-w-sm">
-              <h3 className="text-lg font-bold mb-4 text-center text-red-600">
-                Confirmar Eliminación
-              </h3>
-              <p className="text-sm text-gray-600 mb-6 text-center">
-                ¿Seguro que querés eliminar este proyecto? Esta acción no se puede deshacer.
-              </p>
-              <div className="flex justify-between gap-4">
-                <button
-                  onClick={() => setShowConfirmDelete(false)}
-                  className="w-1/2 px-4 py-2 bg-gray-300 rounded hover:bg-gray-400"
-                >
-                  Cancelar
-                </button>
-                <button
-                  onClick={confirmDelete}
-                  disabled={deleting}
-                  className="w-1/2 px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700"
-                >
-                  {deleting ? "Eliminando..." : "Eliminar"}
-                </button>
-              </div>
-            </div>
-          </div>
-        )}
       </div>
     </div>
   );

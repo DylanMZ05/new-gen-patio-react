@@ -3,11 +3,47 @@ import { addDoc, collection, doc, updateDoc } from "firebase/firestore";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { db, storage } from "../../firebase";
 import { Project } from "./AdminDashboard";
+import { X } from "lucide-react";
 
 interface Props {
   onClose: () => void;
   setProjects: React.Dispatch<React.SetStateAction<Project[]>>;
 }
+
+// 🔹 Compresor a WebP 500px máx
+const compressImage = (file: File): Promise<Blob> => {
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    const reader = new FileReader();
+
+    reader.onload = () => {
+      img.src = reader.result as string;
+    };
+    reader.onerror = reject;
+
+    img.onload = () => {
+      const canvas = document.createElement("canvas");
+      const maxSize = 500;
+      const scale = Math.min(maxSize / img.width, maxSize / img.height);
+      canvas.width = img.width * scale;
+      canvas.height = img.height * scale;
+
+      const ctx = canvas.getContext("2d");
+      ctx?.drawImage(img, 0, 0, canvas.width, canvas.height);
+
+      canvas.toBlob(
+        (blob) => {
+          if (blob) resolve(blob);
+          else reject(new Error("Error al comprimir imagen"));
+        },
+        "image/webp",
+        0.8
+      );
+    };
+
+    reader.readAsDataURL(file);
+  });
+};
 
 const categoryOptions = {
   coveredPatios: ["Attached Covered Patio", "FreeStanding Pergola", "Cantilevered Pergola"],
@@ -37,20 +73,28 @@ const CreateProjectModal: React.FC<Props> = ({ onClose, setProjects }) => {
     return initial;
   });
 
-  const [imageFile, setImageFile] = useState<File | null>(null);
-  const [previewImage, setPreviewImage] = useState<string | null>(null);
+  const [imageFiles, setImageFiles] = useState<File[]>([]);
+  const [previewImages, setPreviewImages] = useState<string[]>([]);
   const [submitting, setSubmitting] = useState(false);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setFields({ ...fields, [e.target.name]: e.target.value });
   };
 
-  const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      setImageFile(file);
-      setPreviewImage(URL.createObjectURL(file));
+  const handleImagesChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files ? Array.from(e.target.files) : [];
+    if (files.length > 0) {
+      setImageFiles((prev) => [...prev, ...files]);
+      setPreviewImages((prev) => [
+        ...prev,
+        ...files.map((file) => URL.createObjectURL(file)),
+      ]);
     }
+  };
+
+  const handleRemoveImage = (index: number) => {
+    setImageFiles((prev) => prev.filter((_, i) => i !== index));
+    setPreviewImages((prev) => prev.filter((_, i) => i !== index));
   };
 
   const handleCategoryToggle = (category: string, value: string) => {
@@ -65,18 +109,18 @@ const CreateProjectModal: React.FC<Props> = ({ onClose, setProjects }) => {
   };
 
   const handleSubmit = async () => {
-    if (!fields.title?.trim() || !imageFile) {
-      alert("Debes ingresar un título y una imagen.");
+    if (!fields.title?.trim() || imageFiles.length === 0) {
+      alert("Debes ingresar un título y al menos una imagen.");
       return;
     }
 
     setSubmitting(true);
 
     try {
-      // 1. Crear documento en Firestore sin imagen aún
+      // 1. Crear documento en Firestore sin imágenes aún
       const updatePayload: any = {
         ...fields,
-        imageUrl: "", // temporal
+        images: [],
       };
 
       Object.keys(categorySelections).forEach((key) => {
@@ -85,18 +129,21 @@ const CreateProjectModal: React.FC<Props> = ({ onClose, setProjects }) => {
 
       const docRef = await addDoc(collection(db, "projects"), updatePayload);
 
-      // 2. Subir imagen a Storage
-      const extension = imageFile.name.split(".").pop() || "jpg";
-      const storageRef = ref(storage, `projects/${docRef.id}.${extension}`);
-      const metadata = { contentType: imageFile.type };
+      // 2. Subir imágenes comprimidas
+      const uploadedUrls: string[] = [];
+      for (let i = 0; i < imageFiles.length; i++) {
+        const file = imageFiles[i];
+        const blob = await compressImage(file);
+        const storageRef = ref(storage, `projects/${docRef.id}_${i}.webp`);
+        await uploadBytes(storageRef, blob, { contentType: "image/webp" });
+        const url = await getDownloadURL(storageRef);
+        uploadedUrls.push(url);
+      }
 
-      await uploadBytes(storageRef, imageFile, metadata);
-      const imageUrl = await getDownloadURL(storageRef);
-
-      // 3. Actualizar documento con la URL final
+      // 3. Actualizar documento con URLs finales
       await updateDoc(doc(db, "projects", docRef.id), {
         ...updatePayload,
-        imageUrl,
+        images: uploadedUrls,
       });
 
       // 4. Actualizar estado local
@@ -105,7 +152,7 @@ const CreateProjectModal: React.FC<Props> = ({ onClose, setProjects }) => {
         {
           id: docRef.id,
           ...updatePayload,
-          imageUrl,
+          images: uploadedUrls,
         } as Project,
       ]);
 
@@ -123,6 +170,7 @@ const CreateProjectModal: React.FC<Props> = ({ onClose, setProjects }) => {
       <div className="bg-white p-6 rounded shadow w-full max-w-md max-h-[90vh] overflow-y-auto">
         <h2 className="text-xl font-bold mb-4">Crear Proyecto</h2>
 
+        {/* Campos de texto */}
         {[
           { name: "title", label: "Title" },
           { name: "projectType", label: "Project Type" },
@@ -143,6 +191,7 @@ const CreateProjectModal: React.FC<Props> = ({ onClose, setProjects }) => {
           </div>
         ))}
 
+        {/* Categorías */}
         <div className="mb-6">
           <h3 className="font-semibold text-lg mb-2">Categorías</h3>
           {Object.entries(categoryOptions).map(([categoryKey, options]) => (
@@ -166,39 +215,53 @@ const CreateProjectModal: React.FC<Props> = ({ onClose, setProjects }) => {
           ))}
         </div>
 
+        {/* Subida de imágenes */}
         <div className="mb-4">
-          <label className="block text-sm font-medium text-gray-700 mb-1">Imagen</label>
+          <label className="block text-sm font-medium text-gray-700 mb-1">
+            Imágenes (puedes seleccionar varias)
+          </label>
           <label
             htmlFor="fileInput"
-            className={`flex items-center justify-center px-4 py-2 ${
-              imageFile ? "bg-gray-400 cursor-not-allowed" : "bg-blue-600 hover:bg-blue-700"
-            } text-white rounded transition w-full text-center`}
+            className="flex items-center justify-center px-4 py-2 bg-blue-600 text-white rounded cursor-pointer hover:bg-blue-700 transition w-full text-center"
           >
-            Seleccionar imagen
+            Seleccionar imágenes
           </label>
           <input
             id="fileInput"
             type="file"
             accept="image/*"
-            disabled={!!imageFile}
-            onChange={handleImageChange}
+            multiple
+            onChange={handleImagesChange}
             className="hidden"
           />
 
-          {previewImage && (
-            <div className="mt-3 relative group">
-              <img
-                src={previewImage}
-                alt="Previsualización"
-                className="w-full h-56 object-cover rounded shadow border border-gray-200"
-              />
-              <p className="absolute bottom-1 right-2 text-xs text-white bg-black bg-opacity-60 px-2 py-1 rounded">
-                Previsualización
-              </p>
+          {/* Previsualización */}
+          {previewImages.length > 0 && (
+            <div className="mt-3 grid grid-cols-2 gap-3">
+              {previewImages.map((src, index) => (
+                <div key={index} className="relative group">
+                  <img
+                    src={src}
+                    alt={`Previsualización ${index + 1}`}
+                    className="w-full h-40 object-cover rounded shadow border border-gray-200"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => handleRemoveImage(index)}
+                    className="absolute top-1 right-1 bg-black bg-opacity-60 text-white rounded-full p-1 hover:bg-red-600 transition"
+                  >
+                    <X size={16} />
+                  </button>
+                  <p className="absolute bottom-1 right-2 text-xs text-white bg-black bg-opacity-60 px-2 py-1 rounded">
+                    {index + 1}
+                  </p>
+                </div>
+              ))}
             </div>
           )}
         </div>
 
+        {/* Botones */}
         <div className="flex justify-end gap-3 mt-4">
           <button
             onClick={onClose}

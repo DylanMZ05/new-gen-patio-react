@@ -10,7 +10,11 @@ const ProjectCard: React.FC<Props> = ({ project, onEdit }) => {
   return (
     <div className="bg-white shadow rounded p-4">
       <img
-        src={project.imageUrl}
+        src={
+          project.images && project.images.length > 0
+            ? project.images[0]
+            : project.imageUrl || "/placeholder.jpg"
+        }
         alt={project.title}
         className="w-full h-48 object-cover rounded mb-4"
       />

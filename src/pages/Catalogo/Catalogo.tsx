@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
-import SectionBlock from "../../../components/SectionBlock";
-import MarqueeBanner from "../../../components/MarqueeBanner";
+import SectionBlock from "../../components/SectionBlock";
+import MarqueeBanner from "../../components/MarqueeBanner";
 import ProjectCard from "./ProjectCard";
 import { collection, getDocs } from "firebase/firestore";
-import { db } from "../../../firebase";
+import { db } from "../../firebase";
 
 // Hero section data
 const sectionsData3 = [
@@ -170,7 +170,7 @@ const PatiosAndPergolasCatalog = () => {
           ) : filteredProjects.length === 0 ? (
             <p className="text-gray-500">No projects match your filters.</p>
           ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 justify-items-center">
               {filteredProjects.map((project) => (
                 <ProjectCard key={project.id} project={project} />
               ))}

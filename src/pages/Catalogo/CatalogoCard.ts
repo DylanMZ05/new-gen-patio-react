@@ -1,7 +1,8 @@
 export interface Project {
   id: string;
   title: string;
-  imageUrl: string;
+  imageUrl?: string;
+  images?: string[];
 
   // Campos generales
   projectType?: string;
@@ -25,6 +26,7 @@ export interface Project {
   addons?: string;
   foundation?: string;
 }
+
 
 
 

@@ -29,6 +29,8 @@ export interface Project {
   hybrid?: string;
   addons?: string;
   foundation?: string;
+
+  
 }
 
 

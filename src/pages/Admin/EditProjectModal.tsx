@@ -165,8 +165,11 @@ const EditProjectModal: React.FC<Props> = ({ project, onClose, setProjects }) =>
       };
 
       Object.keys(categorySelections).forEach((key) => {
-        updatePayload[key as keyof Project] = categorySelections[key].join(",");
+        if (key in updatePayload) {
+          updatePayload[key as keyof Omit<Project, "images">] = categorySelections[key].join(",") as any;
+        }
       });
+
 
       // Actualizar Firestore
       await updateDoc(doc(db, "projects", project.id), updatePayload);

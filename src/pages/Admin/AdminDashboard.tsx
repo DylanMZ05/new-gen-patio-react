@@ -10,18 +10,23 @@ import CreateProjectModal from "./CreateProjectModal";
 export interface Project {
   id: string;
   title: string;
-  imageUrl: string;
+  imageUrl?: string;
+  images?: string[];
+
+  // Campos generales
   projectType?: string;
   size?: string;
   structureColor?: string;
   colorsPanels?: string;
   more?: string;
+
+  // Campos adicionales
   stain?: string;
   rafterTail?: string;
   kneeBrace?: string;
   timberSize?: string;
 
-  // Filtros
+  // Campos para filtros
   coveredPatios?: string;
   outdoorKitchen?: string;
   panels?: string;
@@ -29,9 +34,8 @@ export interface Project {
   hybrid?: string;
   addons?: string;
   foundation?: string;
-
-  
 }
+
 
 
 

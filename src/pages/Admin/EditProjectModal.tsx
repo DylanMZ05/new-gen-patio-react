@@ -1,5 +1,5 @@
 import React, { useState, ChangeEvent } from "react";
-import { updateDoc, doc } from "firebase/firestore";
+import { updateDoc, doc, deleteDoc } from "firebase/firestore";
 import { ref, uploadBytes, getDownloadURL, deleteObject } from "firebase/storage";
 import { db, storage } from "../../firebase";
 import { Project } from "./AdminDashboard";
@@ -165,11 +165,8 @@ const EditProjectModal: React.FC<Props> = ({ project, onClose, setProjects }) =>
       };
 
       Object.keys(categorySelections).forEach((key) => {
-        if (key in updatePayload) {
-          updatePayload[key as keyof Omit<Project, "images">] = categorySelections[key].join(",") as any;
-        }
+        updatePayload[key as keyof Omit<Project, "images">] = categorySelections[key].join(",") as any;
       });
-
 
       // Actualizar Firestore
       await updateDoc(doc(db, "projects", project.id), updatePayload);
@@ -196,6 +193,36 @@ const EditProjectModal: React.FC<Props> = ({ project, onClose, setProjects }) =>
       setSubmittingChanges(false);
     }
   };
+
+  const handleDeleteProject = async () => {
+    const confirmDelete = window.confirm("¿Seguro que querés eliminar este proyecto?");
+    if (!confirmDelete) return;
+
+    try {
+      // Borrar imágenes del storage
+      for (const url of existingImages) {
+        try {
+          const path = decodeURIComponent(url.split("/o/")[1].split("?")[0]);
+          const storageRef = ref(storage, path);
+          await deleteObject(storageRef);
+        } catch (err) {
+          console.warn("⚠️ No se pudo borrar imagen:", err);
+        }
+      }
+
+      // Borrar documento en Firestore
+      await deleteDoc(doc(db, "projects", project.id));
+
+      // Actualizar UI
+      setProjects((prev) => prev.filter((p) => p.id !== project.id));
+      onClose();
+    } catch (err) {
+      console.error("❌ Error al eliminar proyecto:", err);
+      alert("No se pudo eliminar el proyecto. Revisá la consola.");
+    }
+  };
+
+
 
 
 
@@ -315,6 +342,12 @@ const EditProjectModal: React.FC<Props> = ({ project, onClose, setProjects }) =>
             className="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400"
           >
             Cancelar
+          </button>
+          <button
+            onClick={handleDeleteProject}
+            className="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700"
+          >
+            Eliminar
           </button>
           <button
             onClick={handleSubmitChanges}

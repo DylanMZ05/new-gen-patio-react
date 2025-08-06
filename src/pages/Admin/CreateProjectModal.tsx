@@ -23,8 +23,9 @@ const compressImage = (file: File): Promise<Blob> => {
 
     img.onload = () => {
       const canvas = document.createElement("canvas");
-      const maxSize = 500;
-      const scale = Math.min(maxSize / img.width, maxSize / img.height);
+      const maxSize = 1500; // o 1200
+      const shouldResize = img.width > maxSize || img.height > maxSize;
+      const scale = shouldResize ? Math.min(maxSize / img.width, maxSize / img.height) : 1;
       canvas.width = img.width * scale;
       canvas.height = img.height * scale;
 
@@ -37,7 +38,7 @@ const compressImage = (file: File): Promise<Blob> => {
           else reject(new Error("Error al comprimir imagen"));
         },
         "image/webp",
-        0.8
+        1
       );
     };
 

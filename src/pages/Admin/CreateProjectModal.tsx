@@ -10,7 +10,7 @@ interface Props {
   setProjects: React.Dispatch<React.SetStateAction<Project[]>>;
 }
 
-// 🔹 Compresor a WebP 500px máx
+// 🔹 Compresor a WebP (máx ~1500px en lado mayor)
 const compressImage = (file: File): Promise<Blob> => {
   return new Promise((resolve, reject) => {
     const img = new Image();
@@ -23,7 +23,7 @@ const compressImage = (file: File): Promise<Blob> => {
 
     img.onload = () => {
       const canvas = document.createElement("canvas");
-      const maxSize = 1500; // o 1200
+      const maxSize = 1500;
       const shouldResize = img.width > maxSize || img.height > maxSize;
       const scale = shouldResize ? Math.min(maxSize / img.width, maxSize / img.height) : 1;
       canvas.width = img.width * scale;
@@ -46,10 +46,17 @@ const compressImage = (file: File): Promise<Blob> => {
   });
 };
 
+// ⚙️ Opciones de categorías (camelCase) — con Varied Colors y grupo de Panels separado
 const categoryOptions = {
   coveredPatios: ["Attached Covered Patio", "FreeStanding Pergola", "Cantilevered Pergola"],
   outdoorKitchen: ["Modern Outdoor Kitchen", "Traditional Outdoor Kitchen"],
-  StructureColors: ["Dark Bronze", "White", "Wood Imitation Panels"],
+
+  // Estructura (marco)
+  structureColors: ["Dark Bronze", "White", "Varied Colors"],
+
+  // Paneles (techo)
+  colorsRoofingPanels: ["Dark Bronze", "White", "Wood Imitation Panels"],
+
   composite: ["Black", "Wood Imitation"],
   hybrid: ["Polycarbonate", "Naked Pergola"],
   addons: ["TV Walls", "Privacy Walls", "Slags", "Fire Pit"],
@@ -57,12 +64,10 @@ const categoryOptions = {
 };
 
 const CreateProjectModal: React.FC<Props> = ({ onClose, setProjects }) => {
+  // ✅ Inputs visibles (sin los derivados)
   const [fields, setFields] = useState<Partial<Project>>({
     title: "",
-    projectType: "",
     size: "",
-    structureColor: "",
-    colorsPanels: "",
     more: "",
   });
 
@@ -86,10 +91,7 @@ const CreateProjectModal: React.FC<Props> = ({ onClose, setProjects }) => {
     const files = e.target.files ? Array.from(e.target.files) : [];
     if (files.length > 0) {
       setImageFiles((prev) => [...prev, ...files]);
-      setPreviewImages((prev) => [
-        ...prev,
-        ...files.map((file) => URL.createObjectURL(file)),
-      ]);
+      setPreviewImages((prev) => [...prev, ...files.map((f) => URL.createObjectURL(f))]);
     }
   };
 
@@ -101,11 +103,9 @@ const CreateProjectModal: React.FC<Props> = ({ onClose, setProjects }) => {
   const handleCategoryToggle = (category: string, value: string) => {
     setCategorySelections((prev) => {
       const current = prev[category] || [];
-      if (current.includes(value)) {
-        return { ...prev, [category]: current.filter((v) => v !== value) };
-      } else {
-        return { ...prev, [category]: [...current, value] };
-      }
+      return current.includes(value)
+        ? { ...prev, [category]: current.filter((v) => v !== value) }
+        : { ...prev, [category]: [...current, value] };
     });
   };
 
@@ -118,19 +118,41 @@ const CreateProjectModal: React.FC<Props> = ({ onClose, setProjects }) => {
     setSubmitting(true);
 
     try {
-      // 1. Crear documento en Firestore sin imágenes aún
-      const updatePayload: any = {
-        ...fields,
+      // 🔹 1) Derivados desde filtros (usar claves camelCase)
+      const projectType =
+        categorySelections.coveredPatios?.[0] ||
+        categorySelections.outdoorKitchen?.[0] ||
+        "";
+
+      // Colores de la ESTRUCTURA (marco)
+      const structureColor = categorySelections.structureColors?.join(" + ") || "";
+
+      // Colores de los PANELES (nuevo grupo) + fallback a campo viejo si existiera
+      const colorsPanels =
+        categorySelections.colorsRoofingPanels?.join(" + ") ||
+        (categorySelections as any).colorsPanels?.join(" + ") ||
+        "";
+
+      // 🔹 2) Payload base
+      const updatePayload: Partial<Project> = {
+        title: fields.title || "",
+        size: fields.size || "",
+        more: fields.more || "",
+        projectType,
+        structureColor,
+        colorsPanels,
         images: [],
       };
 
+      // 🔹 3) Guardar TODOS los filtros como string (ej: "Dark Bronze,White")
       Object.keys(categorySelections).forEach((key) => {
-        updatePayload[key] = categorySelections[key].join(",");
+        updatePayload[key as keyof Project] = categorySelections[key].join(",") as any;
       });
 
+      // 🔹 4) Crear documento (sin imágenes aún)
       const docRef = await addDoc(collection(db, "projects"), updatePayload);
 
-      // 2. Subir imágenes comprimidas
+      // 🔹 5) Subir imágenes comprimidas
       const uploadedUrls: string[] = [];
       for (let i = 0; i < imageFiles.length; i++) {
         const file = imageFiles[i];
@@ -141,13 +163,13 @@ const CreateProjectModal: React.FC<Props> = ({ onClose, setProjects }) => {
         uploadedUrls.push(url);
       }
 
-      // 3. Actualizar documento con URLs finales
+      // 🔹 6) Actualizar documento con URLs reales
       await updateDoc(doc(db, "projects", docRef.id), {
         ...updatePayload,
         images: uploadedUrls,
       });
 
-      // 4. Actualizar estado local
+      // 🔹 7) Actualizar UI local
       setProjects((prev) => [
         ...prev,
         {
@@ -174,10 +196,7 @@ const CreateProjectModal: React.FC<Props> = ({ onClose, setProjects }) => {
         {/* Campos de texto */}
         {[
           { name: "title", label: "Title" },
-          { name: "projectType", label: "Project Type" },
           { name: "size", label: "Size" },
-          { name: "structureColor", label: "Structure Color" },
-          { name: "colorsPanels", label: "Colors Panels" },
           { name: "more", label: "More" },
         ].map((field) => (
           <div key={field.name} className="mb-3">
@@ -236,7 +255,7 @@ const CreateProjectModal: React.FC<Props> = ({ onClose, setProjects }) => {
             className="hidden"
           />
 
-          {/* Previsualización */}
+        {/* Previsualización */}
           {previewImages.length > 0 && (
             <div className="mt-3 grid grid-cols-2 gap-3">
               {previewImages.map((src, index) => (

@@ -1,4 +1,4 @@
-import React, { useState, ChangeEvent } from "react";
+import React, { useState, ChangeEvent, useEffect } from "react";
 import { updateDoc, doc, deleteDoc } from "firebase/firestore";
 import { ref, uploadBytes, getDownloadURL, deleteObject } from "firebase/storage";
 import { db, storage } from "../../firebase";
@@ -24,7 +24,7 @@ const compressImage = (file: File): Promise<Blob> => {
 
     img.onload = () => {
       const canvas = document.createElement("canvas");
-      const maxSize = 1500; // o 1200
+      const maxSize = 1500;
       const shouldResize = img.width > maxSize || img.height > maxSize;
       const scale = shouldResize ? Math.min(maxSize / img.width, maxSize / img.height) : 1;
       canvas.width = img.width * scale;
@@ -47,43 +47,60 @@ const compressImage = (file: File): Promise<Blob> => {
   });
 };
 
-const categoryOptions = {
+// ⚙️ Opciones de categorías (camelCase) — con Varied Colors y grupo de Panels separado
+const categoryOptions: Record<string, string[]> = {
   coveredPatios: ["Attached Covered Patio", "FreeStanding Pergola", "Cantilevered Pergola"],
   outdoorKitchen: ["Modern Outdoor Kitchen", "Traditional Outdoor Kitchen"],
-  StructureColors: ["Dark Bronze", "White", "Wood Imitation Panels"],
+
+  // Estructura (marco)
+  structureColors: ["Dark Bronze", "White", "Varied Colors"],
+
+  // Paneles (techo)
+  colorsRoofingPanels: ["Dark Bronze", "White", "Wood Imitation Panels"],
+
   composite: ["Black", "Wood Imitation"],
   hybrid: ["Polycarbonate", "Naked Pergola"],
   addons: ["TV Walls", "Privacy Walls", "Slags", "Fire Pit"],
   foundation: ["Concrete Slab", "Concrete Stamped", "Spray Decking", "Paver", "Tiles", "Turf"],
 };
 
+const splitOrEmpty = (v: any): string[] =>
+  typeof v === "string" && v.length > 0 ? v.split(",").map((s) => s.trim()) : [];
+
 const EditProjectModal: React.FC<Props> = ({ project, onClose, setProjects }) => {
   if (!project) return null;
 
+  // Campos editables directos (sin los derivados)
   const [editedFields, setEditedFields] = useState<Partial<Project>>({
     title: project.title,
-    projectType: project.projectType,
     size: project.size,
-    structureColor: project.structureColor,
-    colorsPanels: project.colorsPanels,
     more: project.more,
   });
 
+  // Cargar selecciones iniciales desde el proyecto (compat retro incluida)
   const [categorySelections, setCategorySelections] = useState<{ [key: string]: string[] }>(() => {
     const initial: { [key: string]: string[] } = {};
     Object.keys(categoryOptions).forEach((category) => {
-      const values = (project as any)[category];
-      initial[category] = values ? values.split(",") : [];
+      // casos normales
+      if (category !== "colorsRoofingPanels") {
+        const values = (project as any)[category];
+        initial[category] = splitOrEmpty(values);
+      } else {
+        // grupo nuevo de panels con fallback a campo viejo
+        const fromNew = splitOrEmpty((project as any).colorsRoofingPanels);
+        const fromOld = splitOrEmpty((project as any).colorsPanels);
+        initial[category] = fromNew.length ? fromNew : fromOld;
+      }
     });
     return initial;
   });
 
   // Soporte para imageUrl (viejo) e images (nuevo)
   const [existingImages, setExistingImages] = useState<string[]>(() => {
-    if (project.images && project.images.length > 0) {
-      return project.images;
-    } else if (project.imageUrl) {
-      return [project.imageUrl];
+    if ((project as any).images && (project as any).images.length > 0) {
+      return (project as any).images as string[];
+    } else if ((project as any).imageUrl) {
+      return [(project as any).imageUrl as string];
     }
     return [];
   });
@@ -155,16 +172,32 @@ const EditProjectModal: React.FC<Props> = ({ project, onClose, setProjects }) =>
       // Imágenes finales con links nuevos
       const finalImages = [...existingImages, ...uploadedUrls];
 
+      // Derivar descripciones desde filtros
+      const projectType =
+        categorySelections.coveredPatios?.[0] ||
+        categorySelections.outdoorKitchen?.[0] ||
+        "";
+
+      const structureColor = (categorySelections.structureColors || []).join(" + ") || "";
+
+      // Panels: usar grupo nuevo y fallback al campo viejo si fuera necesario
+      const colorsPanels =
+        (categorySelections.colorsRoofingPanels || []).join(" + ") ||
+        (categorySelections as any).colorsPanels?.join(" + ") ||
+        "";
+
+      // Payload a Firestore
       const updatePayload: Partial<Project> = {
         title: editedFields.title || "",
-        projectType: editedFields.projectType || "",
         size: editedFields.size || "",
-        structureColor: editedFields.structureColor || "",
-        colorsPanels: editedFields.colorsPanels || "",
         more: editedFields.more || "",
+        projectType,
+        structureColor,
+        colorsPanels,
         images: finalImages,
       };
 
+      // Guardar también los filtros como strings (útil para el catálogo)
       Object.keys(categorySelections).forEach((key) => {
         updatePayload[key as keyof Omit<Project, "images">] = categorySelections[key].join(",") as any;
       });
@@ -223,22 +256,20 @@ const EditProjectModal: React.FC<Props> = ({ project, onClose, setProjects }) =>
     }
   };
 
-
-
-
+  // (Opcional) asegurar scroll top al abrir modal largo
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   return (
     <div className="fixed inset-0 bg-black/40 flex justify-center items-center z-50">
       <div className="bg-white p-6 rounded shadow w-full max-w-md max-h-[90vh] overflow-y-auto relative">
         <h2 className="text-xl font-bold mb-4">Editar Proyecto</h2>
 
-        {/* Campos de texto */}
+        {/* Campos de texto — sin los derivados */}
         {[
           { name: "title", label: "Title" },
-          { name: "projectType", label: "Project Type" },
           { name: "size", label: "Size" },
-          { name: "structureColor", label: "Structure Color" },
-          { name: "colorsPanels", label: "Colors Panels" },
           { name: "more", label: "More" },
         ].map((field) => (
           <div key={field.name} className="mb-3">
@@ -246,7 +277,7 @@ const EditProjectModal: React.FC<Props> = ({ project, onClose, setProjects }) =>
             <input
               type="text"
               name={field.name}
-              value={editedFields[field.name as keyof Project] as string || ""}
+              value={(editedFields as any)[field.name] || ""}
               onChange={handleEditChange}
               className="w-full border px-3 py-2 rounded"
             />

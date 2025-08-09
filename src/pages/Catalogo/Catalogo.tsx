@@ -17,72 +17,120 @@ const sectionsData3 = [
   },
 ];
 
-// Todos los filtros por grupo
-const filterConfig = {
+// 🧭 Configuración de filtros
+// Nota: Los 4 primeros van en la descripción del proyecto
+const filterConfig: {
+  [groupLabel: string]: { field: string; options: string[]; inDescription?: boolean };
+} = {
+  // ✅ Filtros que van en descripción
   "Covered Patios": {
     field: "coveredPatios",
     options: ["Attached Covered Patio", "FreeStanding Pergola", "Cantilevered Pergola"],
+    inDescription: true,
   },
   "Outdoor Kitchen": {
     field: "outdoorKitchen",
     options: ["Modern Outdoor Kitchen", "Traditional Outdoor Kitchen"],
+    inDescription: true,
   },
   "Structure Colors": {
-    field: "structureColor",
-    options: ["Dark Bronze", "White", "Wood Imitation Panels"],
+    field: "structureColors",
+    options: ["Dark Bronze", "White", "Varied Colors"],
+    inDescription: true,
   },
+  "Colors Roofing Panels": {
+    field: "colorsRoofingPanels",
+    options: ["Dark Bronze", "White", "Wood Imitation Panels"],
+    inDescription: true,
+  },
+
+  // ❌ Filtros que NO van en descripción
   "Composite": {
     field: "composite",
     options: ["Black", "Wood Imitation"],
+    inDescription: false,
   },
   "Hybrid": {
     field: "hybrid",
     options: ["Polycarbonate", "Naked Pergola"],
+    inDescription: false,
   },
   "Add-ons": {
     field: "addons",
     options: ["TV Walls", "Privacy Walls", "Slags", "Fire Pit"],
+    inDescription: false,
   },
   "Foundation": {
     field: "foundation",
     options: ["Concrete Slab", "Concrete Stamped", "Spray Decking", "Paver", "Tiles", "Turf"],
+    inDescription: false,
   },
 };
 
-// Componente reutilizable para cada grupo de filtros
+// 🧩 Componente reutilizable para cada grupo de filtros
 const FilterGroup = ({
   title,
+  field,
   options,
   selectedFilters,
   onChange,
 }: {
   title: string;
+  field: string;
   options: string[];
   selectedFilters: Set<string>;
-  onChange: (value: string) => void;
+  onChange: (field: string, value: string) => void;
 }) => (
   <div className="text-sm text-gray-800">
     <h3 className="font-semibold text-base mb-2">{title}</h3>
     <div className="space-y-1 pl-2">
-      {options.map((option) => (
-        <label key={option} className="block">
-          <input
-            type="checkbox"
-            className="mr-2"
-            checked={selectedFilters.has(option)}
-            onChange={() => onChange(option)}
-          />
-          {option}
-        </label>
-      ))}
+      {options.map((option) => {
+        const key = `${field}::${option}`;
+        return (
+          <label key={key} className="block">
+            <input
+              type="checkbox"
+              className="mr-2"
+              checked={selectedFilters.has(key)}
+              onChange={() => onChange(field, option)}
+            />
+            {option}
+          </label>
+        );
+      })}
     </div>
   </div>
 );
+
+// 🔧 Helpers para filtrar con compatibilidad retro
+const getValuesArray = (raw: unknown): string[] => {
+  if (!raw) return [];
+  if (Array.isArray(raw)) return raw.map(String).map((s) => s.trim()).filter(Boolean);
+  return String(raw).split(",").map((s) => s.trim()).filter(Boolean);
+};
+
+// Para colorsRoofingPanels: soporta datos viejos en colorsPanels o mezclados en structureColors
+const getFieldValuesWithFallback = (project: any, field: string): string[] => {
+  if (field !== "colorsRoofingPanels") {
+    return getValuesArray(project[field]);
+  }
+  // 1) Nuevo campo correcto
+  const v1 = getValuesArray(project.colorsRoofingPanels);
+  if (v1.length) return v1;
+  // 2) Campo viejo (compat)
+  const v2 = getValuesArray(project.colorsPanels);
+  if (v2.length) return v2;
+  // 3) Casos viejos dentro de structureColors (solo rescata “Wood Imitation Panels”)
+  const v3 = getValuesArray(project.structureColors).filter((v) => v === "Wood Imitation Panels");
+  return v3;
+};
 
 const PatiosAndPergolasCatalog = () => {
   const [projects, setProjects] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [showMobileFilters, setShowMobileFilters] = useState(false);
+
+  // 🔑 Estado de filtros namespaced por campo: `${field}::${option}`
   const [selectedFilters, setSelectedFilters] = useState<Set<string>>(new Set());
 
   useEffect(() => {
@@ -104,26 +152,36 @@ const PatiosAndPergolasCatalog = () => {
     fetchProjects();
   }, []);
 
-  // Manejar selección de checkboxes
-  const toggleFilter = (value: string) => {
+  // Manejar selección de checkboxes (namespaced)
+  const toggleFilter = (field: string, value: string) => {
+    const key = `${field}::${value}`;
     setSelectedFilters((prev) => {
-      const newSet = new Set(prev);
-      if (newSet.has(value)) {
-        newSet.delete(value);
-      } else {
-        newSet.add(value);
-      }
-      return newSet;
+      const next = new Set(prev);
+      if (next.has(key)) next.delete(key);
+      else next.add(key);
+      return next;
     });
   };
 
-  // Filtrar proyectos por cualquier coincidencia en los campos configurados
+  // Filtrar proyectos: match si coincide con AL MENOS un grupo seleccionado (OR global)
   const filteredProjects = projects.filter((project) => {
     if (selectedFilters.size === 0) return true;
 
     return Object.values(filterConfig).some(({ field }) => {
-      const fieldValue = project[field];
-      return fieldValue && selectedFilters.has(fieldValue);
+      // opciones seleccionadas para ESTE campo
+      const selectedForField = [...selectedFilters]
+        .filter((k) => k.startsWith(`${field}::`))
+        .map((k) => k.split("::")[1]);
+
+      if (selectedForField.length === 0) return false; // no hay filtros de este campo activos
+
+      const valuesArray =
+        field === "colorsRoofingPanels"
+          ? getFieldValuesWithFallback(project, field)
+          : getValuesArray(project[field]);
+
+      // Coincidencia si alguna opción marcada para este campo está en el proyecto
+      return selectedForField.some((opt) => valuesArray.includes(opt));
     });
   });
 
@@ -151,10 +209,11 @@ const PatiosAndPergolasCatalog = () => {
         {/* 🔷 Filtros */}
         <div className={`w-full lg:w-1/4 ${showMobileFilters ? "block" : "hidden"} lg:block`}>
           <div className="space-y-6">
-            {Object.entries(filterConfig).map(([groupTitle, { options }]) => (
+            {Object.entries(filterConfig).map(([groupTitle, { field, options }]) => (
               <FilterGroup
                 key={groupTitle}
                 title={groupTitle}
+                field={field}
                 options={options}
                 selectedFilters={selectedFilters}
                 onChange={toggleFilter}

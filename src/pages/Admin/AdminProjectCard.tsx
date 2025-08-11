@@ -33,7 +33,7 @@ const ProjectCard: React.FC<Props> = ({ project, onEdit }) => {
           <li><strong>Structure Color:</strong> {project.structureColor}</li>
         )}
         {project.colorsPanels && (
-          <li><strong>Colors Panels:</strong> {project.colorsPanels}</li>
+          <li><strong>Colors Roofing Panels:</strong> {project.colorsPanels}</li>
         )}
         {project.more && (
           <li><strong>More:</strong> {project.more}</li>

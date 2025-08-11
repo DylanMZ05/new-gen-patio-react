@@ -5,11 +5,6 @@ import { db, storage } from "../../firebase";
 import { Project } from "./AdminDashboard";
 import { X } from "lucide-react";
 
-interface Props {
-  onClose: () => void;
-  setProjects: React.Dispatch<React.SetStateAction<Project[]>>;
-}
-
 // 🔹 Compresor a WebP (máx ~1500px en lado mayor)
 const compressImage = (file: File): Promise<Blob> => {
   return new Promise((resolve, reject) => {
@@ -46,8 +41,8 @@ const compressImage = (file: File): Promise<Blob> => {
   });
 };
 
-// ⚙️ Opciones de categorías (camelCase) — con Varied Colors y grupo de Panels separado
-const categoryOptions = {
+// ⚙️ Opciones de categorías (camelCase) — Panels separado
+const categoryOptions: Record<string, string[]> = {
   coveredPatios: ["Attached Covered Patio", "FreeStanding Pergola", "Cantilevered Pergola"],
   outdoorKitchen: ["Modern Outdoor Kitchen", "Traditional Outdoor Kitchen"],
 
@@ -62,6 +57,11 @@ const categoryOptions = {
   addons: ["TV Walls", "Privacy Walls", "Slags", "Fire Pit"],
   foundation: ["Concrete Slab", "Concrete Stamped", "Spray Decking", "Paver", "Tiles", "Turf"],
 };
+
+interface Props {
+  onClose: () => void;
+  setProjects: React.Dispatch<React.SetStateAction<Project[]>>;
+}
 
 const CreateProjectModal: React.FC<Props> = ({ onClose, setProjects }) => {
   // ✅ Inputs visibles (sin los derivados)
@@ -124,29 +124,30 @@ const CreateProjectModal: React.FC<Props> = ({ onClose, setProjects }) => {
         categorySelections.outdoorKitchen?.[0] ||
         "";
 
-      // Colores de la ESTRUCTURA (marco)
+      // Colores de la ESTRUCTURA (marco) — string para mostrar
       const structureColor = categorySelections.structureColors?.join(" + ") || "";
 
-      // Colores de los PANELES (nuevo grupo) + fallback a campo viejo si existiera
-      const colorsPanels =
-        categorySelections.colorsRoofingPanels?.join(" + ") ||
-        (categorySelections as any).colorsPanels?.join(" + ") ||
-        "";
+      // Panels (techo): GUARDAR SOLO colorsRoofingPanels (csv) y derivar colorsPanels para UI
+      const colorsRoofingPanelsCsv = categorySelections.colorsRoofingPanels?.join(",") || "";
+      const colorsPanels = categorySelections.colorsRoofingPanels?.join(" + ") || "";
 
-      // 🔹 2) Payload base
-      const updatePayload: Partial<Project> = {
+      // 🔹 2) Payload base (tipado flexible para setear filtros dinámicos)
+      const updatePayload: (Partial<Project> & Record<string, string>) = {
         title: fields.title || "",
         size: fields.size || "",
         more: fields.more || "",
         projectType,
         structureColor,
-        colorsPanels,
+        colorsPanels, // solo para mostrar en UI; no genera duplicado
         images: [],
+        // Guardamos csv de panels en su key nueva
+        colorsRoofingPanels: colorsRoofingPanelsCsv,
       };
 
-      // 🔹 3) Guardar TODOS los filtros como string (ej: "Dark Bronze,White")
+      // 🔹 3) Guardar TODOS los filtros como csv por categoría
       Object.keys(categorySelections).forEach((key) => {
-        updatePayload[key as keyof Project] = categorySelections[key].join(",") as any;
+        const csv = categorySelections[key].join(",");
+        updatePayload[key] = csv;
       });
 
       // 🔹 4) Crear documento (sin imágenes aún)
@@ -255,7 +256,7 @@ const CreateProjectModal: React.FC<Props> = ({ onClose, setProjects }) => {
             className="hidden"
           />
 
-        {/* Previsualización */}
+          {/* Previsualización */}
           {previewImages.length > 0 && (
             <div className="mt-3 grid grid-cols-2 gap-3">
               {previewImages.map((src, index) => (

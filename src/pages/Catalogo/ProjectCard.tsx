@@ -74,7 +74,7 @@ const ProjectCard: React.FC<Props> = ({ project }) => {
             )}
             {project.colorsPanels && (
               <li>
-                <span className="font-semibold">Colors Panels:</span>{" "}
+                <span className="font-semibold">Colors Roofing Panels:</span>{" "}
                 {project.colorsPanels}
               </li>
             )}

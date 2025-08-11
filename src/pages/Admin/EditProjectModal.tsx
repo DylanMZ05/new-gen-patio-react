@@ -1,5 +1,5 @@
 import React, { useState, ChangeEvent, useEffect } from "react";
-import { updateDoc, doc, deleteDoc } from "firebase/firestore";
+import { updateDoc, doc, deleteDoc, deleteField } from "firebase/firestore";
 import { ref, uploadBytes, getDownloadURL, deleteObject } from "firebase/storage";
 import { db, storage } from "../../firebase";
 import { Project } from "./AdminDashboard";
@@ -47,7 +47,7 @@ const compressImage = (file: File): Promise<Blob> => {
   });
 };
 
-// ⚙️ Opciones de categorías (camelCase) — con Varied Colors y grupo de Panels separado
+// ⚙️ Opciones de categorías (camelCase)
 const categoryOptions: Record<string, string[]> = {
   coveredPatios: ["Attached Covered Patio", "FreeStanding Pergola", "Cantilevered Pergola"],
   outdoorKitchen: ["Modern Outdoor Kitchen", "Traditional Outdoor Kitchen"],
@@ -81,7 +81,6 @@ const EditProjectModal: React.FC<Props> = ({ project, onClose, setProjects }) =>
   const [categorySelections, setCategorySelections] = useState<{ [key: string]: string[] }>(() => {
     const initial: { [key: string]: string[] } = {};
     Object.keys(categoryOptions).forEach((category) => {
-      // casos normales
       if (category !== "colorsRoofingPanels") {
         const values = (project as any)[category];
         initial[category] = splitOrEmpty(values);
@@ -180,32 +179,34 @@ const EditProjectModal: React.FC<Props> = ({ project, onClose, setProjects }) =>
 
       const structureColor = (categorySelections.structureColors || []).join(" + ") || "";
 
-      // Panels: usar grupo nuevo y fallback al campo viejo si fuera necesario
-      const colorsPanels =
-        (categorySelections.colorsRoofingPanels || []).join(" + ") ||
-        (categorySelections as any).colorsPanels?.join(" + ") ||
-        "";
+      // Panels: usar grupo nuevo (derivado para UI) y guardar csv en key nueva
+      const colorsRoofingPanelsCsv = (categorySelections.colorsRoofingPanels || []).join(",") || "";
+      const colorsPanels = (categorySelections.colorsRoofingPanels || []).join(" + ") || "";
 
-      // Payload a Firestore
-      const updatePayload: Partial<Project> = {
+      // Payload a Firestore (flexible para setear filtros)
+      const updatePayload: (Partial<Project> & Record<string, string>) = {
         title: editedFields.title || "",
         size: editedFields.size || "",
         more: editedFields.more || "",
         projectType,
         structureColor,
-        colorsPanels,
+        colorsPanels, // solo para mostrar
         images: finalImages,
+        colorsRoofingPanels: colorsRoofingPanelsCsv,
       };
 
-      // Guardar también los filtros como strings (útil para el catálogo)
+      // Guardar también los filtros como strings (útil para el catálogo / queries)
       Object.keys(categorySelections).forEach((key) => {
-        updatePayload[key as keyof Omit<Project, "images">] = categorySelections[key].join(",") as any;
+        updatePayload[key] = (categorySelections[key] || []).join(",");
       });
 
-      // Actualizar Firestore
-      await updateDoc(doc(db, "projects", project.id), updatePayload);
+      // Actualizar Firestore (y eliminar campo legado para evitar duplicados)
+      await updateDoc(doc(db, "projects", project.id), {
+        ...updatePayload,
+        colorsPanels: deleteField(), // limpiamos campo viejo para no duplicar
+      });
 
-      // ✅ Actualizar UI inmediatamente
+      // ✅ Reponer en estado local con la versión derivada (sin colorsPanels duplicado)
       setExistingImages(finalImages);
       setNewImages([]);
       setPreviewNewImages([]);
@@ -214,7 +215,12 @@ const EditProjectModal: React.FC<Props> = ({ project, onClose, setProjects }) =>
       setProjects((prev) =>
         prev.map((p) =>
           p.id === project.id
-            ? { ...p, ...updatePayload, images: finalImages }
+            ? {
+                ...p,
+                ...updatePayload,
+                images: finalImages,
+                colorsPanels, // mantener derivado en memoria si tu UI lo usa
+              }
             : p
         )
       );

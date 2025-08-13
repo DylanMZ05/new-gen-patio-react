@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import SectionBlock from "../../components/SectionBlock";
 import MarqueeBanner from "../../components/MarqueeBanner";
 import ProjectCard from "./ProjectCard";
@@ -319,7 +319,7 @@ const PatiosAndPergolasCatalog = () => {
 
   // Reset al cambiar filtros
   useEffect(() => {
-    setVisibleCount((prev) => Math.min(batchSize, contiguousReadyProjects.length || batchSize));
+    setVisibleCount(() => Math.min(batchSize, contiguousReadyProjects.length || batchSize));
     setIsLoadingMore(false);
     inFlightRef.current = false;
   }, [batchSize, contiguousReadyProjects]);

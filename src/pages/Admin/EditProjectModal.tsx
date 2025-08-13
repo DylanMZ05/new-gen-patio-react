@@ -168,10 +168,10 @@ const EditProjectModal: React.FC<Props> = ({ project, onClose, setProjects }) =>
         }
       }
 
-      // Imágenes finales con links nuevos
-      const finalImages = [...existingImages, ...uploadedUrls];
+      // Imágenes finales
+      const finalImages: string[] = [...existingImages, ...uploadedUrls];
 
-      // Derivar descripciones desde filtros
+      // Derivados desde filtros
       const projectType =
         categorySelections.coveredPatios?.[0] ||
         categorySelections.outdoorKitchen?.[0] ||
@@ -179,34 +179,38 @@ const EditProjectModal: React.FC<Props> = ({ project, onClose, setProjects }) =>
 
       const structureColor = (categorySelections.structureColors || []).join(" + ") || "";
 
-      // Panels: usar grupo nuevo (derivado para UI) y guardar csv en key nueva
-      const colorsRoofingPanelsCsv = (categorySelections.colorsRoofingPanels || []).join(",") || "";
-      const colorsPanels = (categorySelections.colorsRoofingPanels || []).join(" + ") || "";
+      // Panels: csv persistido + string derivado para UI
+      const colorsRoofingPanelsCsv =
+        (categorySelections.colorsRoofingPanels || []).join(",") || "";
+      const colorsPanels =
+        (categorySelections.colorsRoofingPanels || []).join(" + ") || "";
 
-      // Payload a Firestore (flexible para setear filtros)
-      const updatePayload: (Partial<Project> & Record<string, string>) = {
+      // 🔹 Payload base (NO usar Record<string,string> aquí)
+      const basePayload: Partial<Project> & { colorsRoofingPanels?: string } = {
         title: editedFields.title || "",
         size: editedFields.size || "",
         more: editedFields.more || "",
         projectType,
         structureColor,
-        colorsPanels, // solo para mostrar
+        colorsPanels,               // para UI
+        colorsRoofingPanels: colorsRoofingPanelsCsv, // csv persistido
         images: finalImages,
-        colorsRoofingPanels: colorsRoofingPanelsCsv,
       };
 
-      // Guardar también los filtros como strings (útil para el catálogo / queries)
+      // 🔹 Filtros como CSV por categoría (sí es Record<string,string>)
+      const filtersCsv: Record<string, string> = {};
       Object.keys(categorySelections).forEach((key) => {
-        updatePayload[key] = (categorySelections[key] || []).join(",");
+        filtersCsv[key] = (categorySelections[key] || []).join(",");
       });
 
-      // Actualizar Firestore (y eliminar campo legado para evitar duplicados)
+      // 🔹 Actualizar Firestore (y limpiar campo legado)
       await updateDoc(doc(db, "projects", project.id), {
-        ...updatePayload,
+        ...basePayload,
+        ...filtersCsv,
         colorsPanels: deleteField(), // limpiamos campo viejo para no duplicar
       });
 
-      // ✅ Reponer en estado local con la versión derivada (sin colorsPanels duplicado)
+      // ✅ Actualizar estado local
       setExistingImages(finalImages);
       setNewImages([]);
       setPreviewNewImages([]);
@@ -217,7 +221,8 @@ const EditProjectModal: React.FC<Props> = ({ project, onClose, setProjects }) =>
           p.id === project.id
             ? {
                 ...p,
-                ...updatePayload,
+                ...basePayload,
+                ...filtersCsv,
                 images: finalImages,
                 colorsPanels, // mantener derivado en memoria si tu UI lo usa
               }

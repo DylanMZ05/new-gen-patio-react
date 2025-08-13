@@ -127,31 +127,33 @@ const CreateProjectModal: React.FC<Props> = ({ onClose, setProjects }) => {
       // Colores de la ESTRUCTURA (marco) — string para mostrar
       const structureColor = categorySelections.structureColors?.join(" + ") || "";
 
-      // Panels (techo): GUARDAR SOLO colorsRoofingPanels (csv) y derivar colorsPanels para UI
+      // Panels (techo): guardar CSV en colorsRoofingPanels y derivar colorsPanels para UI
       const colorsRoofingPanelsCsv = categorySelections.colorsRoofingPanels?.join(",") || "";
       const colorsPanels = categorySelections.colorsRoofingPanels?.join(" + ") || "";
 
-      // 🔹 2) Payload base (tipado flexible para setear filtros dinámicos)
-      const updatePayload: (Partial<Project> & Record<string, string>) = {
+      // 🔹 2) Payload base (sin forzar Record<string,string> para no romper images: string[])
+      const basePayload: Partial<Project> & { colorsRoofingPanels?: string } = {
         title: fields.title || "",
         size: fields.size || "",
         more: fields.more || "",
         projectType,
         structureColor,
-        colorsPanels, // solo para mostrar en UI; no genera duplicado
-        images: [],
-        // Guardamos csv de panels en su key nueva
-        colorsRoofingPanels: colorsRoofingPanelsCsv,
+        colorsPanels,              // sólo para mostrar en UI
+        images: [],                // se actualiza luego con URLs reales
+        colorsRoofingPanels: colorsRoofingPanelsCsv, // persistimos CSV
       };
 
-      // 🔹 3) Guardar TODOS los filtros como csv por categoría
+      // 🔹 3) Guardar TODOS los filtros como csv por categoría en un objeto aparte
+      const filtersCsv: Record<string, string> = {};
       Object.keys(categorySelections).forEach((key) => {
-        const csv = categorySelections[key].join(",");
-        updatePayload[key] = csv;
+        filtersCsv[key] = (categorySelections[key] || []).join(",");
       });
 
       // 🔹 4) Crear documento (sin imágenes aún)
-      const docRef = await addDoc(collection(db, "projects"), updatePayload);
+      const docRef = await addDoc(collection(db, "projects"), {
+        ...basePayload,
+        ...filtersCsv,
+      });
 
       // 🔹 5) Subir imágenes comprimidas
       const uploadedUrls: string[] = [];
@@ -166,7 +168,8 @@ const CreateProjectModal: React.FC<Props> = ({ onClose, setProjects }) => {
 
       // 🔹 6) Actualizar documento con URLs reales
       await updateDoc(doc(db, "projects", docRef.id), {
-        ...updatePayload,
+        ...basePayload,
+        ...filtersCsv,
         images: uploadedUrls,
       });
 
@@ -175,7 +178,8 @@ const CreateProjectModal: React.FC<Props> = ({ onClose, setProjects }) => {
         ...prev,
         {
           id: docRef.id,
-          ...updatePayload,
+          ...basePayload,
+          ...filtersCsv,
           images: uploadedUrls,
         } as Project,
       ]);
@@ -188,6 +192,7 @@ const CreateProjectModal: React.FC<Props> = ({ onClose, setProjects }) => {
       setSubmitting(false);
     }
   };
+
 
   return (
     <div className="fixed inset-0 bg-black/40 flex justify-center items-center z-50">

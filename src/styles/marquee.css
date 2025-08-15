@@ -83,3 +83,30 @@
   max-height: 100%;
   object-fit: contain;
 }
+
+
+/* BannerOferta estilo marquee más pequeño */
+.marquee-container-offer {
+  padding: 6px 0; /* más bajo que el original */
+}
+
+.marquee-offer {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  white-space: nowrap;
+  animation: marquee-offer 20s linear infinite;
+}
+
+.marquee-container-offer:hover .marquee-offer {
+  animation-play-state: paused;
+}
+
+@keyframes marquee-offer {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(-100%);
+  }
+}

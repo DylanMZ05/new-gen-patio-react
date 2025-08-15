@@ -21,12 +21,11 @@ type BannerOfertaProps = {
   className?: string;
 };
 
-/** Teléfono WhatsApp: define VITE_WHATSAPP_PHONE en .env, ej: 17865551234 */
 const WA_PHONE =
   (typeof import.meta !== "undefined" &&
     // @ts-ignore
     (import.meta.env?.VITE_WHATSAPP_PHONE as string)) ||
-  "17865551234";
+  "+1 (346) 581-9082";
 
 const BannerOferta: React.FC<BannerOfertaProps> = ({
   activo,

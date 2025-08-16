@@ -1,11 +1,10 @@
 // src/components/BannerOferta.tsx
-import React, { useEffect, useMemo, useRef, useState } from "react";
-import "../styles/marquee.css";
+import React, { useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 
 type BannerOfertaProps = {
   /** Mostrar u ocultar la tira */
   activo: boolean;
-  /** Texto breve que se ve en la tira (va animado tipo marquee) */
+  /** Texto breve que se ve en la tira (va animado) */
   mensaje: string;
   /** Título del popup */
   modalTitulo: string;
@@ -25,7 +24,7 @@ const WA_PHONE =
   (typeof import.meta !== "undefined" &&
     // @ts-ignore
     (import.meta.env?.VITE_WHATSAPP_PHONE as string)) ||
-  "+1 (346) 581-9082";
+  "+1 (346) 380-0845";
 
 const BannerOferta: React.FC<BannerOfertaProps> = ({
   activo,
@@ -40,6 +39,8 @@ const BannerOferta: React.FC<BannerOfertaProps> = ({
   const [isOpen, setIsOpen] = useState(false);
   const [hiddenByUser, setHiddenByUser] = useState(false);
   const barRef = useRef<HTMLDivElement | null>(null);
+  const trackRef = useRef<HTMLDivElement | null>(null);
+  const itemRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     if (!storageKey) return;
@@ -57,6 +58,42 @@ const BannerOferta: React.FC<BannerOfertaProps> = ({
     return () => ro.disconnect();
   }, [onHeightChange]);
 
+  // Calcular el arranque en el margen derecho y la distancia de loop
+  const recalc = () => {
+    const container = barRef.current;
+    const item = itemRef.current;
+    const track = trackRef.current;
+    if (!container || !item || !track) return;
+
+    const containerW = container.clientWidth;  // ancho visible
+    const itemW = item.scrollWidth;            // ancho de UNA copia
+    // Queremos que el primer carácter esté justo en el borde derecho:
+    // => desplazamiento inicial POSITIVO igual al ancho del contenedor.
+    const startPx = containerW;                // visible desde el segundo 0
+    const loopPx = -itemW;                     // moverse exactamente un item por ciclo
+
+    track.style.setProperty("--ngp-start-px", `${startPx}px`);
+    track.style.setProperty("--ngp-loop-px", `${loopPx}px`);
+
+    // Velocidad consistente (~40px/s). Ajustá si querés más rápido/lento.
+    const durSec = Math.max(12, Math.round(itemW / 100));
+    track.style.setProperty("--ngp-dur", `${durSec}s`);
+  };
+
+  useLayoutEffect(() => {
+    recalc();
+    const ro1 = new ResizeObserver(recalc);
+    const ro2 = new ResizeObserver(recalc);
+    if (barRef.current) ro1.observe(barRef.current);
+    if (itemRef.current) ro2.observe(itemRef.current);
+    window.addEventListener("resize", recalc);
+    return () => {
+      ro1.disconnect();
+      ro2.disconnect();
+      window.removeEventListener("resize", recalc);
+    };
+  }, [mensaje]);
+
   const waLink = useMemo(() => {
     const text = encodeURIComponent(whatsappMensaje);
     const phone = (WA_PHONE || "").replace(/[^\d]/g, "");
@@ -65,26 +102,43 @@ const BannerOferta: React.FC<BannerOfertaProps> = ({
 
   if (!activo || hiddenByUser) return null;
 
+  // Contenido de UNA copia (se duplica para continuidad)
+  const Item = () => (
+    <div
+      ref={itemRef}
+      className="flex items-center gap-3 pr-8"
+      // Nota: solo la PRIMER copia tiene ref; la segunda es aria-hidden
+    >
+      <p className="text-white text-sm md:text-base font-medium">{mensaje}</p>
+      <span className="bg-white px-2 py-0.5 rounded-4xl font-semibold text-black text-xs md:text-sm">
+        Learn more
+      </span>
+    </div>
+  );
+
   return (
     <>
-      {/* 🔝 Fijo siempre visible (con marquee) */}
+      {/* 🔝 Fijo siempre visible */}
       <div
         ref={barRef}
         className={[
           "fixed top-0 left-0 w-full z-[1100] cursor-pointer",
-          // versión compacta y con animación tipo marquee
-          "marquee-container-offer border-b border-white/20 shadow bg-[#0d4754] overflow-hidden",
+          "overflow-hidden bg-orange-500 border-b border-white/20 shadow",
+          "py-2", // compacto
           className || "",
         ].join(" ")}
         onClick={() => setIsOpen(true)}
         role="button"
         aria-label="Open promotion details"
       >
-        <div className="marquee-offer w-max flex items-center gap-3">
-          <p className="text-white text-sm md:text-base font-medium">{mensaje}</p>
-          <span className="bg-white px-2 py-0.5 rounded-4xl font-semibold text-black text-xs md:text-sm">
-            Learn more
-          </span>
+        {/* Track que se anima; inicia pegado al margen derecho */}
+        <div ref={trackRef} className="ngp-marquee-track">
+          <div className="ngp-marquee-item">
+            <Item />
+          </div>
+          <div className="ngp-marquee-item" aria-hidden="true">
+            <Item />
+          </div>
         </div>
       </div>
 
@@ -92,10 +146,7 @@ const BannerOferta: React.FC<BannerOfertaProps> = ({
       {isOpen && (
         <div className="fixed inset-0 z-[1150] flex items-center justify-center px-4">
           {/* Backdrop */}
-          <div
-            className="absolute inset-0 bg-black/50"
-            onClick={() => setIsOpen(false)}
-          />
+          <div className="absolute inset-0 bg-black/50" onClick={() => setIsOpen(false)} />
           {/* Card */}
           <div
             className="relative w-full max-w-md bg-white rounded-2xl shadow-xl p-6 animate-[promoPop_180ms_ease-out]"
@@ -148,6 +199,30 @@ const BannerOferta: React.FC<BannerOfertaProps> = ({
           `}</style>
         </div>
       )}
+
+      {/* 🎯 Estilos del marquee: arranca en el borde derecho y se mueve de forma continua */}
+      <style>{`
+        .ngp-marquee-track {
+          display: flex;
+          width: max-content;
+          will-change: transform;
+          transform: translateX(var(--ngp-start-px, 0px));
+          animation: ngp-marquee var(--ngp-dur, 20s) linear infinite;
+          /* Asegura visibilidad inmediata incluso en dispositivos lentos */
+          animation-delay: 0s;
+        }
+        .ngp-marquee-item {
+          display: flex;
+          align-items: center;
+          /* separación entre repeticiones */
+          padding-right: 5rem;
+        }
+        /* Mueve exactamente el ancho de UNA copia (loop perfecto) */
+        @keyframes ngp-marquee {
+          0%   { transform: translateX(var(--ngp-start-px, 0px)); }
+          100% { transform: translateX(calc(var(--ngp-start-px, 0px) + var(--ngp-loop-px, -600px))); }
+        }
+      `}</style>
     </>
   );
 };

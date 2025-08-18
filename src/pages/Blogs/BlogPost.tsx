@@ -156,6 +156,12 @@ const BlogPost: React.FC<Blog & { slug: string }> = ({
                   })}
                 </p>
               );
+            } else if (item.type === "h1") {
+              return (
+                <h1 key={index} className="text-3xl font-semibold mt-6 text-black">
+                  {item.text}
+                </h1>
+              );
             } else if (item.type === "h2") {
               return (
                 <h2 key={index} className="text-2xl font-semibold mt-6 text-black">
@@ -244,8 +250,6 @@ const BlogPost: React.FC<Blog & { slug: string }> = ({
 
             return null;
           })}
-
-
         </article>
       </section>
     </>

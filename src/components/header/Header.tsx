@@ -42,7 +42,7 @@ const Header: React.FC = () => {
         whatsappMensaje="Hello, I would like to know more about the offer for Labor Day"
       />
       <header
-        className={`w-full fixed top-8 z-50 transition-colors duration-300 ${
+        className={`w-full fixed top-10 z-50 transition-colors duration-300 ${
           isScrolled ? "bg-white shadow-lg text-black" : "bg-gradient-to-b from-black to-transparent text-white"
         }`}
         role="banner"

@@ -502,7 +502,7 @@ export const blogs: Blog[] = [
     title: "Aluminum Pergolas: The Perfect Blend of Durability, Style, and Low Maintenance",
     metaTitle: "Aluminum Pergolas: The Perfect Blend of Durability, Style, and Low Maintenance",
     subtitle: "More than just a simple structure, an aluminum pergola is a design statement and a smart long-term investment.",
-    imageUrl: "",
+    imageUrl: "assets/images/Blogs/Blog-4.1/01.webp",
     date: "2025-08-18",
     author: "New Gen Patio LLC",
     content: [

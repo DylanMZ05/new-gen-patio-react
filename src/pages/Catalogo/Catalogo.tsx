@@ -91,6 +91,33 @@ const getFieldValuesWithFallback = (project: any, field: string): string[] => {
   return v3;
 };
 
+// Convierte cualquier valor a una forma canónica (lowercase + alias por campo)
+const toCanonical = (field: string, v: string): string => {
+  const s = String(v).trim().toLowerCase();
+
+  if (field === "addons") {
+    // Alias y typos frecuentes para "Slabs"
+    if (["slag", "slags", "slab", "slabs"].includes(s)) return "slabs";
+  }
+
+  // Ejemplos de alias para otros campos si los necesitas en el futuro:
+  // if (field === "coveredPatios") {
+  //   if (s === "free standing pergola") return "freestanding pergola";
+  // }
+
+  return s;
+};
+
+// Devuelve los valores del proyecto ya normalizados/canónicos
+const getCanonicalValues = (project: any, field: string): string[] => {
+  const raw =
+    field === "colorsRoofingPanels"
+      ? getFieldValuesWithFallback(project, field)
+      : getValuesArray(project[field]);
+  return raw.map((v) => toCanonical(field, v));
+};
+
+
 // 🧩 Filtro con acordeón
 const FilterGroup = ({
   title,
@@ -267,21 +294,25 @@ const PatiosAndPergolasCatalog = () => {
 
     return projects.filter((project) =>
       Object.values(filterConfig).some(({ field }) => {
-        const selectedForField = [...selectedFilters]
+        // Selecciones del usuario → canónicas
+        const selectedForFieldCanonical = [...selectedFilters]
           .filter((k) => k.startsWith(`${field}::`))
-          .map((k) => k.split("::")[1]);
+          .map((k) => k.split("::")[1])
+          .map((v) => toCanonical(field, v));
 
-        if (selectedForField.length === 0) return false;
+        if (selectedForFieldCanonical.length === 0) return false;
 
-        const valuesArray =
-          field === "colorsRoofingPanels"
-            ? getFieldValuesWithFallback(project, field)
-            : getValuesArray(project[field]);
+        // Valores del proyecto → canónicos
+        const projectValuesCanonical = getCanonicalValues(project, field);
 
-        return selectedForField.some((opt) => valuesArray.includes(opt));
+        // ¿hay intersección?
+        return selectedForFieldCanonical.some((opt) =>
+          projectValuesCanonical.includes(opt)
+        );
       })
     );
   }, [projects, selectedFilters]);
+
 
   // ========= Preload de portadas =========
   const getCoverImage = (p: any): string | undefined => {

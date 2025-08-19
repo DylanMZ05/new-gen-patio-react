@@ -6,18 +6,27 @@ import { collection, getDocs } from "firebase/firestore";
 import { db } from "../../firebase";
 import { FiFilter } from "react-icons/fi";
 import { AnimatePresence, motion } from "framer-motion";
+import { Helmet } from "react-helmet-async";
+import BlockSection from "../../components/BlockSection";
 
-// Hero section data
+// URL canónica (si no hay window, fallback genérico)
+const CANONICAL =
+  typeof window !== "undefined"
+    ? `${window.location.origin}/covered-patio-project-catalog`
+    : "https://example.com/covered-patio-project-catalog";
+
+// Hero section data (copy optimizado)
 const sectionsData3 = [
   {
     id: 6,
-    title: "Aluminium Custom Pergola and Cover Patios",
+    title: "Covered Patio & Pergola Project Catalog",
     description:
-      "Discover our modern, innovative solutions designed to enhance outdoor living with style, functionality, and durability.",
+      "Explore our catalog of covered patios and aluminum pergolas—modern, durable, and fully customizable. Browse outdoor kitchen options, structure colors, roofing panels, and add-ons to design your perfect outdoor living space.",
     backgroundImage:
       "assets/images/Products/Patios&Pergolas/Attached/04.webp",
   },
 ];
+
 
 // 🧭 Configuración de filtros
 const filterConfig: {
@@ -55,7 +64,7 @@ const filterConfig: {
   },
   "Add-ons": {
     field: "addons",
-    options: ["TV Walls", "Privacy Walls", "Slags", "Fire Pit"],
+    options: ["TV Walls", "Privacy Walls", "Slabs", "Fire Pit"],
     inDescription: false,
   },
   "Foundation": {
@@ -399,119 +408,165 @@ const PatiosAndPergolasCatalog = () => {
     show: { opacity: 1, y: 0, transition: { duration: 0.28, ease: "easeOut" } },
   };
 
+  // 🧠 Encabezados dinámicos: si hay filtros activos, mostramos H3 de contexto
+  const activeFilterLabels = useMemo(() => {
+    if (selectedFilters.size === 0) return [];
+    return [...selectedFilters].map((k) => {
+      const [, value] = k.split("::");
+      return value;
+    });
+  }, [selectedFilters]);
+
   return (
-    <div className="w-full flex flex-col items-center mb-20">
-      <SectionBlock sections={sectionsData3} />
-      <MarqueeBanner />
+    <>
+      <BlockSection></BlockSection>
+      <div className="w-full flex flex-col items-center mb-20">
+        {/* SEO */}
+        <Helmet>
+          <title>Covered Patio &amp; Pergola Project Catalog | Aluminum Designs</title>
+          <meta
+            name="description"
+            content="Browse real covered patio and pergola projects. Filter by type, kitchen, colors, roofing panels, add-ons and foundation. Get ideas and plan your outdoor space."
+          />
+          <link rel="canonical" href={CANONICAL} />
+          <meta property="og:type" content="website" />
+          <meta property="og:title" content="Covered Patio &amp; Pergola Project Catalog | Aluminum Designs" />
+          <meta
+            property="og:description"
+            content="Explore aluminum covered patios and pergolas by type, colors, roofing panels, add-ons and foundation. Filter projects to plan yours."
+          />
+          <meta name="robots" content="index,follow" />
+        </Helmet>
 
-      <h2 className="text-4xl font-bold text-center text-black/90 mt-10">
-        Our Projects
-      </h2>
-      <div className="w-16 h-[3px] bg-[#0d4754] mt-3 mx-auto rounded-full"></div>
 
-      {/* Botón para mostrar filtros en mobile */}
-      <div className="lg:hidden w-full px-6 mt-6 text-center">
-        <button
-          onClick={() => setShowMobileFilters(!showMobileFilters)}
-          className="bg-[#0d4754] hover:bg-[#0d5450] text-white px-4 py-2 rounded-full cursor-pointer"
-        >
-          {showMobileFilters ? "Hide Filters" : "Show Filters"}
-        </button>
-      </div>
+        <SectionBlock sections={sectionsData3} />
+        <MarqueeBanner />
 
-      <div className="w-full max-w-[1400px] px-6 py-10 flex flex-col lg:flex-row gap-10">
-        {/* 🔷 Filtros */}
-        <div className={`w-full lg:w-1/4 ${showMobileFilters ? "block" : "hidden"} lg:block`}>
-          <div className="flex items-center gap-2 mb-4">
-            <FiFilter className="text-md text-gray-700" />
-            <h3 className="text-sm font-semibold text-gray-800">Filters</h3>
+        {/* H2 principal de listado */}
+        <h2 className="text-4xl font-bold text-center text-black/90 mt-10">
+          Our Projects
+        </h2>
+        <div className="w-16 h-[3px] bg-[#0d4754] mt-3 mx-auto rounded-full"></div>
+
+        {/* Subencabezado contextual cuando hay filtros activos */}
+        {activeFilterLabels.length > 0 && (
+          <div className="mt-4 px-6 text-center">
+            <h3 className="text-base font-semibold text-gray-700">
+              Showing projects filtered by:
+            </h3>
+            <p className="mt-1 text-sm text-gray-600">
+              {activeFilterLabels.join(" · ")}
+            </p>
           </div>
+        )}
 
-          <div className="space-y-3">
-            {Object.entries(filterConfig).map(([groupTitle, { field, options }]) => (
-              <FilterGroup
-                key={groupTitle}
-                title={groupTitle}
-                field={field}
-                options={options}
-                selectedFilters={selectedFilters}
-                onChange={toggleFilter}
-                isOpen={openGroups[groupTitle]}
-                onToggle={() => toggleGroup(groupTitle)}
-                selectedCount={getSelectedCountForField(field)}
-              />
-            ))}
-          </div>
+        {/* Botón para mostrar filtros en mobile */}
+        <div className="lg:hidden w-full px-6 mt-6 text-center">
+          <button
+            onClick={() => setShowMobileFilters(!showMobileFilters)}
+            className="bg-[#0d4754] hover:bg-[#0d5450] text-white px-4 py-2 rounded-full cursor-pointer"
+            aria-expanded={showMobileFilters}
+            aria-controls="filters-panel"
+          >
+            {showMobileFilters ? "Hide Filters" : "Show Filters"}
+          </button>
         </div>
 
-        {/* 🔷 Proyectos */}
-        <div className="flex-1">
-          {loading ? (
-            // 🔹 Spinner centrado mientras se trae Firestore
-            <div className="flex justify-center items-center py-20">
-              <div className="h-10 w-10 rounded-full border-2 border-gray-300 border-t-gray-700 animate-spin" />
+        <div className="w-full max-w-[1400px] px-6 py-10 flex flex-col lg:flex-row gap-10">
+          {/* 🔷 Filtros */}
+          <aside id="filters-panel" className={`w-full lg:w-1/4 ${showMobileFilters ? "block" : "hidden"} lg:block`}>
+            <div className="flex items-center gap-2 mb-4">
+              <FiFilter className="text-md text-gray-700" aria-hidden />
+              {/* H3 para bloque de filtros */}
+              <h3 className="text-sm font-semibold text-gray-800">Filters</h3>
             </div>
-          ) : filteredProjects.length === 0 ? (
-            <p className="text-gray-500">No projects match your filters.</p>
-          ) : showSkeletons ? (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 justify-items-center">
-              {Array.from({ length: skeletonCount }).map((_, i) => (
-                <div
-                  key={`skeleton-${i}`}
-                  className="w-full max-w-[380px] h-[320px] rounded-xl border border-gray-200 bg-white overflow-hidden"
-                >
-                  <div className="animate-pulse h-full">
-                    <div className="h-48 bg-gray-200" />
-                    <div className="p-4 space-y-3">
-                      <div className="h-4 bg-gray-200 rounded w-3/4" />
-                      <div className="h-4 bg-gray-200 rounded w-1/2" />
-                      <div className="h-3 bg-gray-200 rounded w-1/3" />
-                    </div>
-                  </div>
-                </div>
+
+            <div className="space-y-3">
+              {Object.entries(filterConfig).map(([groupTitle, { field, options }]) => (
+                <FilterGroup
+                  key={groupTitle}
+                  title={groupTitle}
+                  field={field}
+                  options={options}
+                  selectedFilters={selectedFilters}
+                  onChange={toggleFilter}
+                  isOpen={openGroups[groupTitle]}
+                  onToggle={() => toggleGroup(groupTitle)}
+                  selectedCount={getSelectedCountForField(field)}
+                />
               ))}
             </div>
-          ) : (
-            <>
-              <motion.div
-                variants={listVariants}
-                initial="hidden"
-                animate="show"
-                className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 justify-items-center"
-              >
-                <AnimatePresence>
-                  {displayedProjects.map((project) => (
-                    <motion.div
-                      key={project.id}
-                      variants={itemVariants}
-                      layout
-                      className="w-full"
-                    >
-                      <ProjectCard project={project} />
-                    </motion.div>
-                  ))}
-                </AnimatePresence>
-              </motion.div>
+          </aside>
 
-              {/* 🔹 Spinner al final cuando se está cargando la siguiente tanda */}
-              <div className="flex justify-center items-center mt-6 min-h-6">
-                {hasMore && (
-                  <div
-                    className={`h-8 w-8 rounded-full border-2 border-gray-300 border-t-gray-700 animate-spin ${
-                      isLoadingMore ? "opacity-100" : "opacity-0"
-                    } transition-opacity duration-200`}
-                    aria-label="Loading more projects"
-                  />
-                )}
+          {/* 🔷 Proyectos */}
+          <section className="flex-1" aria-label="Project catalog results">
+            {loading ? (
+              // 🔹 Spinner centrado mientras se trae Firestore
+              <div className="flex justify-center items-center py-20">
+                <div className="h-10 w-10 rounded-full border-2 border-gray-300 border-t-gray-700 animate-spin" />
               </div>
+            ) : filteredProjects.length === 0 ? (
+              <p className="text-gray-500">No projects match your filters.</p>
+            ) : showSkeletons ? (
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 justify-items-center">
+                {Array.from({ length: skeletonCount }).map((_, i) => (
+                  <div
+                    key={`skeleton-${i}`}
+                    className="w-full max-w-[380px] h-[320px] rounded-xl border border-gray-200 bg-white overflow-hidden"
+                  >
+                    <div className="animate-pulse h-full">
+                      <div className="h-48 bg-gray-200" />
+                      <div className="p-4 space-y-3">
+                        <div className="h-4 bg-gray-200 rounded w-3/4" />
+                        <div className="h-4 bg-gray-200 rounded w-1/2" />
+                        <div className="h-3 bg-gray-200 rounded w-1/3" />
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <>
+                <motion.div
+                  variants={listVariants}
+                  initial="hidden"
+                  animate="show"
+                  className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 justify-items-center"
+                >
+                  <AnimatePresence>
+                    {displayedProjects.map((project) => (
+                      <motion.div
+                        key={project.id}
+                        variants={itemVariants}
+                        layout
+                        className="w-full"
+                      >
+                        <ProjectCard project={project} />
+                      </motion.div>
+                    ))}
+                  </AnimatePresence>
+                </motion.div>
 
-              {/* Sentinel invisible para el IntersectionObserver */}
-              <div ref={sentinelRef} className="h-1 w-full" aria-hidden />
-            </>
-          )}
+                {/* 🔹 Spinner al final cuando se está cargando la siguiente tanda */}
+                <div className="flex justify-center items-center mt-6 min-h-6">
+                  {hasMore && (
+                    <div
+                      className={`h-8 w-8 rounded-full border-2 border-gray-300 border-t-gray-700 animate-spin ${
+                        isLoadingMore ? "opacity-100" : "opacity-0"
+                      } transition-opacity duration-200`}
+                      aria-label="Loading more projects"
+                    />
+                  )}
+                </div>
+
+                {/* Sentinel invisible para el IntersectionObserver */}
+                <div ref={sentinelRef} className="h-1 w-full" aria-hidden />
+              </>
+            )}
+          </section>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 

@@ -54,7 +54,7 @@ const Layout = memo(() => {
     "/concrete-and-turf-installation-houston", "/patio-financing-houston",
     "/get-a-free-quote-houston", "/contact-us", "/contact", "/formpage", "/blog/best-patio-cover-types",
     "/blog/aluminum-vs-wood-pergolas", "/outdoor-living-services", "/blog/cost-build-purpose-outdoor-kitchen", "/blog/how-increased-home-value-with-aluminum-covered-patio",
-    "/project-catalog", "/blog/are-aluminum-pergolas-good-choice"
+    "/covered-patio-project-catalog", "/blog/are-aluminum-pergolas-good-choice"
   ], []);
 
   const noLayoutRoutes = useMemo(() => [
@@ -106,7 +106,7 @@ const Layout = memo(() => {
         <Route path="/formpage" element={<FormPage />} />
         <Route path="/get-a-free-quote-houston-tracking" element={<FreeQuoteTracking />} />
         <Route path="/whatsapp-redirect" element={<WhatsAppRedirect />} />
-        <Route path="/project-catalog" element={<ProjectsList />} />
+        <Route path="/covered-patio-project-catalog" element={<ProjectsList />} />
 
         {/* 🔐 Admin */}
         <Route path="/login/dashboard" element={<Login />} />

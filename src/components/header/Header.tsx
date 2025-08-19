@@ -9,7 +9,10 @@ import BannerOferta from "../BannerOferta";
 const Header: React.FC = () => {
   const scrollToTop = useScrollToTop();
   const isScrolled = useScroll(50);
-  const sectionIds = ["services", "our-promise", "who-we-are", "blogs", "contact"];
+
+  // ✅ Agregamos "catalog" entre "services" y "our-promise"
+  const sectionIds = ["services", "catalog", "our-promise", "who-we-are", "blogs", "contact"];
+
   const [menuOpen, setMenuOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [mobileDropdownOpen, setMobileDropdownOpen] = useState(false);
@@ -17,6 +20,7 @@ const Header: React.FC = () => {
 
   const routeMap: { [key: string]: string } = {
     "services": "/outdoor-living-services",
+    "catalog": "/covered-patio-project-catalog", // ← NUEVO
     "our-promise": "/how-we-doit",
     "who-we-are": "/about-us",
     "blogs": "/blog",
@@ -32,6 +36,36 @@ const Header: React.FC = () => {
     setMenuOpen(false);
   };
 
+  // ==== Ocultar/mostrar header según scroll (animación un poco más lenta) ====
+  const [hideOnScroll, setHideOnScroll] = useState(false);
+  useEffect(() => {
+    let lastY = typeof window !== "undefined" ? window.scrollY : 0;
+
+    const onScroll = () => {
+      const y = window.scrollY || 0;
+      const delta = y - lastY;
+      lastY = y;
+
+      const deltaThreshold = 8; // evita flicker
+      const minYToHide = 120;   // no ocultar muy arriba
+
+      if (menuOpen) {
+        setHideOnScroll(false);
+        return;
+      }
+      if (delta > deltaThreshold && y > minYToHide) setHideOnScroll(true);   // bajando
+      else if (delta < -deltaThreshold) setHideOnScroll(false);             // subiendo
+    };
+
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, [menuOpen]);
+
+  // Al abrir el menú móvil, forzar header visible
+  useEffect(() => {
+    if (menuOpen) setHideOnScroll(false);
+  }, [menuOpen]);
+
   return (
     <>
       <BannerOferta
@@ -46,6 +80,12 @@ const Header: React.FC = () => {
           isScrolled ? "bg-white shadow-lg text-black" : "bg-gradient-to-b from-black to-transparent text-white"
         }`}
         role="banner"
+        style={{
+          transform: hideOnScroll ? "translateY(-140%)" : "translateY(0)",
+          transition:
+            "transform 480ms ease, background-color 300ms ease, color 300ms ease, box-shadow 300ms ease",
+          willChange: "transform",
+        }}
       >
         <div className="flex justify-between items-center px-4 xl:px-15">
           {/* Logo */}
@@ -68,7 +108,7 @@ const Header: React.FC = () => {
             </div>
           </div>
 
-          {/* Menú principal */}
+          {/* Menú principal (desktop) */}
           <nav aria-label="Main Menu" role="navigation" className="hidden lg:flex">
             <ul className="flex justify-between items-center space-x-10">
               {sectionIds.map((id) => (
@@ -137,7 +177,7 @@ const Header: React.FC = () => {
 
           {/* Botón de menú hamburguesa para móviles */}
           <button
-            className="lg:hidden focus:outline-none absolute top-5 right-5 z-60 cursor-pointer pointer-events-auto"
+            className="lg:hidden focus:outline-none absolute top-5 right-5 z-[110] cursor-pointer pointer-events-auto"
             aria-label={menuOpen ? "Close menu" : "Open menu"}
             aria-expanded={menuOpen}
             onClick={() => setMenuOpen((prev) => !prev)}
@@ -156,12 +196,12 @@ const Header: React.FC = () => {
             ></span>
           </button>
 
-          {/* Menú móvil */}
+          {/* Menú móvil (overlay corregido) */}
           <div
-            className={`lg:hidden fixed z-50 top-0 left-0 w-full h-full bg-[#0d4754] text-white flex flex-col items-center justify-center 
-            space-y-4 transition-transform duration-500 ease-in-out cursor-pointer ${
-              menuOpen ? "translate-x-0 opacity-100 visible" : "-translate-x-full opacity-0 invisible"
-            }`}
+            className={`lg:hidden fixed inset-0 z-[100] h-screen bg-[#0d4754] text-white 
+            flex flex-col items-center justify-start pt-24 px-6
+            space-y-4 transform transition-all duration-500 ease-in-out
+            ${menuOpen ? "translate-x-0 opacity-100" : "-translate-x-full opacity-0"}`}
           >
             {/* Logo - Cierra el menú y el desplegable */}
             <Link 
@@ -172,6 +212,7 @@ const Header: React.FC = () => {
                 setMenuOpen(false); 
                 setMobileDropdownOpen(false); 
               }}
+              className="mb-4"
             >
               <img
                 src="/assets/images/IdentidadSVG/LogoBlanco.svg"
@@ -185,9 +226,9 @@ const Header: React.FC = () => {
 
             {sectionIds.map((id) => (
               id === "our-promise" ? (
-                <div key={id} className="w-full text-center cursor-pointer">
+                <div key={id} className="w-full text-center">
                   <button
-                    className="text-2xl transition-all duration-150 flex items-center justify-center w-full cursor-pointer gap-2 hover:text-orange-500"
+                    className="text-2xl transition-all duration-150 flex items-center justify-center w-full gap-2 hover:text-orange-500"
                     onClick={() => setMobileDropdownOpen(!mobileDropdownOpen)}
                   >
                     Our Promise
@@ -201,7 +242,7 @@ const Header: React.FC = () => {
                         onClick={() => { 
                           scrollToTop(); 
                           setMenuOpen(false); 
-                          setMobileDropdownOpen(false); // Cierra el desplegable
+                          setMobileDropdownOpen(false);
                         }} 
                         className="block py-2 text-lg hover:text-orange-500"
                       >
@@ -212,7 +253,7 @@ const Header: React.FC = () => {
                         onClick={() => { 
                           scrollToTop(); 
                           setMenuOpen(false); 
-                          setMobileDropdownOpen(false); // Cierra el desplegable
+                          setMobileDropdownOpen(false);
                         }} 
                         className="block py-2 text-lg hover:text-orange-500"
                       >
@@ -229,7 +270,7 @@ const Header: React.FC = () => {
                     handleClick(id);
                     scrollToTop();
                     setMenuOpen(false);
-                    setMobileDropdownOpen(false); // Cierra el desplegable
+                    setMobileDropdownOpen(false);
                   }} 
                   className="text-2xl transition-all duration-150 hover:text-orange-500"
                 >

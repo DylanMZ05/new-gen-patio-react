@@ -109,7 +109,7 @@ const BannerOferta: React.FC<BannerOfertaProps> = ({
       className="flex items-center gap-3 pr-8"
       // Nota: solo la PRIMER copia tiene ref; la segunda es aria-hidden
     >
-      <p className="text-white text-sm md:text-base font-medium">{mensaje}</p>
+      <p className="text-white font-medium">{mensaje}</p>
       <span className="bg-white px-2 py-0.5 rounded-4xl font-semibold text-black text-xs md:text-sm">
         Learn more
       </span>

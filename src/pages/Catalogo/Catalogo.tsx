@@ -4,7 +4,7 @@ import MarqueeBanner from "../../components/MarqueeBanner";
 import ProjectCard from "./ProjectCard";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "../../firebase";
-import { FiFilter } from "react-icons/fi";
+import { FiFilter, FiX } from "react-icons/fi";
 import { AnimatePresence, motion } from "framer-motion";
 import { Helmet } from "react-helmet-async";
 import BlockSection from "../../components/BlockSection";
@@ -26,7 +26,6 @@ const sectionsData3 = [
       "assets/images/Products/Patios&Pergolas/Attached/04.webp",
   },
 ];
-
 
 // 🧭 Configuración de filtros
 const filterConfig: {
@@ -173,7 +172,6 @@ const FilterGroup = ({
 const PatiosAndPergolasCatalog = () => {
   const [projects, setProjects] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
-  const [showMobileFilters, setShowMobileFilters] = useState(false);
 
   // 🔑 Estado de filtros namespaced por campo: `${field}::${option}`
   const [selectedFilters, setSelectedFilters] = useState<Set<string>>(new Set());
@@ -185,6 +183,10 @@ const PatiosAndPergolasCatalog = () => {
     allGroupTitles.forEach((t) => (base[t] = false));
     return base;
   });
+
+  // ===== Mobile sheet state (tipo Amazon) =====
+  const [mobileSheetOpen, setMobileSheetOpen] = useState(false);
+  const [mobileTempSelection, setMobileTempSelection] = useState<Set<string>>(new Set());
 
   // Cargar proyectos
   useEffect(() => {
@@ -210,6 +212,39 @@ const PatiosAndPergolasCatalog = () => {
   const toggleFilter = (field: string, value: string) => {
     const key = `${field}::${value}`;
     setSelectedFilters((prev) => {
+      const next = new Set(prev);
+      if (next.has(key)) next.delete(key);
+      else next.add(key);
+      return next;
+    });
+  };
+
+  const clearAll = () => setSelectedFilters(new Set());
+  const removeOne = (key: string) =>
+    setSelectedFilters((prev) => {
+      const next = new Set(prev);
+      next.delete(key);
+      return next;
+    });
+
+  // Mobile sheet helpers
+  const sheetOpen = () => {
+    setMobileTempSelection(new Set(selectedFilters));
+    setMobileSheetOpen(true);
+    document.body.style.overflow = "hidden";
+  };
+  const sheetClose = () => {
+    setMobileSheetOpen(false);
+    document.body.style.overflow = "auto";
+  };
+  const sheetApply = () => {
+    setSelectedFilters(new Set(mobileTempSelection));
+    sheetClose();
+  };
+  const sheetClear = () => setMobileTempSelection(new Set());
+  const sheetToggle = (field: string, value: string) => {
+    const key = `${field}::${value}`;
+    setMobileTempSelection((prev) => {
       const next = new Set(prev);
       if (next.has(key)) next.delete(key);
       else next.add(key);
@@ -417,6 +452,9 @@ const PatiosAndPergolasCatalog = () => {
     });
   }, [selectedFilters]);
 
+  // Chips para la barra mobile
+  const activeFilterChips = [...selectedFilters];
+
   return (
     <>
       <BlockSection></BlockSection>
@@ -438,7 +476,6 @@ const PatiosAndPergolasCatalog = () => {
           <meta name="robots" content="index,follow" />
         </Helmet>
 
-
         <SectionBlock sections={sectionsData3} />
         <MarqueeBanner />
 
@@ -448,9 +485,9 @@ const PatiosAndPergolasCatalog = () => {
         </h2>
         <div className="w-16 h-[3px] bg-[#0d4754] mt-3 mx-auto rounded-full"></div>
 
-        {/* Subencabezado contextual cuando hay filtros activos */}
+        {/* Subencabezado contextual cuando hay filtros activos (solo desktop) */}
         {activeFilterLabels.length > 0 && (
-          <div className="mt-4 px-6 text-center">
+          <div className="mt-4 px-6 text-center hidden lg:block">
             <h3 className="text-base font-semibold text-gray-700">
               Showing projects filtered by:
             </h3>
@@ -460,21 +497,59 @@ const PatiosAndPergolasCatalog = () => {
           </div>
         )}
 
-        {/* Botón para mostrar filtros en mobile */}
-        <div className="lg:hidden w-full px-6 mt-6 text-center">
-          <button
-            onClick={() => setShowMobileFilters(!showMobileFilters)}
-            className="bg-[#0d4754] hover:bg-[#0d5450] text-white px-4 py-2 rounded-full cursor-pointer"
-            aria-expanded={showMobileFilters}
-            aria-controls="filters-panel"
-          >
-            {showMobileFilters ? "Hide Filters" : "Show Filters"}
-          </button>
+        {/* ===== Barra compacta de filtros (MOBILE, tipo Amazon) ===== */}
+        <div className="lg:hidden w-full sticky top-0 z-40 bg-white/90 backdrop-blur supports-[backdrop-filter]:backdrop-blur-sm border-b border-gray-200">
+          <div className="px-4 py-2 flex items-center gap-3 overflow-x-auto no-scrollbar">
+            <button
+              onClick={sheetOpen}
+              className="flex items-center gap-2 bg-[#0d4754] text-white px-3 py-1.5 rounded-full text-sm whitespace-nowrap shrink-0 cursor-pointer"
+              aria-label="Open filters"
+            >
+              <FiFilter className="text-base" />
+              Filters
+            </button>
+
+            {/* Chips de filtros activos */}
+            <div className="flex items-center gap-2 overflow-x-auto no-scrollbar">
+              {activeFilterChips.length === 0 ? (
+                <span className="text-gray-500 text-sm">No filters applied</span>
+              ) : (
+                activeFilterChips.map((key) => {
+                  const [, value] = key.split("::");
+                  return (
+                    <span
+                      key={key}
+                      className="inline-flex items-center gap-1 bg-gray-100 text-gray-800 px-3 py-1 rounded-full text-sm shrink-0"
+                    >
+                      {value}
+                      <button
+                        aria-label={`Remove ${value}`}
+                        onClick={() => removeOne(key)}
+                        className="ml-1 rounded-full p-0.5 hover:bg-gray-200"
+                      >
+                        <FiX size={14} />
+                      </button>
+                    </span>
+                  );
+                })
+              )}
+            </div>
+
+            {/* Clear all rápido si hay filtros */}
+            {activeFilterChips.length > 0 && (
+              <button
+                onClick={clearAll}
+                className="ml-auto text-sm text-[#0d4754] underline whitespace-nowrap shrink-0"
+              >
+                Clear all
+              </button>
+            )}
+          </div>
         </div>
 
         <div className="w-full max-w-[1400px] px-6 py-10 flex flex-col lg:flex-row gap-10">
-          {/* 🔷 Filtros */}
-          <aside id="filters-panel" className={`w-full lg:w-1/4 ${showMobileFilters ? "block" : "hidden"} lg:block`}>
+          {/* 🔷 Filtros (DESKTOP) */}
+          <aside id="filters-panel" className="w-full lg:w-1/4 hidden lg:block">
             <div className="flex items-center gap-2 mb-4">
               <FiFilter className="text-md text-gray-700" aria-hidden />
               {/* H3 para bloque de filtros */}
@@ -566,6 +641,100 @@ const PatiosAndPergolasCatalog = () => {
           </section>
         </div>
       </div>
+
+      {/* ===== Bottom Sheet de filtros (MOBILE) ===== */}
+      <AnimatePresence>
+        {mobileSheetOpen && (
+          <>
+            {/* Backdrop */}
+            <motion.div
+              key="backdrop"
+              className="fixed inset-0 z-[90] bg-black/40"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={sheetClose}
+            />
+            {/* Sheet */}
+            <motion.div
+              key="sheet"
+              className="fixed inset-x-0 bottom-0 z-[3000] bg-white rounded-t-2xl shadow-2xl"
+              initial={{ y: "100%" }}
+              animate={{ y: 0 }}
+              exit={{ y: "100%" }}
+              transition={{ type: "tween", duration: 0.32, ease: [0.22, 1, 0.36, 1] }}
+              role="dialog"
+              aria-modal="true"
+            >
+              <div className="flex items-center justify-between px-5 pt-4 pb-3 border-b">
+                <h3 className="text-lg font-semibold text-gray-900">Filters</h3>
+                <button
+                  onClick={sheetClose}
+                  aria-label="Close filters"
+                  className="p-2 rounded hover:bg-gray-100 cursor-pointer"
+                >
+                  <FiX size={20} />
+                </button>
+              </div>
+
+              {/* Contenido scrollable */}
+              <div className="max-h-[60vh] overflow-y-auto px-5 py-4 space-y-3">
+                {Object.entries(filterConfig).map(([groupTitle, { field, options }]) => {
+                  const count = [...mobileTempSelection].filter((k) => k.startsWith(`${field}::`)).length;
+                  return (
+                    <div key={groupTitle} className="border border-gray-200 rounded-xl overflow-hidden bg-white">
+                      <div className="w-full flex items-center justify-between px-4 py-3">
+                        <span className="font-semibold text-gray-900">{groupTitle}</span>
+                        <span className="text-xs font-medium rounded-full px-2 py-1 bg-gray-100 text-gray-600">
+                          {count} Selected
+                        </span>
+                      </div>
+
+                      <div className="px-4 pb-3">
+                        <div className="flex flex-wrap gap-2 pt-1">
+                          {options.map((option) => {
+                            const key = `${field}::${option}`;
+                            const active = mobileTempSelection.has(key);
+                            return (
+                              <button
+                                key={key}
+                                onClick={() => sheetToggle(field, option)}
+                                className={`px-3 py-1.5 rounded-full text-sm border cursor-pointer ${
+                                  active
+                                    ? "bg-[#0d4754] text-white border-[#0d4754]"
+                                    : "bg-white text-gray-800 border-gray-300"
+                                }`}
+                              >
+                                {option}
+                              </button>
+                            );
+                          })}
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+
+              {/* Footer acciones */}
+              <div className="sticky bottom-0 bg-white border-t px-5 py-3 flex items-center gap-3">
+                <button
+                  onClick={sheetClear}
+                  className="flex-1 border border-gray-300 text-gray-800 rounded-full py-2 font-medium cursor-pointer"
+                >
+                  Clear
+                </button>
+                <button
+                  onClick={sheetApply}
+                  className="flex-1 bg-[#0d4754] text-white rounded-full py-2 font-semibold cursor-pointer"
+                >
+                  Apply
+                </button>
+              </div>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
     </>
   );
 };

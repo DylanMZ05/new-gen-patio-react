@@ -1,22 +1,13 @@
 // src/components/BannerOferta.tsx
-import React, { useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
+import React, { useEffect, useRef, useState, useMemo } from "react";
 
 type BannerOfertaProps = {
-  /** Mostrar u ocultar la tira */
   activo: boolean;
-  /** Texto breve que se ve en la tira (va animado) */
-  mensaje: string;
-  /** Título del popup */
   modalTitulo: string;
-  /** Texto del popup (acepta \n) */
   modalTexto: string;
-  /** Mensaje prellenado para WhatsApp */
   whatsappMensaje: string;
-  /** Reporta la altura real del banner (px) para bajar el header fijo */
   onHeightChange?: (h: number) => void;
-  /** Clave para “no mostrar más” (opcional) */
   storageKey?: string;
-  /** Clases extra para la barra (opcional) */
   className?: string;
 };
 
@@ -28,7 +19,6 @@ const WA_PHONE =
 
 const BannerOferta: React.FC<BannerOfertaProps> = ({
   activo,
-  mensaje,
   modalTitulo,
   modalTexto,
   whatsappMensaje,
@@ -39,8 +29,6 @@ const BannerOferta: React.FC<BannerOfertaProps> = ({
   const [isOpen, setIsOpen] = useState(false);
   const [hiddenByUser, setHiddenByUser] = useState(false);
   const barRef = useRef<HTMLDivElement | null>(null);
-  const trackRef = useRef<HTMLDivElement | null>(null);
-  const itemRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     if (!storageKey) return;
@@ -48,7 +36,6 @@ const BannerOferta: React.FC<BannerOfertaProps> = ({
     if (v === "dismissed") setHiddenByUser(true);
   }, [storageKey]);
 
-  // Reportar altura real (para posicionar el header debajo)
   useEffect(() => {
     if (!barRef.current || !onHeightChange) return;
     const el = barRef.current;
@@ -58,42 +45,6 @@ const BannerOferta: React.FC<BannerOfertaProps> = ({
     return () => ro.disconnect();
   }, [onHeightChange]);
 
-  // Calcular el arranque en el margen derecho y la distancia de loop
-  const recalc = () => {
-    const container = barRef.current;
-    const item = itemRef.current;
-    const track = trackRef.current;
-    if (!container || !item || !track) return;
-
-    const containerW = container.clientWidth;  // ancho visible
-    const itemW = item.scrollWidth;            // ancho de UNA copia
-    // Queremos que el primer carácter esté justo en el borde derecho:
-    // => desplazamiento inicial POSITIVO igual al ancho del contenedor.
-    const startPx = containerW;                // visible desde el segundo 0
-    const loopPx = -itemW;                     // moverse exactamente un item por ciclo
-
-    track.style.setProperty("--ngp-start-px", `${startPx}px`);
-    track.style.setProperty("--ngp-loop-px", `${loopPx}px`);
-
-    // Velocidad consistente (~40px/s). Ajustá si querés más rápido/lento.
-    const durSec = Math.max(12, Math.round(itemW / 100));
-    track.style.setProperty("--ngp-dur", `${durSec}s`);
-  };
-
-  useLayoutEffect(() => {
-    recalc();
-    const ro1 = new ResizeObserver(recalc);
-    const ro2 = new ResizeObserver(recalc);
-    if (barRef.current) ro1.observe(barRef.current);
-    if (itemRef.current) ro2.observe(itemRef.current);
-    window.addEventListener("resize", recalc);
-    return () => {
-      ro1.disconnect();
-      ro2.disconnect();
-      window.removeEventListener("resize", recalc);
-    };
-  }, [mensaje]);
-
   const waLink = useMemo(() => {
     const text = encodeURIComponent(whatsappMensaje);
     const phone = (WA_PHONE || "").replace(/[^\d]/g, "");
@@ -102,52 +53,43 @@ const BannerOferta: React.FC<BannerOfertaProps> = ({
 
   if (!activo || hiddenByUser) return null;
 
-  // Contenido de UNA copia (se duplica para continuidad)
-  const Item = () => (
-    <div
-      ref={itemRef}
-      className="flex items-center gap-3 pr-8"
-      // Nota: solo la PRIMER copia tiene ref; la segunda es aria-hidden
-    >
-      <p className="text-white font-medium">{mensaje}</p>
-      <span className="bg-white px-2 py-0.5 rounded-4xl font-semibold text-black text-xs md:text-sm">
-        Learn more
-      </span>
-    </div>
-  );
-
   return (
     <>
-      {/* 🔝 Fijo siempre visible */}
+      {/* 🔝 Banner con imagen en loop infinito */}
       <div
         ref={barRef}
         className={[
-          "fixed top-0 left-0 w-full z-[1100] cursor-pointer",
-          "overflow-hidden bg-orange-500 border-b border-white/20 shadow",
-          "py-2", // compacto
+          "fixed top-0 left-0 w-full z-[1100] overflow-hidden cursor-pointer",
           className || "",
         ].join(" ")}
+        style={{ height: "45px" }}
         onClick={() => setIsOpen(true)}
         role="button"
-        aria-label="Open promotion details"
+        aria-label="Abrir promoción"
       >
-        {/* Track que se anima; inicia pegado al margen derecho */}
-        <div ref={trackRef} className="ngp-marquee-track">
-          <div className="ngp-marquee-item">
-            <Item />
-          </div>
-          <div className="ngp-marquee-item" aria-hidden="true">
-            <Item />
-          </div>
+        <div className="banner-track">
+          <img
+            src="/assets/images/fondo-banner.webp"
+            alt="banner"
+            className="banner-img"
+          />
+          <img
+            src="/assets/images/fondo-banner.webp"
+            alt="banner"
+            className="banner-img"
+          />
         </div>
       </div>
 
-      {/* Modal */}
+      {/* 📌 Modal Popup */}
       {isOpen && (
         <div className="fixed inset-0 z-[1150] flex items-center justify-center px-4">
-          {/* Backdrop */}
-          <div className="absolute inset-0 bg-black/50" onClick={() => setIsOpen(false)} />
-          {/* Card */}
+          {/* Fondo oscuro */}
+          <div
+            className="absolute inset-0 bg-black/50"
+            onClick={() => setIsOpen(false)}
+          />
+          {/* Tarjeta */}
           <div
             className="relative w-full max-w-md bg-white rounded-2xl shadow-xl p-6 animate-[promoPop_180ms_ease-out]"
             style={{ animationFillMode: "both" }}
@@ -155,15 +97,19 @@ const BannerOferta: React.FC<BannerOfertaProps> = ({
             aria-modal="true"
             aria-labelledby="promo-title"
           >
+            {/* Botón cerrar */}
             <button
               onClick={() => setIsOpen(false)}
               className="absolute top-3 right-3 rounded-full px-2 py-1 text-gray-500 hover:text-gray-800"
-              aria-label="Close"
+              aria-label="Cerrar"
             >
               ✕
             </button>
 
-            <h2 id="promo-title" className="text-xl font-bold mb-3">
+            <h2
+              id="promo-title"
+              className="text-xl font-bold mb-3 text-blue-700"
+            >
               {modalTitulo}
             </h2>
 
@@ -173,7 +119,7 @@ const BannerOferta: React.FC<BannerOfertaProps> = ({
               href={waLink}
               target="_blank"
               rel="noopener noreferrer"
-              className="block w-full text-center font-semibold rounded-lg py-3 bg-green-500 text-white hover:bg-green-600 transition"
+              className="block w-full text-center font-semibold rounded-lg py-3 bg-green-600 text-white hover:bg-green-700 transition"
             >
               Chat on WhatsApp
             </a>
@@ -191,6 +137,7 @@ const BannerOferta: React.FC<BannerOfertaProps> = ({
             )}
           </div>
 
+          {/* Animación popup */}
           <style>{`
             @keyframes promoPop {
               0% { transform: translateY(8px) scale(.98); opacity: 0; }
@@ -200,27 +147,21 @@ const BannerOferta: React.FC<BannerOfertaProps> = ({
         </div>
       )}
 
-      {/* 🎯 Estilos del marquee: arranca en el borde derecho y se mueve de forma continua */}
+      {/* 🎯 Estilos del banner */}
       <style>{`
-        .ngp-marquee-track {
+        .banner-track {
           display: flex;
-          width: max-content;
-          will-change: transform;
-          transform: translateX(var(--ngp-start-px, 0px));
-          animation: ngp-marquee var(--ngp-dur, 20s) linear infinite;
-          /* Asegura visibilidad inmediata incluso en dispositivos lentos */
-          animation-delay: 0s;
+          width: calc(19200px * 2); /* dos copias para loop */
+          animation: banner-move 120s linear infinite; /* velocidad ajustable */
         }
-        .ngp-marquee-item {
-          display: flex;
-          align-items: center;
-          /* separación entre repeticiones */
-          padding-right: 5rem;
+        .banner-img {
+          height: 45px;   /* altura exacta */
+          width: 19200px; /* ancho real */
+          flex-shrink: 0;
         }
-        /* Mueve exactamente el ancho de UNA copia (loop perfecto) */
-        @keyframes ngp-marquee {
-          0%   { transform: translateX(var(--ngp-start-px, 0px)); }
-          100% { transform: translateX(calc(var(--ngp-start-px, 0px) + var(--ngp-loop-px, -600px))); }
+        @keyframes banner-move {
+          from { transform: translateX(0); }
+          to   { transform: translateX(-19200px); } /* desplaza justo una imagen */
         }
       `}</style>
     </>

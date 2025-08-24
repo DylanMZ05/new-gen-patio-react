@@ -72,7 +72,13 @@ const Header: React.FC = () => {
         activo={true}
         mensaje="Labor Day Special: Get 2 Free Manual Shades or 2 Sconce Lights – Sign your Project Before Sept 1st!"
         modalTitulo="We didn’t want you to miss this!"
-        modalTexto="Until Labor Day, sign your patio project with us and get a FREE manual shade + 2 sconce lights as our gift 🎁. Perfect for adding shade and style to your new backyard! 📅 Offer ends on September 1st. Let’s book your spot today!"
+        modalTexto={`Until Labor Day, sign your patio project with us and get a FREE 2 manual shade until 8 fits or 2 adjustable sconce lights 3 fits x 6 inches, as our gift 🎁.
+
+Perfect for adding shade and style to your new backyard!
+
+📅 Offer ends on September 1st
+
+Let’s book your spot today!`}
         whatsappMensaje="Hello, I would like to know more about the offer for Labor Day"
       />
       <header

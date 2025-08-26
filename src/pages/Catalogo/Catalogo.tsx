@@ -2,7 +2,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import SectionBlock from "../../components/SectionBlock";
 import MarqueeBanner from "../../components/MarqueeBanner";
 import ProjectCard from "./ProjectCard";
-import { collection, getDocs } from "firebase/firestore";
+import { collection, getDocsFromCache, getDocsFromServer } from "firebase/firestore";
 import { db } from "../../firebase";
 import { FiFilter, FiX } from "react-icons/fi";
 import { AnimatePresence, motion } from "framer-motion";
@@ -99,11 +99,6 @@ const toCanonical = (field: string, v: string): string => {
     // Alias y typos frecuentes para "Slabs"
     if (["slag", "slags", "slab", "slabs"].includes(s)) return "slabs";
   }
-
-  // Ejemplos de alias para otros campos si los necesitas en el futuro:
-  // if (field === "coveredPatios") {
-  //   if (s === "free standing pergola") return "freestanding pergola";
-  // }
 
   return s;
 };
@@ -215,16 +210,32 @@ const PatiosAndPergolasCatalog = () => {
   const [mobileSheetOpen, setMobileSheetOpen] = useState(false);
   const [mobileTempSelection, setMobileTempSelection] = useState<Set<string>>(new Set());
 
-  // Cargar proyectos
+  // 🚀 Cargar proyectos con cache primero y luego server
   useEffect(() => {
     const fetchProjects = async () => {
       try {
-        const snapshot = await getDocs(collection(db, "projects"));
-        const data = snapshot.docs.map((doc) => ({
+        // 1. Intentar leer desde caché
+        try {
+          const snapshotCache = await getDocsFromCache(collection(db, "projects"));
+          if (!snapshotCache.empty) {
+            const dataCache = snapshotCache.docs.map((doc) => ({
+              id: doc.id,
+              ...doc.data(),
+            }));
+            setProjects(dataCache);
+            setLoading(false);
+          }
+        } catch {
+          console.log("No había caché disponible aún");
+        }
+
+        // 2. Luego refrescar desde server
+        const snapshotServer = await getDocsFromServer(collection(db, "projects"));
+        const dataServer = snapshotServer.docs.map((doc) => ({
           id: doc.id,
           ...doc.data(),
         }));
-        setProjects(data);
+        setProjects(dataServer);
       } catch (err) {
         console.error("Error loading projects:", err);
       } finally {

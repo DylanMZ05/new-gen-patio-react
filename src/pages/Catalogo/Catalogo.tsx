@@ -191,22 +191,22 @@ const FilterGroup = ({
   </div>
 );
 
-/* === Hook que replica la lógica del header (visible/oculto) === */
+/* === Hook: header visible/oculto (para decidir el offset) === */
 function useHeaderHidden() {
   const [hidden, setHidden] = useState(false);
 
   useEffect(() => {
     let lastY = typeof window !== "undefined" ? window.scrollY : 0;
-    const deltaThreshold = 8; // evita flicker
-    const minYToHide = 120;   // no ocultar muy arriba
+    const deltaThreshold = 8;
+    const minYToHide = 120;
 
     const onScroll = () => {
       const y = window.scrollY || 0;
       const delta = y - lastY;
       lastY = y;
 
-      if (delta > deltaThreshold && y > minYToHide) setHidden(true);  // bajando
-      else if (delta < -deltaThreshold) setHidden(false);             // subiendo
+      if (delta > deltaThreshold && y > minYToHide) setHidden(true);
+      else if (delta < -deltaThreshold) setHidden(false);
     };
 
     window.addEventListener("scroll", onScroll, { passive: true });
@@ -216,8 +216,9 @@ function useHeaderHidden() {
   return hidden;
 }
 
-/* === Altura fija del header para alinear la barra === */
-const HEADER_HEIGHT = 120; // <- si tu header cambia, ajusta este valor
+/* === Alturas y offsets === */
+const HEADER_HEIGHT = 80;  // altura real del header
+const BASE_OFFSET  = 45;   // espacio fijo bajo el banner
 
 const PatiosAndPergolasCatalog = () => {
   const [projects, setProjects] = useState<any[]>([]);
@@ -529,29 +530,29 @@ const PatiosAndPergolasCatalog = () => {
     });
   }, [selectedFilters]);
 
-  // Chips para la barra mobile
+  // Chips para la barra compacta
   const activeFilterChips = [...selectedFilters];
 
-  // === Estado del header (visible/oculto) para animar la barra igual que el header
+  // === Estado del header (visible/oculto) para decidir offset
   const isHeaderHidden = useHeaderHidden();
+  const stickyTop = isHeaderHidden ? BASE_OFFSET : BASE_OFFSET + HEADER_HEIGHT; // 45 / 125
 
-  // ========== Barra móvil que acompaña el scroll y se sincroniza con el header ==========
-  const [isMobileBarStuck, setIsMobileBarStuck] = useState(false);
-  const mobileBarRef = useRef<HTMLDivElement | null>(null);
-  const mobileSentinelRef = useRef<HTMLDivElement | null>(null);
-  const [mobileBarH, setMobileBarH] = useState(0);
+  /* ==================== BARRA SUPERIOR (AHORA EN TODAS LAS RESOLUCIONES) ==================== */
+  const [isTopBarStuck, setIsTopBarStuck] = useState(false);
+  const topBarRef = useRef<HTMLDivElement | null>(null);
+  const topBarSentinelRef = useRef<HTMLDivElement | null>(null);
+  const [topBarH, setTopBarH] = useState(0);
 
-  // IO para pegar la barra al top cuando el sentinel sale del viewport
   useEffect(() => {
-    if (mobileBarRef.current) {
-      setMobileBarH(mobileBarRef.current.getBoundingClientRect().height);
+    if (topBarRef.current) {
+      setTopBarH(topBarRef.current.getBoundingClientRect().height);
     }
-    const s = mobileSentinelRef.current;
+    const s = topBarSentinelRef.current;
     if (!s) return;
 
     const io = new IntersectionObserver(
-      ([entry]) => setIsMobileBarStuck(!entry.isIntersecting),
-      { root: null, rootMargin: "0px 0px 0px 0px", threshold: 0 }
+      ([entry]) => setIsTopBarStuck(!entry.isIntersecting),
+      { root: null, rootMargin: "0px", threshold: 0 }
     );
 
     io.observe(s);
@@ -588,7 +589,7 @@ const PatiosAndPergolasCatalog = () => {
         </h2>
         <div className="w-16 h-[3px] bg-[#0d4754] mt-3 mx-auto rounded-full"></div>
 
-        {/* Subencabezado contextual cuando hay filtros activos (solo desktop) */}
+        {/* Subencabezado contextual cuando hay filtros activos */}
         {activeFilterLabels.length > 0 && (
           <div className="mt-4 px-6 text-center hidden lg:block">
             <h3 className="text-base font-semibold text-gray-700">
@@ -600,32 +601,27 @@ const PatiosAndPergolasCatalog = () => {
           </div>
         )}
 
-        {/* ===== Barra compacta de filtros (MOBILE) — sentinel + fixed + animación con header ===== */}
-        {/* Sentinel: cuando sale del viewport, pegamos la barra */}
-        <div ref={mobileSentinelRef} className="lg:hidden" aria-hidden />
+        {/* ===== Barra compacta (SENTINEL + FIXED) — MISMO COMPORTAMIENTO EN MOBILE Y DESKTOP ===== */}
+        <div ref={topBarSentinelRef} aria-hidden />
 
-        {/* Spacer para evitar salto cuando se fija */}
-        {isMobileBarStuck && <div className="lg:hidden" style={{ height: mobileBarH }} aria-hidden />}
+        {isTopBarStuck && <div style={{ height: topBarH }} aria-hidden />}
 
         <div
-          ref={mobileBarRef}
+          ref={topBarRef}
           className={`
-            lg:hidden w-full
-            ${isMobileBarStuck ? "fixed inset-x-0" : "relative"}
+            w-full
+            ${isTopBarStuck ? "fixed inset-x-0" : "relative"}
             z-40 bg-white/90 backdrop-blur supports-[backdrop-filter]:backdrop-blur-sm
             border-b border-gray-200
             will-change-transform
           `}
           style={{
-            top: isMobileBarStuck ? 0 : undefined,
-            // Solo aplicamos translate cuando la barra está pegada.
-            transform: isMobileBarStuck
-              ? `translateY(${isHeaderHidden ? 45 : 120}px)`
-              : "none",
+            top: isTopBarStuck ? 0 : undefined,
+            transform: isTopBarStuck ? `translateY(${stickyTop}px)` : "none",
             transition: "transform 480ms ease, background-color 300ms ease, box-shadow 300ms ease",
           }}
         >
-          <div className="px-4 py-2 flex items-center gap-3 overflow-x-auto no-scrollbar">
+          <div className="px-4 py-2 flex items-center gap-3 overflow-x-auto no-scrollbar max-w-[1350px] mx-auto">
             <button
               onClick={sheetOpen}
               className="flex items-center gap-2 bg-[#0d4754] text-white px-3 py-1.5 rounded-full text-sm whitespace-nowrap shrink-0 cursor-pointer"
@@ -674,43 +670,6 @@ const PatiosAndPergolasCatalog = () => {
         </div>
 
         <div className="w-full max-w-[1400px] px-6 py-10 flex flex-col lg:flex-row gap-10">
-          {/* 🔷 Filtros (DESKTOP) */}
-          <aside
-            id="filters-panel"
-            className="
-              w-full lg:w-1/4 hidden lg:block
-              lg:sticky lg:top-24 self-start
-            "
-          >
-            <div
-              className="
-                max-h-[calc(100vh-8rem)]
-                overflow-auto pr-2
-              "
-            >
-              <div className="flex items-center gap-2 mb-4">
-                <FiFilter className="text-md text-gray-700" aria-hidden />
-                {/* H3 para bloque de filtros */}
-                <h3 className="text-sm font-semibold text-gray-800">Filters</h3>
-              </div>
-
-              <div className="space-y-3">
-                {Object.entries(filterConfig).map(([groupTitle, { field, options }]) => (
-                  <FilterGroup
-                    key={groupTitle}
-                    title={groupTitle}
-                    field={field}
-                    options={options}
-                    selectedFilters={selectedFilters}
-                    onChange={toggleFilter}
-                    isOpen={openGroups[groupTitle]}
-                    onToggle={() => toggleGroup(groupTitle)}
-                    selectedCount={getSelectedCountForField(field)}
-                  />
-                ))}
-              </div>
-            </div>
-          </aside>
 
           {/* 🔷 Proyectos */}
           <section className="flex-1" aria-label="Project catalog results">

@@ -112,85 +112,6 @@ const getCanonicalValues = (project: any, field: string): string[] => {
   return raw.map((v) => toCanonical(field, v));
 };
 
-
-// 🧩 Filtro con acordeón
-const FilterGroup = ({
-  title,
-  field,
-  options,
-  selectedFilters,
-  onChange,
-  isOpen,
-  onToggle,
-  selectedCount,
-}: {
-  title: string;
-  field: string;
-  options: string[];
-  selectedFilters: Set<string>;
-  onChange: (field: string, value: string) => void;
-  isOpen: boolean;
-  onToggle: () => void;
-  selectedCount: number;
-}) => (
-  <div className="border border-gray-200 rounded-xl overflow-hidden bg-white/70 backdrop-blur-sm">
-    {/* Header */}
-    <button
-      type="button"
-      onClick={onToggle}
-      className="w-full flex items-center justify-between px-4 py-3 cursor-pointer hover:bg-gray-100"
-      aria-expanded={isOpen}
-      aria-controls={`panel-${field}`}
-    >
-      <span className="font-semibold text-gray-900">{title}</span>
-
-      <div className="flex items-center gap-3">
-        <span
-          className={`text-xs font-medium rounded-full px-2 py-1 ${
-            selectedCount > 0 ? "bg-[#0d4754]/10 text-[#0d4754]" : "bg-gray-100 text-gray-500"
-          }`}
-        >
-          {selectedCount} {selectedCount === 1 ? "Selected" : "Selected"}
-        </span>
-
-        <svg
-          className={`h-5 w-5 transition-transform ${isOpen ? "rotate-180" : ""}`}
-          viewBox="0 0 20 20"
-          fill="currentColor"
-          aria-hidden="true"
-        >
-          <path d="M10 12l-5-5h10l-5 5z" />
-        </svg>
-      </div>
-    </button>
-
-    {/* Panel */}
-    <div
-      id={`panel-${field}`}
-      className={`px-4 transition-all duration-200 ease-out ${
-        isOpen ? "max-h-96 opacity-100 pb-3" : "max-h-0 opacity-0"
-      } overflow-hidden`}
-    >
-      <div className="space-y-2 pt-1">
-        {options.map((option) => {
-          const key = `${field}::${option}`;
-          return (
-            <label key={key} className="flex items-center gap-2 text-sm text-gray-800 cursor-pointer">
-              <input
-                type="checkbox"
-                className="h-4 w-4 cursor-pointer"
-                checked={selectedFilters.has(key)}
-                onChange={() => onChange(field, option)}
-              />
-              {option}
-            </label>
-          );
-        })}
-      </div>
-    </div>
-  </div>
-);
-
 /* === Hook: header visible/oculto (para decidir el offset) === */
 function useHeaderHidden() {
   const [hidden, setHidden] = useState(false);
@@ -217,8 +138,16 @@ function useHeaderHidden() {
 }
 
 /* === Alturas y offsets === */
-const HEADER_HEIGHT = 80;  // altura real del header
+const HEADER_HEIGHT = 75;  // altura real del header
 const BASE_OFFSET  = 45;   // espacio fijo bajo el banner
+
+// Helper: igualdad de conjuntos (sin importar orden ni duplicados)
+const setsEqual = (a: string[], b: string[]) => {
+  const A = Array.from(new Set(a));
+  const B = Array.from(new Set(b));
+  if (A.length !== B.length) return false;
+  return A.every((v) => B.includes(v));
+};
 
 const PatiosAndPergolasCatalog = () => {
   const [projects, setProjects] = useState<any[]>([]);
@@ -226,14 +155,6 @@ const PatiosAndPergolasCatalog = () => {
 
   // 🔑 Estado de filtros namespaced por campo: `${field}::${option}`
   const [selectedFilters, setSelectedFilters] = useState<Set<string>>(new Set());
-
-  // 🪗 Estado de apertura por grupo (acordeón) — SIEMPRE cerrados por default
-  const allGroupTitles = Object.keys(filterConfig);
-  const [openGroups, setOpenGroups] = useState<Record<string, boolean>>(() => {
-    const base: Record<string, boolean> = {};
-    allGroupTitles.forEach((t) => (base[t] = false));
-    return base;
-  });
 
   // ===== Mobile sheet state (tipo Amazon) =====
   const [mobileSheetOpen, setMobileSheetOpen] = useState(false);
@@ -275,17 +196,7 @@ const PatiosAndPergolasCatalog = () => {
     fetchProjects();
   }, []);
 
-  // Manejar selección de checkboxes (namespaced)
-  const toggleFilter = (field: string, value: string) => {
-    const key = `${field}::${value}`;
-    setSelectedFilters((prev) => {
-      const next = new Set(prev);
-      if (next.has(key)) next.delete(key);
-      else next.add(key);
-      return next;
-    });
-  };
-
+  // Manejar selección de chips (desde sheet)
   const clearAll = () => setSelectedFilters(new Set());
   const removeOne = (key: string) =>
     setSelectedFilters((prev) => {
@@ -319,15 +230,6 @@ const PatiosAndPergolasCatalog = () => {
     });
   };
 
-  // Abrir/cerrar un grupo
-  const toggleGroup = (title: string) => {
-    setOpenGroups((prev) => ({ ...prev, [title]: !prev[title] }));
-  };
-
-  // Contador por grupo
-  const getSelectedCountForField = (field: string) =>
-    [...selectedFilters].filter((k) => k.startsWith(`${field}::`)).length;
-
   // ===== NUEVO: map de selecciones canónicas por campo =====
   const selectedByField = useMemo(() => {
     const map: Record<string, string[]> = {};
@@ -341,25 +243,21 @@ const PatiosAndPergolasCatalog = () => {
     return map;
   }, [selectedFilters]);
 
-  // ====== Filtrado (AND entre grupos, OR dentro de cada grupo) ======
+  // ====== Filtrado (EXACT MATCH por grupo) ======
   const filteredProjects = useMemo(() => {
-    // Si no hay ningún filtro activo, devolvemos todo
+    // Sin filtros => devuelve todo
     if (Object.keys(selectedByField).length === 0) return projects;
 
     return projects.filter((project) => {
       // Debe cumplir TODOS los grupos con selección (AND)
       for (const [field, selectedOptions] of Object.entries(selectedByField)) {
         const projectValues = getCanonicalValues(project, field); // valores canónicos del proyecto para ese field
-        // Dentro del grupo alcanza con uno (OR)
-        const matchesThisGroup = selectedOptions.some((opt) =>
-          projectValues.includes(opt)
-        );
-        if (!matchesThisGroup) return false;
+        // Igualdad exacta de conjuntos (mismas y solo esas opciones)
+        if (!setsEqual(projectValues, selectedOptions)) return false;
       }
       return true;
     });
   }, [projects, selectedByField]);
-
 
   // ========= Preload de portadas =========
   const getCoverImage = (p: any): string | undefined => {
@@ -537,7 +435,7 @@ const PatiosAndPergolasCatalog = () => {
   const isHeaderHidden = useHeaderHidden();
   const stickyTop = isHeaderHidden ? BASE_OFFSET : BASE_OFFSET + HEADER_HEIGHT; // 45 / 125
 
-  /* ==================== BARRA SUPERIOR (AHORA EN TODAS LAS RESOLUCIONES) ==================== */
+  /* ==================== BARRA SUPERIOR (SENTINEL + FIXED) EN TODAS LAS RESOLUCIONES ==================== */
   const [isTopBarStuck, setIsTopBarStuck] = useState(false);
   const topBarRef = useRef<HTMLDivElement | null>(null);
   const topBarSentinelRef = useRef<HTMLDivElement | null>(null);

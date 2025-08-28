@@ -191,6 +191,34 @@ const FilterGroup = ({
   </div>
 );
 
+/* === Hook que replica la lógica del header (visible/oculto) === */
+function useHeaderHidden() {
+  const [hidden, setHidden] = useState(false);
+
+  useEffect(() => {
+    let lastY = typeof window !== "undefined" ? window.scrollY : 0;
+    const deltaThreshold = 8; // evita flicker
+    const minYToHide = 120;   // no ocultar muy arriba
+
+    const onScroll = () => {
+      const y = window.scrollY || 0;
+      const delta = y - lastY;
+      lastY = y;
+
+      if (delta > deltaThreshold && y > minYToHide) setHidden(true);  // bajando
+      else if (delta < -deltaThreshold) setHidden(false);             // subiendo
+    };
+
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  return hidden;
+}
+
+/* === Altura fija del header para alinear la barra === */
+const HEADER_HEIGHT = 120; // <- si tu header cambia, ajusta este valor
+
 const PatiosAndPergolasCatalog = () => {
   const [projects, setProjects] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
@@ -299,30 +327,37 @@ const PatiosAndPergolasCatalog = () => {
   const getSelectedCountForField = (field: string) =>
     [...selectedFilters].filter((k) => k.startsWith(`${field}::`)).length;
 
-  // ====== Filtrado (memoizado para mantener referencia estable) ======
+  // ===== NUEVO: map de selecciones canónicas por campo =====
+  const selectedByField = useMemo(() => {
+    const map: Record<string, string[]> = {};
+    Object.values(filterConfig).forEach(({ field }) => {
+      const arr = [...selectedFilters]
+        .filter((k) => k.startsWith(`${field}::`))
+        .map((k) => k.split("::")[1])
+        .map((v) => toCanonical(field, v));
+      if (arr.length) map[field] = arr;
+    });
+    return map;
+  }, [selectedFilters]);
+
+  // ====== Filtrado (AND entre grupos, OR dentro de cada grupo) ======
   const filteredProjects = useMemo(() => {
-    if (selectedFilters.size === 0) return projects;
+    // Si no hay ningún filtro activo, devolvemos todo
+    if (Object.keys(selectedByField).length === 0) return projects;
 
-    return projects.filter((project) =>
-      Object.values(filterConfig).some(({ field }) => {
-        // Selecciones del usuario → canónicas
-        const selectedForFieldCanonical = [...selectedFilters]
-          .filter((k) => k.startsWith(`${field}::`))
-          .map((k) => k.split("::")[1])
-          .map((v) => toCanonical(field, v));
-
-        if (selectedForFieldCanonical.length === 0) return false;
-
-        // Valores del proyecto → canónicos
-        const projectValuesCanonical = getCanonicalValues(project, field);
-
-        // ¿hay intersección?
-        return selectedForFieldCanonical.some((opt) =>
-          projectValuesCanonical.includes(opt)
+    return projects.filter((project) => {
+      // Debe cumplir TODOS los grupos con selección (AND)
+      for (const [field, selectedOptions] of Object.entries(selectedByField)) {
+        const projectValues = getCanonicalValues(project, field); // valores canónicos del proyecto para ese field
+        // Dentro del grupo alcanza con uno (OR)
+        const matchesThisGroup = selectedOptions.some((opt) =>
+          projectValues.includes(opt)
         );
-      })
-    );
-  }, [projects, selectedFilters]);
+        if (!matchesThisGroup) return false;
+      }
+      return true;
+    });
+  }, [projects, selectedByField]);
 
 
   // ========= Preload de portadas =========
@@ -497,6 +532,32 @@ const PatiosAndPergolasCatalog = () => {
   // Chips para la barra mobile
   const activeFilterChips = [...selectedFilters];
 
+  // === Estado del header (visible/oculto) para animar la barra igual que el header
+  const isHeaderHidden = useHeaderHidden();
+
+  // ========== Barra móvil que acompaña el scroll y se sincroniza con el header ==========
+  const [isMobileBarStuck, setIsMobileBarStuck] = useState(false);
+  const mobileBarRef = useRef<HTMLDivElement | null>(null);
+  const mobileSentinelRef = useRef<HTMLDivElement | null>(null);
+  const [mobileBarH, setMobileBarH] = useState(0);
+
+  // IO para pegar la barra al top cuando el sentinel sale del viewport
+  useEffect(() => {
+    if (mobileBarRef.current) {
+      setMobileBarH(mobileBarRef.current.getBoundingClientRect().height);
+    }
+    const s = mobileSentinelRef.current;
+    if (!s) return;
+
+    const io = new IntersectionObserver(
+      ([entry]) => setIsMobileBarStuck(!entry.isIntersecting),
+      { root: null, rootMargin: "0px 0px 0px 0px", threshold: 0 }
+    );
+
+    io.observe(s);
+    return () => io.disconnect();
+  }, []);
+
   return (
     <>
       <BlockSection></BlockSection>
@@ -539,8 +600,31 @@ const PatiosAndPergolasCatalog = () => {
           </div>
         )}
 
-        {/* ===== Barra compacta de filtros (MOBILE, tipo Amazon) ===== */}
-        <div className="lg:hidden w-full sticky top-0 z-40 bg-white/90 backdrop-blur supports-[backdrop-filter]:backdrop-blur-sm border-b border-gray-200">
+        {/* ===== Barra compacta de filtros (MOBILE) — sentinel + fixed + animación con header ===== */}
+        {/* Sentinel: cuando sale del viewport, pegamos la barra */}
+        <div ref={mobileSentinelRef} className="lg:hidden" aria-hidden />
+
+        {/* Spacer para evitar salto cuando se fija */}
+        {isMobileBarStuck && <div className="lg:hidden" style={{ height: mobileBarH }} aria-hidden />}
+
+        <div
+          ref={mobileBarRef}
+          className={`
+            lg:hidden w-full
+            ${isMobileBarStuck ? "fixed inset-x-0" : "relative"}
+            z-40 bg-white/90 backdrop-blur supports-[backdrop-filter]:backdrop-blur-sm
+            border-b border-gray-200
+            will-change-transform
+          `}
+          style={{
+            top: isMobileBarStuck ? 0 : undefined,
+            // Solo aplicamos translate cuando la barra está pegada.
+            transform: isMobileBarStuck
+              ? `translateY(${isHeaderHidden ? 45 : 120}px)`
+              : "none",
+            transition: "transform 480ms ease, background-color 300ms ease, box-shadow 300ms ease",
+          }}
+        >
           <div className="px-4 py-2 flex items-center gap-3 overflow-x-auto no-scrollbar">
             <button
               onClick={sheetOpen}
@@ -591,27 +675,40 @@ const PatiosAndPergolasCatalog = () => {
 
         <div className="w-full max-w-[1400px] px-6 py-10 flex flex-col lg:flex-row gap-10">
           {/* 🔷 Filtros (DESKTOP) */}
-          <aside id="filters-panel" className="w-full lg:w-1/4 hidden lg:block">
-            <div className="flex items-center gap-2 mb-4">
-              <FiFilter className="text-md text-gray-700" aria-hidden />
-              {/* H3 para bloque de filtros */}
-              <h3 className="text-sm font-semibold text-gray-800">Filters</h3>
-            </div>
+          <aside
+            id="filters-panel"
+            className="
+              w-full lg:w-1/4 hidden lg:block
+              lg:sticky lg:top-24 self-start
+            "
+          >
+            <div
+              className="
+                max-h-[calc(100vh-8rem)]
+                overflow-auto pr-2
+              "
+            >
+              <div className="flex items-center gap-2 mb-4">
+                <FiFilter className="text-md text-gray-700" aria-hidden />
+                {/* H3 para bloque de filtros */}
+                <h3 className="text-sm font-semibold text-gray-800">Filters</h3>
+              </div>
 
-            <div className="space-y-3">
-              {Object.entries(filterConfig).map(([groupTitle, { field, options }]) => (
-                <FilterGroup
-                  key={groupTitle}
-                  title={groupTitle}
-                  field={field}
-                  options={options}
-                  selectedFilters={selectedFilters}
-                  onChange={toggleFilter}
-                  isOpen={openGroups[groupTitle]}
-                  onToggle={() => toggleGroup(groupTitle)}
-                  selectedCount={getSelectedCountForField(field)}
-                />
-              ))}
+              <div className="space-y-3">
+                {Object.entries(filterConfig).map(([groupTitle, { field, options }]) => (
+                  <FilterGroup
+                    key={groupTitle}
+                    title={groupTitle}
+                    field={field}
+                    options={options}
+                    selectedFilters={selectedFilters}
+                    onChange={toggleFilter}
+                    isOpen={openGroups[groupTitle]}
+                    onToggle={() => toggleGroup(groupTitle)}
+                    selectedCount={getSelectedCountForField(field)}
+                  />
+                ))}
+              </div>
             </div>
           </aside>
 

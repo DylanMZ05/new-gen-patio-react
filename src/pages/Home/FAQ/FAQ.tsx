@@ -15,7 +15,7 @@ const FAQ: React.FC = () => {
     {
       question: "How can I request a free quote?",
       answer:
-        "Call 346-581-9082 or click the 'Free Quote' button on our website. It's quick and easy!",
+        "Call +1 (346) 380-0845 or click the 'Free Quote' button on our website. It's quick and easy!",
     },
     {
       question: "What is the process from start to finish?",

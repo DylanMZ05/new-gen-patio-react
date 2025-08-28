@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useLayoutEffect } from "react";
 import { Link } from "react-router-dom";
 import { FaChevronUp } from "react-icons/fa"; // Ícono de flecha
 import useScroll from "./useScroll";
@@ -19,12 +19,12 @@ const Header: React.FC = () => {
   let dropdownTimeout: ReturnType<typeof setTimeout>;
 
   const routeMap: { [key: string]: string } = {
-    "services": "/outdoor-living-services",
-    "catalog": "/covered-patio-project-catalog", // ← NUEVO
+    services: "/outdoor-living-services",
+    catalog: "/covered-patio-project-catalog", // ← NUEVO
     "our-promise": "/how-we-doit",
     "who-we-are": "/about-us",
-    "blogs": "/blog",
-    "contact": "/contact-us",
+    blogs: "/blog",
+    contact: "/contact-us",
   };
 
   useEffect(() => {
@@ -47,14 +47,14 @@ const Header: React.FC = () => {
       lastY = y;
 
       const deltaThreshold = 8; // evita flicker
-      const minYToHide = 120;   // no ocultar muy arriba
+      const minYToHide = 120; // no ocultar muy arriba
 
       if (menuOpen) {
         setHideOnScroll(false);
         return;
       }
-      if (delta > deltaThreshold && y > minYToHide) setHideOnScroll(true);   // bajando
-      else if (delta < -deltaThreshold) setHideOnScroll(false);             // subiendo
+      if (delta > deltaThreshold && y > minYToHide) setHideOnScroll(true); // bajando
+      else if (delta < -deltaThreshold) setHideOnScroll(false); // subiendo
     };
 
     window.addEventListener("scroll", onScroll, { passive: true });
@@ -66,22 +66,61 @@ const Header: React.FC = () => {
     if (menuOpen) setHideOnScroll(false);
   }, [menuOpen]);
 
+  // === NUEVO: publicar offsets dinámicos (banner + header visible) ===
+  useLayoutEffect(() => {
+    const root = document.documentElement;
+    const headerEl = document.getElementById("site-header");
+    const bannerEl = document.getElementById("promo-banner");
+
+    const compute = () => {
+      const bannerH = bannerEl?.offsetHeight ?? 0;
+      const headerH = headerEl?.offsetHeight ?? 0;
+      const headerVisibleH = hideOnScroll ? 0 : headerH; // si está oculto, 0
+      const offset = bannerH + headerVisibleH;
+
+      // variables CSS (por si se usan en estilos)
+      root.style.setProperty("--promo-offset", `${bannerH}px`);
+      root.style.setProperty("--header-offset", `${headerVisibleH}px`);
+      root.style.setProperty("--chrome-offset", `${offset}px`);
+
+      // evento global para que otras vistas (catálogo) se actualicen
+      window.dispatchEvent(new CustomEvent("ui:chrome-offset", { detail: { offset } }));
+    };
+
+    compute();
+
+    const ro = new ResizeObserver(compute);
+    const headerElObs = document.getElementById("site-header");
+    const bannerElObs = document.getElementById("promo-banner");
+    headerElObs && ro.observe(headerElObs);
+    bannerElObs && ro.observe(bannerElObs);
+    window.addEventListener("resize", compute);
+
+    return () => {
+      ro.disconnect();
+      window.removeEventListener("resize", compute);
+    };
+  }, [hideOnScroll]);
+
   return (
     <>
-      <BannerOferta
-        activo={true}
-        mensaje="Labor Day Special: Get 2 Free Manual Shades or 2 Sconce Lights – Sign your Project Before Sept 1st!"
-        modalTitulo="We didn’t want you to miss this!"
-        modalTexto={`Until Labor Day, sign your patio project with us and get a FREE 2 manual shade until 8 fits or 2 adjustable sconce lights 3 fits x 6 inches, as our gift 🎁.
+      <div id="promo-banner">
+        <BannerOferta
+          activo={true}
+          mensaje="Labor Day Special: Get 2 Free Manual Shades or 2 Sconce Lights – Sign your Project Before Sept 1st!"
+          modalTitulo="We didn’t want you to miss this!"
+          modalTexto={`Until Labor Day, sign your patio project with us and get a FREE 2 manual shade until 8 fits or 2 adjustable sconce lights 3 fits x 6 inches, as our gift 🎁.
 
 Perfect for adding shade and style to your new backyard!
 
 📅 Offer ends on September 1st
 
 Let’s book your spot today!`}
-        whatsappMensaje="Hello, I would like to know more about the offer for Labor Day"
-      />
+          whatsappMensaje="Hello, I would like to know more about the offer for Labor Day"
+        />
+      </div>
       <header
+        id="site-header"
         className={`w-full fixed top-10 z-50 transition-colors duration-300 ${
           isScrolled ? "bg-white shadow-lg text-black" : "bg-gradient-to-b from-black to-transparent text-white"
         }`}
@@ -106,9 +145,11 @@ Let’s book your spot today!`}
                 height="80"
               />
             </Link>
-            <div className={`hidden sm:block text-lg tracking-wider ml-3 transition-colors duration-300 ${
-              isScrolled ? "text-black" : "text-white"
-            }`}>
+            <div
+              className={`hidden sm:block text-lg tracking-wider ml-3 transition-colors duration-300 ${
+                isScrolled ? "text-black" : "text-white"
+              }`}
+            >
               <p className="font-bold">NEW GEN PATIO</p>
               <p className="font-medium opacity-90">Modern Outdoor Living</p>
             </div>
@@ -117,7 +158,7 @@ Let’s book your spot today!`}
           {/* Menú principal (desktop) */}
           <nav aria-label="Main Menu" role="navigation" className="hidden lg:flex">
             <ul className="flex justify-between items-center space-x-10">
-              {sectionIds.map((id) => (
+              {sectionIds.map((id) =>
                 id === "our-promise" ? (
                   // Dropdown para "Our Promise"
                   <li
@@ -131,15 +172,17 @@ Let’s book your spot today!`}
                       dropdownTimeout = setTimeout(() => setDropdownOpen(false), 300);
                     }}
                   >
-                    <button className={`text-xl transition-all duration-150 font-neutral flex items-center gap-1 cursor-pointer ${
+                    <button
+                      className={`text-xl transition-all duration-150 font-neutral flex items-center gap-1 cursor-pointer ${
                         isScrolled ? "text-black hover:text-orange-500" : "text-white hover:text-orange-400"
-                      }`}>
+                      }`}
+                    >
                       Our Promise
                       <FaChevronUp className={`${dropdownOpen ? "rotate-180" : ""}`} />
                     </button>
                     {/* Menú desplegable */}
                     {dropdownOpen && (
-                      <div 
+                      <div
                         className="absolute left-0 mt-2 bg-white shadow-lg w-48"
                         onMouseEnter={() => clearTimeout(dropdownTimeout)}
                         onMouseLeave={() => setDropdownOpen(false)}
@@ -177,7 +220,7 @@ Let’s book your spot today!`}
                     </Link>
                   </li>
                 )
-              ))}
+              )}
             </ul>
           </nav>
 
@@ -188,15 +231,18 @@ Let’s book your spot today!`}
             aria-expanded={menuOpen}
             onClick={() => setMenuOpen((prev) => !prev)}
           >
-            <span className={`block w-8 h-1 my-1.5 rounded transition-all duration-300 ${
+            <span
+              className={`block w-8 h-1 my-1.5 rounded transition-all duration-300 ${
                 isScrolled ? "bg-black" : "bg-white"
               } ${menuOpen ? "rotate-45 translate-y-2.5" : ""}`}
             ></span>
-            <span className={`block w-8 h-1 my-1.5 rounded transition-all duration-300 ${
+            <span
+              className={`block w-8 h-1 my-1.5 rounded transition-all duration-300 ${
                 isScrolled ? "bg-black" : "bg-white"
               } ${menuOpen ? "opacity-0" : ""}`}
             ></span>
-            <span className={`block w-8 h-1 my-1.5 rounded transition-all duration-300 ${
+            <span
+              className={`block w-8 h-1 my-1.5 rounded transition-all duration-300 ${
                 isScrolled ? "bg-black" : "bg-white"
               } ${menuOpen ? "-rotate-45 -translate-y-2.5" : ""}`}
             ></span>
@@ -210,13 +256,13 @@ Let’s book your spot today!`}
             ${menuOpen ? "translate-x-0 opacity-100" : "-translate-x-full opacity-0"}`}
           >
             {/* Logo - Cierra el menú y el desplegable */}
-            <Link 
-              to="/" 
-              aria-label="Home" 
-              onClick={() => { 
-                scrollToTop(); 
-                setMenuOpen(false); 
-                setMobileDropdownOpen(false); 
+            <Link
+              to="/"
+              aria-label="Home"
+              onClick={() => {
+                scrollToTop();
+                setMenuOpen(false);
+                setMobileDropdownOpen(false);
               }}
               className="mb-4"
             >
@@ -230,7 +276,7 @@ Let’s book your spot today!`}
               />
             </Link>
 
-            {sectionIds.map((id) => (
+            {sectionIds.map((id) =>
               id === "our-promise" ? (
                 <div key={id} className="w-full text-center">
                   <button
@@ -243,24 +289,24 @@ Let’s book your spot today!`}
 
                   {mobileDropdownOpen && (
                     <div className="flex flex-col w-full text-center mt-2">
-                      <Link 
-                        to="/our-promise" 
-                        onClick={() => { 
-                          scrollToTop(); 
-                          setMenuOpen(false); 
+                      <Link
+                        to="/our-promise"
+                        onClick={() => {
+                          scrollToTop();
+                          setMenuOpen(false);
                           setMobileDropdownOpen(false);
-                        }} 
+                        }}
                         className="block py-2 text-lg hover:text-orange-500"
                       >
                         Our Promise
                       </Link>
-                      <Link 
-                        to="/how-we-doit" 
-                        onClick={() => { 
-                          scrollToTop(); 
-                          setMenuOpen(false); 
+                      <Link
+                        to="/how-we-doit"
+                        onClick={() => {
+                          scrollToTop();
+                          setMenuOpen(false);
                           setMobileDropdownOpen(false);
-                        }} 
+                        }}
                         className="block py-2 text-lg hover:text-orange-500"
                       >
                         How we do it
@@ -269,21 +315,21 @@ Let’s book your spot today!`}
                   )}
                 </div>
               ) : (
-                <Link 
-                  key={id} 
-                  to={routeMap[id]} 
+                <Link
+                  key={id}
+                  to={routeMap[id]}
                   onClick={() => {
                     handleClick(id);
                     scrollToTop();
                     setMenuOpen(false);
                     setMobileDropdownOpen(false);
-                  }} 
+                  }}
                   className="text-2xl transition-all duration-150 hover:text-orange-500"
                 >
                   {id.replace(/-/g, " ").charAt(0).toUpperCase() + id.replace(/-/g, " ").slice(1)}
                 </Link>
               )
-            ))}
+            )}
           </div>
         </div>
       </header>

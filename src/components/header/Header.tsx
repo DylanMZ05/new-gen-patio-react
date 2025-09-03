@@ -4,13 +4,12 @@ import { FaChevronUp } from "react-icons/fa"; // Ícono de flecha
 import useScroll from "./useScroll";
 import "../../App.css";
 import useScrollToTop from "../../hooks/scrollToTop";
-import BannerOferta from "../BannerOferta";
+// import BannerOferta from "../BannerOferta";
 
 const Header: React.FC = () => {
   const scrollToTop = useScrollToTop();
   const isScrolled = useScroll(50);
 
-  // ✅ Agregamos "catalog" entre "services" y "our-promise"
   const sectionIds = ["services", "catalog", "our-promise", "who-we-are", "blogs", "contact"];
 
   const [menuOpen, setMenuOpen] = useState(false);
@@ -20,7 +19,7 @@ const Header: React.FC = () => {
 
   const routeMap: { [key: string]: string } = {
     services: "/outdoor-living-services",
-    catalog: "/covered-patio-project-catalog", // ← NUEVO
+    catalog: "/covered-patio-project-catalog",
     "our-promise": "/how-we-doit",
     "who-we-are": "/about-us",
     blogs: "/blog",
@@ -36,7 +35,6 @@ const Header: React.FC = () => {
     setMenuOpen(false);
   };
 
-  // ==== Ocultar/mostrar header según scroll (animación un poco más lenta) ====
   const [hideOnScroll, setHideOnScroll] = useState(false);
   useEffect(() => {
     let lastY = typeof window !== "undefined" ? window.scrollY : 0;
@@ -46,44 +44,41 @@ const Header: React.FC = () => {
       const delta = y - lastY;
       lastY = y;
 
-      const deltaThreshold = 8; // evita flicker
-      const minYToHide = 120; // no ocultar muy arriba
+      const deltaThreshold = 8;
+      const minYToHide = 120;
 
       if (menuOpen) {
         setHideOnScroll(false);
         return;
       }
-      if (delta > deltaThreshold && y > minYToHide) setHideOnScroll(true); // bajando
-      else if (delta < -deltaThreshold) setHideOnScroll(false); // subiendo
+      if (delta > deltaThreshold && y > minYToHide) setHideOnScroll(true);
+      else if (delta < -deltaThreshold) setHideOnScroll(false);
     };
 
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, [menuOpen]);
 
-  // Al abrir el menú móvil, forzar header visible
   useEffect(() => {
     if (menuOpen) setHideOnScroll(false);
   }, [menuOpen]);
 
-  // === NUEVO: publicar offsets dinámicos (banner + header visible) ===
   useLayoutEffect(() => {
     const root = document.documentElement;
     const headerEl = document.getElementById("site-header");
-    const bannerEl = document.getElementById("promo-banner");
+    // const bannerEl = document.getElementById("promo-banner");
 
     const compute = () => {
-      const bannerH = bannerEl?.offsetHeight ?? 0;
+      // const bannerH = bannerEl?.offsetHeight ?? 0;
+      const bannerH = 0;
       const headerH = headerEl?.offsetHeight ?? 0;
-      const headerVisibleH = hideOnScroll ? 0 : headerH; // si está oculto, 0
+      const headerVisibleH = hideOnScroll ? 0 : headerH;
       const offset = bannerH + headerVisibleH;
 
-      // variables CSS (por si se usan en estilos)
       root.style.setProperty("--promo-offset", `${bannerH}px`);
       root.style.setProperty("--header-offset", `${headerVisibleH}px`);
       root.style.setProperty("--chrome-offset", `${offset}px`);
 
-      // evento global para que otras vistas (catálogo) se actualicen
       window.dispatchEvent(new CustomEvent("ui:chrome-offset", { detail: { offset } }));
     };
 
@@ -91,9 +86,9 @@ const Header: React.FC = () => {
 
     const ro = new ResizeObserver(compute);
     const headerElObs = document.getElementById("site-header");
-    const bannerElObs = document.getElementById("promo-banner");
+    // const bannerElObs = document.getElementById("promo-banner");
     headerElObs && ro.observe(headerElObs);
-    bannerElObs && ro.observe(bannerElObs);
+    // bannerElObs && ro.observe(bannerElObs);
     window.addEventListener("resize", compute);
 
     return () => {
@@ -104,7 +99,7 @@ const Header: React.FC = () => {
 
   return (
     <>
-      <div id="promo-banner">
+      {/* <div id="promo-banner">
         <BannerOferta
           activo={true}
           mensaje="Labor Day Special: Get 2 Free Manual Shades or 2 Sconce Lights – Sign your Project Before Sept 1st!"
@@ -118,10 +113,11 @@ Perfect for adding shade and style to your new backyard!
 Let’s book your spot today!`}
           whatsappMensaje="Hello, I would like to know more about the offer for Labor Day"
         />
-      </div>
+      </div> */}
+
       <header
         id="site-header"
-        className={`w-full fixed top-10 z-50 transition-colors duration-300 ${
+        className={`w-full fixed  z-50 transition-colors duration-300 ${
           isScrolled ? "bg-white shadow-lg text-black" : "bg-gradient-to-b from-black to-transparent text-white"
         }`}
         role="banner"
@@ -160,7 +156,6 @@ Let’s book your spot today!`}
             <ul className="flex justify-between items-center space-x-10">
               {sectionIds.map((id) =>
                 id === "our-promise" ? (
-                  // Dropdown para "Our Promise"
                   <li
                     key={id}
                     className="relative"
@@ -180,7 +175,6 @@ Let’s book your spot today!`}
                       Our Promise
                       <FaChevronUp className={`${dropdownOpen ? "rotate-180" : ""}`} />
                     </button>
-                    {/* Menú desplegable */}
                     {dropdownOpen && (
                       <div
                         className="absolute left-0 mt-2 bg-white shadow-lg w-48"
@@ -248,14 +242,13 @@ Let’s book your spot today!`}
             ></span>
           </button>
 
-          {/* Menú móvil (overlay corregido) */}
+          {/* Menú móvil */}
           <div
             className={`lg:hidden fixed inset-0 z-[100] h-screen bg-[#0d4754] text-white 
             flex flex-col items-center justify-start pt-24 px-6
             space-y-4 transform transition-all duration-500 ease-in-out
             ${menuOpen ? "translate-x-0 opacity-100" : "-translate-x-full opacity-0"}`}
           >
-            {/* Logo - Cierra el menú y el desplegable */}
             <Link
               to="/"
               aria-label="Home"

@@ -1,10 +1,9 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import SectionBlock from "../../components/SectionBlock";
-import MarqueeBanner from "../../components/MarqueeBanner";
 import ProjectCard from "./ProjectCard";
 import { collection, getDocsFromCache, getDocsFromServer } from "firebase/firestore";
 import { db } from "../../firebase";
-import { FiFilter, FiX } from "react-icons/fi";
+import { FiFilter, FiX, FiChevronDown } from "react-icons/fi";
 import { AnimatePresence, motion } from "framer-motion";
 import { Helmet } from "react-helmet-async";
 import BlockSection from "../../components/BlockSection";
@@ -143,7 +142,8 @@ function useHeaderHidden() {
 }
 
 const HEADER_HEIGHT = 75;
-const BASE_OFFSET = 45;
+/* Sin banner ni espaciado extra */
+const BASE_OFFSET = 0;
 
 /* ==========================
    Altura mínima del panel de resultados
@@ -364,9 +364,8 @@ const PatiosAndPergolasCatalog = () => {
             setProjects(snapshotCache.docs.map((d) => ({ id: d.id, ...d.data() })));
             setLoading(false);
           }
-        } catch (err) {
-          // No cache available yet
-          // console.debug("Cache miss for projects", err);
+        } catch {
+          /* no cache */
         }
         const snapshotServer = await getDocsFromServer(collection(db, "projects"));
         setProjects(snapshotServer.docs.map((d) => ({ id: d.id, ...d.data() })));
@@ -533,6 +532,22 @@ const PatiosAndPergolasCatalog = () => {
   const resultsMinStyle: React.CSSProperties = { minHeight: `${RESULTS_MIN_VH}vh` };
 
   /* ==========================
+     DESPLEGABLES (desktop)
+  =========================== */
+  const allGroupTitles = Object.keys(filterConfig);
+  // Por defecto: todos cerrados para que entren todas las cabeceras sin scroll
+  const [openGroups, setOpenGroups] = useState<Set<string>>(new Set());
+  const toggleGroup = (title: string) =>
+    setOpenGroups((prev) => {
+      const next = new Set(prev);
+      if (next.has(title)) next.delete(title);
+      else next.add(title);
+      return next;
+    });
+  const expandAll = () => setOpenGroups(new Set(allGroupTitles));
+  const collapseAll = () => setOpenGroups(new Set());
+
+  /* ==========================
      RENDER
   =========================== */
   return (
@@ -557,7 +572,6 @@ const PatiosAndPergolasCatalog = () => {
         </Helmet>
 
         <SectionBlock sections={sectionsData3} />
-        <MarqueeBanner />
 
         <h2 className="text-4xl font-bold text-center text-black/90 mt-10">Our Projects</h2>
         <div className="w-16 h-[3px] bg-[#0d4754] mt-3 mx-auto rounded-full"></div>
@@ -645,45 +659,74 @@ const PatiosAndPergolasCatalog = () => {
               <div className="rounded-2xl border border-gray-200 bg-white shadow-sm p-4">
                 <div className="flex items-center justify-between mb-2">
                   <h3 className="text-lg font-semibold text-gray-900">Filters</h3>
-                  {selectedFilters.size > 0 && (
-                    <button onClick={clearAll} className="text-sm text-[#0d4754] underline">
-                      Clear all
-                    </button>
-                  )}
+                  <div className="flex items-center gap-3">
+                    <button onClick={expandAll} className="text-sm text-[#0d4754] underline">Expand all</button>
+                    <button onClick={collapseAll} className="text-sm text-[#0d4754] underline">Collapse all</button>
+                    {selectedFilters.size > 0 && (
+                      <button onClick={clearAll} className="text-sm text-[#0d4754] underline">
+                        Clear all
+                      </button>
+                    )}
+                  </div>
                 </div>
 
-                {/* scroll interno del panel, no del aside */}
-                <div className="space-y-4 max-h-[70vh] overflow-y-auto pr-1">
+                {/* Sin scroll interno en desktop; acordeón por grupo */}
+                <div className="space-y-3">
                   {Object.entries(filterConfig).map(([groupTitle, { field, options }]) => {
                     const count = [...selectedFilters].filter((k) => k.startsWith(`${field}::`)).length;
+                    const isOpen = openGroups.has(groupTitle);
                     return (
-                      <div key={groupTitle} className="border border-gray-200 rounded-xl">
-                        <div className="flex items-center justify-between px-3 py-2 bg-gray-50 rounded-t-xl">
+                      <div key={groupTitle} className="border border-gray-200 rounded-xl overflow-hidden">
+                        <button
+                          onClick={() => toggleGroup(groupTitle)}
+                          className="w-full flex items-center justify-between px-3 py-2 bg-gray-50 cursor-pointer"
+                          aria-expanded={isOpen}
+                          aria-controls={`panel-${field}`}
+                        >
                           <span className="font-medium text-gray-900">{groupTitle}</span>
-                          <span className="text-xs font-medium rounded-full px-2 py-0.5 bg-white border border-gray-200 text-gray-600">
-                            {count} Selected
+                          <span className="flex items-center gap-2">
+                            <span className="text-xs font-medium rounded-full px-2 py-0.5 bg-white border border-gray-200 text-gray-600">
+                              {count} Selected
+                            </span>
+                            <FiChevronDown
+                              className={`transition-transform duration-200 ${isOpen ? "rotate-180" : ""}`}
+                            />
                           </span>
-                        </div>
-                        <div className="px-3 py-3">
-                          <div className="flex flex-wrap gap-2">
-                            {options.map((option) => {
-                              const active = isSelected(field, option);
-                              return (
-                                <button
-                                  key={`${field}::${option}`}
-                                  onClick={() => desktopToggle(field, option)}
-                                  className={`px-3 py-1.5 rounded-full text-sm border cursor-pointer ${
-                                    active
-                                      ? "bg-[#0d4754] text-white border-[#0d4754]"
-                                      : "bg-white text-gray-800 border-gray-300"
-                                  }`}
-                                >
-                                  {option}
-                                </button>
-                              );
-                            })}
-                          </div>
-                        </div>
+                        </button>
+
+                        <AnimatePresence initial={false}>
+                          {isOpen && (
+                            <motion.div
+                              id={`panel-${field}`}
+                              key={`panel-${field}`}
+                              initial={{ height: 0, opacity: 0 }}
+                              animate={{ height: "auto", opacity: 1 }}
+                              exit={{ height: 0, opacity: 0 }}
+                              transition={{ duration: 0.2, ease: "easeOut" }}
+                            >
+                              <div className="px-3 py-3">
+                                <div className="flex flex-wrap gap-2">
+                                  {options.map((option) => {
+                                    const active = isSelected(field, option);
+                                    return (
+                                      <button
+                                        key={`${field}::${option}`}
+                                        onClick={() => desktopToggle(field, option)}
+                                        className={`px-3 py-1.5 rounded-full text-sm border cursor-pointer ${
+                                          active
+                                            ? "bg-[#0d4754] text-white border-[#0d4754]"
+                                            : "bg-white text-gray-800 border-gray-300"
+                                        }`}
+                                      >
+                                        {option}
+                                      </button>
+                                    );
+                                  })}
+                                </div>
+                              </div>
+                            </motion.div>
+                          )}
+                        </AnimatePresence>
                       </div>
                     );
                   })}
@@ -700,7 +743,7 @@ const PatiosAndPergolasCatalog = () => {
               </div>
             ) : filteredProjects.length === 0 ? (
               <div className="w-full flex flex-col items-center justify-center" style={resultsMinStyle}>
-                <div className="w-full max-w-[720px] border border-dashed border-gray-300 rounded-2xl p-8 text-center bg-white/70">
+                <div className="w-full max-w={[720] + 'px'} border border-dashed border-gray-300 rounded-2xl p-8 text-center bg-white/70">
                   <h3 className="text-lg font-semibold text-gray-800">No projects match your filters.</h3>
                   <p className="mt-2 text-sm text-gray-600">
                     Try removing some filters or resetting all.

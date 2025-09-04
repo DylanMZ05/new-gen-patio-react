@@ -164,11 +164,11 @@ const AboutUsPage: React.FC = () => {
           <div className="flex flex-col justify-center items-center">
             <img
               className="w-full mt-3 object-cover rounded-2xl shadow-lg md:w-150"
-              src="assets/images/FotosDelEquipo/Rodolfo.webp"
-              alt="Rodolfo - Office Assistant"
+              src="assets/images/FotosDelEquipo/Leandro.webp"
+              alt="Leandro - Office Assistant"
               loading="lazy"
             />
-            <h3 className="text-xl font-semibold mt-2">Rodolfo</h3>
+            <h3 className="text-xl font-semibold mt-2">Leandro</h3>
             <p>Office Assistant</p>
           </div>
 

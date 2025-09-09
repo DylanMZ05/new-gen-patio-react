@@ -20,11 +20,12 @@ const OurProcess: React.FC = () => {
   return (
     <section className="min-h-screen w-full flex flex-col items-center bg-gray-100" aria-labelledby="page-title">
       <Helmet>
-        <title>How We Build, Step by Step | New Gen Patio</title>
+        <title>Our Process | 8 Steps to Build Your Patio | New Gen Patio</title>
         <meta
           name="description"
-          content="Follow our 8-step process for building custom patios and pergolas—from free quotes to final walkthrough. We make construction stress-free, clear, and high quality."
+          content="Discover our 8-step process for building patios & pergolas in Houston. From free quotes to final walkthrough, we ensure clarity, quality, and stress-free construction."
         />
+        <link rel="canonical" href="https://www.newgenpatio.com/our-process" />
       </Helmet>
 
       <SectionBlock sections={sectionsData} />

@@ -32,8 +32,12 @@ const ConcreteTurf: React.FC = () => {
   return (
     <section className="min-h-screen flex flex-col items-center bg-gray-100" aria-labelledby="concrete-turf-heading">
       <Helmet>
-        <title>Extra Services, Concrete and Turf | New Gen Patio</title>
-        <meta name="description" content="Transform your yard with concrete and artificial turf solutions. Low maintenance, stylish, and durable landscaping services." />
+        <title>Concrete & Artificial Turf Installation | New Gen Patio</title>
+        <meta
+          name="description"
+          content="Low-maintenance landscaping in Houston: decorative concrete, stamped finishes, and premium artificial turf with cool-touch tech and fast drainage. Get a free quote."
+        />
+        <link rel="canonical" href="https://www.newgenpatio.com/concrete-and-artificial-turf" />
       </Helmet>
 
       <SectionBlock sections={sectionsData} />
@@ -52,15 +56,15 @@ const ConcreteTurf: React.FC = () => {
 
       <MarqueeBanner />
 
-        <div className="pt-8 px-5 max-w-3xl">
-          <h2 className="font-semibold text-3xl mb-3 text-center">Why might you need it?</h2>
-          <div className="w-16 h-[3px] bg-[#0d4754] mt-3 mb-2 mx-auto rounded-full"></div>
-          <ul className="list-disc pl-6 text-lg">
-            <li>You want a fully functional outdoor space to enjoy year-round.</li>
-            <li>You're looking for a low-maintenance and visually appealing backyard solution.</li>
-            <li>You want a complete design that blends hardscapes, greenery, and outdoor cooking areas.</li>
-          </ul>
-        </div> 
+      <div className="pt-8 px-5 max-w-3xl">
+        <h2 className="font-semibold text-3xl mb-3 text-center">Why might you need it?</h2>
+        <div className="w-16 h-[3px] bg-[#0d4754] mt-3 mb-2 mx-auto rounded-full"></div>
+        <ul className="list-disc pl-6 text-lg">
+          <li>You want a fully functional outdoor space to enjoy year-round.</li>
+          <li>You're looking for a low-maintenance and visually appealing backyard solution.</li>
+          <li>You want a complete design that blends hardscapes, greenery, and outdoor cooking areas.</li>
+        </ul>
+      </div>
 
       {/* Beneficios de Concrete y Landscaping */}
       <div className="flex flex-col my-10 gap-10 items-center">
@@ -120,10 +124,7 @@ const ConcreteTurf: React.FC = () => {
           <ImgTxtSection key={index} {...section} />
         ))}
 
-          <FreeQuoteButton 
-            questionText="Got a project in mind?"
-            buttonText="Let’s Talk"
-          />
+        <FreeQuoteButton questionText="Got a project in mind?" buttonText="Let’s Talk" />
       </div>
 
       <MarqueeBanner />
@@ -162,14 +163,14 @@ const ConcreteTurf: React.FC = () => {
           <ImgTxtSection key={index} {...section} />
         ))}
 
-        <FreeQuoteButton 
-            questionText="We’d love to hear about your ideas!"
-            buttonText="Tell Us Your Vision"
-          />
+        <FreeQuoteButton
+          questionText="We’d love to hear about your ideas!"
+          buttonText="Tell Us Your Vision"
+        />
       </div>
 
       <WhyUsLink backgroundImage={backgroundImage} />
-      <Services showQuoteButton={false}/>
+      <Services showQuoteButton={false} />
       <MarqueeBanner />
     </section>
   );

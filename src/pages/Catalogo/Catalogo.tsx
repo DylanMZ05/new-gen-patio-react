@@ -556,7 +556,7 @@ const PatiosAndPergolasCatalog = () => {
       <div className="w-full flex flex-col items-center mb-20">
         {/* SEO */}
         <Helmet>
-          <title>Covered Patio &amp; Pergola Project Catalog | Aluminum Designs</title>
+          <title>Covered Patio & Pergola Project Catalog | New Gen Patio</title>
           <meta
             name="description"
             content="Browse real covered patio and pergola projects. Filter by type, kitchen, colors, roofing panels, add-ons and foundation. Get ideas and plan your outdoor space."

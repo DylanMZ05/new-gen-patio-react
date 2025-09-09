@@ -28,10 +28,10 @@ const OutdoorKitchenModern: React.FC = () => {
   return (
     <>
       <Helmet>
-        <title>Modern Outdoor Kitchen | New Gen Patio</title>
+        <title>Modern Outdoor Kitchens Houston | New Gen Patio</title>
         <meta
           name="description"
-          content="Discover our modern outdoor kitchens in Houston—designed with smart materials, integrated technology, and sleek aesthetics for a premium cooking experience."
+          content="Premium modern outdoor kitchens in Houston with smart materials, integrated tech, quartz/granite countertops, and stainless appliances. Sleek design, low maintenance."
         />
         <link rel="canonical" href="https://www.newgenpatio.com/modern-outdoor-kitchens-houston" />
       </Helmet>
@@ -50,10 +50,10 @@ const OutdoorKitchenModern: React.FC = () => {
           <h2 className="font-semibold text-3xl mb-3">Why should a Modern Outdoor Kitchen be considered?</h2>
           <div className="ml-1 w-16 h-[3px] bg-[#0d4754] mt-3 mb-2 rounded-full"></div>
           <ul className="list-disc pl-6 text-lg">
-            <li>Maximum advantage is taken by technology for outdoor cooking.</li>
-            <li>A clean, tidy, and functional year-round space is gained.</li>
-            <li>Ideally suited for contemporary design homes.</li>
-            <li>Are outdoor solutions sought that do not require constant maintenance and appear outdated?</li>
+            <li>Take full advantage of outdoor cooking technology and connectivity.</li>
+            <li>Gain a clean, organized, and functional space you can use year-round.</li>
+            <li>Perfect match for contemporary architecture and minimalist aesthetics.</li>
+            <li>You want low-maintenance solutions that won’t look dated over time.</li>
           </ul>
         </div>
 
@@ -92,7 +92,7 @@ const OutdoorKitchenModern: React.FC = () => {
             <ImgTxtSection key={index} {...section} />
           ))}
 
-          <FreeQuoteButton 
+          <FreeQuoteButton
             questionText="Got a project in mind?"
             buttonText="Let’s Talk"
           />

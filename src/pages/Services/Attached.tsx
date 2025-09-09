@@ -21,7 +21,9 @@ const sectionsData = [
 const backgroundImage = "assets/images/Products/Patios&Pergolas/Attached/12.webp";
 
 const imagePaths = Array.from({ length: 46 }, (_, i) =>
-  `assets/images/Products/Patios&Pergolas/Attached/${(i + 1).toString().padStart(2, "0")}.webp`
+  `assets/images/Products/Patios&Pergolas/Attached/${(i + 1)
+    .toString()
+    .padStart(2, "0")}.webp`
 );
 const validImages = imagePaths.filter((img) => img.trim() !== "");
 
@@ -29,21 +31,29 @@ const Attached: React.FC = () => {
   return (
     <>
       <Helmet>
-        <title>Attached Aluminium Cover Patio | New Gen Patio</title>
+        <title>Attached Aluminum Pergolas & Patio Covers | New Gen Patio</title>
         <meta
           name="description"
-          content="Discover our Attached Aluminium Pergolas in Houston—elegant, durable, and seamlessly connected to your home for modern outdoor living."
+          content="Attached aluminum pergolas and covered patios in Houston. Seamless integration, insulated roof panels, durable epoxy finish. Custom design & expert installation."
         />
-        <link rel="canonical" href="https://www.newgenpatio.com/attached-aluminium-pergola-covered-patio" />
+        <link
+          rel="canonical"
+          href="https://www.newgenpatio.com/attached-aluminium-pergola-covered-patio"
+        />
       </Helmet>
 
-      <section className="min-h-screen flex flex-col items-center bg-gray-100" aria-labelledby="attached-heading">
+      <section
+        className="min-h-screen flex flex-col items-center bg-gray-100"
+        aria-labelledby="attached-heading"
+      >
         <SectionBlock sections={sectionsData} />
         <Slider images={validImages} withBorderT />
         <MarqueeBanner />
 
         <div className="pt-8 px-5 max-w-3xl">
-          <h2 className="font-semibold text-3xl mb-3 text-center">Why might you need it?</h2>
+          <h2 className="font-semibold text-3xl mb-3 text-center">
+            Why might you need it?
+          </h2>
           <div className="w-16 h-[3px] bg-[#0d4754] mt-3 mb-2 mx-auto rounded-full"></div>
           <ul className="list-disc pl-6 text-lg">
             <li>Your patio gets too much sun, making it uncomfortable during peak hours.</li>
@@ -53,7 +63,9 @@ const Attached: React.FC = () => {
         </div>
 
         <div className="pt-8 px-5 max-w-3xl">
-          <h2 className="font-bold text-4xl mb-3 text-center text-black/90">Benefits</h2>
+          <h2 className="font-bold text-4xl mb-3 text-center text-black/90">
+            Benefits
+          </h2>
           <div className="w-16 h-[3px] bg-[#0d4754] mt-3 mx-auto rounded-full"></div>
         </div>
 
@@ -83,14 +95,10 @@ const Attached: React.FC = () => {
               imageUrl: "assets/images/Products/Patios&Pergolas/Attached/08.webp",
               imagePosition: "left" as const,
             },
-          ]
-          .map((section, index) => (
+          ].map((section, index) => (
             <ImgTxtSection key={index} {...section} />
           ))}
-          <FreeQuoteButton 
-            questionText="Got a project in mind?"
-            buttonText="Let’s Talk"
-          />
+          <FreeQuoteButton questionText="Got a project in mind?" buttonText="Let’s Talk" />
         </div>
 
         <WhyUsLink backgroundImage={backgroundImage} />

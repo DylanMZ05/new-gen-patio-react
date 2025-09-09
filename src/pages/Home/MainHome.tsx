@@ -14,10 +14,10 @@ const MainHome = () => {
   return (
     <>
       <Helmet>
-        <title>New Gen Patio | Enhance Your Outdoor Living | Cover Patio Builders</title>
+        <title>New Gen Patio | Aluminum Pergolas & Patio Covers Houston</title>
         <meta
           name="description"
-          content="Modern and durable aluminum patio covers and pergolas in Houston. Get expert installation and custom design for the ultimate outdoor living."
+          content="Design-build experts in Houston crafting custom aluminum pergolas, covered patios, and outdoor kitchens. Modern, durable, and turnkey installation. Get a free quote."
         />
         <link rel="canonical" href="https://www.newgenpatio.com/" />
       </Helmet>

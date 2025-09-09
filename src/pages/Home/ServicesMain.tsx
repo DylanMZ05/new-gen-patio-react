@@ -59,10 +59,10 @@ const ServicesMain = () => {
   return (
     <>
       <Helmet>
-        <title>Custom Outdoor Living Spaces | New Gen Patio</title>
+        <title>Outdoor Living Design & Patio Covers Houston | New Gen Patio</title>
         <meta
           name="description"
-          content="Explore modern pergolas and covered patio solutions in Houston. Custom-designed for comfort, elegance, and long-lasting outdoor living spaces."
+          content="Expert outdoor living design in Houston. Custom aluminum pergolas, covered patios & kitchens built with durability, elegance & turnkey installation."
         />
         <link rel="canonical" href="https://www.newgenpatio.com/aluminium-custom-pergola-cover-patio" />
       </Helmet>
@@ -75,7 +75,9 @@ const ServicesMain = () => {
         <section className="w-full max-w-5xl px-4 pb-8 text-center">
           <h2 className="text-3xl font-bold text-black/90 mb-4">Why do I need to take advantage of the outdoor spaces in my home?</h2>
           <div className="w-24 h-1 bg-[#0d4754] my-3 rounded-full mx-auto"></div>
-          <p className="text-xl">Maximizing your outdoor spaces isn’t just about aesthetics—it’s about extending your lifestyle. When you invest in your backyard, patio, or outdo``or kitchen, you're creating a <strong>functional living area that increases your home’s value, comfort, and versatility.</strong></p>
+          <p className="text-xl">
+            Maximizing your outdoor spaces isn’t just about aesthetics—it’s about extending your lifestyle. When you invest in your backyard, patio, or outdoor kitchen, you're creating a <strong>functional living area that increases your home’s value, comfort, and versatility.</strong>
+          </p>
           <p className="text-xl">Here are four strong reasons why taking full advantage of your outdoor space is a smart decision:</p>
         </section>
         <div className="pt-8 px-5 max-w-3xl">

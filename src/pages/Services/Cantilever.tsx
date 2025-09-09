@@ -11,44 +11,55 @@ import FreeQuoteButton from "../../components/FreeQuoteButton";
 const sectionsData = [
   {
     id: 1,
-    title: "Cantilever Aluminium Pergola",
+    title: "Louvered Aluminium Pergola",
     description:
-      "A modern, innovative pergola with a cantilevered structure, providing shade without traditional corner posts, resulting in a clean and sophisticated look.",
-    backgroundImage: "assets/images/Products/Patios&Pergolas/Cantilever/01.webp",
+      "Adjustable-louver pergolas that control sun, shade, and rain with manual or motorized operation—engineered for year-round outdoor living.",
+    backgroundImage: "assets/images/Products/Patios&Pergolas/Louvered/01.webp",
   },
 ];
 
-const backgroundImage = "assets/images/Products/Patios&Pergolas/Cantilever/03.webp";
+const backgroundImage = "assets/images/Products/Patios&Pergolas/Louvered/03.webp";
 
-const imagePaths = Array.from({ length: 12 }, (_, i) =>
-  `assets/images/Products/Patios&Pergolas/Cantilever/${(i + 1).toString().padStart(2, "0")}.webp`
+// Ajustá la cantidad si tenés más/menos imágenes en tu carpeta Louvered
+const imagePaths = Array.from({ length: 16 }, (_, i) =>
+  `assets/images/Products/Patios&Pergolas/Louvered/${(i + 1)
+    .toString()
+    .padStart(2, "0")}.webp`
 );
 const validImages = imagePaths.filter((img) => img.trim() !== "");
 
-const Cantilever: React.FC = () => {
+const Louvered: React.FC = () => {
   return (
     <>
       <Helmet>
-        <title>Cantilever Aluminium Pergola | New Gen Patio</title>
+        <title>Louvered Aluminum Pergolas (Motorized) | New Gen Patio</title>
         <meta
           name="description"
-          content="Explore our cantilever aluminium pergolas in Houston. Modern shade structures with no front posts, ideal for sleek, open outdoor living spaces."
+          content="Modern louvered pergolas in Houston with adjustable blades—manual or motorized—rain management, integrated lighting & fans. Year-round comfort, custom design."
         />
-        <link rel="canonical" href="https://www.newgenpatio.com/cantilever-aluminium-pergola" />
+        <link
+          rel="canonical"
+          href="https://www.newgenpatio.com/louvered-aluminium-pergola"
+        />
       </Helmet>
 
-      <section className="min-h-screen flex flex-col items-center bg-gray-100" aria-labelledby="cantilever-heading">
+      <section
+        className="min-h-screen flex flex-col items-center bg-gray-100"
+        aria-labelledby="louvered-heading"
+      >
         <SectionBlock sections={sectionsData} />
         <Slider images={validImages} withBorderT />
         <MarqueeBanner />
 
         <div className="pt-8 px-5 max-w-3xl">
-          <h2 className="font-semibold text-3xl mb-3 text-center">Why might you need it?</h2>
+          <h2 className="font-semibold text-3xl mb-3 text-center">
+            Why might you need it?
+          </h2>
           <div className="w-16 h-[3px] bg-[#0d4754] mt-3 mb-2 mx-auto rounded-full"></div>
           <ul className="list-disc pl-6 text-lg">
-            <li>You want a modern pergola without posts blocking your view or movement.</li>
-            <li>You need a shading solution that takes up minimal space.</li>
-            <li>You prefer a sleek, sophisticated design that complements a contemporary home.</li>
+            <li>You want on-demand sun, shade, or full rain protection.</li>
+            <li>You prefer a clean, modern look with integrated lighting or fans.</li>
+            <li>You need a low-maintenance, all-weather solution for outdoor living.</li>
           </ul>
         </div>
 
@@ -60,36 +71,39 @@ const Cantilever: React.FC = () => {
         <div className="flex flex-col my-10 gap-10 items-center">
           {[
             {
-              title: "Unobstructed View & Maximized Space",
-              text: "Cantilever pergolas eliminate the need for front support posts by utilizing a cantilevered beam system. This design ensures an open view while providing greater freedom of movement beneath the structure. The load is evenly distributed across anchor points, and high-strength structural aluminum is used to maintain stability without compromising aesthetics.",
-              imageUrl: "assets/images/Products/Patios&Pergolas/Cantilever/01.webp",
+              title: "Adjustable Comfort (Manual or Motorized)",
+              text: "Precision-engineered aluminum louvers rotate to control light and ventilation. Choose manual cranks or motorized operation with remote/app controls for seamless comfort throughout the day.",
+              imageUrl: "assets/images/Products/Patios&Pergolas/Louvered/02.webp",
               imagePosition: "right" as const,
             },
             {
-              title: "Optimized for Small Spaces",
-              text: "Due to their suspended design, cantilever pergolas can be installed in small patios, terraces, or side areas without occupying ground space with support columns. They are securely fixed to a structural base using reinforced brackets, allowing installation on concrete, brick, or metal structures without compromising integrity.",
-              imageUrl: "assets/images/Products/Patios&Pergolas/Cantilever/04.webp",
+              title: "All-Weather Rain Management",
+              text: "When closed, interlocking blades create a water-tight seal that channels rain into hidden perimeter gutters and downspouts—keeping your space dry and usable year-round.",
+              imageUrl: "assets/images/Products/Patios&Pergolas/Louvered/04.webp",
               imagePosition: "left" as const,
             },
             {
-              title: "Efficient Load Distribution",
-              text: "High-strength aluminum beams (such as 2x8 or 2x10 profiles) are utilized to support the structure without additional supports. Additionally, insulated roofing panels enhance weight distribution, preventing warping or sagging over time.",
-              imageUrl: "assets/images/Products/Patios&Pergolas/Cantilever/08.webp",
+              title: "Integrated Accessories",
+              text: "Add dimmable LED lighting, ceiling fans, screens, and heaters without compromising the structure. Clean cable routing keeps everything minimal and modern.",
+              imageUrl: "assets/images/Products/Patios&Pergolas/Louvered/05.webp",
               imagePosition: "right" as const,
             },
             {
-              title: "Superior Wind Resistance",
-              text: "Designed for aerodynamic efficiency, these pergolas withstand wind speeds of up to 120 mph. Expansion bolts are used for anchoring to ensure stability in adverse weather conditions.",
-              imageUrl: "assets/images/Products/Patios&Pergolas/Cantilever/03.webp",
+              title: "Durability & Low Maintenance",
+              text: "Powder-coated structural aluminum resists corrosion and UV exposure. Few moving parts and sealed actuators ensure long-term reliability with minimal upkeep.",
+              imageUrl: "assets/images/Products/Patios&Pergolas/Louvered/06.webp",
               imagePosition: "left" as const,
+            },
+            {
+              title: "Smart Sensors & Automation (Optional)",
+              text: "Wind and rain sensors can auto-close the louvers to protect furniture and electronics. Create schedules or scenes for daily use and events.",
+              imageUrl: "assets/images/Products/Patios&Pergolas/Louvered/07.webp",
+              imagePosition: "right" as const,
             },
           ].map((section, index) => (
             <ImgTxtSection key={index} {...section} />
           ))}
-          <FreeQuoteButton 
-            questionText="Got a project in mind?"
-            buttonText="Let’s Talk"
-          />
+          <FreeQuoteButton questionText="Got a project in mind?" buttonText="Let’s Talk" />
         </div>
 
         <WhyUsLink backgroundImage={backgroundImage} />
@@ -99,4 +113,4 @@ const Cantilever: React.FC = () => {
   );
 };
 
-export default Cantilever;
+export default Louvered;

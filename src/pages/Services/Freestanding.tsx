@@ -21,7 +21,9 @@ const sectionsData = [
 const backgroundImage = "assets/images/Products/Patios&Pergolas/Freestanding/06.webp";
 
 const imagePaths = Array.from({ length: 21 }, (_, i) =>
-  `assets/images/Products/Patios&Pergolas/Freestanding/${(i + 1).toString().padStart(2, "0")}.webp`
+  `assets/images/Products/Patios&Pergolas/Freestanding/${(i + 1)
+    .toString()
+    .padStart(2, "0")}.webp`
 );
 const validImages = imagePaths.filter((img) => img.trim() !== "");
 
@@ -29,23 +31,30 @@ const Freestanding: React.FC = () => {
   return (
     <>
       <Helmet>
-        <title>Freestanding Aluminium Pergola | New Gen Patio</title>
+        <title>Freestanding Aluminum Pergolas, Patio Covers | New Gen Patio</title>
         <meta
           name="description"
-          content="Explore our freestanding aluminium pergolas in Houston—self-supported, elegant, and perfect for any area of your backyard. Ideal for modern outdoor living."
+          content="Self-supported aluminum pergolas for any backyard area in Houston. Custom sizes, insulated roof panels, lighting & fans. Durable, elegant, expert installation."
         />
-        <link rel="canonical" href="https://www.newgenpatio.com/free-standing-aluminium-pergola-covered-patio" />
+        <link
+          rel="canonical"
+          href="https://www.newgenpatio.com/free-standing-aluminium-pergola-covered-patio"
+        />
       </Helmet>
 
-      <section className="min-h-screen flex flex-col items-center bg-gray-100" aria-labelledby="freestanding-heading">
+      <section
+        className="min-h-screen flex flex-col items-center bg-gray-100"
+        aria-labelledby="freestanding-heading"
+      >
         <SectionBlock sections={sectionsData} />
         <Slider images={validImages} withBorderT />
         <MarqueeBanner />
 
-
         <div className="pt-8 px-5 max-w-3xl">
-          <h2 className="font-semibold text-3xl mb-3 text-center">Why might you need it?</h2>
-          <div className="w-16 h-[3px] bg-[#0d4754] mt-3 mb-2 mx-auto rounded-full"></div>
+          <h2 className="font-semibold text-3xl mb-3 text-center">
+            Why might you need it?
+          </h2>
+            <div className="w-16 h-[3px] bg-[#0d4754] mt-3 mb-2 mx-auto rounded-full"></div>
           <ul className="list-disc pl-6 text-lg">
             <li>You want a shaded entertainment area in the middle of your garden or by the pool.</li>
             <li>You're looking to define a space without building walls or heavy structures.</li>
@@ -84,18 +93,14 @@ const Freestanding: React.FC = () => {
               imageUrl: "assets/images/Products/Patios&Pergolas/Freestanding/09.webp",
               imagePosition: "left" as const,
             },
-          ]
-          .map((section, index) => (
+          ].map((section, index) => (
             <ImgTxtSection key={index} {...section} />
           ))}
         </div>
 
         <WhyUsLink backgroundImage={backgroundImage} />
         <Services showQuoteButton={false} />
-        <FreeQuoteButton 
-          questionText="Got a project in mind?"
-          buttonText="Let’s Talk"
-        />
+        <FreeQuoteButton questionText="Got a project in mind?" buttonText="Let’s Talk" />
       </section>
     </>
   );

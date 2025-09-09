@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { blogs } from "../Blogs/blogData";
 import MarqueeBanner from "../../components/MarqueeBanner";
 import FreeQuoteButton from "../../components/FreeQuoteButton";
+import { Helmet } from "react-helmet";
 
 const BlogsSectionPage: React.FC = () => {
   const handleScrollToTop = () => {
@@ -14,6 +15,15 @@ const BlogsSectionPage: React.FC = () => {
 
   return (
     <>
+      <Helmet>
+        <title>Outdoor Living Blog | New Gen Patio</title>
+        <meta 
+          name="description" 
+          content="Discover outdoor living ideas, patio cover trends, and expert tips in our blog. Stay inspired with the latest updates from New Gen Patio." 
+        />
+        <link rel="canonical" href="https://www.newgenpatio.com/blogs" />
+      </Helmet>
+
       <section className="pt-16 pb-10 px-6 bg-gray-200 border-t border-black/10">
         <div className="max-w-6xl mx-auto">
           <header className="text-center">

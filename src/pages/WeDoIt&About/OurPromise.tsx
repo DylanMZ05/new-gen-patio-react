@@ -23,8 +23,11 @@ const OurPromise: React.FC = () => {
       aria-labelledby="process-heading"
     >
       <Helmet>
-        <title>Our Promise and Warranty Building Outdoor Spaces</title>
-        <meta name="description" content="Discover our commitment to quality, durability, and customer satisfaction in building outdoor spaces. Learn more about our service guarantees and warranty coverage." />
+        <title>Our Promise & Warranty | New Gen Patio</title>
+        <meta 
+          name="description" 
+          content="Discover our commitment to quality, durability, and customer satisfaction in building outdoor spaces. Learn more about our service guarantees and warranty coverage." 
+        />
       </Helmet>
 
 

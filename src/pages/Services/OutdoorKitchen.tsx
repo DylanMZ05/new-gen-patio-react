@@ -1,5 +1,5 @@
 import React from "react";
-import { Helmet } from "react-helmet";
+import { Helmet } from "react-helmet-async";
 import MarqueeBanner from "../../components/MarqueeBanner";
 import ImgTxtSection from "../../components/ImgTxtSection";
 import SectionBlock from "../../components/SectionBlock";

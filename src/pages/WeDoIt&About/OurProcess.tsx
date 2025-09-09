@@ -4,7 +4,7 @@ import ImgTxtSection from "../../components/ImgTxtSection";
 import SectionBlock from "../../components/SectionBlock";
 import FreeQuoteButton from "../../components/FreeQuoteButton";
 import ImageSlider from "../../components/ImageSlider";
-import { Helmet } from "react-helmet";
+import { Helmet } from "react-helmet-async";
 
 const sectionsData = [
   {

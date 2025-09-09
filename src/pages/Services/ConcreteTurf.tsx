@@ -5,7 +5,7 @@ import ImgTxtSection from "../../components/ImgTxtSection";
 import SectionBlock from "../../components/SectionBlock";
 import WhyUsLink from "./components/WhyUsLink";
 import Services from "../Home/services/services";
-import { Helmet } from "react-helmet";
+import { Helmet } from "react-helmet-async";
 
 import FreeQuoteButton from "../../components/FreeQuoteButton";
 

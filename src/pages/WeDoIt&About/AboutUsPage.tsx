@@ -2,7 +2,7 @@ import React from "react";
 import MarqueeBanner from "../../components/MarqueeBanner";
 import { Wrench, PencilRuler, ShieldCheck, Handshake, CheckCircle } from "lucide-react";
 import FreeQuoteButton from "../../components/FreeQuoteButton";
-import { Helmet } from "react-helmet";
+import { Helmet } from "react-helmet-async";
 
 
 const AboutUsPage: React.FC = () => {

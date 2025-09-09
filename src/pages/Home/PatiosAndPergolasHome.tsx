@@ -1,4 +1,4 @@
-import { Helmet } from "react-helmet";
+import { Helmet } from "react-helmet-async";
 
 import BlockSection from "../../components/BlockSection";
 import SectionBlock from "../../components/SectionBlock";

@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { blogs } from "../Blogs/blogData";
 import MarqueeBanner from "../../components/MarqueeBanner";
 import FreeQuoteButton from "../../components/FreeQuoteButton";
-import { Helmet } from "react-helmet";
+import { Helmet } from "react-helmet-async";
 
 const BlogsSectionPage: React.FC = () => {
   const handleScrollToTop = () => {

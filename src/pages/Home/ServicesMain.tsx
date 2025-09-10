@@ -59,12 +59,12 @@ const ServicesMain = () => {
   return (
     <>
       <Helmet>
-        <title>Outdoor Living Design & Patio Covers Houston | New Gen Patio</title>
+        <title>Expert Outdoor Living Design & Construction | New Gen Patio</title>
         <meta
           name="description"
-          content="Expert outdoor living design in Houston. Custom aluminum pergolas, covered patios & kitchens built with durability, elegance & turnkey installation."
+          content="Discover premier design & construction for outdoor living. Durable, elegant spaces are created by expert builders. 100% custom aluminum pergolas, covered patios, and outdoor kitchens are created. Explore our designs!"
         />
-        <link rel="canonical" href="https://www.newgenpatio.com/aluminium-custom-pergola-cover-patio" />
+        <link rel="canonical" href="https://www.newgenpatio.com/outdoor-living-services" />
       </Helmet>
 
       <main className="flex flex-col justify-center items-center mb-10">

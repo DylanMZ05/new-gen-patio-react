@@ -28,12 +28,12 @@ const OutdoorKitchenModern: React.FC = () => {
   return (
     <>
       <Helmet>
-        <title>Modern Outdoor Kitchens Houston | New Gen Patio</title>
+        <title>Modern Outdoor Kitchen Design & Installation | New Gen Patio</title>
         <meta
           name="description"
-          content="Premium modern outdoor kitchens in Houston with smart materials, integrated tech, quartz/granite countertops, and stainless appliances. Sleek design, low maintenance."
+          content="Our modern outdoor kitchen designs are ready to be explored. Clean lines, luxury finishes, and the latest technology for a sophisticated outdoor space are featured."
         />
-        <link rel="canonical" href="https://www.newgenpatio.com/modern-outdoor-kitchens-houston" />
+        <link rel="canonical" href="https://www.newgenpatio.com/custom-outdoor-kitchen" />
       </Helmet>
 
       <section className="min-h-screen flex flex-col items-center bg-gray-100" aria-labelledby="outdoor-kitchen-heading">

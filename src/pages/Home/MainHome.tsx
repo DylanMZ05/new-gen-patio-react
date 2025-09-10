@@ -17,7 +17,7 @@ const MainHome = () => {
         <title>New Gen Patio | Aluminum Pergolas & Patio Covers Houston</title>
         <meta
           name="description"
-          content="Design-build experts in Houston crafting custom aluminum pergolas, covered patios, and outdoor kitchens. Modern, durable, and turnkey installation. Get a free quote."
+          content="Your Houston home's outdoor potential is realized with New Gen Patio's custom solutions. Luxury aluminum pergolas and covered patios are designed and built by our team. Get your free quote!"
         />
         <link rel="canonical" href="https://www.newgenpatio.com/" />
       </Helmet>

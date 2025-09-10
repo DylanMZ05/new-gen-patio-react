@@ -31,10 +31,10 @@ const Freestanding: React.FC = () => {
   return (
     <>
       <Helmet>
-        <title>Freestanding Aluminum Pergolas, Patio Covers | New Gen Patio</title>
+        <title>Freestanding Aluminum Pergolas & Patio Covers | New Gen Patio</title>
         <meta
           name="description"
-          content="Self-supported aluminum pergolas for any backyard area in Houston. Custom sizes, insulated roof panels, lighting & fans. Durable, elegant, expert installation."
+          content="A stunning focal point is created with a freestanding aluminum pergola or patio cover. Versatile, durable, and custom-designed for Houston living. Call us today!"
         />
         <link
           rel="canonical"

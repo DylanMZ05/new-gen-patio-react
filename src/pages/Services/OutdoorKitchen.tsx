@@ -23,10 +23,10 @@ const OutdoorKitchen: React.FC = () => {
   return (
     <>
       <Helmet>
-        <title>Outdoor Kitchen | New Gen Patio</title>
+        <title>Custom Outdoor Kitchen Builders in Houston, TX | New Gen Patio</title>
         <meta
           name="description"
-          content="Transform your backyard with a custom outdoor kitchen in Houston. Built to last, designed for entertaining, and optimized for year-round use."
+          content="Become the ultimate host with a custom outdoor kitchen in Houston. Luxurious, functional backyard kitchens perfect for entertaining are built by us. Design yours today!"
         />
         <link rel="canonical" href="https://www.newgenpatio.com/custom-outdoor-kitchen" />
       </Helmet>

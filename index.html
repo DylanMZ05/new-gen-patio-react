@@ -5,57 +5,25 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <!-- SEO Meta Tags -->
-    <title>New Gen Patio | Custom Aluminum Pergolas</title>
-    <meta
-      name="description"
-      content="Enhance your outdoor space with custom aluminum pergolas. Durable, stylish, and maintenance-free structures tailored to your needs."
-    />
-    <meta
-      name="keywords"
-      content="aluminum pergolas, houston pergolas, pergolas houston, aluminum pergolas houston, houston aluminum pergolas, custom patios, outdoor living, patio covers, New Gen Patio, modern pergolas, patio design, durable outdoor structures"
-    />
-    <meta name="robots" content="index, follow" />
+    <!--
+      IMPORTANTE:
+      - No ponemos <meta name="description"> aquí para que Helmet maneje títulos y descriptions por página.
+      - No dejamos OG/Twitter por defecto para no pisar las metas específicas de cada ruta.
+      - Si en el futuro querés OG/Twitter globales, definilos con Helmet en páginas concretas.
+    -->
 
-    <!-- Favicon básico -->
+    <!-- Título genérico (Helmet lo reemplazará en cada ruta) -->
+    <title>New Gen Patio</title>
+
+    <!-- Robots y color de tema -->
+    <meta name="robots" content="index, follow" />
+    <meta name="theme-color" content="#ffffff" />
+
+    <!-- Favicon -->
     <link rel="icon" href="/LogoColor.ico" type="image/x-icon" />
     <link rel="shortcut icon" href="/LogoColor.ico" type="image/x-icon" />
 
-    <!-- Open Graph (Para compartir en Facebook, LinkedIn, WhatsApp) -->
-    <meta property="og:image" content="https://www.newgenpatio.com/assets/images/Products/Patios&Pergolas/Attached/03.webp" />
-    <meta property="og:url" content="https://www.newgenpatio.com/" />
-    <meta property="og:type" content="website" />
-
-    <!-- Twitter Cards (Para compartir en Twitter/X) -->
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="New Gen Patio | Custom Aluminum Pergolas" />
-    <meta name="twitter:description" content="Enhance your outdoor space with custom aluminum pergolas. Durable, stylish, and maintenance-free structures tailored to your needs." />
-    <meta name="twitter:image" content="https://www.newgenpatio.com/assets/images/Products/Patios&Pergolas/Attached/03.webp" />
-
-
-    <!-- JSON-LD Structured Data (SEO Avanzado para Google) -->
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "LocalBusiness",
-      "name": "New Gen Patio",
-      "image": "https://www.newgenpatio.com/favicon.png",
-      "url": "https://www.newgenpatio.com/",
-      "description": "Enhance your outdoor space with custom aluminum pergolas. Durable, stylish, and maintenance-free structures tailored to your needs.",
-      "address": {
-        "@type": "PostalAddress",
-        "streetAddress": "1234 Main Street",
-        "addressLocality": "Houston",
-        "addressRegion": "TX",
-        "postalCode": "77001",
-        "addressCountry": "US"
-      },
-      "telephone": "+1-555-123-4567",
-      "priceRange": "$$$"
-    }
-    </script>
-
-    <!-- Google Tag Manager -->
+    <!-- Google Tag Manager (una sola vez) -->
     <script>
       (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
       new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
@@ -65,9 +33,112 @@
     </script>
     <!-- End Google Tag Manager -->
 
+    <!-- Precarga del CSS generado por Vite (ajustá el nombre real del asset en build) -->
+    <link
+      rel="preload"
+      href="/assets/index-xxxxx.css"
+      as="style"
+      onload="this.onload=null;this.rel='stylesheet'"
+    />
+    <noscript><link rel="stylesheet" href="/assets/index-xxxxx.css" /></noscript>
+  </head>
+
+  <body>
+    <!-- Redirección defensiva si alguien entra a /index.html directo -->
+    <script>
+      if (window.location.pathname === "/index.html") {
+        window.location.replace("/");
+      }
+    </script>
+
+    <!-- Google Tag Manager (noscript) -->
+    <noscript>
+      <iframe
+        src="https://www.googletagmanager.com/ns.html?id=GTM-NVRGTGFV"
+        height="0"
+        width="0"
+        style="display:none;visibility:hidden"
+      ></iframe>
+    </noscript>
+    <!-- End Google Tag Manager (noscript) -->
+
+    <!-- Root del app -->
+    <div id="root"></div>
+
+    <!-- POPUP de Cookies (carga scripts de marketing SOLO tras aceptar) -->
+    <div
+      id="cookie-popup"
+      style="
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: black;
+        padding: 20px 40px;
+        min-height: 75px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        box-shadow: 0 -2px 10px rgba(0,0,0,0.2);
+        z-index: 9999;
+        animation: slideUp 0.6s ease-out forwards;
+      "
+    >
+      <button
+        id="close-cookies"
+        style="
+          position: absolute;
+          top: 10px;
+          right: 15px;
+          background: none;
+          border: none;
+          font-size: 20px;
+          color: white;
+          cursor: pointer;
+          font-weight: bold;
+        "
+      >
+        ✕
+      </button>
+
+      <p style="margin: 0 5px; font-size: 16px; font-weight: bold; color: white;">
+        This website uses cookies to enhance the user experience.
+      </p>
+      <button
+        id="accept-cookies"
+        style="
+          background-color: #ff6a00;
+          color: white;
+          font-weight: 600;
+          padding: 8px 16px;
+          border: none;
+          border-radius: 8px;
+          cursor: pointer;
+          margin-left: 12px;
+        "
+      >
+        Accept
+      </button>
+    </div>
+
+    <style>
+      @keyframes slideUp {
+        0% {
+          transform: translateY(100%);
+          opacity: 0;
+        }
+        100% {
+          transform: translateY(0);
+          opacity: 1;
+        }
+      }
+    </style>
+
+    <!-- Funciones de carga de tracking (se invocan SOLO al aceptar cookies) -->
     <script>
       function loadTrackingScripts() {
-        // Google Analytics
+        // Google Analytics (gtag)
         const gaScript = document.createElement("script");
         gaScript.src = "https://www.googletagmanager.com/gtag/js?id=G-KQH5V68PG7";
         gaScript.async = true;
@@ -75,10 +146,10 @@
 
         gaScript.onload = () => {
           window.dataLayer = window.dataLayer || [];
-          function gtag() { dataLayer.push(arguments); }
-          gtag('js', new Date());
-          gtag('config', 'G-KQH5V68PG7');
-          gtag('config', 'AW-16836532366');
+          function gtag(){ dataLayer.push(arguments); }
+          gtag("js", new Date());
+          gtag("config", "G-KQH5V68PG7");
+          gtag("config", "AW-16836532366"); // Google Ads
         };
 
         // TikTok
@@ -87,7 +158,7 @@
           !function(w,d,t){
             w.TiktokAnalyticsObject=t;var ttq=w[t]=w[t]||[];
             ttq.methods=["page","track","identify","instances","debug","on","off","once","ready","alias","group","enableCookie","disableCookie","holdConsent","revokeConsent","grantConsent"];
-            ttq.setAndDefer=function(t,e){t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}}; 
+            ttq.setAndDefer=function(t,e){t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}};
             for(var i=0;i<ttq.methods.length;i++)ttq.setAndDefer(ttq,ttq.methods[i]);
             ttq.load=function(e,n){var r="https://analytics.tiktok.com/i18n/pixel/events.js";
             var s=d.createElement("script");s.type="text/javascript";s.async=true;s.src=r+"?sdkid="+e+"&lib="+t;
@@ -101,20 +172,17 @@
         const fbScript = document.createElement("script");
         fbScript.innerHTML = `
           !function(f,b,e,v,n,t,s){
-            if(f.fbq)return;n=f.fbq=function(){
-              n.callMethod ? n.callMethod.apply(n,arguments) : n.queue.push(arguments)
-            };
+            if(f.fbq)return;n=f.fbq=function(){ n.callMethod ? n.callMethod.apply(n,arguments) : n.queue.push(arguments) };
             if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-            n.queue=[];t=b.createElement(e);t.async=!0;
-            t.src=v;s=b.getElementsByTagName(e)[0];
-            s.parentNode.insertBefore(t,s)
+            n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;
+            s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)
           }(window, document,'script','https://connect.facebook.net/en_US/fbevents.js');
           fbq('init', '982749890451861');
           fbq('track', 'PageView');
         `;
         document.head.appendChild(fbScript);
 
-        // Fallback image
+        // Fallback de Meta Pixel (no-script)
         const fbImg = document.createElement("img");
         fbImg.src = "https://www.facebook.com/tr?id=982749890451861&ev=PageView&noscript=1";
         fbImg.height = 1;
@@ -122,155 +190,62 @@
         fbImg.style.display = "none";
         document.body.appendChild(fbImg);
       }
+
+      // Microsoft Clarity (puede cargarse sin consentimiento si lo considerás esencial; si no, muévelo dentro de loadTrackingScripts)
+      (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+      })(window, document, "clarity", "script", "sfe81s7o56");
+
+      // Metricool (una sola vez)
+      (function loadMetricool(cb){
+        var head = document.getElementsByTagName("head")[0];
+        var s = document.createElement("script");
+        s.type = "text/javascript";
+        s.src = "https://tracker.metricool.com/resources/be.js";
+        s.async = true;
+        s.onload = cb; s.onreadystatechange = cb;
+        head.appendChild(s);
+      })(function(){ if (window.beTracker) beTracker.t({hash:"61915cfe2be2f81cb147a95d34086a6e"}); });
+
+      // HubSpot
+      // Si necesitás consentimiento, también podés moverlo a loadTrackingScripts
+      (function(){
+        var hs = document.createElement("script");
+        hs.type = "text/javascript";
+        hs.id = "hs-script-loader";
+        hs.async = true;
+        hs.defer = true;
+        hs.src = "//js-eu1.hs-scripts.com/146616264.js";
+        document.head.appendChild(hs);
+      })();
     </script>
 
-    <!-- Theme Color for Mobile Browsers -->
-    <meta name="theme-color" content="#ffffff" />
-
-    <!-- Preload del CSS principal generado por Vite -->
-    <link rel="preload" href="/assets/index-xxxxx.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <noscript><link rel="stylesheet" href="/assets/index-xxxxx.css"></noscript>
-  </head>
-  <body>
-    
-    <script>
-      if (window.location.pathname === "/index.html") {
-        window.location.replace("/");
-      }
-    </script>
-    <!-- Google Tag Manager (noscript) -->
-    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NVRGTGFV"
-    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-    <!-- End Google Tag Manager (noscript) -->
-
-    <div id="root"></div>
-
-    <!-- POPUP de Cookies -->
-    <div id="cookie-popup" style="
-      position: fixed; 
-      bottom: 0; 
-      left: 0; 
-      right: 0; 
-      background: black; 
-      padding: 20px 40px; 
-      min-height: 75px; 
-      display: flex; 
-      justify-content: center; 
-      align-items: center; 
-      text-align: center; 
-      box-shadow: 0 -2px 10px rgba(0,0,0,0.2); 
-      z-index: 9999;
-      animation: slideUp 0.6s ease-out forwards;
-    ">
-      <button id="close-cookies" style="
-        position: absolute;
-        top: 10px;
-        right: 15px;
-        background: none;
-        border: none;
-        font-size: 20px;
-        color: white;
-        cursor: pointer;
-        font-weight: bold;
-      ">
-        ✕
-      </button>
-
-      <p style="margin: 0 5px; font-size: 16px; font-weight: bold; color: white;">
-        This website uses cookies to enhance the user experience.
-      </p>
-      <button id="accept-cookies" style="background-color: #ff6a00; color: white; font-weight: 600; padding: 8px 16px; border: none; border-radius: 8px; cursor: pointer;">
-        Accept
-      </button>
-    </div>
-
-    <style>
-    @keyframes slideUp {
-      0% {
-        transform: translateY(100%);
-        opacity: 0;
-      }
-      100% {
-        transform: translateY(0);
-        opacity: 1;
-      }
-    }
-    </style>
-
+    <!-- Control del popup y consentimiento -->
     <script>
       document.addEventListener('DOMContentLoaded', function() {
         const popup = document.getElementById('cookie-popup');
         const acceptBtn = document.getElementById('accept-cookies');
         const closeBtn = document.getElementById('close-cookies');
 
+        // Mostrar popup
         popup.style.display = 'flex';
-        loadTrackingScripts();
 
+        // Aceptar => carga scripts de marketing
         acceptBtn.addEventListener('click', () => {
           popup.style.display = 'none';
+          try { loadTrackingScripts(); } catch(e) { console.warn('Tracking scripts failed:', e); }
         });
 
+        // Cerrar sin aceptar => no carga marketing
         closeBtn.addEventListener('click', () => {
           popup.style.display = 'none';
         });
       });
     </script>
 
-    <script>
-      function loadScript(a){
-        var b = document.getElementsByTagName("head")[0],
-            c = document.createElement("script");
-        c.type = "text/javascript";
-        c.src = "https://tracker.metricool.com/resources/be.js";
-        c.onreadystatechange = a;
-        c.onload = a;
-        b.appendChild(c);
-      }
-      loadScript(function(){
-        beTracker.t({hash:"61915cfe2be2f81cb147a95d34086a6e"});
-      });
-    </script>
-
-    <script>
-      function loadScript(a){
-        var b = document.getElementsByTagName("head")[0],
-            c = document.createElement("script");
-        c.type = "text/javascript";
-        c.src = "https://tracker.metricool.com/resources/be.js";
-        c.onreadystatechange = a;
-        c.onload = a;
-        b.appendChild(c);
-      }
-      loadScript(function(){
-        beTracker.t({hash:"61915cfe2be2f81cb147a95d34086a6e"});
-      });
-    </script>
-
-    <script type="text/javascript">
-        (function(c,l,a,r,i,t,y){
-            c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
-            t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
-            y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
-        })(window, document, "clarity", "script", "sfe81s7o56");
-    </script>
-
-    <!-- Google Tag Manager -->
-      <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-      new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-      j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-      'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-      })(window,document,'script','dataLayer','GTM-NVRGTGFV');</script>
-    <!-- End Google Tag Manager -->
-    
-    <!-- Google Tag Manager (noscript) -->
-      <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NVRGTGFV"
-      height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-    <!-- End Google Tag Manager (noscript) -->
-
-    <!-- Start of HubSpot Embed Code -->
-    <script type="text/javascript" id="hs-script-loader" async defer src="//js-eu1.hs-scripts.com/146616264.js"></script>
-    <!-- End of HubSpot Embed Code -->
-
+    <!-- Carga de la app (Vite) -->
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

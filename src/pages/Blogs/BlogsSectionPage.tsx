@@ -16,12 +16,12 @@ const BlogsSectionPage: React.FC = () => {
   return (
     <>
       <Helmet>
-        <title>Outdoor Living Blog | New Gen Patio</title>
+        <title>Outdoor Living Blog | Patio & Pergola Design Ideas | New Gen Patio</title>
         <meta 
           name="description" 
-          content="Discover outdoor living ideas, patio cover trends, and expert tips in our blog. Stay inspired with the latest updates from New Gen Patio." 
+          content="Your source for outdoor living inspiration. Design ideas, expert tips, and the latest trends for patios, pergolas, and outdoor kitchens can be discovered." 
         />
-        <link rel="canonical" href="https://www.newgenpatio.com/blogs" />
+        <link rel="canonical" href="https://www.newgenpatio.com/blog" />
       </Helmet>
 
       <section className="pt-16 pb-10 px-6 bg-gray-200 border-t border-black/10">

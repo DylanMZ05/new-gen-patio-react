@@ -14,7 +14,7 @@ import BlockSection from "../../components/BlockSection";
 const CANONICAL =
   typeof window !== "undefined"
     ? `${window.location.origin}/covered-patio-project-catalog`
-    : "https://example.com/covered-patio-project-catalog";
+    : "https://newgenpatio.com/covered-patio-project-catalog";
 
 /* ==========================
    HERO DATA
@@ -556,10 +556,10 @@ const PatiosAndPergolasCatalog = () => {
       <div className="w-full flex flex-col items-center mb-20">
         {/* SEO */}
         <Helmet>
-          <title>Covered Patio & Pergola Project Catalog | New Gen Patio</title>
+          <title>Project Portfolio | Patio & Pergola Installations | New Gen Patio</title>
           <meta
             name="description"
-            content="Browse real covered patio and pergola projects. Filter by type, kitchen, colors, roofing panels, add-ons and foundation. Get ideas and plan your outdoor space."
+            content="Our portfolio of completed projects can be explored here. Be inspired by real transformations of patios, pergolas, and outdoor kitchens throughout the Houston area."
           />
           <link rel="canonical" href={CANONICAL} />
           <meta property="og:type" content="website" />

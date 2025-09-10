@@ -32,10 +32,10 @@ const ConcreteTurf: React.FC = () => {
   return (
     <section className="min-h-screen flex flex-col items-center bg-gray-100" aria-labelledby="concrete-turf-heading">
       <Helmet>
-        <title>Concrete & Artificial Turf Installation | New Gen Patio</title>
+        <title>Landscaping, Concrete & Artificial Turf Services | New Gen Patio</title>
         <meta
           name="description"
-          content="Low-maintenance landscaping in Houston: decorative concrete, stamped finishes, and premium artificial turf with cool-touch tech and fast drainage. Get a free quote."
+          content="The vision for your Houston home is completed with our additional expert services. Professional landscaping, custom concrete work, and premium artificial turf installation are offered to perfect your outdoor oasis."
         />
         <link rel="canonical" href="https://www.newgenpatio.com/concrete-and-artificial-turf" />
       </Helmet>

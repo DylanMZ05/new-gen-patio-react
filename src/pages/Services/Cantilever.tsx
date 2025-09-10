@@ -11,41 +11,41 @@ import FreeQuoteButton from "../../components/FreeQuoteButton";
 const sectionsData = [
   {
     id: 1,
-    title: "Louvered Aluminium Pergola",
+    title: "Cantilever Aluminium Pergola",
     description:
       "Adjustable-louver pergolas that control sun, shade, and rain with manual or motorized operation—engineered for year-round outdoor living.",
-    backgroundImage: "assets/images/Products/Patios&Pergolas/Louvered/01.webp",
+    backgroundImage: "assets/images/Products/Patios&Pergolas/Cantilever/01.webp",
   },
 ];
 
-const backgroundImage = "assets/images/Products/Patios&Pergolas/Louvered/03.webp";
+const backgroundImage = "assets/images/Products/Patios&Pergolas/Cantilever/03.webp";
 
-// Ajustá la cantidad si tenés más/menos imágenes en tu carpeta Louvered
+// Ajustá la cantidad si tenés más/menos imágenes en tu carpeta Cantilever
 const imagePaths = Array.from({ length: 16 }, (_, i) =>
-  `assets/images/Products/Patios&Pergolas/Louvered/${(i + 1)
+  `assets/images/Products/Patios&Pergolas/Cantilever/${(i + 1)
     .toString()
     .padStart(2, "0")}.webp`
 );
 const validImages = imagePaths.filter((img) => img.trim() !== "");
 
-const Louvered: React.FC = () => {
+const Cantilever: React.FC = () => {
   return (
     <>
       <Helmet>
-        <title>Louvered Aluminum Pergolas (Motorized) | New Gen Patio</title>
+        <title>Modern Cantilever Pergolas & Carports | New Gen Patio</title>
         <meta
           name="description"
-          content="Modern louvered pergolas in Houston with adjustable blades—manual or motorized—rain management, integrated lighting & fans. Year-round comfort, custom design."
+          content="Modern design is experienced with a cantilever pergola or carport. Minimalist structures offering maximum shade and style for your Houston patio are provided. Discover the difference."
         />
         <link
           rel="canonical"
-          href="https://www.newgenpatio.com/louvered-aluminium-pergola"
+          href="https://www.newgenpatio.com/cantilever-aluminium-pergola"
         />
       </Helmet>
 
       <section
         className="min-h-screen flex flex-col items-center bg-gray-100"
-        aria-labelledby="louvered-heading"
+        aria-labelledby="Cantilever-heading"
       >
         <SectionBlock sections={sectionsData} />
         <Slider images={validImages} withBorderT />
@@ -73,31 +73,31 @@ const Louvered: React.FC = () => {
             {
               title: "Adjustable Comfort (Manual or Motorized)",
               text: "Precision-engineered aluminum louvers rotate to control light and ventilation. Choose manual cranks or motorized operation with remote/app controls for seamless comfort throughout the day.",
-              imageUrl: "assets/images/Products/Patios&Pergolas/Louvered/02.webp",
+              imageUrl: "assets/images/Products/Patios&Pergolas/Cantilever/02.webp",
               imagePosition: "right" as const,
             },
             {
               title: "All-Weather Rain Management",
               text: "When closed, interlocking blades create a water-tight seal that channels rain into hidden perimeter gutters and downspouts—keeping your space dry and usable year-round.",
-              imageUrl: "assets/images/Products/Patios&Pergolas/Louvered/04.webp",
+              imageUrl: "assets/images/Products/Patios&Pergolas/Cantilever/04.webp",
               imagePosition: "left" as const,
             },
             {
               title: "Integrated Accessories",
               text: "Add dimmable LED lighting, ceiling fans, screens, and heaters without compromising the structure. Clean cable routing keeps everything minimal and modern.",
-              imageUrl: "assets/images/Products/Patios&Pergolas/Louvered/05.webp",
+              imageUrl: "assets/images/Products/Patios&Pergolas/Cantilever/05.webp",
               imagePosition: "right" as const,
             },
             {
               title: "Durability & Low Maintenance",
               text: "Powder-coated structural aluminum resists corrosion and UV exposure. Few moving parts and sealed actuators ensure long-term reliability with minimal upkeep.",
-              imageUrl: "assets/images/Products/Patios&Pergolas/Louvered/06.webp",
+              imageUrl: "assets/images/Products/Patios&Pergolas/Cantilever/06.webp",
               imagePosition: "left" as const,
             },
             {
               title: "Smart Sensors & Automation (Optional)",
               text: "Wind and rain sensors can auto-close the louvers to protect furniture and electronics. Create schedules or scenes for daily use and events.",
-              imageUrl: "assets/images/Products/Patios&Pergolas/Louvered/07.webp",
+              imageUrl: "assets/images/Products/Patios&Pergolas/Cantilever/07.webp",
               imagePosition: "right" as const,
             },
           ].map((section, index) => (
@@ -113,4 +113,4 @@ const Louvered: React.FC = () => {
   );
 };
 
-export default Louvered;
+export default Cantilever;

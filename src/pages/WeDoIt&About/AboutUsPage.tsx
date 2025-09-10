@@ -21,7 +21,7 @@ const AboutUsPage: React.FC = () => {
         <title>About Us | New Gen Patio Experts in Outdoor Living</title>
         <meta
           name="description"
-          content="Meet the New Gen Patio team—specialists in aluminum pergolas and covered patios in Houston. Expert craftsmanship, custom designs, and exceptional service."
+          content="Learn about New Gen Patio. We are more than builders; we are a team of designers and craftsmen passionate about transforming spaces and enhancing lifestyles in Houston."
         />
         <link rel="canonical" href="https://www.newgenpatio.com/about-us" />
       </Helmet>

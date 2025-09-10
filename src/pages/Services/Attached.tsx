@@ -31,10 +31,10 @@ const Attached: React.FC = () => {
   return (
     <>
       <Helmet>
-        <title>Attached Aluminum Pergolas & Patio Covers | New Gen Patio</title>
+        <title>Attached Aluminum Pergolas & Covered Patios | New Gen Patio</title>
         <meta
           name="description"
-          content="Attached aluminum pergolas and covered patios in Houston. Seamless integration, insulated roof panels, durable epoxy finish. Custom design & expert installation."
+          content="Your living space is seamlessly expanded with an attached aluminum pergola or covered patio. Durable, modern, and custom-built for your Houston home. A free consultation is available!"
         />
         <link
           rel="canonical"

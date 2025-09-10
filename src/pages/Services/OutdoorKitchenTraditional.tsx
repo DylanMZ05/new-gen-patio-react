@@ -28,10 +28,10 @@ const OutdoorKitchenTraditional: React.FC = () => {
   return (
     <>
       <Helmet>
-        <title>Traditional Outdoor Kitchens Houston | New Gen Patio</title>
+        <title>Traditional Outdoor Kitchens | New Gen Patio</title>
         <meta
           name="description"
-          content="Build your perfect Traditional Outdoor Kitchen in Houston. Timeless materials, artisanal finishes, and authentic outdoor design made to last."
+          content="The timeless elegance of our traditional outdoor kitchens can be discovered. A warm, inviting atmosphere is created for your home with designs featuring stone, brick, and wood."
         />
         <link rel="canonical" href="https://www.newgenpatio.com/traditional-outdoor-kitchens-houston" />
       </Helmet>

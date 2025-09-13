@@ -34,6 +34,7 @@ import FreeQuoteTracking from "./pages/traking/freequote-tracking";
 import WhatsAppRedirect from "./pages/traking/WhatsAppRedirect";
 import useGoogleAdsTracking from "./hooks/useGoogleAdsTracking";
 import ProjectsList from "./pages/Catalogo/Catalogo";
+import BannerOferta from "./components/BannerOferta";
 
 // Páginas Admin
 import AdminDashboard from "./pages/Admin/AdminDashboard";
@@ -65,6 +66,19 @@ const Layout = memo(() => {
   return (
     <>
       {!isNoLayout && <Header />}
+      {!isNoLayout && (
+        <BannerOferta
+          activo={true}
+          modalTitulo="The best autumn memories are made outdoors."
+          modalTexto={"Why move the party inside? Transform your patio into a cozy, festive retreat for the entire season. Imagine warm gatherings, stylish comfort, and unforgettable nights under the stars. \n \n From September 15th to 30th, you can get a 72-inch fire pit completely free with installation if you close your backyard with us. \n \n (Applicable only to new customers who close during this time period and while supplies last)"}
+          whatsappMensaje={'Hi! I\'m here for "Get a FREE 72" electric fireplace. I\'d like to talk more about it.'}
+          storageKey="promo-sep-oct-2025"
+          onHeightChange={(h) => {
+            // ejemplo: empujar el header para que no lo tape el banner
+            document.documentElement.style.setProperty("--top-offset", `${h}px`);
+          }}
+        />
+      )}
 
       <Routes>
         {/* Públicas */}

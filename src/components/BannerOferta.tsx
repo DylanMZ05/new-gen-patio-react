@@ -5,7 +5,7 @@ type BannerOfertaProps = {
   activo: boolean;
   modalTitulo: string;
   modalTexto: string;
-  mensaje: string; 
+  mensaje?: string; 
   whatsappMensaje: string;
   onHeightChange?: (h: number) => void;
   storageKey?: string;

@@ -117,7 +117,7 @@ Let’s book your spot today!`}
 
       <header
         id="site-header"
-        className={`w-full fixed  z-50 transition-colors duration-300 ${
+        className={`w-full fixed top-11 z-50 transition-colors duration-300 ${
           isScrolled ? "bg-white shadow-lg text-black" : "bg-gradient-to-b from-black to-transparent text-white"
         }`}
         role="banner"

@@ -153,7 +153,7 @@ const BannerOferta: React.FC<BannerOfertaProps> = ({
         .banner-track {
           display: flex;
           width: calc(19200px * 2); /* dos copias para loop */
-          animation: banner-move 120s linear infinite; /* velocidad ajustable */
+          animation: banner-move 230s linear infinite; /* velocidad ajustable */
         }
         .banner-img {
           height: 45px;   /* altura exacta */

@@ -15,7 +15,7 @@ const Footer: React.FC = () => {
         {/* Título y Estadísticas */}
         <div className="flex flex-col items-center justify-center pt-[50px]">
           <p className="font-semibold text-4xl text-center px-1">
-            +350 Projects Completed
+            +500 Projects Completed
           </p>
           <div className="w-30 h-[3px] bg-[#0d4754] mt-4 mb-2 rounded-full"></div>
           <p className="text-center text-gray-800 text-base mt-2 px-4">

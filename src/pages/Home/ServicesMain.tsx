@@ -6,13 +6,132 @@ import MarqueeBanner from "../../components/MarqueeBanner";
 import ImageTextSection from "../../components/ImgTxtSection";
 import Services from "./services/services";
 
+// --- Keywords provistas (orden de mayor a menor relevancia) ---
+const KEYWORDS_RAW = [
+  "pergola",
+  "outdoor living",
+  "covered patio covers",
+  "patio cover cover",
+  "patios and pergolas",
+  "pergola in patio",
+  "pergola patio",
+  "pergola with patio",
+  "outdoor pergolas",
+  "outdoor patio",
+  "patio shade",
+  "outdoor shade",
+  "pergola for roof",
+  "pergola roofing",
+  "roof of pergola",
+  "backyard patio",
+  "patio designs",
+  "covered patio",
+  "patio roofing",
+  "patio with roof",
+  "backyard pergola",
+  "covered pergolas",
+  "pergola and cover",
+  "pergola in the backyard",
+  "pergolas houston",
+  "pergolas houston tx",
+  "aluminium covered patio",
+  "aluminum covered patio",
+  "aluminum patio cover materials",
+  "aluminum pergolas",
+  "cover your pergola",
+  "outdoor sun shade",
+  "backyard shade",
+  "cover outdoor patio",
+  "houston patio",
+  "outdoor living spaces",
+  "outdoor patio covers",
+  "patio cover outdoor",
+  "patio shade covers",
+  "metal patio covers",
+  "patio construction",
+  "aluminum carport",
+  "modern pergolas",
+  "pergola and shade",
+  "shade pergola",
+  "backyard cover patio",
+  "covered patio backyard",
+  "patio cover backyard",
+  "patio extension",
+  "porch cover",
+  "pergola co",
+  "pergola roofing panels",
+  "aluminum awning",
+  "custom pergolas",
+  "customizable pergola",
+  "pergola price",
+  "polycarbonate roofing for pergola",
+  "small pergola",
+  "cover my pergola",
+  "pergola connected to roof",
+  "pergola with privacy wall",
+  "patio cover and pergola",
+  "patio covered pergola",
+  "pergola roof cover",
+  "prefab pergola",
+  "prefabricated pergolas",
+  "aluminum patio roof",
+  "install pergola",
+  "insulated aluminum roof panels",
+  "outdoor pergola with roof",
+  "pergola materials",
+  "pergola rain cover",
+  "pergola connected to house",
+  "pergola over patio",
+  "polycarbonate sheets for pergola",
+  "structure pergolas",
+  "backyard patio pergola",
+  "house pergola",
+  "outdoor patio pergola",
+  "patio pergola with roof",
+  "pergola sizes",
+  "weatherproof pergolas",
+  "aluminium gazebo",
+  "aluminum pergola with canopy",
+  "backyard pergola designs",
+  "backyard pergola with roof",
+  "contemporary pergolas",
+  "custom aluminum pergola",
+  "modern aluminium pergola",
+  "modern aluminum pergola",
+  "aluminum pergola shade",
+  "aluminum roofing panels for patio",
+  "backyard covered pergola",
+  "commercial pergolas",
+  "custom size pergola",
+  "long pergola",
+  "mirador aluminum pergola",
+  "pergola aluminum roof",
+  "aluminium garden pagoda",
+  "aluminium patio",
+  "aluminium pergola roof",
+  "aluminium pergola sale",
+  "aluminium pergola with roof",
+  "aluminium roof pergola",
+  "aluminum covered pergola",
+  "aluminum garden pergola",
+  "aluminum modern pergola",
+  "aluminum patio pergola",
+];
+
+// --- Si son demasiadas, corta las últimas (solo si hace falta) ---
+const MAX_KW = 30; // ajustá este número si querés más/menos keywords
+const KEYWORDS_DEDUPED = Array.from(new Set(KEYWORDS_RAW)); // preserva el orden
+const KEYWORDS_FINAL = KEYWORDS_DEDUPED.slice(0, MAX_KW).join(", ");
+
 // Datos
 const sectionsData3 = [
   {
     id: 6,
     title: "Custom Outdoor Living Spaces",
-    description: "Discover our modern, innovative solutions designed to enhance outdoor living with style, functionality, and durability.",
-    backgroundImage: "assets/images/Products/Patios&Pergolas/Attached/04.webp",
+    description:
+      "Discover our modern, innovative solutions designed to enhance outdoor living with style, functionality, and durability.",
+    backgroundImage:
+      "assets/images/Products/Patios&Pergolas/Attached/04.webp",
   },
 ];
 
@@ -64,7 +183,11 @@ const ServicesMain = () => {
           name="description"
           content="Discover premier design & construction for outdoor living. Durable, elegant spaces are created by expert builders. 100% custom aluminum pergolas, covered patios, and outdoor kitchens are created. Explore our designs!"
         />
-        <link rel="canonical" href="https://www.newgenpatio.com/outdoor-living-services" />
+        <meta name="keywords" content={KEYWORDS_FINAL} />
+        <link
+          rel="canonical"
+          href="https://www.newgenpatio.com/outdoor-living-services"
+        />
       </Helmet>
 
       <main className="flex flex-col justify-center items-center mb-10">
@@ -73,15 +196,28 @@ const ServicesMain = () => {
         <MarqueeBanner />
         <Services />
         <section className="w-full max-w-5xl px-4 pb-8 text-center">
-          <h2 className="text-3xl font-bold text-black/90 mb-4">Why do I need to take advantage of the outdoor spaces in my home?</h2>
+          <h2 className="text-3xl font-bold text-black/90 mb-4">
+            Why do I need to take advantage of the outdoor spaces in my home?
+          </h2>
           <div className="w-24 h-1 bg-[#0d4754] my-3 rounded-full mx-auto"></div>
           <p className="text-xl">
-            Maximizing your outdoor spaces isn’t just about aesthetics—it’s about extending your lifestyle. When you invest in your backyard, patio, or outdoor kitchen, you're creating a <strong>functional living area that increases your home’s value, comfort, and versatility.</strong>
+            Maximizing your outdoor spaces isn’t just about aesthetics—it’s
+            about extending your lifestyle. When you invest in your backyard,
+            patio, or outdoor kitchen, you're creating a{" "}
+            <strong>
+              functional living area that increases your home’s value, comfort,
+              and versatility.
+            </strong>
           </p>
-          <p className="text-xl">Here are four strong reasons why taking full advantage of your outdoor space is a smart decision:</p>
+          <p className="text-xl">
+            Here are four strong reasons why taking full advantage of your
+            outdoor space is a smart decision:
+          </p>
         </section>
         <div className="pt-8 px-5 max-w-3xl">
-          <h2 className="font-bold text-4xl mb-3 text-center text-black/90">Benefits</h2>
+          <h2 className="font-bold text-4xl mb-3 text-center text-black/90">
+            Benefits
+          </h2>
           <div className="w-16 h-[3px] bg-[#0d4754] mt-3 mx-auto rounded-full"></div>
         </div>
         {sections.map((section, index) => (

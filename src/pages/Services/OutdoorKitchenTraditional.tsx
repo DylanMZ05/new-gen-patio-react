@@ -8,6 +8,22 @@ import WhyUsLink from "./components/WhyUsLink";
 import Services from "../Home/services/services";
 import FreeQuoteButton from "../../components/FreeQuoteButton";
 
+// --- Keywords provistas (orden de mayor a menor relevancia) ---
+const KEYWORDS_RAW = [
+  "stone outdoor kitchen",
+  "brick outdoor kitchen",
+  "blackstone outdoor kitchen",
+  "concrete block outdoor kitchen",
+  "outdoor kitchen with cinder blocks",
+  "rustic outdoor kitchen",
+  "white brick outdoor kitchen",
+];
+
+// --- Si son demasiadas, corta las últimas (solo si hace falta) ---
+const MAX_KW = 20; // ajustá este número si querés más/menos keywords
+const KEYWORDS_DEDUPED = Array.from(new Set(KEYWORDS_RAW)); // preserva el orden
+const KEYWORDS_FINAL = KEYWORDS_DEDUPED.slice(0, MAX_KW).join(", ");
+
 const sectionsData = [
   {
     id: 1,
@@ -33,9 +49,9 @@ const OutdoorKitchenTraditional: React.FC = () => {
           name="description"
           content="The timeless elegance of our traditional outdoor kitchens can be discovered. A warm, inviting atmosphere is created for your home with designs featuring stone, brick, and wood."
         />
+        <meta name="keywords" content={KEYWORDS_FINAL} />
         <link rel="canonical" href="https://www.newgenpatio.com/traditional-outdoor-kitchens-houston" />
       </Helmet>
-
 
       <section className="min-h-screen flex flex-col items-center bg-gray-100" aria-labelledby="outdoor-kitchen-heading">
         <SectionBlock sections={sectionsData} />

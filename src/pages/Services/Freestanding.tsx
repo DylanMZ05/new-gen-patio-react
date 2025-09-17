@@ -8,6 +8,54 @@ import WhyUsLink from "./components/WhyUsLink";
 import Services from "../Home/services/services";
 import FreeQuoteButton from "../../components/FreeQuoteButton";
 
+// --- Keywords provistas (orden de mayor a menor relevancia) ---
+const KEYWORDS_RAW = [
+  "covered free standing patio",
+  "free standing patio cover",
+  "freestanding pergola",
+  "freestanding patio cover",
+  "free standing pergola",
+  "free standing detached covered patio",
+  "free standing pergola with polycarbonate roof",
+  "free standing pergola with roof",
+  "patio cover not attached to house",
+  "covered freestanding patio",
+  "freestanding aluminium pergola",
+  "freestanding aluminum patio cover",
+  "freestanding aluminum pergola",
+  "freestanding covered pergola",
+  "freestanding metal pergola",
+  "freestanding patio roof",
+  "freestanding pergola on deck",
+  "freestanding pergola with roof",
+  "metal freestanding pergola",
+  "modern freestanding pergola",
+  "small freestanding pergola",
+  "free standing aluminum patio covers",
+  "free standing covered patio",
+  "free standing covered pergola",
+  "free standing metal patio covers",
+  "free standing metal pergola",
+  "free standing patio cover next to house",
+  "free standing patio pergola",
+  "free standing patio roof",
+  "free standing pergola on concrete patio",
+  "free standing pergola on deck",
+  "free standing porch cover",
+  "free standing porch roof",
+  "free standing shed roof patio cover",
+  "metal free standing patio covers",
+  "covered patio not attached to house",
+  "covered porch not attached to house",
+  "patio roof not attached to house",
+  "porch roof not attached to house",
+];
+
+// --- Si son demasiadas, corta las últimas (solo si hace falta) ---
+const MAX_KW = 50; // ajustá este número si querés más/menos keywords
+const KEYWORDS_DEDUPED = Array.from(new Set(KEYWORDS_RAW)); // preserva el orden
+const KEYWORDS_FINAL = KEYWORDS_DEDUPED.slice(0, MAX_KW).join(", ");
+
 const sectionsData = [
   {
     id: 1,
@@ -36,6 +84,7 @@ const Freestanding: React.FC = () => {
           name="description"
           content="A stunning focal point is created with a freestanding aluminum pergola or patio cover. Versatile, durable, and custom-designed for Houston living. Call us today!"
         />
+        <meta name="keywords" content={KEYWORDS_FINAL} />
         <link
           rel="canonical"
           href="https://www.newgenpatio.com/free-standing-aluminium-pergola-covered-patio"
@@ -54,7 +103,7 @@ const Freestanding: React.FC = () => {
           <h2 className="font-semibold text-3xl mb-3 text-center">
             Why might you need it?
           </h2>
-            <div className="w-16 h-[3px] bg-[#0d4754] mt-3 mb-2 mx-auto rounded-full"></div>
+          <div className="w-16 h-[3px] bg-[#0d4754] mt-3 mb-2 mx-auto rounded-full"></div>
           <ul className="list-disc pl-6 text-lg">
             <li>You want a shaded entertainment area in the middle of your garden or by the pool.</li>
             <li>You're looking to define a space without building walls or heavy structures.</li>

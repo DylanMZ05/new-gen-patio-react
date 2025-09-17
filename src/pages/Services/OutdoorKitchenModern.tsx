@@ -8,6 +8,17 @@ import WhyUsLink from "./components/WhyUsLink";
 import Services from "../Home/services/services";
 import FreeQuoteButton from "../../components/FreeQuoteButton";
 
+// --- Keywords provistas (orden de mayor a menor relevancia) ---
+const KEYWORDS_RAW = [
+  "contemporary outdoor kitchen",
+  "modern outdoor kitchen",
+];
+
+// --- Si son demasiadas, corta las últimas (solo si hace falta) ---
+const MAX_KW = 10; // ajustá este número si querés más/menos keywords
+const KEYWORDS_DEDUPED = Array.from(new Set(KEYWORDS_RAW)); // preserva el orden
+const KEYWORDS_FINAL = KEYWORDS_DEDUPED.slice(0, MAX_KW).join(", ");
+
 const sectionsData = [
   {
     id: 1,
@@ -33,6 +44,7 @@ const OutdoorKitchenModern: React.FC = () => {
           name="description"
           content="Our modern outdoor kitchen designs are ready to be explored. Clean lines, luxury finishes, and the latest technology for a sophisticated outdoor space are featured."
         />
+        <meta name="keywords" content={KEYWORDS_FINAL} />
         <link rel="canonical" href="https://www.newgenpatio.com/custom-outdoor-kitchen" />
       </Helmet>
 

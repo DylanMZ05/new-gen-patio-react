@@ -8,6 +8,26 @@ import WhyUsLink from "./components/WhyUsLink";
 import Services from "../Home/services/services";
 import FreeQuoteButton from "../../components/FreeQuoteButton";
 
+// --- Keywords provistas (orden de mayor a menor relevancia) ---
+const KEYWORDS_RAW = [
+  "cantilever pergola",
+  "aluminum cantilever pergola",
+  "cantilever steel pergola",
+  "modern cantilever pergola",
+  "steel cantilever pergola",
+  "cantilever aluminium pergola",
+  "cantilever metal pergola",
+  "cantilever pergola attached to house",
+  "cantilever pergola kits",
+  "metal cantilever pergola",
+  "modern steel cantilever pergola",
+];
+
+// --- Si son demasiadas, corta las últimas (solo si hace falta) ---
+const MAX_KW = 20; // ajustá este número si querés más/menos keywords
+const KEYWORDS_DEDUPED = Array.from(new Set(KEYWORDS_RAW)); // preserva el orden
+const KEYWORDS_FINAL = KEYWORDS_DEDUPED.slice(0, MAX_KW).join(", ");
+
 const sectionsData = [
   {
     id: 1,
@@ -37,6 +57,7 @@ const Cantilever: React.FC = () => {
           name="description"
           content="Modern design is experienced with a cantilever pergola or carport. Minimalist structures offering maximum shade and style for your Houston patio are provided. Discover the difference."
         />
+        <meta name="keywords" content={KEYWORDS_FINAL} />
         <link
           rel="canonical"
           href="https://www.newgenpatio.com/cantilever-aluminium-pergola"

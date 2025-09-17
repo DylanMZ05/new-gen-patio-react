@@ -7,6 +7,72 @@ import WhyUsLink from "./components/WhyUsLink";
 import OutdorKitchenCard from "../Home/services/OutdoorKitchenCards";
 import FreeQuoteButton from "../../components/FreeQuoteButton";
 
+// --- Keywords provistas (orden de mayor a menor relevancia) ---
+const KEYWORDS_RAW = [
+  "outdoor kitchen",
+  "backyard kitchen",
+  "kitchen backyard",
+  "modular outdoor kitchen",
+  "outdoor kitchen designs",
+  "outdoor kitchen grill",
+  "outdoor kitchen island",
+  "prefabricated outdoor kitchen",
+  "outdoor kitchens near me",
+  "outdoor counters",
+  "outdoor kitchen contractors near me",
+  "outdoor barbecue kitchen",
+  "outdoor bbq kitchen",
+  "outdoor kitchen cost",
+  "outdoor kitchen prices",
+  "outdoor patio kitchen",
+  "patio kitchen",
+  "outdoor cabinets for patio",
+  "outdoor kitchen and bar",
+  "outdoor kitchen bar",
+  "outdoor kitchen pergolas",
+  "small outdoor kitchen",
+  "tiny outdoor kitchen",
+  "custom outdoor kitchen",
+  "covered outdoor kitchen",
+  "backyard outdoor kitchen",
+  "outdoor kitchen and fireplace",
+  "outdoor kitchen contractors",
+  "custom outdoor kitchen",
+  "outdoor kitchen and pool",
+  "outdoor kitchen builders near me",
+  "outdoor island",
+  "outdoor kitchen builders",
+  "luxury outdoor kitchen",
+  "outdoor kitchens for sale",
+  "outdoor kitchen covered patio",
+  "outdoor covered kitchen",
+  "custom outdoor kitchens near me",
+  "covered outdoor kitchen structures",
+  "covered outdoor kitchen with fireplace",
+  "exterior kitchen",
+  "outdoor kitchen designers",
+  "outdoor kitchen remodel",
+  "freestanding outdoor kitchen",
+  "outdoor kitchen area",
+  "outdoor kitchen construction",
+  "outdoor kitchen island with seating",
+  "outdoor kitchen with fire pit",
+  "covered outdoor kitchen attached to house",
+  "outdoor kitchen companies near me",
+  "outdoor kitchen white",
+  "outdoor mexican kitchen",
+  "spanish style outdoor kitchen",
+  "outdoor kitchen and covered patio",
+  "outdoor kitchen enclosed patio",
+  "outdoor kitchen patio cover",
+  "outdoor kitchen pro",
+];
+
+// --- Si son demasiadas, corta las últimas (solo si hace falta) ---
+const MAX_KW = 40; // ajustá este número si querés más/menos keywords
+const KEYWORDS_DEDUPED = Array.from(new Set(KEYWORDS_RAW)); // preserva el orden
+const KEYWORDS_FINAL = KEYWORDS_DEDUPED.slice(0, MAX_KW).join(", ");
+
 const sectionsData = [
   {
     id: 1,
@@ -28,6 +94,7 @@ const OutdoorKitchen: React.FC = () => {
           name="description"
           content="Become the ultimate host with a custom outdoor kitchen in Houston. Luxurious, functional backyard kitchens perfect for entertaining are built by us. Design yours today!"
         />
+        <meta name="keywords" content={KEYWORDS_FINAL} />
         <link rel="canonical" href="https://www.newgenpatio.com/custom-outdoor-kitchen" />
       </Helmet>
 

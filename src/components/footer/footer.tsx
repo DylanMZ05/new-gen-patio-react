@@ -45,7 +45,7 @@ const Footer: React.FC = () => {
             <iframe
               className="w-full h-[500px] relative z-0 transition-opacity duration-700 -top-17 -mb-17"
               title="New Gen Patio Locations"
-              src="https://www.google.com/maps/d/embed?mid=1vO80YEvHvKl5MYKvlnHiZ6L6cdQo4Xc&amp;ehbc=2E312F"
+              src="https://www.google.com/maps/d/embed?mid=1vO80YEvHvKl5MYKvlnHiZ6L6cdQo4Xc&ehbc=2E312F"
               loading="lazy"
               aria-label="Google Map showing multiple project locations"
             ></iframe>

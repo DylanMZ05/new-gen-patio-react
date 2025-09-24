@@ -164,6 +164,9 @@ const PatiosAndPergolasCatalog = () => {
   const [mobileSheetOpen, setMobileSheetOpen] = useState(false);
   const [mobileTempSelection, setMobileTempSelection] = useState<Set<string>>(new Set());
 
+  /* ===== Body scroll lock helpers ===== */
+  const scrollYRef = useRef(0);
+
   /* ===== Top compact bar behavior ===== */
   const isHeaderHidden = useHeaderHidden();
   const stickyTop = isHeaderHidden ? BASE_OFFSET : BASE_OFFSET + HEADER_HEIGHT;
@@ -307,16 +310,39 @@ const PatiosAndPergolasCatalog = () => {
       })
     );
 
-  /* ===== Mobile sheet actions ===== */
+  /* ===== Mobile sheet actions (con body scroll lock) ===== */
   const sheetOpen = () => {
     setMobileTempSelection(new Set(selectedFilters));
     setMobileSheetOpen(true);
-    document.body.style.overflow = "hidden";
+
+    // 🔒 Lock del scroll del body para que no se mueva el fondo.
+    // Usamos position: fixed para evitar el "scroll bleed" en iOS.
+    scrollYRef.current = window.scrollY || 0;
+    const body = document.body;
+    body.style.position = "fixed";
+    body.style.top = `-${scrollYRef.current}px`;
+    body.style.left = "0";
+    body.style.right = "0";
+    body.style.width = "100%";
+    body.style.overscrollBehavior = "none"; // evita scroll chaining hacia el body
   };
+
   const sheetClose = () => {
     setMobileSheetOpen(false);
-    document.body.style.overflow = "auto";
+
+    // 🔓 Restaurar el body al estado normal y volver a la posición original
+    const body = document.body;
+    body.style.position = "";
+    body.style.top = "";
+    body.style.left = "";
+    body.style.right = "";
+    body.style.width = "";
+    body.style.overscrollBehavior = "";
+    body.style.overflow = "";
+
+    window.scrollTo(0, scrollYRef.current || 0);
   };
+
   const sheetApply = () =>
     withStableScroll(() => {
       setSelectedFilters(new Set(mobileTempSelection));
@@ -335,6 +361,21 @@ const PatiosAndPergolasCatalog = () => {
       return next;
     });
   };
+
+  // Cleanup defensivo por si el componente se desmonta con el sheet abierto
+  useEffect(() => {
+    return () => {
+      const body = document.body;
+      body.style.position = "";
+      body.style.top = "";
+      body.style.left = "";
+      body.style.right = "";
+      body.style.width = "";
+      body.style.overscrollBehavior = "";
+      body.style.overflow = "";
+      if (scrollYRef.current) window.scrollTo(0, scrollYRef.current);
+    };
+  }, []);
 
   /* ===== Desktop toggle ===== */
   const desktopToggle = (field: string, value: string) => {
@@ -599,7 +640,7 @@ const PatiosAndPergolasCatalog = () => {
             {/* Mobile open button (hidden on desktop) */}
             <button
               onClick={sheetOpen}
-              className="flex lg:hidden items-center gap-2 bg-[#0d4754] text-white px-3 py-1.5 rounded-full text-sm whitespace-nowrap shrink-0 cursor-pointer"
+              className="flex lg:hidden items-center gap-2 bg[#0d4754] bg-[#0d4754] text-white px-3 py-1.5 rounded-full text-sm whitespace-nowrap shrink-0 cursor-pointer"
               aria-label="Open filters"
             >
               <FiFilter className="text-base" />
@@ -833,6 +874,7 @@ const PatiosAndPergolasCatalog = () => {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
+              // Cerrar al tocar fuera
               onClick={sheetClose}
             />
             <motion.div
@@ -852,7 +894,13 @@ const PatiosAndPergolasCatalog = () => {
                 </button>
               </div>
 
-              <div className="max-h-[60vh] overflow-y-auto px-5 py-4 space-y-3">
+              {/* Contenedor scrollable del sheet:
+                  - overscroll-contain/touch-pan-y: evita propagación al body
+                  - WebkitOverflowScrolling: 'touch' para momentum en iOS */}
+              <div
+                className="max-h-[60vh] overflow-y-auto overscroll-contain overscroll-y-contain px-5 py-4 space-y-3 touch-pan-y"
+                style={{ WebkitOverflowScrolling: "touch" as any }}
+              >
                 {Object.entries(filterConfig).map(([groupTitle, { field, options }]) => {
                   const count = [...mobileTempSelection].filter((k) => k.startsWith(`${field}::`)).length;
                   return (

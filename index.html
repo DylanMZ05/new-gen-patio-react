@@ -13,7 +13,7 @@
     <link rel="icon" href="/LogoColor.ico" />
     <link rel="shortcut icon" href="/LogoColor.ico" />
 
-    <!-- ===== CSS: preload no bloqueante (reemplazar nombre en build) ===== -->
+    <!-- ===== CSS: preload no bloqueante (REEMPLAZA EL NOMBRE EN CADA BUILD) ===== -->
     <link rel="preload" href="/assets/index-xxxxx.css" as="style" crossorigin onload="this.onload=null;this.rel='stylesheet'">
     <noscript><link rel="stylesheet" href="/assets/index-xxxxx.css" /></noscript>
 
@@ -48,22 +48,52 @@
     <!-- Root -->
     <div id="root"></div>
 
-    <!-- ===== Popup Cookies ===== -->
-    <div id="cookie-popup" style="
-      position:fixed;left:0;right:0;bottom:0;background:#000;padding:16px 20px;
-      display:none;justify-content:center;align-items:center;gap:12px;z-index:9999">
-      <p style="margin:0;color:#fff;font-weight:600">This website uses cookies to enhance the user experience.</p>
-      <button id="accept-cookies" style="background:#ff6a00;color:#fff;font-weight:600;padding:8px 16px;border:none;border-radius:8px;cursor:pointer">
-        Accept
-      </button>
-      <button id="close-cookies" style="background:transparent;color:#fff;border:1px solid #fff;padding:8px 12px;border-radius:8px;cursor:pointer">
-        Close
-      </button>
+    <!-- ===== Popup Cookies (anti-CLS) ===== -->
+    <div
+      id="cookie-popup"
+      class="cookie-popup"
+      role="dialog"
+      aria-modal="true"
+      aria-live="polite"
+      aria-label="Cookie consent dialog"
+      tabindex="-1"
+    >
+      <p class="cookie-text">This website uses cookies to enhance the user experience.</p>
+      <button id="accept-cookies" class="cookie-btn cookie-btn--accept">Accept</button>
+      <button id="close-cookies" class="cookie-btn cookie-btn--close" aria-label="Close cookie banner">Close</button>
     </div>
+
+    <style>
+      .cookie-popup{
+        position:fixed; left:0; right:0; bottom:0;
+        background:#000; color:#fff;
+        padding:16px 20px; display:flex; justify-content:center; align-items:center; gap:12px;
+        z-index:9999;
+        /* Anti-CLS: usar transform para mostrar/ocultar sin reflow */
+        transform:translateY(100%);
+        transition:transform .25s ease;
+        will-change:transform;
+        contain:layout;
+        box-shadow:0 -2px 10px rgba(0,0,0,.25);
+      }
+      .cookie-popup.is-visible{ transform:translateY(0); }
+      .cookie-text{ margin:0; font-weight:600; }
+      .cookie-btn{
+        cursor:pointer; border:none; border-radius:8px; padding:8px 16px; font-weight:600;
+      }
+      .cookie-btn--accept{ background:#ff6a00; color:#fff; }
+      .cookie-btn--close{ background:transparent; color:#fff; border:1px solid #fff; }
+      @media (prefers-reduced-motion: reduce){
+        .cookie-popup{ transition:none; }
+      }
+    </style>
 
     <!-- ===== Carga diferida de marketing (solo tras consentimiento) ===== -->
     <script>
-      function afterWindowLoad(fn){ if (document.readyState === 'complete') fn(); else window.addEventListener('load', fn, {once:true}); }
+      function afterWindowLoad(fn){
+        if (document.readyState === 'complete') fn();
+        else window.addEventListener('load', fn, {once:true});
+      }
 
       function loadTrackingScripts() {
         // 1) Actualiza Consent → granted
@@ -100,7 +130,7 @@
         (function(w,d,t){
           w.TiktokAnalyticsObject=t;var ttq=w[t]=w[t]||[];
           ttq.methods=["page","track","identify","instances","debug","on","off","once","ready","alias","group","enableCookie","disableCookie","holdConsent","revokeConsent","grantConsent"];
-          ttq.setAndDefer=function(t,e){t[e]=function(){t.push([e].concat([].slice.call(arguments,0)))}};
+          ttq.setAndDefer=function(t,e){t[e]=function(){t.push([e].concat([].slice.call(arguments,0)))}}; 
           for(var i=0;i<ttq.methods.length;i++)ttq.setAndDefer(ttq,ttq.methods[i]);
           ttq.load=function(e){var s=d.createElement("script");s.async=!0;s.src="https://analytics.tiktok.com/i18n/pixel/events.js?sdkid="+e+"&lib="+t;
           var f=d.getElementsByTagName("script")[0];f.parentNode.insertBefore(s,f)};
@@ -129,22 +159,27 @@
         })(function(){ if (window.beTracker) beTracker.t({hash:"61915cfe2be2f81cb147a95d34086a6e"}); });
       }
 
-      // ===== Lógica del popup/consent =====
+      // ===== Lógica del popup/consent (anti-CLS) =====
       document.addEventListener('DOMContentLoaded', function() {
         const popup = document.getElementById('cookie-popup');
         const accepted = localStorage.getItem('cookiesAccepted') === '1';
 
-        if (!accepted) popup.style.display = 'flex';
+        if (!accepted) popup.classList.add('is-visible');
         else afterWindowLoad(loadTrackingScripts);
 
         document.getElementById('accept-cookies').addEventListener('click', () => {
           localStorage.setItem('cookiesAccepted','1');
-          popup.style.display = 'none';
+          popup.classList.remove('is-visible');
           afterWindowLoad(loadTrackingScripts);
         });
 
         document.getElementById('close-cookies').addEventListener('click', () => {
-          popup.style.display = 'none'; // no carga marketing
+          popup.classList.remove('is-visible'); // no carga marketing
+        });
+
+        // Accesibilidad: cerrar con ESC
+        document.addEventListener('keydown', (e) => {
+          if (e.key === 'Escape') popup.classList.remove('is-visible');
         });
       });
     </script>

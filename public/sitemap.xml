@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
-  <!-- Página principal -->
+  <!-- Home -->
   <url>
     <loc>https://www.newgenpatio.com/</loc>
     <lastmod>2025-06-01</lastmod>
@@ -9,129 +9,34 @@
     <changefreq>weekly</changefreq>
   </url>
 
-  <!-- Servicios principales -->
-  <url>
-    <loc>https://www.newgenpatio.com/aluminium-custom-pergola-cover-patio</loc>
-    <lastmod>2025-06-01</lastmod>
-    <priority>0.9</priority>
-    <changefreq>monthly</changefreq>
-  </url>
-  <url>
-    <loc>https://www.newgenpatio.com/attached-aluminium-pergola-covered-patio</loc>
-    <lastmod>2025-06-01</lastmod>
-    <priority>0.9</priority>
-    <changefreq>monthly</changefreq>
-  </url>
-  <url>
-    <loc>https://www.newgenpatio.com/free-standing-aluminium-pergola-covered-patio</loc>
-    <lastmod>2025-06-01</lastmod>
-    <priority>0.9</priority>
-    <changefreq>monthly</changefreq>
-  </url>
-  <url>
-    <loc>https://www.newgenpatio.com/cantilever-aluminium-pergola</loc>
-    <lastmod>2025-06-01</lastmod>
-    <priority>0.9</priority>
-    <changefreq>monthly</changefreq>
-  </url>
-  <url>
-    <loc>https://www.newgenpatio.com/custom-outdoor-kitchen</loc>
-    <lastmod>2025-06-01</lastmod>
-    <priority>0.9</priority>
-    <changefreq>monthly</changefreq>
-  </url>
-  <url>
-    <loc>https://www.newgenpatio.com/modern-outdoor-kitchens-houston</loc>
-    <lastmod>2025-06-01</lastmod>
-    <priority>0.8</priority>
-    <changefreq>monthly</changefreq>
-  </url>
-  <url>
-    <loc>https://www.newgenpatio.com/traditional-outdoor-kitchens-houston</loc>
-    <lastmod>2025-06-01</lastmod>
-    <priority>0.8</priority>
-    <changefreq>monthly</changefreq>
-  </url>
-  <url>
-    <loc>https://www.newgenpatio.com/concrete-and-turf-installation-houston</loc>
-    <lastmod>2025-06-01</lastmod>
-    <priority>0.8</priority>
-    <changefreq>monthly</changefreq>
-  </url>
+  <!-- Servicios -->
+  <url><loc>https://www.newgenpatio.com/aluminium-custom-pergola-cover-patio</loc><lastmod>2025-06-01</lastmod><priority>0.9</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://www.newgenpatio.com/attached-aluminium-pergola-covered-patio</loc><lastmod>2025-06-01</lastmod><priority>0.9</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://www.newgenpatio.com/free-standing-aluminium-pergola-covered-patio</loc><lastmod>2025-06-01</lastmod><priority>0.9</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://www.newgenpatio.com/cantilever-aluminium-pergola</loc><lastmod>2025-06-01</lastmod><priority>0.9</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://www.newgenpatio.com/custom-outdoor-kitchen</loc><lastmod>2025-06-01</lastmod><priority>0.9</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://www.newgenpatio.com/modern-outdoor-kitchens-houston</loc><lastmod>2025-06-01</lastmod><priority>0.8</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://www.newgenpatio.com/traditional-outdoor-kitchens-houston</loc><lastmod>2025-06-01</lastmod><priority>0.8</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://www.newgenpatio.com/concrete-and-turf-installation-houston</loc><lastmod>2025-06-01</lastmod><priority>0.8</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://www.newgenpatio.com/outdoor-living-services</loc><lastmod>2025-06-05</lastmod><priority>0.9</priority><changefreq>weekly</changefreq></url>
 
   <!-- Empresa / Info -->
-  <url>
-    <loc>https://www.newgenpatio.com/our-promise</loc>
-    <lastmod>2025-06-01</lastmod>
-    <priority>0.7</priority>
-    <changefreq>monthly</changefreq>
-  </url>
-  <url>
-    <loc>https://www.newgenpatio.com/how-we-doit</loc>
-    <lastmod>2025-06-01</lastmod>
-    <priority>0.7</priority>
-    <changefreq>monthly</changefreq>
-  </url>
-  <url>
-    <loc>https://www.newgenpatio.com/about-us</loc>
-    <lastmod>2025-06-01</lastmod>
-    <priority>0.7</priority>
-    <changefreq>monthly</changefreq>
-  </url>
+  <url><loc>https://www.newgenpatio.com/our-promise</loc><lastmod>2025-06-01</lastmod><priority>0.7</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://www.newgenpatio.com/how-we-doit</loc><lastmod>2025-06-01</lastmod><priority>0.7</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://www.newgenpatio.com/about-us</loc><lastmod>2025-06-01</lastmod><priority>0.7</priority><changefreq>monthly</changefreq></url>
 
-  <!-- Blog index -->
-  <url>
-    <loc>https://www.newgenpatio.com/blog</loc>
-    <lastmod>2025-06-01</lastmod>
-    <priority>0.9</priority>
-    <changefreq>weekly</changefreq>
-  </url>
+  <!-- Blog -->
+  <url><loc>https://www.newgenpatio.com/blog</loc><lastmod>2025-06-01</lastmod><priority>0.9</priority><changefreq>weekly</changefreq></url>
+  <url><loc>https://www.newgenpatio.com/blog/best-patio-cover-types</loc><lastmod>2025-05-15</lastmod><priority>0.8</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://www.newgenpatio.com/blog/aluminum-vs-wood-pergolas</loc><lastmod>2025-05-18</lastmod><priority>0.8</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://www.newgenpatio.com/blog/are-aluminum-pergolas-good-choice</loc><lastmod>2025-05-20</lastmod><priority>0.8</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://www.newgenpatio.com/blog/difference-between-covered-patio-and-pergola</loc><lastmod>2025-05-22</lastmod><priority>0.8</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://www.newgenpatio.com/blog/how-increased-home-value-with-aluminum-covered-patio</loc><lastmod>2025-05-25</lastmod><priority>0.8</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://www.newgenpatio.com/blog/cost-build-purpose-outdoor-kitchen</loc><lastmod>2025-05-28</lastmod><priority>0.8</priority><changefreq>monthly</changefreq></url>
 
-    <url>
-    <loc>https://www.newgenpatio.com/outdoor-living-services</loc>
-    <lastmod>2025-06-05</lastmod>
-    <priority>0.9</priority>
-    <changefreq>weekly</changefreq>
-  </url>
-
-  <!-- Blogs individuales (manual) -->
-  <url>
-    <loc>https://www.newgenpatio.com/blog/best-patio-cover-types</loc>
-    <lastmod>2025-05-15</lastmod>
-    <priority>0.8</priority>
-    <changefreq>monthly</changefreq>
-  </url>
-  <url>
-    <loc>https://www.newgenpatio.com/blog/aluminum-vs-wood-pergolas</loc>
-    <lastmod>2025-05-18</lastmod>
-    <priority>0.8</priority>
-    <changefreq>monthly</changefreq>
-  </url>
-
-  <!-- Cotización y contacto -->
-  <url>
-    <loc>https://www.newgenpatio.com/patio-financing-houston</loc>
-    <lastmod>2025-06-01</lastmod>
-    <priority>0.7</priority>
-    <changefreq>monthly</changefreq>
-  </url>
-  <url>
-    <loc>https://www.newgenpatio.com/get-a-free-quote-houston</loc>
-    <lastmod>2025-06-01</lastmod>
-    <priority>0.8</priority>
-    <changefreq>monthly</changefreq>
-  </url>
-  <url>
-    <loc>https://www.newgenpatio.com/contact-us</loc>
-    <lastmod>2025-06-01</lastmod>
-    <priority>0.6</priority>
-    <changefreq>monthly</changefreq>
-  </url>
-  <url>
-    <loc>https://www.newgenpatio.com/formpage</loc>
-    <lastmod>2025-06-01</lastmod>
-    <priority>0.6</priority>
-    <changefreq>monthly</changefreq>
-  </url>
+  <!-- Cotización / Contacto -->
+  <url><loc>https://www.newgenpatio.com/patio-financing-houston</loc><lastmod>2025-06-01</lastmod><priority>0.7</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://www.newgenpatio.com/get-a-free-quote-houston</loc><lastmod>2025-06-01</lastmod><priority>0.8</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://www.newgenpatio.com/contact-us</loc><lastmod>2025-06-01</lastmod><priority>0.6</priority><changefreq>monthly</changefreq></url>
 
 </urlset>

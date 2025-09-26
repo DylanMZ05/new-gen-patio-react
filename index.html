@@ -5,25 +5,32 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <!--
-      IMPORTANTE:
-      - No ponemos <meta name="description"> aquí para que Helmet maneje títulos y descriptions por página.
-      - No dejamos OG/Twitter por defecto para no pisar las metas específicas de cada ruta.
-      - Si en el futuro querés OG/Twitter globales, definilos con Helmet en páginas concretas.
-    -->
-
-    <!-- Título genérico (Helmet lo reemplazará en cada ruta) -->
     <title>New Gen Patio</title>
-
-    <!-- Robots y color de tema -->
-    <meta name="robots" content="index, follow" />
+    <meta name="robots" content="index, follow, max-image-preview:large" />
     <meta name="theme-color" content="#ffffff" />
 
     <!-- Favicon -->
-    <link rel="icon" href="/LogoColor.ico" type="image/x-icon" />
-    <link rel="shortcut icon" href="/LogoColor.ico" type="image/x-icon" />
+    <link rel="icon" href="/LogoColor.ico" />
+    <link rel="shortcut icon" href="/LogoColor.ico" />
 
-    <!-- Google Tag Manager (una sola vez) -->
+    <!-- ===== CSS: preload no bloqueante (reemplazar nombre en build) ===== -->
+    <link rel="preload" href="/assets/index-xxxxx.css" as="style" crossorigin onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/assets/index-xxxxx.css" /></noscript>
+
+    <!-- ===== Consent Mode v2: default denied (antes de GTM) ===== -->
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){ dataLayer.push(arguments); }
+      gtag('consent', 'default', {
+        ad_storage: 'denied',
+        ad_user_data: 'denied',
+        ad_personalization: 'denied',
+        analytics_storage: 'denied',
+        wait_for_update: 500
+      });
+    </script>
+
+    <!-- ===== Google Tag Manager (carga temprana, pero con consent denied) ===== -->
     <script>
       (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
       new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
@@ -31,221 +38,118 @@
       'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
       })(window,document,'script','dataLayer','GTM-NVRGTGFV');
     </script>
-    <!-- End Google Tag Manager -->
-
-    <!-- Precarga del CSS generado por Vite (ajustá el nombre real del asset en build) -->
-    <link
-      rel="preload"
-      href="/assets/index-xxxxx.css"
-      as="style"
-      onload="this.onload=null;this.rel='stylesheet'"
-    />
-    <noscript><link rel="stylesheet" href="/assets/index-xxxxx.css" /></noscript>
+    <!-- Fin GTM -->
   </head>
 
   <body>
-    <!-- Redirección defensiva si alguien entra a /index.html directo -->
-    <script>
-      if (window.location.pathname === "/index.html") {
-        window.location.replace("/");
-      }
-    </script>
+    <!-- Redirección defensiva si acceden a /index.html -->
+    <script> if (location.pathname === "/index.html") location.replace("/"); </script>
 
-    <!-- Google Tag Manager (noscript) -->
-    <noscript>
-      <iframe
-        src="https://www.googletagmanager.com/ns.html?id=GTM-NVRGTGFV"
-        height="0"
-        width="0"
-        style="display:none;visibility:hidden"
-      ></iframe>
-    </noscript>
-    <!-- End Google Tag Manager (noscript) -->
-
-    <!-- Root del app -->
+    <!-- Root -->
     <div id="root"></div>
 
-    <!-- POPUP de Cookies (carga scripts de marketing SOLO tras aceptar) -->
-    <div
-      id="cookie-popup"
-      style="
-        position: fixed;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        background: black;
-        padding: 20px 40px;
-        min-height: 75px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        text-align: center;
-        box-shadow: 0 -2px 10px rgba(0,0,0,0.2);
-        z-index: 9999;
-        animation: slideUp 0.6s ease-out forwards;
-      "
-    >
-      <button
-        id="close-cookies"
-        style="
-          position: absolute;
-          top: 10px;
-          right: 15px;
-          background: none;
-          border: none;
-          font-size: 20px;
-          color: white;
-          cursor: pointer;
-          font-weight: bold;
-        "
-      >
-        ✕
-      </button>
-
-      <p style="margin: 0 5px; font-size: 16px; font-weight: bold; color: white;">
-        This website uses cookies to enhance the user experience.
-      </p>
-      <button
-        id="accept-cookies"
-        style="
-          background-color: #ff6a00;
-          color: white;
-          font-weight: 600;
-          padding: 8px 16px;
-          border: none;
-          border-radius: 8px;
-          cursor: pointer;
-          margin-left: 12px;
-        "
-      >
+    <!-- ===== Popup Cookies ===== -->
+    <div id="cookie-popup" style="
+      position:fixed;left:0;right:0;bottom:0;background:#000;padding:16px 20px;
+      display:none;justify-content:center;align-items:center;gap:12px;z-index:9999">
+      <p style="margin:0;color:#fff;font-weight:600">This website uses cookies to enhance the user experience.</p>
+      <button id="accept-cookies" style="background:#ff6a00;color:#fff;font-weight:600;padding:8px 16px;border:none;border-radius:8px;cursor:pointer">
         Accept
+      </button>
+      <button id="close-cookies" style="background:transparent;color:#fff;border:1px solid #fff;padding:8px 12px;border-radius:8px;cursor:pointer">
+        Close
       </button>
     </div>
 
-    <style>
-      @keyframes slideUp {
-        0% {
-          transform: translateY(100%);
-          opacity: 0;
-        }
-        100% {
-          transform: translateY(0);
-          opacity: 1;
-        }
-      }
-    </style>
-
-    <!-- Funciones de carga de tracking (se invocan SOLO al aceptar cookies) -->
+    <!-- ===== Carga diferida de marketing (solo tras consentimiento) ===== -->
     <script>
-      function loadTrackingScripts() {
-        // Google Analytics (gtag)
-        const gaScript = document.createElement("script");
-        gaScript.src = "https://www.googletagmanager.com/gtag/js?id=G-KQH5V68PG7";
-        gaScript.async = true;
-        document.head.appendChild(gaScript);
+      function afterWindowLoad(fn){ if (document.readyState === 'complete') fn(); else window.addEventListener('load', fn, {once:true}); }
 
-        gaScript.onload = () => {
-          window.dataLayer = window.dataLayer || [];
-          function gtag(){ dataLayer.push(arguments); }
-          gtag("js", new Date());
-          gtag("config", "G-KQH5V68PG7");
-          gtag("config", "AW-16836532366"); // Google Ads
+      function loadTrackingScripts() {
+        // 1) Actualiza Consent → granted
+        if (typeof gtag === 'function') {
+          gtag('consent', 'update', {
+            ad_storage: 'granted',
+            ad_user_data: 'granted',
+            ad_personalization: 'granted',
+            analytics_storage: 'granted'
+          });
+        }
+
+        // 2) GA4 + Ads (gtag.js)
+        const ga = document.createElement('script');
+        ga.src = 'https://www.googletagmanager.com/gtag/js?id=G-KQH5V68PG7';
+        ga.async = true;
+        document.head.appendChild(ga);
+        ga.onload = () => {
+          gtag('js', new Date());
+          gtag('config', 'G-KQH5V68PG7');
+          gtag('config', 'AW-16836532366'); // Ads
         };
 
-        // TikTok
-        const tiktokScript = document.createElement("script");
-        tiktokScript.innerHTML = `
-          !function(w,d,t){
-            w.TiktokAnalyticsObject=t;var ttq=w[t]=w[t]||[];
-            ttq.methods=["page","track","identify","instances","debug","on","off","once","ready","alias","group","enableCookie","disableCookie","holdConsent","revokeConsent","grantConsent"];
-            ttq.setAndDefer=function(t,e){t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}};
-            for(var i=0;i<ttq.methods.length;i++)ttq.setAndDefer(ttq,ttq.methods[i]);
-            ttq.load=function(e,n){var r="https://analytics.tiktok.com/i18n/pixel/events.js";
-            var s=d.createElement("script");s.type="text/javascript";s.async=true;s.src=r+"?sdkid="+e+"&lib="+t;
-            var f=d.getElementsByTagName("script")[0];f.parentNode.insertBefore(s,f)};
-            ttq.load('CUIA1HRC77U74NKADOQ0'); ttq.page();
-          }(window, document, 'ttq');
-        `;
-        document.head.appendChild(tiktokScript);
+        // 3) Meta Pixel
+        (function(f,b,e,v,n,t,s){
+          if(f.fbq)return;n=f.fbq=function(){n.callMethod? n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+          if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+          n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;
+          s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s);
+        })(window, document, 'script', 'https://connect.facebook.net/en_US/fbevents.js');
+        if (window.fbq){ fbq('init','982749890451861'); fbq('track','PageView'); }
 
-        // Meta Pixel (Facebook)
-        const fbScript = document.createElement("script");
-        fbScript.innerHTML = `
-          !function(f,b,e,v,n,t,s){
-            if(f.fbq)return;n=f.fbq=function(){ n.callMethod ? n.callMethod.apply(n,arguments) : n.queue.push(arguments) };
-            if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-            n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;
-            s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)
-          }(window, document,'script','https://connect.facebook.net/en_US/fbevents.js');
-          fbq('init', '982749890451861');
-          fbq('track', 'PageView');
-        `;
-        document.head.appendChild(fbScript);
+        // 4) TikTok
+        (function(w,d,t){
+          w.TiktokAnalyticsObject=t;var ttq=w[t]=w[t]||[];
+          ttq.methods=["page","track","identify","instances","debug","on","off","once","ready","alias","group","enableCookie","disableCookie","holdConsent","revokeConsent","grantConsent"];
+          ttq.setAndDefer=function(t,e){t[e]=function(){t.push([e].concat([].slice.call(arguments,0)))}};
+          for(var i=0;i<ttq.methods.length;i++)ttq.setAndDefer(ttq,ttq.methods[i]);
+          ttq.load=function(e){var s=d.createElement("script");s.async=!0;s.src="https://analytics.tiktok.com/i18n/pixel/events.js?sdkid="+e+"&lib="+t;
+          var f=d.getElementsByTagName("script")[0];f.parentNode.insertBefore(s,f)};
+          ttq.load('CUIA1HRC77U74NKADOQ0'); ttq.page();
+        })(window, document, 'ttq');
 
-        // Fallback de Meta Pixel (no-script)
-        const fbImg = document.createElement("img");
-        fbImg.src = "https://www.facebook.com/tr?id=982749890451861&ev=PageView&noscript=1";
-        fbImg.height = 1;
-        fbImg.width = 1;
-        fbImg.style.display = "none";
-        document.body.appendChild(fbImg);
+        // 5) Clarity
+        (function(c,l,a,r,i,t,y){
+          c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+          t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+          y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+        })(window, document, "clarity", "sfe81s7o56");
+
+        // 6) HubSpot
+        (function(){
+          var hs=document.createElement("script");
+          hs.type="text/javascript"; hs.id="hs-script-loader"; hs.async=true; hs.defer=true;
+          hs.src="https://js-eu1.hs-scripts.com/146616264.js";
+          document.head.appendChild(hs);
+        })();
+
+        // 7) Metricool
+        (function(cb){
+          var s=document.createElement("script"); s.src="https://tracker.metricool.com/resources/be.js"; s.async=true;
+          s.onload=cb; s.onreadystatechange=cb; document.head.appendChild(s);
+        })(function(){ if (window.beTracker) beTracker.t({hash:"61915cfe2be2f81cb147a95d34086a6e"}); });
       }
 
-      // Microsoft Clarity (puede cargarse sin consentimiento si lo considerás esencial; si no, muévelo dentro de loadTrackingScripts)
-      (function(c,l,a,r,i,t,y){
-        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
-        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
-        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
-      })(window, document, "clarity", "script", "sfe81s7o56");
-
-      // Metricool (una sola vez)
-      (function loadMetricool(cb){
-        var head = document.getElementsByTagName("head")[0];
-        var s = document.createElement("script");
-        s.type = "text/javascript";
-        s.src = "https://tracker.metricool.com/resources/be.js";
-        s.async = true;
-        s.onload = cb; s.onreadystatechange = cb;
-        head.appendChild(s);
-      })(function(){ if (window.beTracker) beTracker.t({hash:"61915cfe2be2f81cb147a95d34086a6e"}); });
-
-      // HubSpot
-      // Si necesitás consentimiento, también podés moverlo a loadTrackingScripts
-      (function(){
-        var hs = document.createElement("script");
-        hs.type = "text/javascript";
-        hs.id = "hs-script-loader";
-        hs.async = true;
-        hs.defer = true;
-        hs.src = "//js-eu1.hs-scripts.com/146616264.js";
-        document.head.appendChild(hs);
-      })();
-    </script>
-
-    <!-- Control del popup y consentimiento -->
-    <script>
+      // ===== Lógica del popup/consent =====
       document.addEventListener('DOMContentLoaded', function() {
         const popup = document.getElementById('cookie-popup');
-        const acceptBtn = document.getElementById('accept-cookies');
-        const closeBtn = document.getElementById('close-cookies');
+        const accepted = localStorage.getItem('cookiesAccepted') === '1';
 
-        // Mostrar popup
-        popup.style.display = 'flex';
+        if (!accepted) popup.style.display = 'flex';
+        else afterWindowLoad(loadTrackingScripts);
 
-        // Aceptar => carga scripts de marketing
-        acceptBtn.addEventListener('click', () => {
+        document.getElementById('accept-cookies').addEventListener('click', () => {
+          localStorage.setItem('cookiesAccepted','1');
           popup.style.display = 'none';
-          try { loadTrackingScripts(); } catch(e) { console.warn('Tracking scripts failed:', e); }
+          afterWindowLoad(loadTrackingScripts);
         });
 
-        // Cerrar sin aceptar => no carga marketing
-        closeBtn.addEventListener('click', () => {
-          popup.style.display = 'none';
+        document.getElementById('close-cookies').addEventListener('click', () => {
+          popup.style.display = 'none'; // no carga marketing
         });
       });
     </script>
 
-    <!-- Carga de la app (Vite) -->
+    <!-- App bundle (Vite in prod reemplaza este path por /assets/index-xxxxx.js) -->
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

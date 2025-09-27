@@ -41,7 +41,7 @@ const sectionsData = [
 const backgroundImage = "assets/images/Products/Patios&Pergolas/Cantilever/03.webp";
 
 // Ajustá la cantidad si tenés más/menos imágenes en tu carpeta Cantilever
-const imagePaths = Array.from({ length: 16 }, (_, i) =>
+const imagePaths = Array.from({ length: 12 }, (_, i) =>
   `assets/images/Products/Patios&Pergolas/Cantilever/${(i + 1)
     .toString()
     .padStart(2, "0")}.webp`

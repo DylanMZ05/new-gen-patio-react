@@ -1,8 +1,16 @@
 import React, { memo, useMemo, Suspense, lazy, useEffect } from "react";
-import { BrowserRouter as Router, Routes, Route, useLocation, Navigate, matchPath, useParams } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  useLocation,
+  Navigate,
+  matchPath,
+  useParams,
+} from "react-router-dom";
 import { Helmet, HelmetProvider } from "react-helmet-async";
 
-// ====== Componentes globales (se usan casi en todas, los dejamos estáticos) ======
+// ====== Componentes globales ======
 import Header from "./components/header/Header";
 import WspButton from "./components/WspButton";
 import Footer from "./components/footer/footer";
@@ -43,11 +51,12 @@ const Login = lazy(() => import("./pages/Admin/Login"));
 import AdminRoute from "./pages/Admin/AdminRoute"; // protegida
 
 // ====== Helpers ======
+// Coincide con comodín (end:false) para patrones tipo "/admin/*" o "/blog/*"
 const matches = (patterns: string[], pathname: string) =>
-  patterns.some((p) => matchPath({ path: p, end: true }, pathname));
+  patterns.some((p) => matchPath({ path: p, end: false }, pathname));
 
 // Redirección dinámica /blogs/blog/:slug -> /blog/:slug
-const BlogsRedirect = () => {
+const BlogsRedirect: React.FC = () => {
   const { slug } = useParams();
   return <Navigate to={`/blog/${slug ?? ""}`} replace />;
 };
@@ -66,15 +75,15 @@ const NoIndex: React.FC<{ children: React.ReactNode }> = ({ children }) => (
 const ScrollToTop: React.FC = () => {
   const { pathname } = useLocation();
   useEffect(() => {
-    window.scrollTo({ top: 0, left: 0, behavior: "instant" as ScrollBehavior });
+    window.scrollTo({ top: 0, left: 0, behavior: "auto" });
   }, [pathname]);
   return null;
 };
 
 // Fallback muy liviano para Suspense (no bloquea ni genera TBT)
-const PageFallback = () => <div className="min-h-[40vh]" aria-hidden="true" />;
+const PageFallback: React.FC = () => <div className="min-h-[40vh]" aria-hidden="true" />;
 
-const Layout = memo(() => {
+const Layout: React.FC = memo(() => {
   const location = useLocation();
   useGoogleAdsTracking();
 
@@ -85,19 +94,25 @@ const Layout = memo(() => {
       "/get-a-free-quote-houston-tracking",
       "/whatsapp-redirect",
       "/login/dashboard",
-      "/admin/dashboard",
+      "/admin/*",
     ],
     []
   );
-
   const isNoLayout = matches(noLayoutRoutes, location.pathname);
 
-  // Dónde mostrar el banner promocional (evita cargarlo en todas)
-  const bannerRoutes = useMemo(
-    () => ["/", "/aluminium-custom-pergola-cover-patio", "/outdoor-living-services"],
+  // Lista NEGRA: ocultar el banner solo en estas rutas
+  const hideBannerRoutes = useMemo(
+    () => [
+      "/financing-options",
+      "/formpage",
+      "/get-a-free-quote-houston-tracking",
+      "/whatsapp-redirect",
+      "/login/dashboard",
+      "/admin/*",
+    ],
     []
   );
-  const showBanner = matches(bannerRoutes, location.pathname);
+  const showBanner = !isNoLayout && !matches(hideBannerRoutes, location.pathname);
 
   return (
     <>
@@ -105,7 +120,7 @@ const Layout = memo(() => {
 
       {!isNoLayout && <Header />}
 
-      {!isNoLayout && showBanner && (
+      {showBanner && (
         <BannerOferta
           activo={true}
           modalTitulo="The best autumn memories are made outdoors."
@@ -115,6 +130,7 @@ const Layout = memo(() => {
           whatsappMensaje={'Hi! I\'m here for "Get a FREE 72" electric fireplace. I\'d like to talk more about it.'}
           storageKey="promo-sep-oct-2025"
           onHeightChange={(h) => {
+            // empuja el layout (p.ej. header) para que no lo tape el banner fijo
             document.documentElement.style.setProperty("--top-offset", `${h}px`);
           }}
         />

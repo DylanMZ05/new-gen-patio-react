@@ -13,11 +13,12 @@
     <link rel="icon" href="/LogoColor.ico" />
     <link rel="shortcut icon" href="/LogoColor.ico" />
 
-    <!-- ===== CSS: preload no bloqueante (REEMPLAZA EL NOMBRE EN CADA BUILD) ===== -->
-    <link rel="preload" href="/assets/index-xxxxx.css" as="style" crossorigin onload="this.onload=null;this.rel='stylesheet'">
-    <noscript><link rel="stylesheet" href="/assets/index-xxxxx.css" /></noscript>
+    <!-- ❗Quita el preload manual roto del CSS. 
+         Cuando subas el build, Vite inyecta el <link rel="stylesheet"> correcto en /dist/index.html.
+         Si igual querés linkearlo a mano, reemplazá xxxxx por el hash real:
+         <link rel="stylesheet" href="/assets/index-xxxxx.css" crossorigin> -->
 
-    <!-- ===== Consent Mode v2: default denied (antes de GTM) ===== -->
+    <!-- Consent Mode v2: default DENIED (antes de cargar nada de marketing) -->
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag(){ dataLayer.push(arguments); }
@@ -29,23 +30,11 @@
         wait_for_update: 500
       });
     </script>
-
-    <!-- ===== Google Tag Manager (carga temprana, pero con consent denied) ===== -->
-    <script>
-      (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-      new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-      j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-      'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-      })(window,document,'script','dataLayer','GTM-NVRGTGFV');
-    </script>
-    <!-- Fin GTM -->
   </head>
 
   <body>
-    <!-- Redirección defensiva si acceden a /index.html -->
     <script> if (location.pathname === "/index.html") location.replace("/"); </script>
 
-    <!-- Root -->
     <div id="root"></div>
 
     <!-- ===== Popup Cookies (anti-CLS) ===== -->
@@ -69,23 +58,15 @@
         background:#000; color:#fff;
         padding:16px 20px; display:flex; justify-content:center; align-items:center; gap:12px;
         z-index:9999;
-        /* Anti-CLS: usar transform para mostrar/ocultar sin reflow */
-        transform:translateY(100%);
-        transition:transform .25s ease;
-        will-change:transform;
-        contain:layout;
+        transform:translateY(100%); transition:transform .25s ease; will-change:transform; contain:layout;
         box-shadow:0 -2px 10px rgba(0,0,0,.25);
       }
       .cookie-popup.is-visible{ transform:translateY(0); }
       .cookie-text{ margin:0; font-weight:600; }
-      .cookie-btn{
-        cursor:pointer; border:none; border-radius:8px; padding:8px 16px; font-weight:600;
-      }
+      .cookie-btn{ cursor:pointer; border:none; border-radius:8px; padding:8px 16px; font-weight:600; }
       .cookie-btn--accept{ background:#ff6a00; color:#fff; }
       .cookie-btn--close{ background:transparent; color:#fff; border:1px solid #fff; }
-      @media (prefers-reduced-motion: reduce){
-        .cookie-popup{ transition:none; }
-      }
+      @media (prefers-reduced-motion: reduce){ .cookie-popup{ transition:none; } }
     </style>
 
     <!-- ===== Carga diferida de marketing (solo tras consentimiento) ===== -->
@@ -96,7 +77,14 @@
       }
 
       function loadTrackingScripts() {
-        // 1) Actualiza Consent → granted
+        // 0) Google Tag Manager (MOVIDO AQUÍ: fuera del camino crítico)
+        (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+          new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+          j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+          'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+        })(window,document,'script','dataLayer','GTM-NVRGTGFV');
+
+        // 1) Consent → granted
         if (typeof gtag === 'function') {
           gtag('consent', 'update', {
             ad_storage: 'granted',
@@ -159,7 +147,7 @@
         })(function(){ if (window.beTracker) beTracker.t({hash:"61915cfe2be2f81cb147a95d34086a6e"}); });
       }
 
-      // ===== Lógica del popup/consent (anti-CLS) =====
+      // ===== Popup/consent =====
       document.addEventListener('DOMContentLoaded', function() {
         const popup = document.getElementById('cookie-popup');
         const accepted = localStorage.getItem('cookiesAccepted') === '1';
@@ -174,17 +162,13 @@
         });
 
         document.getElementById('close-cookies').addEventListener('click', () => {
-          popup.classList.remove('is-visible'); // no carga marketing
+          popup.classList.remove('is-visible'); // no marketing
         });
 
-        // Accesibilidad: cerrar con ESC
-        document.addEventListener('keydown', (e) => {
-          if (e.key === 'Escape') popup.classList.remove('is-visible');
-        });
+        document.addEventListener('keydown', (e) => { if (e.key === 'Escape') popup.classList.remove('is-visible'); });
       });
     </script>
 
-    <!-- App bundle (Vite in prod reemplaza este path por /assets/index-xxxxx.js) -->
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

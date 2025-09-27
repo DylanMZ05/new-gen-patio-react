@@ -9,7 +9,7 @@ const MarqueeBanner = () => {
   return (
     <Link
       to="/patio-financing-houston"
-      className="marquee-container w-full block border-y border-white/20 shadow-lg bg-[#0d4754] py-3 overflow-hidden relative"
+      className="marquee-container w-screen block border-y border-white/20 shadow-lg bg-[#0d4754] py-3 overflow-hidden relative"
       onClick={handleScrollToTop}
       aria-label="Go to financing calculator - Up to 18 months at 0% interest"
       data-discover="true"

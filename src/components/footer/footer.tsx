@@ -115,9 +115,9 @@ const Footer: React.FC = () => {
             {/* Contact Info */}
             <div>
               <p className="font-semibold text-2xl mb-3">CONTACT</p>
-              <a href="https://wa.me/13463800845" target="_blank" rel="noopener noreferrer"
+              <a href="https://wa.me/3465819082" target="_blank" rel="noopener noreferrer"
                   className="flex items-center gap-2 text-white/80 hover:text-orange-400 transition-all">
-                <FaPhoneAlt /> 13463800845
+                <FaPhoneAlt /> 3465819082
               </a>
               <a href="mailto:info@newgenpatio.io" target="_blank" rel="noopener noreferrer"
                   className="flex items-center gap-2 text-white/80 hover:text-orange-400 transition-all">

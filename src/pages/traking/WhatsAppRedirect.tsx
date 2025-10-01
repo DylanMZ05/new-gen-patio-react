@@ -12,7 +12,7 @@ const WhatsAppRedirect = () => {
   const handleContinue = () => {
     setRedirecting(true);
     setTimeout(() => {
-      window.location.href = `https://wa.me/13463800845?text=${encodeURIComponent(message)}`;
+      window.location.href = `https://wa.me/3465819082?text=${encodeURIComponent(message)}`;
     }, 1500);
   };
 

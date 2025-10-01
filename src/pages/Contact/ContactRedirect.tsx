@@ -16,7 +16,7 @@ const ContactRedirect = () => {
       icon: <FiMessageCircle className="text-[#0d4754] w-12 h-12 mx-auto mb-2" />,
       text: "Want to speak directly with the team? Click here.",
       button: "Contact Us",
-      to: "https://wa.me/13463800845",
+      to: "https://wa.me/3465819082",
       external: true,
     },
     {

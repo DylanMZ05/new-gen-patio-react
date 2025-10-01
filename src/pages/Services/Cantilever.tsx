@@ -33,7 +33,7 @@ const sectionsData = [
     id: 1,
     title: "Cantilever Aluminium Pergola",
     description:
-      "Adjustable-louver pergolas that control sun, shade, and rain with manual or motorized operation—engineered for year-round outdoor living.",
+      "A modern, innovative pergola with a cantilevered structure, providing shade without traditional corner posts, resulting in a clean and sophisticated look.",
     backgroundImage: "assets/images/Products/Patios&Pergolas/Cantilever/01.webp",
   },
 ];
@@ -78,9 +78,9 @@ const Cantilever: React.FC = () => {
           </h2>
           <div className="w-16 h-[3px] bg-[#0d4754] mt-3 mb-2 mx-auto rounded-full"></div>
           <ul className="list-disc pl-6 text-lg">
-            <li>You want on-demand sun, shade, or full rain protection.</li>
-            <li>You prefer a clean, modern look with integrated lighting or fans.</li>
-            <li>You need a low-maintenance, all-weather solution for outdoor living.</li>
+            <li>You want a modern pergola without posts blocking your view or movement.</li>
+            <li>You need a shading solution that takes up minimal space.</li>
+            <li>You prefer a sleek, sophisticated design that complements a contemporary home.</li>
           </ul>
         </div>
 
@@ -92,34 +92,28 @@ const Cantilever: React.FC = () => {
         <div className="flex flex-col my-10 gap-10 items-center">
           {[
             {
-              title: "Adjustable Comfort (Manual or Motorized)",
-              text: "Precision-engineered aluminum louvers rotate to control light and ventilation. Choose manual cranks or motorized operation with remote/app controls for seamless comfort throughout the day.",
-              imageUrl: "assets/images/Products/Patios&Pergolas/Cantilever/02.webp",
+              title: "Unobstructed View and Maximized Usable Space",
+              text: "Cantilever pergolas eliminate the need for front support posts by utilizing a cantilevered beam system. This design ensures an open view while providing greater freedom of movement beneath the structure. The load is evenly distributed across anchor points, and high-strength structural aluminum is used to maintain stability without compromising aesthetics.",
+              imageUrl: "assets/images/Products/Patios&Pergolas/Cantilever/PRIMERO.webp",
               imagePosition: "right" as const,
             },
             {
-              title: "All-Weather Rain Management",
-              text: "When closed, interlocking blades create a water-tight seal that channels rain into hidden perimeter gutters and downspouts—keeping your space dry and usable year-round.",
-              imageUrl: "assets/images/Products/Patios&Pergolas/Cantilever/04.webp",
+              title: "Optimized for Small Spaces",
+              text: "Due to their suspended design, cantilever pergolas can be installed in small patios, terraces, or side areas without occupying ground space with support columns. They are securely fixed to a structural base using reinforced brackets, allowing installation on concrete, brick, or metal structures without compromising integrity.",
+              imageUrl: "assets/images/Products/Patios&Pergolas/Cantilever/SEGUNDO.webp",
               imagePosition: "left" as const,
             },
             {
-              title: "Integrated Accessories",
-              text: "Add dimmable LED lighting, ceiling fans, screens, and heaters without compromising the structure. Clean cable routing keeps everything minimal and modern.",
-              imageUrl: "assets/images/Products/Patios&Pergolas/Cantilever/05.webp",
+              title: "Efficient Load Distribution",
+              text: "High-strength aluminum beams (such as 2x8 or 2x10 profiles) are utilized to support the structure without additional supports. Additionally, insulated roofing panels enhance weight distribution, preventing warping or sagging over time.",
+              imageUrl: "assets/images/Products/Patios&Pergolas/Cantilever/TERCERO.webp",
               imagePosition: "right" as const,
             },
             {
-              title: "Durability & Low Maintenance",
-              text: "Powder-coated structural aluminum resists corrosion and UV exposure. Few moving parts and sealed actuators ensure long-term reliability with minimal upkeep.",
-              imageUrl: "assets/images/Products/Patios&Pergolas/Cantilever/06.webp",
+              title: "Superior Wind Resistance",
+              text: "Designed for aerodynamic efficiency, these pergolas withstand wind speeds of up to 120 mph. Expansion bolts are used for anchoring to ensure stability in adverse weather conditions.",
+              imageUrl: "assets/images/Products/Patios&Pergolas/Cantilever/CUARTO.webp",
               imagePosition: "left" as const,
-            },
-            {
-              title: "Smart Sensors & Automation (Optional)",
-              text: "Wind and rain sensors can auto-close the louvers to protect furniture and electronics. Create schedules or scenes for daily use and events.",
-              imageUrl: "assets/images/Products/Patios&Pergolas/Cantilever/07.webp",
-              imagePosition: "right" as const,
             },
           ].map((section, index) => (
             <ImgTxtSection key={index} {...section} />

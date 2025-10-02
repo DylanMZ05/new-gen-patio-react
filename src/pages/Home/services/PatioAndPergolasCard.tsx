@@ -14,12 +14,12 @@ const serviceCards = [
   },
   {
     title: "Freestanding Style",
-    imageUrl: "assets/images/Products/Patios&Pergolas/Freestanding/04.webp",
+    imageUrl: "assets/images/Products/Patios&Pergolas/Freestanding/07.webp",
     link: "/free-standing-aluminium-pergola-covered-patio",
   },
     {
     title: "Cantilever Style",
-    imageUrl: "assets/images/Products/Patios&Pergolas/Cantilever/08.webp",
+    imageUrl: "assets/images/Products/Patios&Pergolas/Cantilever/21.webp",
     link: "/cantilever-aluminium-pergola",
   },
 ];

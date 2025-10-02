@@ -34,7 +34,7 @@ const FormPage: React.FC = () => {
       `${notes ? `🔹 *Notes:* ${notes}` : "*Notes:* None"}`
     );
 
-    window.open(`https://wa.me/3465819082?text=${encodedMessage}`, "_blank");
+    window.open(`https://wa.me/+13465819082?text=${encodedMessage}`, "_blank");
   };
 
   return (

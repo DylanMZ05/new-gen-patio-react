@@ -51,7 +51,7 @@ const FreeQuoteTracking = () => {
 
             <button
               onClick={() => {
-                window.location.href = `https://wa.me/3465819082?text=${encodeURIComponent(message)}`;
+                window.location.href = `https://wa.me/+13465819082?text=${encodeURIComponent(message)}`;
               }}
               className="mt-2 w-full bg-green-500 text-white px-4 py-2 rounded-full hover:bg-green-600 transition cursor-pointer"
             >

@@ -96,7 +96,7 @@ const FAQ: React.FC = () => {
         <br />
         No problem,{" "}
         <a
-          href="https://wa.me/3465819082"
+          href="https://wa.me/+13465819082"
           target="_blank"
           rel="noopener noreferrer"
           className="text-orange-600 font-semibold hover:underline"

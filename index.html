@@ -13,12 +13,29 @@
     <link rel="icon" href="/LogoColor.ico" />
     <link rel="shortcut icon" href="/LogoColor.ico" />
 
-    <!-- ❗Quita el preload manual roto del CSS. 
-         Cuando subas el build, Vite inyecta el <link rel="stylesheet"> correcto en /dist/index.html.
-         Si igual querés linkearlo a mano, reemplazá xxxxx por el hash real:
-         <link rel="stylesheet" href="/assets/index-xxxxx.css" crossorigin> -->
+    <!-- Preload del póster del hero (LCP) -->
+    <link
+      rel="preload"
+      as="image"
+      href="/assets/videos/homevideo-poster.jpg"
+      imagesizes="100vw"
+      fetchpriority="high"
+    />
 
-    <!-- Consent Mode v2: default DENIED (antes de cargar nada de marketing) -->
+    <!-- Preconexiones (máx 3–4) a orígenes usados temprano/seguros -->
+    <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
+    <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin />
+
+    <link rel="dns-prefetch" href="https://firebaseinstallations.googleapis.com" />
+    <link rel="preconnect" href="https://firebaseinstallations.googleapis.com" crossorigin />
+
+    <link rel="dns-prefetch" href="https://analytics.tiktok.com" />
+    <link rel="preconnect" href="https://analytics.tiktok.com" crossorigin />
+
+    <!-- ❗Quita el preload manual del CSS.
+         Vite insertará el <link rel="stylesheet"> correcto en /dist/index.html al hacer build. -->
+
+    <!-- Consent Mode v2: default DENIED (antes de cargar marketing) -->
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag(){ dataLayer.push(arguments); }
@@ -33,6 +50,7 @@
   </head>
 
   <body>
+    <!-- Evita /index.html expuesto -->
     <script> if (location.pathname === "/index.html") location.replace("/"); </script>
 
     <div id="root"></div>
@@ -169,8 +187,9 @@
       });
     </script>
 
-    <script>function loadScript(a){var b=document.getElementsByTagName("head")[0],c=document.createElement("script");c.type="text/javascript",c.src="https://tracker.metricool.com/resources/be.js",c.onreadystatechange=a,c.onload=a,b.appendChild(c)}loadScript(function(){beTracker.t({hash:"61915cfe2be2f81cb147a95d34086a6e"})});</script>
+    <!-- (el script de Metricool duplicado fue eliminado) -->
 
+    <!-- Tu bundle (type=module ya se comporta como 'defer') -->
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

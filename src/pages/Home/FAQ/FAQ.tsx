@@ -1,3 +1,5 @@
+// src/pages/YourPath/FAQ.tsx
+import React, { useMemo } from "react";
 import { Link } from "react-router-dom";
 import FAQItem from "./FAQItem";
 import FreeQuoteButton from "../../../components/FreeQuoteButton";
@@ -6,6 +8,7 @@ import useScrollToTop from "../../../hooks/scrollToTop";
 const FAQ: React.FC = () => {
   const scrollToTop = useScrollToTop();
 
+  // Datos (pueden quedarse aquí porque uno de los answers usa <Link/> con el handler)
   const faqData = [
     {
       question: "How do your pergolas differ from wooden pergolas?",
@@ -64,30 +67,56 @@ const FAQ: React.FC = () => {
       answer:
         "We are based in Spring, Texas, and serve clients across the entire state, focusing on the Houston area.",
     },
-  ];
+  ] as const;
+
+  // JSON-LD para SEO (incluye sólo respuestas de texto plano)
+  const faqJsonLd = useMemo(() => {
+    const items = faqData
+      .filter((f) => typeof f.answer === "string")
+      .map((f) => ({
+        "@type": "Question",
+        name: f.question,
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: f.answer as string,
+        },
+      }));
+    return items.length
+      ? {
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          mainEntity: items,
+        }
+      : null;
+  }, [faqData]);
 
   return (
     <section
       id="faq"
       aria-labelledby="faq-heading"
-      className="flex flex-col items-center justify-center py-12 px-6 border-t border-black/20 overflow-hidden"
+      role="region"
+      className="
+        flex flex-col items-center justify-center
+        py-12 px-6 border-t border-black/20 overflow-hidden
+        [content-visibility:auto] [contain-intrinsic-size:780px]
+      "
     >
       <header className="text-center">
-        <p
-          id="faq-heading"
-          className="font-semibold text-2xl text-[#0d4754]"
-        >
+        <p id="faq-heading" className="font-semibold text-2xl text-[#0d4754]">
           FAQs
         </p>
         <h2 className="font-semibold text-4xl text-center">
           Frequently Asked Questions
         </h2>
-        <div className="w-24 h-1 bg-[#0d4754] mt-4 mb-5 rounded-full mx-auto"></div>
+        <div
+          className="w-24 h-1 bg-[#0d4754] mt-4 mb-5 rounded-full mx-auto"
+          aria-hidden="true"
+        />
       </header>
 
       <div className="w-full max-w-2xl">
-        {faqData.map((faq, index) => (
-          <FAQItem key={index} question={faq.question} answer={faq.answer} />
+        {faqData.map((faq) => (
+          <FAQItem key={faq.question} question={faq.question} answer={faq.answer} />
         ))}
       </div>
 
@@ -98,18 +127,27 @@ const FAQ: React.FC = () => {
         <a
           href="https://wa.me/+13465819082"
           target="_blank"
-          rel="noopener noreferrer"
+          rel="noopener noreferrer nofollow"
           className="text-orange-600 font-semibold hover:underline"
+          data-gtm="faq_whatsapp_cta"
         >
           contact us
         </a>
         .
       </p>
 
-      <FreeQuoteButton 
+      <FreeQuoteButton
         questionText="Got a project in mind?"
         buttonText="Let’s Talk"
+        gtmId="faq_free_quote_cta"
       />
+
+      {/* JSON-LD para SEO (solo si hay items) */}
+      {faqJsonLd && (
+        <script type="application/ld+json">
+          {JSON.stringify(faqJsonLd)}
+        </script>
+      )}
     </section>
   );
 };

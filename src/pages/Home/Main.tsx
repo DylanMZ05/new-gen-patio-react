@@ -1,14 +1,33 @@
-import React, { memo, useEffect, useRef, useState } from "react";
+import React, { memo, useEffect, useRef, useState, useCallback } from "react";
 import { FaInstagram, FaTiktok, FaPinterest, FaFacebookF } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import useScrollToTop from "../../hooks/scrollToTop";
 
-const HIGH_FETCH_ATTR: Record<string, string> = { fetchpriority: "high" };
+/* ========================= Prefetch helpers ========================= */
+const canPrefetch = () => {
+  if (typeof navigator !== "undefined") {
+    const conn = (navigator as any).connection;
+    if (conn?.saveData) return false;
+    const type = String(conn?.effectiveType || "").toLowerCase();
+    if (type.includes("2g") || type.includes("slow-2g")) return false;
+  }
+  if (typeof document !== "undefined" && document.visibilityState === "hidden") {
+    return false;
+  }
+  return true;
+};
 
-// Prefetch de rutas que se tocan desde el hero
+const runIdle = (cb: () => void) => {
+  if (typeof window === "undefined") return;
+  const w = window as any;
+  if (w.requestIdleCallback) w.requestIdleCallback(cb, { timeout: 1200 });
+  else setTimeout(cb, 250);
+};
+
+// Prefetch de rutas tocadas desde el hero
 let patiosPrefetched = false;
 const prefetchPatios = () => {
-  if (patiosPrefetched) return;
+  if (patiosPrefetched || !canPrefetch()) return;
   patiosPrefetched = true;
   import("../../pages/Home/PatiosAndPergolasHome").catch(() => {
     patiosPrefetched = false;
@@ -17,27 +36,30 @@ const prefetchPatios = () => {
 
 let quotePrefetched = false;
 const prefetchQuote = () => {
-  if (quotePrefetched) return;
+  if (quotePrefetched || !canPrefetch()) return;
   quotePrefetched = true;
   import("../../pages/FreeQuote/FreeQuote").catch(() => {
     quotePrefetched = false;
   });
 };
+/* =================================================================== */
 
 const Main: React.FC = () => {
   const sectionRef = useRef<HTMLElement | null>(null);
   const videoRef = useRef<HTMLVideoElement | null>(null);
+
   const [visible, setVisible] = useState(false);
   const [videoReady, setVideoReady] = useState(false); // canplay
   const [reducedMotion, setReducedMotion] = useState(false);
-  const handleScrollToTop = useScrollToTop();
+
+  const scrollToTop = useScrollToTop();
 
   const baseUrl = import.meta.env.BASE_URL || "/";
   const poster = `${baseUrl}assets/videos/homevideo-poster.jpg`;
-  const videoSrc = `${baseUrl}assets/videos/homevideo.webm`;
+  const videoSrcWebm = `${baseUrl}assets/videos/homevideo.webm`;
   const trackSrc = `${baseUrl}assets/videos/homevideo.vtt`;
 
-  // Respeta prefers-reduced-motion
+  /* ===== Respecta prefers-reduced-motion ===== */
   useEffect(() => {
     if (!window.matchMedia) return;
     const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
@@ -47,7 +69,7 @@ const Main: React.FC = () => {
     return () => mq.removeEventListener("change", update);
   }, []);
 
-  // Detecta si el hero está en viewport para reproducir/pausar y para prefetch
+  /* ===== Observa el hero para prefetch y reproducción ===== */
   useEffect(() => {
     const el = sectionRef.current;
     if (!el) return;
@@ -56,16 +78,11 @@ const Main: React.FC = () => {
       (entries) => {
         const onScreen = entries.some((e) => e.isIntersecting);
         setVisible(onScreen);
-        // prefetch bajo demanda
+
         if (onScreen) {
-          // de forma ociosa
-          const idle =
-            (window as any).requestIdleCallback ||
-            ((cb: any) => setTimeout(cb, 250));
-          idle(() => {
-            prefetchPatios();
-            prefetchQuote();
-          });
+          // Prefetch en idle cuando el hero entra en viewport
+          runIdle(prefetchPatios);
+          runIdle(prefetchQuote);
         }
       },
       { rootMargin: "0px 0px -20%", threshold: 0.1 }
@@ -75,7 +92,7 @@ const Main: React.FC = () => {
     return () => io.disconnect();
   }, []);
 
-  // Controla reproducción del video según visibilidad y motion
+  /* ===== Pausa/reanuda según visibilidad, motion y readiness ===== */
   useEffect(() => {
     const v = videoRef.current;
     if (!v) return;
@@ -87,52 +104,72 @@ const Main: React.FC = () => {
     }
   }, [visible, reducedMotion, videoReady]);
 
+  /* ===== Pausar si la pestaña se oculta ===== */
+  useEffect(() => {
+    const v = videoRef.current;
+    if (!v) return;
+
+    const onVis = () => {
+      if (document.visibilityState === "hidden") v.pause();
+      else if (visible && !reducedMotion && videoReady) v.play().catch(() => {});
+    };
+    document.addEventListener("visibilitychange", onVis);
+    return () => document.removeEventListener("visibilitychange", onVis);
+  }, [visible, reducedMotion, videoReady]);
+
+  const onPatiosIntent = useCallback(() => runIdle(prefetchPatios), []);
+  const onQuoteIntent = useCallback(() => runIdle(prefetchQuote), []);
+
   return (
     <section
       ref={sectionRef}
       id="home"
       className="relative flex w-full h-screen max-h-[1080px] overflow-hidden"
       aria-labelledby="main-heading"
-      style={{ contain: "layout paint size" as any }} // aisla el hero (micro anti-CLS)
+      style={{ contain: "layout paint size" } as any} // aísla el hero (micro anti-CLS)
     >
       {/* Poster como LCP (imagen absoluta) */}
       <img
-        {...HIGH_FETCH_ATTR}
         src={poster}
         alt="Modern aluminum patio cover at sunset"
-        className={`absolute top-0 left-0 w-full h-full object-cover max-h-[1080px] z-0 transition-opacity duration-500 ${
-          videoReady && !reducedMotion ? "opacity-0" : "opacity-100"
-        }`}
+        className={`absolute top-0 left-0 w-full h-full object-cover max-h-[1080px] z-0 transition-opacity duration-500
+          ${videoReady && !reducedMotion ? "opacity-0" : "opacity-100"}
+          motion-reduce:transition-none
+        `}
         width={1920}
         height={1080}
         loading="eager"
         decoding="async"
+        fetchPriority="high"
       />
 
       {/* Video de fondo (se hace visible cuando está listo) */}
       <video
         ref={videoRef}
         id="background-video"
-        className={`absolute top-0 left-0 w-full h-full object-cover max-h-[1080px] z-0 transition-opacity duration-500 ${
-          videoReady && !reducedMotion ? "opacity-100" : "opacity-0"
-        }`}
-        // Sólo dejamos que descargue metadatos; reproducimos cuando sea visible y esté listo
+        className={`absolute top-0 left-0 w-full h-full object-cover max-h-[1080px] z-0 transition-opacity duration-500
+          ${videoReady && !reducedMotion ? "opacity-100" : "opacity-0"}
+          motion-reduce:transition-none
+        `}
         preload="metadata"
         autoPlay
         muted
         playsInline
         loop
         poster={poster}
-        onLoadedData={() => setVideoReady(true)}
+        // 'canplay' asegura que hay datos para iniciar fluido
+        onCanPlay={() => setVideoReady(true)}
       >
-        <source src={videoSrc} type="video/webm" />
+        <source src={videoSrcWebm} type="video/webm" />
+        {/* Si tienes MP4, puedes descomentar y apuntar al archivo:
+        <source src={`${baseUrl}assets/videos/homevideo.mp4`} type="video/mp4" />
+        */}
         <track kind="captions" src={trackSrc} srcLang="en" label="English" default />
-        {/* fallback */}
         Your browser does not support HTML5 video.
       </video>
 
       {/* Capa oscura */}
-      <div className="absolute top-0 left-0 w-full h-full bg-black/60 z-10" />
+      <div className="absolute top-0 left-0 w-full h-full bg-black/60 z-10" aria-hidden="true" />
 
       {/* Contenido principal */}
       <div className="relative z-20 flex flex-col items-start justify-center text-start w-full h-full px-4 text-white">
@@ -147,10 +184,10 @@ const Main: React.FC = () => {
             <Link
               to="/aluminium-custom-pergola-cover-patio"
               className="text-inherit hover:underline"
-              onClick={handleScrollToTop}
-              onMouseEnter={prefetchPatios}
-              onFocus={prefetchPatios}
-              onTouchStart={prefetchPatios}
+              onClick={scrollToTop}
+              onPointerEnter={onPatiosIntent}
+              onFocus={onPatiosIntent}
+              onTouchStart={onPatiosIntent}
             >
               Aluminum Pergolas and Covered Patios for Texas Homes
             </Link>
@@ -158,11 +195,16 @@ const Main: React.FC = () => {
 
           <Link
             to="/get-a-free-quote-houston"
-            className="bg-orange-500 border border-white/10 text-white text-lg font-semibold px-4 py-1 rounded-full mt-4 mb-2 inline-block transition-all hover:bg-orange-600 hover:scale-102"
-            onClick={handleScrollToTop}
-            onMouseEnter={prefetchQuote}
-            onFocus={prefetchQuote}
-            onTouchStart={prefetchQuote}
+            className="
+              bg-orange-500 border border-white/10 text-white text-lg font-semibold px-4 py-1 rounded-full mt-4 mb-2 inline-block
+              transition-transform transition-colors duration-200 hover:bg-orange-600 hover:scale-105
+              focus:outline-none focus-visible:ring-2 focus-visible:ring-orange-300
+              motion-reduce:transform-none motion-reduce:transition-none
+            "
+            onClick={scrollToTop}
+            onPointerEnter={onQuoteIntent}
+            onFocus={onQuoteIntent}
+            onTouchStart={onQuoteIntent}
             aria-label="Get a free quote for your outdoor project"
           >
             Get a Free Quote
@@ -171,16 +213,36 @@ const Main: React.FC = () => {
 
         {/* Redes sociales */}
         <div className="flex gap-2 mt-2 ml-1">
-          <a href="https://www.instagram.com/newgenpatio/" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+          <a
+            href="https://www.instagram.com/newgenpatio/"
+            target="_blank"
+            rel="noopener noreferrer nofollow"
+            aria-label="Instagram"
+          >
             <FaInstagram className="w-8 h-8 text-white hover:text-pink-500 transition-colors" />
           </a>
-          <a href="https://www.tiktok.com/@newgenpatio" target="_blank" rel="noopener noreferrer" aria-label="TikTok">
+          <a
+            href="https://www.tiktok.com/@newgenpatio"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="TikTok"
+          >
             <FaTiktok className="w-8 h-8 text-white hover:text-white/70 transition-colors" />
           </a>
-          <a href="https://www.pinterest.com/newgenpatio/" target="_blank" rel="noopener noreferrer" aria-label="Pinterest">
+          <a
+            href="https://www.pinterest.com/newgenpatio/"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Pinterest"
+          >
             <FaPinterest className="w-8 h-8 text-white hover:text-red-500 transition-colors" />
           </a>
-          <a href="https://www.facebook.com/newgenpatio" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+          <a
+            href="https://www.facebook.com/newgenpatio"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Facebook"
+          >
             <FaFacebookF className="w-8 h-8 text-white hover:text-blue-500 transition-colors" />
           </a>
         </div>

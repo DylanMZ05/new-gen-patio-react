@@ -1,3 +1,4 @@
+// src/pages/Services/Services.tsx
 import React, { memo, useMemo } from "react";
 import CardGrid from "./CardGrid";
 import FreeQuoteButton from "../../../components/FreeQuoteButton";
@@ -45,19 +46,51 @@ const Services: React.FC<ServicesProps> = ({ showQuoteButton = true }) => {
     [baseUrl]
   );
 
+  // JSON-LD (ItemList) para SEO — usa URLs absolutas cuando sea posible
+  const origin =
+    typeof window !== "undefined" ? window.location.origin : "";
+  const jsonLd = useMemo(() => {
+    const itemListElement = serviceCards.map((c, i) => ({
+      "@type": "ListItem",
+      position: i + 1,
+      url: `${origin}${c.link}`,
+      item: {
+        "@type": "Service",
+        name: c.title,
+        image: origin ? `${origin}/${c.imageUrl.replace(/^\//, "")}` : c.imageUrl,
+        url: `${origin}${c.link}`,
+        description: c.subtitle || undefined,
+      },
+    }));
+    return {
+      "@context": "https://schema.org",
+      "@type": "ItemList",
+      itemListElement,
+      name: "New Gen Patio - Services",
+    };
+  }, [serviceCards, origin]);
+
   return (
     <section
       id="services"
+      role="region"
       aria-labelledby="services-heading"
-      className="flex flex-col items-center justify-center py-12 px-6"
-      style={{ contain: "content" }} // aísla el layout interno (reduce layout shifts)
+      className="
+        flex flex-col items-center justify-center
+        py-12 px-6
+        [content-visibility:auto] [contain-intrinsic-size:820px]
+      "
+      style={{ contain: "content" as any }} // aísla el layout interno (reduce layout/paint)
     >
       <header className="text-center max-w-2xl">
-        <h2 className="text-2xl font-semibold text-[#0d4754]">OUR SERVICES</h2>
-        <p id="services-heading" className="text-4xl font-semibold">
-          What We Offer
-        </p>
-        <div className="w-24 h-1 bg-[#0d4754] my-3 rounded-full mx-auto" />
+        <h2 id="services-heading" className="text-2xl font-semibold text-[#0d4754]">
+          OUR SERVICES
+        </h2>
+        <p className="text-4xl font-semibold">What We Offer</p>
+        <div
+          className="w-24 h-1 bg-[#0d4754] my-3 rounded-full mx-auto"
+          aria-hidden="true"
+        />
         <p className="text-center font-semibold text-black/80 mb-6 max-w-2xl">
           We craft premium patios, pergolas, and outdoor kitchens designed for
           style, durability, and functionality.
@@ -71,7 +104,15 @@ const Services: React.FC<ServicesProps> = ({ showQuoteButton = true }) => {
         <FreeQuoteButton
           questionText="Got a project in mind?"
           buttonText="Let’s Talk"
+          gtmId="services_free_quote_cta"
         />
+      )}
+
+      {/* JSON-LD para SEO */}
+      {origin && (
+        <script type="application/ld+json">
+          {JSON.stringify(jsonLd)}
+        </script>
       )}
     </section>
   );

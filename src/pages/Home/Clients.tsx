@@ -2,22 +2,23 @@ import "../../styles/googleCards.css";
 import React, { useRef, useEffect, useState, useMemo, memo } from "react";
 
 /* === Ajustes de velocidad ===
-   - Desktop: 30 px/s (antes 60)
-   - Mobile:  20 px/s
-   - La duración del loop siempre queda entre 30s y 180s
+   - Desktop: 20 px/s
+   - Mobile:  12 px/s
+   - La duración del loop siempre queda entre 45s y 240s
 */
 const TOTAL_IMAGES = 71;
-const BASE_SPEED_DESKTOP = 20; // px/seg (antes 30)
-const BASE_SPEED_MOBILE  = 12; // px/seg (antes 20)
-const MIN_SECONDS        = 45; // nunca menos de 45s por loop (antes 30)
-const MAX_SECONDS        = 240; // como mucho 4 minutos (antes 180)
+const BASE_SPEED_DESKTOP = 20; // px/seg
+const BASE_SPEED_MOBILE  = 12; // px/seg
+const MIN_SECONDS        = 45;
+const MAX_SECONDS        = 240;
 const PLACEHOLDER = "/assets/images/default-placeholder.webp";
 
 // Atributo "fetchpriority" sin romper TypeScript (spread genérico)
 const LOW_FETCH_ATTR: Record<string, string> = { fetchpriority: "low" };
 
 const Clients: React.FC = () => {
-  const marqueeRef = useRef<HTMLDivElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);        // contenedor visible
+  const trackRef = useRef<HTMLAnchorElement>(null);          // tira que se anima
   const sectionRef = useRef<HTMLElement | null>(null);
 
   const [animationDuration, setAnimationDuration] = useState("30s");
@@ -52,6 +53,11 @@ const Clients: React.FC = () => {
       (entries) => {
         if (entries.some((e) => e.isIntersecting)) {
           setVisible(true);
+          // fuerza una medición en el próximo frame para disparar el ResizeObserver
+          requestAnimationFrame(() => {
+            // leer scrollWidth fuerza layout y ayuda a que el RO dispare
+            void containerRef.current?.scrollWidth;
+          });
           io.disconnect();
         }
       },
@@ -71,14 +77,15 @@ const Clients: React.FC = () => {
     return () => mq.removeEventListener("change", handler);
   }, []);
 
-  // Calcula duración en función del ancho real del carrusel y la velocidad target
+  // Calcula duración en función del ancho real del track y la velocidad target
   useEffect(() => {
-    const node = marqueeRef.current;
+    const node = trackRef.current; // medimos la tira que se anima
     if (!node) return;
 
     const recompute = () => {
-      const loopWidth = Math.max(1, node.scrollWidth / 2); // al duplicar, el loop real es la mitad
-      const speed = getSpeed();                             // px/s
+      // Como duplicamos el contenido, un loop es la mitad del ancho total
+      const loopWidth = Math.max(1, node.scrollWidth / 2); // px
+      const speed = getSpeed();                            // px/s
       const seconds = loopWidth / speed;
       const clamped = Math.max(MIN_SECONDS, Math.min(MAX_SECONDS, seconds));
       setAnimationDuration(`${clamped.toFixed(2)}s`);
@@ -119,11 +126,12 @@ const Clients: React.FC = () => {
       {/* Carrusel / marquee */}
       <div
         className="marquee-reviews-container max-w-[1080px] h-[260px]" /* altura fija -> evita CLS */
-        ref={marqueeRef}
+        ref={containerRef}
         aria-hidden={!visible}
       >
         {visible ? (
           <a
+            ref={trackRef}
             href="https://www.google.com/search?q=new+gen+patio+reviews"
             target="_blank"
             rel="noopener noreferrer"
@@ -167,7 +175,7 @@ const Clients: React.FC = () => {
         href="https://www.google.com/search?q=new+gen+patio+reviews"
         target="_blank"
         rel="noopener noreferrer"
-        className="text-white bg-black text-xl font-semibold px-5 pt-1 pb-2 rounded-full mt-5 inline-block transition-all hover:bg-black/90 hover:scale-105 focus:ring-2 focus:ring-white focus:outline-none"
+        className="text-white bg-black text-xl font-semibold px-5 pt-1 pb-2 rounded-full mt-5 inline-block transition-all hover:bg.black/90 hover:scale-105 focus:ring-2 focus:ring-white focus:outline-none"
         aria-label="View all Google reviews for New Gen Patio"
       >
         View all reviews

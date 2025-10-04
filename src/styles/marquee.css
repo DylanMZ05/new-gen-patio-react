@@ -1,10 +1,9 @@
+/* ===========================
+   Global marquee (header band)
+   =========================== */
 @keyframes marquee {
-  from {
-    transform: translateX(100vw);
-  }
-  to {
-    transform: translateX(-100vw);
-  }
+  from { transform: translateX(100vw); }
+  to   { transform: translateX(-100vw); }
 }
 
 .marquee-container {
@@ -34,32 +33,39 @@
 }
 
 
+/* ===========================
+   Google reviews marquee
+   (track duplicado en React)
+   =========================== */
 
-
+/* Importante: como en React se renderiza el array duplicado
+   ([...images, ...images]), un loop equivale a mover -50%. */
 @keyframes marquee-reviews {
-  from {
-    transform: translateX(0);
-  }
-  to {
-    transform: translateX(-100%);
-  }
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
 }
 
 .marquee-reviews-container {
   overflow: hidden;
-  padding: 12px 0;
-  white-space: nowrap;
-  display: flex;
-  position: relative;
   width: 100%;
+  position: relative;
+  /* La altura fija vive en el TSX (h-[260px]); no es necesario padding aquí */
 }
 
 .marquee-reviews {
-  display: flex;
-  align-items: flex-start; /* Alineación en la parte superior */
-  gap: 20px;
-  animation: marquee-reviews linear infinite;
+  /* Para que el ancho sea la suma de sus hijos */
+  display: inline-flex;
+  width: max-content;
+
+  align-items: flex-start;
+  gap: 12px;
+
   will-change: transform;
+
+  /* La duración la define React con style="animation-duration: XXXs" */
+  animation-name: marquee-reviews;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
 }
 
 .marquee-reviews-container:hover .marquee-reviews {
@@ -67,12 +73,12 @@
 }
 
 .review-card {
-  background-color: white; /* Fondo uniforme */
-  width: 320px; /* Tamaño fijo */
-  height: 260px; /* Ajuste de altura uniforme */
+  background-color: #ffffff;
+  width: 320px;
+  height: 260px;
   display: flex;
-  justify-content: center; /* Centrar imagen horizontalmente */
-  align-items: flex-start; /* Alinear arriba */
+  justify-content: center;
+  align-items: flex-start;
   padding: 15px;
   border-radius: 10px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
@@ -84,10 +90,21 @@
   object-fit: contain;
 }
 
+/* Respeta reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .marquee-reviews {
+    animation: none !important;
+    transform: none !important;
+  }
+}
 
-/* BannerOferta estilo marquee más pequeño */
+
+/* ===========================
+   BannerOferta (marquee pequeño)
+   =========================== */
 .marquee-container-offer {
-  padding: 6px 0; /* más bajo que el original */
+  padding: 6px 0;
+  overflow: hidden;
 }
 
 .marquee-offer {
@@ -103,10 +120,6 @@
 }
 
 @keyframes marquee-offer {
-  from {
-    transform: translateX(100%);
-  }
-  to {
-    transform: translateX(-100%);
-  }
+  from { transform: translateX(100%); }
+  to   { transform: translateX(-100%); }
 }

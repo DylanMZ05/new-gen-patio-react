@@ -1,3 +1,68 @@
+/* =========================================
+   Google reviews marquee (track duplicado)
+   ========================================= */
+
+/* Un loop equivale a mover media tira (-50%) porque React duplica el array */
+@keyframes marquee-reviews {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+.marquee-reviews-container {
+  overflow: hidden;
+  width: 100%;
+  position: relative;
+  /* La altura fija se controla en el TSX (h-[260px]) */
+}
+
+.marquee-reviews {
+  /* Que el ancho sea la suma de todas las tarjetas */
+  display: inline-flex;
+  width: max-content;
+
+  align-items: flex-start;
+  gap: 12px;
+
+  will-change: transform;
+
+  /* Usamos longhands para no pisar animation-duration que viene inline */
+  animation-name: marquee-reviews;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  /* la duración la establece el componente con style="animation-duration: XXXs" */
+}
+
+.marquee-reviews-container:hover .marquee-reviews {
+  animation-play-state: paused;
+}
+
+.review-card {
+  background-color: #ffffff;
+  width: 320px;
+  height: 260px;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 15px;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.review-card img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+/* Respeta reduced motion */
+@media (prefers-reduced-motion: reduce){
+  .marquee-reviews { animation: none !important; transform: none !important; }
+}
+
+
+/* =========================================
+   (Opcional) estilos previos que tenías
+   ========================================= */
 .marquee-container-google {
   width: 100%;
   max-width: 1200px;

@@ -1,4 +1,4 @@
-import React, { memo, useMemo, Suspense, lazy, useEffect } from "react";
+import React, { memo, useMemo, Suspense, lazy, useEffect, useRef, useState } from "react";
 import {
   BrowserRouter as Router,
   Routes,
@@ -10,17 +10,19 @@ import {
 } from "react-router-dom";
 import { Helmet, HelmetProvider } from "react-helmet-async";
 
-// ====== Componentes globales ======
+// ====== Componentes globales críticos (no lazy) ======
 import Header from "./components/header/Header";
-import WspButton from "./components/WspButton";
-import Footer from "./components/footer/footer";
-import BlockSection from "./components/BlockSection";
-import QuotePopup from "./components/QuotePopup";
 import BannerOferta from "./components/BannerOferta";
 
 import useGoogleAdsTracking from "./hooks/useGoogleAdsTracking";
 
-// ====== Páginas (code-splitting por ruta) ======
+// ====== Deferibles (lazy) ======
+const WspButton = lazy(() => import("./components/WspButton"));
+const Footer = lazy(() => import("./components/footer/footer"));
+const QuotePopup = lazy(() => import("./components/QuotePopup"));
+const BlockSection = lazy(() => import("./components/BlockSection"));
+
+// ====== Páginas (ya estaban con code splitting) ======
 const MainHome = lazy(() => import("./pages/Home/MainHome"));
 const Attached = lazy(() => import("./pages/Services/Attached"));
 const Freestanding = lazy(() => import("./pages/Services/Freestanding"));
@@ -48,20 +50,17 @@ const ProjectsList = lazy(() => import("./pages/Catalogo/Catalogo"));
 // ====== Admin ======
 const AdminDashboard = lazy(() => import("./pages/Admin/AdminDashboard"));
 const Login = lazy(() => import("./pages/Admin/Login"));
-import AdminRoute from "./pages/Admin/AdminRoute"; // protegida
+import AdminRoute from "./pages/Admin/AdminRoute";
 
 // ====== Helpers ======
-// Coincide con comodín (end:false) para patrones tipo "/admin/*" o "/blog/*"
 const matches = (patterns: string[], pathname: string) =>
   patterns.some((p) => matchPath({ path: p, end: false }, pathname));
 
-// Redirección dinámica /blogs/blog/:slug -> /blog/:slug
 const BlogsRedirect: React.FC = () => {
   const { slug } = useParams();
   return <Navigate to={`/blog/${slug ?? ""}`} replace />;
 };
 
-// NoIndex wrapper para rutas utilitarias
 const NoIndex: React.FC<{ children: React.ReactNode }> = ({ children }) => (
   <>
     <Helmet>
@@ -71,7 +70,6 @@ const NoIndex: React.FC<{ children: React.ReactNode }> = ({ children }) => (
   </>
 );
 
-// Evita “saltos” de scroll entre páginas (CLS menor)
 const ScrollToTop: React.FC = () => {
   const { pathname } = useLocation();
   useEffect(() => {
@@ -80,14 +78,69 @@ const ScrollToTop: React.FC = () => {
   return null;
 };
 
-// Fallback muy liviano para Suspense (no bloquea ni genera TBT)
+// Fallback muy liviano para Suspense
 const PageFallback: React.FC = () => <div className="min-h-[40vh]" aria-hidden="true" />;
+
+// === perf helpers para idle/prefetch ===
+const canPrefetch = () => {
+  if (typeof navigator !== "undefined") {
+    const conn = (navigator as any).connection;
+    if (conn?.saveData) return false;
+    const t = String(conn?.effectiveType || "").toLowerCase();
+    if (t.includes("2g") || t.includes("slow-2g")) return false;
+  }
+  if (typeof document !== "undefined" && document.visibilityState === "hidden") return false;
+  return true;
+};
+const runIdle = (cb: () => void) => {
+  if (typeof window === "undefined") return;
+  const w = window as any;
+  if (w.requestIdleCallback) w.requestIdleCallback(cb, { timeout: 1200 });
+  else setTimeout(cb, 250);
+};
+
+// === Monta niños cuando están cerca del viewport ===
+const LazyWhenVisible: React.FC<{
+  offset?: string;        // rootMargin Y
+  minHeight?: number;     // reserva de espacio anti-CLS
+  children: React.ReactNode;
+  fallback?: React.ReactNode;
+}> = ({ offset = "800px", minHeight = 0, children, fallback = null }) => {
+  const ref = useRef<HTMLDivElement | null>(null);
+  const [show, setShow] = useState(false);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el || show) return;
+    const io = new IntersectionObserver(
+      (entries) => {
+        if (entries.some((e) => e.isIntersecting)) {
+          setShow(true);
+          io.disconnect();
+        }
+      },
+      { rootMargin: `${offset} 0px`, threshold: 0 }
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, [show, offset]);
+
+  return (
+    <div
+      ref={ref}
+      className="[content-visibility:auto]"
+      style={{ contain: "content" as any, minHeight }}
+      aria-hidden={!show}
+    >
+      {show ? children : fallback}
+    </div>
+  );
+};
 
 const Layout: React.FC = memo(() => {
   const location = useLocation();
   useGoogleAdsTracking();
 
-  // Rutas sin layout (header/footer/wsp/quote)
   const noLayoutRoutes = useMemo(
     () => [
       "/financing-options",
@@ -100,7 +153,6 @@ const Layout: React.FC = memo(() => {
   );
   const isNoLayout = matches(noLayoutRoutes, location.pathname);
 
-  // Lista NEGRA: ocultar el banner solo en estas rutas
   const hideBannerRoutes = useMemo(
     () => [
       "/financing-options",
@@ -113,6 +165,13 @@ const Layout: React.FC = memo(() => {
     []
   );
   const showBanner = !isNoLayout && !matches(hideBannerRoutes, location.pathname);
+
+  // Montaje diferido en idle de pequeños widgets globales (no críticos)
+  const [idleWidgets, setIdleWidgets] = useState(false);
+  useEffect(() => {
+    if (!canPrefetch()) return;
+    runIdle(() => setIdleWidgets(true));
+  }, []);
 
   return (
     <>
@@ -130,7 +189,6 @@ const Layout: React.FC = memo(() => {
           whatsappMensaje={'Hi! I\'m here for "Get a FREE 72" electric fireplace. I\'d like to talk more about it.'}
           storageKey="promo-sep-oct-2025"
           onHeightChange={(h) => {
-            // empuja el layout (p.ej. header) para que no lo tape el banner fijo
             document.documentElement.style.setProperty("--top-offset", `${h}px`);
           }}
         />
@@ -141,13 +199,61 @@ const Layout: React.FC = memo(() => {
           {/* Públicas */}
           <Route path="/" element={<MainHome />} />
           <Route path="/aluminium-custom-pergola-cover-patio" element={<PatiosAndPergolasHome />} />
-          <Route path="/outdoor-living-services" element={<ServicesMain />} />
+          <Route path="/outdoor-living-services" element={
+            <>
+              {/* BlockSection es pesado → difiere su carga */}
+              <LazyWhenVisible minHeight={120}>
+                <Suspense fallback={<div className="min-h-[120px]" aria-hidden="true" />}>
+                  <BlockSection />
+                </Suspense>
+              </LazyWhenVisible>
+              <ServicesMain />
+            </>
+          } />
 
-          <Route path="/our-promise" element={<><BlockSection /><OurPromise /></>} />
-          <Route path="/how-we-doit" element={<><BlockSection /><OurProcess /></>} />
-          <Route path="/about-us" element={<><BlockSection /><AboutUsPage /></>} />
+          <Route path="/our-promise" element={
+            <>
+              <LazyWhenVisible minHeight={120}>
+                <Suspense fallback={<div className="min-h-[120px]" aria-hidden="true" />}>
+                  <BlockSection />
+                </Suspense>
+              </LazyWhenVisible>
+              <OurPromise />
+            </>
+          } />
 
-          <Route path="/blog" element={<><BlockSection /><BlogSectionPage /></>} />
+          <Route path="/how-we-doit" element={
+            <>
+              <LazyWhenVisible minHeight={120}>
+                <Suspense fallback={<div className="min-h-[120px]" aria-hidden="true" />}>
+                  <BlockSection />
+                </Suspense>
+              </LazyWhenVisible>
+              <OurProcess />
+            </>
+          } />
+
+          <Route path="/about-us" element={
+            <>
+              <LazyWhenVisible minHeight={120}>
+                <Suspense fallback={<div className="min-h-[120px]" aria-hidden="true" />}>
+                  <BlockSection />
+                </Suspense>
+              </LazyWhenVisible>
+              <AboutUsPage />
+            </>
+          } />
+
+          <Route path="/blog" element={
+            <>
+              <LazyWhenVisible minHeight={120}>
+                <Suspense fallback={<div className="min-h-[120px]" aria-hidden="true" />}>
+                  <BlockSection />
+                </Suspense>
+              </LazyWhenVisible>
+              <BlogSectionPage />
+            </>
+          } />
           <Route path="/blogs/blog/:slug" element={<BlogsRedirect />} />
           <Route path="/blog/:slug" element={<BlogPage />} />
 
@@ -206,9 +312,27 @@ const Layout: React.FC = memo(() => {
         </Routes>
       </Suspense>
 
-      {!isNoLayout && <QuotePopup />}
-      {!isNoLayout && <WspButton />}
-      {!isNoLayout && <Footer />}
+      {/* Widgets globales diferidos */}
+      {!isNoLayout && idleWidgets && (
+        <Suspense fallback={null}>
+          <QuotePopup />
+        </Suspense>
+      )}
+
+      {!isNoLayout && idleWidgets && (
+        <Suspense fallback={null}>
+          <WspButton />
+        </Suspense>
+      )}
+
+      {/* Footer ↓ sólo cuando se acerca al viewport */}
+      {!isNoLayout && (
+        <LazyWhenVisible offset="800px" minHeight={360} fallback={<div className="min-h-[360px]" aria-hidden="true" />}>
+          <Suspense fallback={<div className="min-h-[360px]" aria-hidden="true" />}>
+            <Footer />
+          </Suspense>
+        </LazyWhenVisible>
+      )}
     </>
   );
 });

@@ -1,5 +1,4 @@
 import React, { memo, useEffect, useRef, useState, useCallback } from "react";
-import { FaInstagram, FaTiktok, FaPinterest, FaFacebookF } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import useScrollToTop from "../../hooks/scrollToTop";
 
@@ -11,9 +10,7 @@ const canPrefetch = () => {
     const type = String(conn?.effectiveType || "").toLowerCase();
     if (type.includes("2g") || type.includes("slow-2g")) return false;
   }
-  if (typeof document !== "undefined" && document.visibilityState === "hidden") {
-    return false;
-  }
+  if (typeof document !== "undefined" && document.visibilityState === "hidden") return false;
   return true;
 };
 
@@ -49,17 +46,21 @@ const Main: React.FC = () => {
   const videoRef = useRef<HTMLVideoElement | null>(null);
 
   const [visible, setVisible] = useState(false);
-  const [videoReady, setVideoReady] = useState(false); // canplay
+  const [videoReady, setVideoReady] = useState(false);
   const [reducedMotion, setReducedMotion] = useState(false);
 
   const scrollToTop = useScrollToTop();
 
   const baseUrl = import.meta.env.BASE_URL || "/";
-  const poster = `${baseUrl}assets/videos/homevideo-poster.jpg`;
+  // Poster en múltiples formatos/sizes
+  const posterJpg = `${baseUrl}assets/videos/homevideo-poster.jpg`;
+  const posterWebp = `${baseUrl}assets/videos/homevideo-poster.webp`; // genera este si aún no existe
+  const posterAvif = `${baseUrl}assets/videos/homevideo-poster.avif`; // genera este si aún no existe
+
   const videoSrcWebm = `${baseUrl}assets/videos/homevideo.webm`;
   const trackSrc = `${baseUrl}assets/videos/homevideo.vtt`;
 
-  /* ===== Respecta prefers-reduced-motion ===== */
+  /* ===== prefers-reduced-motion ===== */
   useEffect(() => {
     if (!window.matchMedia) return;
     const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
@@ -69,7 +70,7 @@ const Main: React.FC = () => {
     return () => mq.removeEventListener("change", update);
   }, []);
 
-  /* ===== Observa el hero para prefetch y reproducción ===== */
+  /* ===== Intersection para visibilidad y prefetch ===== */
   useEffect(() => {
     const el = sectionRef.current;
     if (!el) return;
@@ -78,9 +79,7 @@ const Main: React.FC = () => {
       (entries) => {
         const onScreen = entries.some((e) => e.isIntersecting);
         setVisible(onScreen);
-
         if (onScreen) {
-          // Prefetch en idle cuando el hero entra en viewport
           runIdle(prefetchPatios);
           runIdle(prefetchQuote);
         }
@@ -92,11 +91,10 @@ const Main: React.FC = () => {
     return () => io.disconnect();
   }, []);
 
-  /* ===== Pausa/reanuda según visibilidad, motion y readiness ===== */
+  /* ===== Play/Pause según estado ===== */
   useEffect(() => {
     const v = videoRef.current;
     if (!v) return;
-
     if (visible && !reducedMotion && videoReady) {
       v.play().catch(() => {});
     } else {
@@ -108,7 +106,6 @@ const Main: React.FC = () => {
   useEffect(() => {
     const v = videoRef.current;
     if (!v) return;
-
     const onVis = () => {
       if (document.visibilityState === "hidden") v.pause();
       else if (visible && !reducedMotion && videoReady) v.play().catch(() => {});
@@ -126,53 +123,70 @@ const Main: React.FC = () => {
       id="home"
       className="relative flex w-full h-screen max-h-[1080px] overflow-hidden"
       aria-labelledby="main-heading"
-      style={{ contain: "layout paint size" } as any} // aísla el hero (micro anti-CLS)
+      style={{
+        // Aisla el hero; evita efectos colaterales, pero no uses content-visibility aquí (es above-the-fold).
+        contain: "layout paint size",
+      } as any}
     >
-      {/* Poster como LCP (imagen absoluta) */}
-      <img
-        src={poster}
-        alt="Modern aluminum patio cover at sunset"
-        className={`absolute top-0 left-0 w-full h-full object-cover max-h-[1080px] z-0 transition-opacity duration-500
-          ${videoReady && !reducedMotion ? "opacity-0" : "opacity-100"}
-          motion-reduce:transition-none
-        `}
-        width={1920}
-        height={1080}
-        loading="eager"
-        decoding="async"
-        fetchPriority="high"
-      />
+      {/* Poster responsivo como LCP (ocupa el fondo hasta que el video esté listo) */}
+      <picture
+        className={`absolute top-0 left-0 w-full h-full z-0 transition-opacity duration-500 ${
+          videoReady && !reducedMotion ? "opacity-0" : "opacity-100"
+        }`}
+        aria-hidden="true"
+        // evita eventos innecesarios (micro-optimización de input delay)
+        style={{ pointerEvents: "none", willChange: "opacity" }}
+      >
+        {/* AVIF > WebP > JPG */}
+        <source type="image/avif" srcSet={`${posterAvif} 1920w`} sizes="100vw" />
+        <source type="image/webp" srcSet={`${posterWebp} 1920w`} sizes="100vw" />
+        <img
+          src={posterJpg}
+          alt="Modern aluminum patio cover at sunset"
+          className="w-full h-full object-cover max-h-[1080px]"
+          width={1920}
+          height={1080}
+          loading="eager"
+          decoding="async"
+          fetchPriority="high"
+          draggable={false}
+        />
+      </picture>
 
       {/* Video de fondo (se hace visible cuando está listo) */}
       <video
         ref={videoRef}
         id="background-video"
-        className={`absolute top-0 left-0 w-full h-full object-cover max-h-[1080px] z-0 transition-opacity duration-500
-          ${videoReady && !reducedMotion ? "opacity-100" : "opacity-0"}
-          motion-reduce:transition-none
-        `}
+        className={`absolute top-0 left-0 w-full h-full object-cover max-h-[1080px] z-0 transition-opacity duration-500 ${
+          videoReady && !reducedMotion ? "opacity-100" : "opacity-0"
+        }`}
         preload="metadata"
         autoPlay
         muted
         playsInline
         loop
-        poster={poster}
-        // 'canplay' asegura que hay datos para iniciar fluido
+        // no bloquea interacción y mejora INP
+        style={{ pointerEvents: "none", willChange: "opacity" }}
+        poster={posterWebp /* si no existe, queda el jpg */}
         onCanPlay={() => setVideoReady(true)}
+        aria-hidden="true"
       >
         <source src={videoSrcWebm} type="video/webm" />
-        {/* Si tienes MP4, puedes descomentar y apuntar al archivo:
-        <source src={`${baseUrl}assets/videos/homevideo.mp4`} type="video/mp4" />
-        */}
+        {/* <source src={`${baseUrl}assets/videos/homevideo.mp4`} type="video/mp4" /> */}
         <track kind="captions" src={trackSrc} srcLang="en" label="English" default />
-        Your browser does not support HTML5 video.
       </video>
 
       {/* Capa oscura */}
-      <div className="absolute top-0 left-0 w-full h-full bg-black/60 z-10" aria-hidden="true" />
+      <div
+        className="absolute top-0 left-0 w-full h-full bg-black/60 z-10"
+        aria-hidden="true"
+        style={{ pointerEvents: "none" }}
+      />
 
       {/* Contenido principal */}
-      <div className="relative z-20 flex flex-col items-start justify-center text-start w-full h-full px-4 text-white">
+      <div
+        className="relative z-20 flex flex-col items-start justify-center text-start w-full h-full px-4 text-white"
+      >
         <div className="w-[90vw] sm:w-[70vw]">
           <h1 id="main-heading" className="text-2xl md:text-4xl font-bold">
             Custom Aluminium Outdoor Space Builders, Cover Patios and Pergolas
@@ -209,42 +223,6 @@ const Main: React.FC = () => {
           >
             Get a Free Quote
           </Link>
-        </div>
-
-        {/* Redes sociales */}
-        <div className="flex gap-2 mt-2 ml-1">
-          <a
-            href="https://www.instagram.com/newgenpatio/"
-            target="_blank"
-            rel="noopener noreferrer nofollow"
-            aria-label="Instagram"
-          >
-            <FaInstagram className="w-8 h-8 text-white hover:text-pink-500 transition-colors" />
-          </a>
-          <a
-            href="https://www.tiktok.com/@newgenpatio"
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="TikTok"
-          >
-            <FaTiktok className="w-8 h-8 text-white hover:text-white/70 transition-colors" />
-          </a>
-          <a
-            href="https://www.pinterest.com/newgenpatio/"
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="Pinterest"
-          >
-            <FaPinterest className="w-8 h-8 text-white hover:text-red-500 transition-colors" />
-          </a>
-          <a
-            href="https://www.facebook.com/newgenpatio"
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="Facebook"
-          >
-            <FaFacebookF className="w-8 h-8 text-white hover:text-blue-500 transition-colors" />
-          </a>
         </div>
       </div>
     </section>

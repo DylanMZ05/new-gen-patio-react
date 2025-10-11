@@ -1,4 +1,3 @@
-// src/pages/Blogs/BlogCardSlider.tsx
 import React, {
   memo,
   useEffect,
@@ -15,7 +14,7 @@ import useScrollToTop from "../../hooks/scrollToTop";
 // Lazy del slider (reduce JS inicial)
 const Slider = lazy(() => import("../../components/Slider/SliderBlogs"));
 
-// ===== Prefetch helpers (evitar en redes lentas / pestaña oculta) =====
+/* ========================= Prefetch helpers ========================= */
 const canPrefetch = () => {
   if (typeof navigator !== "undefined") {
     const conn = (navigator as any).connection;
@@ -23,9 +22,7 @@ const canPrefetch = () => {
     const type = String(conn?.effectiveType || "").toLowerCase();
     if (type.includes("2g") || type.includes("slow-2g")) return false;
   }
-  if (typeof document !== "undefined" && document.visibilityState === "hidden") {
-    return false;
-  }
+  if (typeof document !== "undefined" && document.visibilityState === "hidden") return false;
   return true;
 };
 
@@ -36,17 +33,31 @@ const runIdle = (cb: () => void) => {
   else setTimeout(cb, 300);
 };
 
-// Prefetch del chunk de la página de blog (dinámica /blog/:slug)
+/**
+ * Prefetch robusto del chunk de la página detalle (dinámica /blog/:slug)
+ * - Usa import.meta.glob para no depender de la carpeta exacta.
+ */
 let blogPagePrefetched = false;
+const blogPageModules = import.meta.glob([
+  "../**/BlogPage*.tsx",
+  "../**/BlogPage*.jsx",
+  "../../**/BlogPage*.tsx",
+  "../../**/BlogPage*.jsx",
+]);
 const prefetchBlogPageChunk = () => {
   if (blogPagePrefetched || !canPrefetch()) return;
+  const paths = Object.keys(blogPageModules);
+  if (!paths.length) return;
   blogPagePrefetched = true;
-  import("../Blogs/BlogPage").catch(() => {
-    blogPagePrefetched = false;
+  (blogPageModules[paths[0]] as () => Promise<unknown>)().catch(() => {
+    blogPagePrefetched = false; // permitir reintento si falla
   });
 };
 
-// Prefetch del chunk del Slider para cuando se acerque al viewport
+/**
+ * Prefetch del chunk del Slider cuando se aproxima
+ * (por si el dynamic import aún no está resuelto).
+ */
 let sliderPrefetched = false;
 const prefetchSliderChunk = () => {
   if (sliderPrefetched || !canPrefetch()) return;
@@ -55,6 +66,7 @@ const prefetchSliderChunk = () => {
     sliderPrefetched = false;
   });
 };
+/* =================================================================== */
 
 const BlogCardSlider: React.FC = () => {
   // Ordenamos una sola vez (blogs es estático)
@@ -73,6 +85,17 @@ const BlogCardSlider: React.FC = () => {
   const sectionRef = useRef<HTMLElement | null>(null);
   const [visible, setVisible] = useState(false);
 
+  // Warm-up de imágenes de las primeras N tarjetas para suavizar el primer scroll
+  const warmUpImages = (urls: string[], max = 6) => {
+    runIdle(() => {
+      for (let i = 0; i < Math.min(max, urls.length); i++) {
+        const img = new Image();
+        (img as HTMLImageElement).decoding = "async";
+        img.src = urls[i];
+      }
+    });
+  };
+
   useEffect(() => {
     const el = sectionRef.current;
     if (!el) return;
@@ -84,17 +107,22 @@ const BlogCardSlider: React.FC = () => {
           // Se acerca → prefetch en idle (slider + página detalle)
           runIdle(prefetchSliderChunk);
           runIdle(prefetchBlogPageChunk);
+
+          // Warm-up de imágenes (primeras tarjetas)
+          const firstImgs = latestBlogs.map((b) => `${baseUrl}${encodeURI(b.imageUrl)}`);
+          warmUpImages(firstImgs, 6);
+
           // Y habilitamos el render del slider
           setVisible(true);
           io.disconnect();
         }
       },
-      { rootMargin: "300px 0px", threshold: [0, 0.05] }
+      { rootMargin: "600px 0px", threshold: [0, 0.05] }
     );
 
     io.observe(el);
     return () => io.disconnect();
-  }, []);
+  }, [latestBlogs, baseUrl]);
 
   const blogSlides = useMemo(
     () =>
@@ -108,16 +136,17 @@ const BlogCardSlider: React.FC = () => {
               day: "numeric",
             });
 
-        const imgSrc = `${baseUrl}${blog.imageUrl}`; // respeta BASE_URL si deployás en subpath
+        // respeta BASE_URL y evita problemas con espacios/& en nombres
+        const imgSrc = `${baseUrl}${encodeURI(blog.imageUrl)}`;
 
         return (
           <div key={blog.id} className="h-full flex">
             <Link
               to={`/blog/${blog.slug}`}
               onClick={scrollToTop}
-              onPointerEnter={prefetchBlogPageChunk}
-              onFocus={prefetchBlogPageChunk}
-              onTouchStart={prefetchBlogPageChunk}
+              onPointerEnter={() => runIdle(prefetchBlogPageChunk)}
+              onFocus={() => runIdle(prefetchBlogPageChunk)}
+              onTouchStart={() => runIdle(prefetchBlogPageChunk)}
               className="
                 h-[420px] flex flex-col justify-between w-full bg-white
                 border border-gray-300 rounded-lg shadow-md overflow-hidden
@@ -134,7 +163,7 @@ const BlogCardSlider: React.FC = () => {
                   loading="lazy"
                   decoding="async"
                   width={600}  // tamaño intrínseco aproximado
-                  height={208} // mantiene relación cercana a h-52
+                  height={208} // h-52 ≈ 208px
                   sizes="(min-width:1280px) 360px, (min-width:768px) 50vw, 100vw"
                   className="w-full h-full object-cover"
                   draggable={false}
@@ -179,7 +208,7 @@ const BlogCardSlider: React.FC = () => {
         py-16 px-6 bg-gray-200 border-t border-black/10
         [content-visibility:auto] [contain-intrinsic-size:520px]
       "
-      style={{ contain: "content" as any }} // micro anti-CLS adicional
+      style={{ contain: "content" as any, minHeight: 360 }}
     >
       <div className="max-w-6xl mx-auto">
         <header className="text-center mb-10">

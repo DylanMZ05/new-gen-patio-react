@@ -2,16 +2,16 @@
 import { Link } from "react-router-dom";
 
 const MarqueeBanner: React.FC = () => {
-  // Si querés cambiar la velocidad, ajustá --marquee-speed abajo (ej: "18s", "12s")
-  // También podés ajustar --fade-size para el degradado de bordes.
+  // Tuning rápido
   const styleVars = {
-    // @ts-ignore - CSS variables
-    "--marquee-speed": "20s",
-    "--fade-size": "6rem",
+    // @ts-ignore
+    "--marquee-speed": "12s",        // velocidad (menor = más rápido)
+    "--marquee-gap": "1.5rem",       // separación entre items
+    "--fade-size": "6rem",           // ancho del degradado lateral
+    "--banner-height": "56px",       // alto estable para evitar CLS
   } as React.CSSProperties;
 
   const handleScrollToTop = () => {
-    // "instant" no es estándar; usamos "auto" para evitar warnings
     window.scrollTo({ top: 0, behavior: "auto" });
   };
 
@@ -19,9 +19,9 @@ const MarqueeBanner: React.FC = () => {
     <Link
       to="/patio-financing-houston"
       className="
-        block w-full border-y border-white/20 shadow-lg bg-[#0d4754]
-        py-3 overflow-hidden relative
-        [content-visibility:auto] [contain-intrinsic-size:56px]
+        group block w-full border-y border-white/20 shadow-lg bg-[#0d4754]
+        overflow-hidden relative py-3
+        [content-visibility:auto] [contain-intrinsic-size:var(--banner-height)]
         focus:outline-none focus-visible:ring-2 focus-visible:ring-white/70
       "
       onClick={handleScrollToTop}
@@ -29,7 +29,7 @@ const MarqueeBanner: React.FC = () => {
       data-discover="true"
       style={styleVars}
     >
-      {/* Viewport con fade en los bordes (no recorta tab/focus) */}
+      {/* Viewport con fade en bordes (no afecta foco/lectura) */}
       <div
         className="
           relative overflow-hidden
@@ -39,34 +39,42 @@ const MarqueeBanner: React.FC = () => {
           after:w-[var(--fade-size)] after:bg-gradient-to-l after:from-[#0d4754] after:to-transparent
         "
       >
-        {/* Contenido duplicado para marquee infinito sin medir anchos */}
+        {/* Track = 200% width con 2 copias → loop perfecto moviendo -50% */}
         <div
           className="
-            marquee-track flex items-center gap-6 w-max
-            will-change-transform
-            motion-reduce:animation-none
-            hover:[animation-play-state:paused] focus-within:[animation-play-state:paused]
+            marquee-track flex items-center gap-[var(--marquee-gap)]
+            w-max
+            motion-reduce:animate-none
+            group-hover:[animation-play-state:paused]
+            group-focus-within:[animation-play-state:paused]
           "
           aria-hidden={false}
         >
           <BannerChunk />
-
+          <BannerChunk ariaHidden />
         </div>
       </div>
 
-      {/* Estilos locales */}
+      {/* Estilos locales encapsulados */}
       <style>{`
-        /* Animación: desplazamos el contenedor con dos copias -50% para loop perfecto */
+        /* Animamos solo transform (compositor), sin layout/paint */
         .marquee-track {
           animation: marquee var(--marquee-speed) linear infinite;
+          /* activá el compositor solo cuando el usuario interactúa */
+        }
+        .group:hover .marquee-track,
+        .group:focus-within .marquee-track {
+          will-change: transform;
         }
         @keyframes marquee {
-          from { transform: translateX(100vw); }
-          to   { transform: translateX(-120vw); }
+          0%   { transform: translate3d(0,0,0); }
+          100% { transform: translate3d(-50%,0,0); } /* mueve media pista */
         }
 
-        /* Fallback para navegadores sin masks: usamos los pseudo (before/after) de arriba */
-        /* Respeto por reduced motion ya aplicado con motion-reduce:animation-none */
+        /* Respeto a usuarios con reduced-motion */
+        @media (prefers-reduced-motion: reduce) {
+          .marquee-track { animation: none !important; }
+        }
       `}</style>
     </Link>
   );
@@ -74,12 +82,9 @@ const MarqueeBanner: React.FC = () => {
 
 export default MarqueeBanner;
 
-/** Fragmento con el contenido del banner; lo usamos duplicado para el loop */
+/** Fragmento reutilizable del banner (duplicado para el loop) */
 const BannerChunk: React.FC<{ ariaHidden?: boolean }> = ({ ariaHidden }) => (
-  <div
-    className="flex items-center gap-3 pr-6"
-    aria-hidden={ariaHidden ? true : undefined}
-  >
+  <div className="flex items-center gap-3 pr-6" aria-hidden={ariaHidden ? true : undefined}>
     <p className="text-white text-lg font-bold whitespace-nowrap">
       Flexible Financing Available — Up to 18 Months at 0% Interest!
     </p>

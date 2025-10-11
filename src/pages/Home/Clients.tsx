@@ -17,17 +17,15 @@ const PLACEHOLDER = "/assets/images/default-placeholder.webp";
 const LOW_FETCH_ATTR: Record<string, string> = { fetchpriority: "low" };
 
 const Clients: React.FC = () => {
-  const containerRef = useRef<HTMLDivElement>(null);        // contenedor visible
-  const trackRef = useRef<HTMLAnchorElement>(null);          // tira que se anima
+  const containerRef = useRef<HTMLDivElement>(null); // contenedor visible
+  const trackRef = useRef<HTMLAnchorElement>(null);   // tira que se anima
   const sectionRef = useRef<HTMLElement | null>(null);
 
   const [animationDuration, setAnimationDuration] = useState("30s");
   const [visible, setVisible] = useState(false);
   const [reducedMotion, setReducedMotion] = useState(false);
 
-  const containStyle: React.CSSProperties = { contain: "content" };
-
-  // Construye rutas respetando BASE_URL si deployas en subcarpeta
+  // Construye rutas respetando BASE_URL si deployás en subcarpeta
   const baseUrl = import.meta.env.BASE_URL || "/";
   const images = useMemo(
     () =>
@@ -53,11 +51,7 @@ const Clients: React.FC = () => {
       (entries) => {
         if (entries.some((e) => e.isIntersecting)) {
           setVisible(true);
-          // fuerza una medición en el próximo frame para disparar el ResizeObserver
-          requestAnimationFrame(() => {
-            // leer scrollWidth fuerza layout y ayuda a que el RO dispare
-            void containerRef.current?.scrollWidth;
-          });
+          requestAnimationFrame(() => void containerRef.current?.scrollWidth);
           io.disconnect();
         }
       },
@@ -80,7 +74,7 @@ const Clients: React.FC = () => {
   // Calcula duración en función del ancho real del track y la velocidad target
   useEffect(() => {
     const node = trackRef.current; // medimos la tira que se anima
-    if (!node) return;
+    if (!node || !visible) return;
 
     const recompute = () => {
       // Como duplicamos el contenido, un loop es la mitad del ancho total
@@ -91,22 +85,27 @@ const Clients: React.FC = () => {
       setAnimationDuration(`${clamped.toFixed(2)}s`);
     };
 
-    const ro = new ResizeObserver(recompute);
-    ro.observe(node);
-    recompute(); // primer cálculo
+    // Ejecuta el primer cálculo en idle para no competir con el paint
+    const idle = (cb: () => void) =>
+      (window as any).requestIdleCallback
+        ? (window as any).requestIdleCallback(cb, { timeout: 1200 })
+        : setTimeout(cb, 120);
 
-    // Si cambia el breakpoint (mobile/desktop), recalculamos
+    const ro = new ResizeObserver(() => idle(recompute));
+    ro.observe(node);
+    idle(recompute);
+
     let mm: MediaQueryList | null = null;
+    const onChange = () => idle(recompute);
     if (typeof window !== "undefined" && window.matchMedia) {
       mm = window.matchMedia("(max-width: 768px)");
-      const onChange = () => recompute();
       mm.addEventListener("change", onChange);
-      return () => {
-        ro.disconnect();
-        mm?.removeEventListener("change", onChange);
-      };
     }
-    return () => ro.disconnect();
+
+    return () => {
+      ro.disconnect();
+      mm?.removeEventListener("change", onChange);
+    };
   }, [visible]);
 
   return (
@@ -115,8 +114,11 @@ const Clients: React.FC = () => {
       id="reviews"
       role="region"
       aria-labelledby="clients-heading"
-      className="flex flex-col items-center justify-center py-12 px-6 border-t border-black/20 overflow-hidden bg-gray-100"
-      style={containStyle}
+      className="
+        flex flex-col items-center justify-center py-12 px-6 border-t border-black/20 overflow-hidden bg-gray-100
+        [content-visibility:auto] [contain-intrinsic-size:520px]
+      "
+      style={{ contain: "content" as any, minHeight: 320 }}
     >
       <p id="clients-heading" className="font-semibold text-4xl text-center">
         Our Clients
@@ -125,7 +127,7 @@ const Clients: React.FC = () => {
 
       {/* Carrusel / marquee */}
       <div
-        className="marquee-reviews-container max-w-[1080px] h-[260px]" /* altura fija -> evita CLS */
+        className="group marquee-reviews-container max-w-[1080px] h-[260px]" /* altura fija -> evita CLS */
         ref={containerRef}
         aria-hidden={!visible}
       >
@@ -134,10 +136,12 @@ const Clients: React.FC = () => {
             ref={trackRef}
             href="https://www.google.com/search?q=new+gen+patio+reviews"
             target="_blank"
-            rel="noopener noreferrer"
+            rel="noopener noreferrer nofollow"
+            referrerPolicy="no-referrer"
             className="marquee-reviews cursor-pointer"
             style={{
               animationDuration,
+              // pausa si el usuario interactúa o si reduce motion
               animationPlayState: reducedMotion ? "paused" : "running",
             }}
             aria-label="Open Google reviews for New Gen Patio in a new tab"
@@ -153,6 +157,7 @@ const Clients: React.FC = () => {
                   height={260}
                   loading="lazy"
                   decoding="async"
+                  draggable={false}
                   onError={(e) => {
                     const img = e.currentTarget as HTMLImageElement & {
                       dataset: DOMStringMap & { fallbackApplied?: string };
@@ -174,12 +179,25 @@ const Clients: React.FC = () => {
       <a
         href="https://www.google.com/search?q=new+gen+patio+reviews"
         target="_blank"
-        rel="noopener noreferrer"
-        className="text-white bg-black text-xl font-semibold px-5 pt-1 pb-2 rounded-full mt-5 inline-block transition-all hover:bg.black/90 hover:scale-105 focus:ring-2 focus:ring-white focus:outline-none"
+        rel="noopener noreferrer nofollow"
+        referrerPolicy="no-referrer"
+        className="text-white bg-black text-xl font-semibold px-5 pt-1 pb-2 rounded-full mt-5 inline-block transition-all hover:bg-black/90 hover:scale-105 focus:ring-2 focus:ring-white focus:outline-none"
         aria-label="View all Google reviews for New Gen Patio"
       >
         View all reviews
       </a>
+
+      {/* Estilos locales para pausa en hover/focus sin JS */}
+      <style>{`
+        /* Pausa accesible de la animación cuando hay interacción */
+        .group:hover .marquee-reviews,
+        .group:focus-within .marquee-reviews {
+          animation-play-state: paused;
+        }
+        @media (prefers-reduced-motion: reduce) {
+          .marquee-reviews { animation-play-state: paused !important; }
+        }
+      `}</style>
     </section>
   );
 };

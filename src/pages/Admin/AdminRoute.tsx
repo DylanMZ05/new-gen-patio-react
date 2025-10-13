@@ -1,31 +1,31 @@
-// src/components/AdminRoute.tsx
+// src/pages/Admin/AdminRoute.tsx  (si lo dejas en /pages/Admin)
 import React, { useEffect, useState } from "react";
-import { onAuthStateChanged } from "firebase/auth";
-import { auth } from "../../firebase";
 import { Navigate } from "react-router-dom";
+import { loadAuth } from "../../lib/firebaseAuth";
 
-interface Props {
-  children: React.ReactNode;
-}
+interface Props { children: React.ReactNode; }
 
 const AdminRoute: React.FC<Props> = ({ children }) => {
-  const [checking, setChecking] = useState(true);
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [state, setState] = useState<"checking" | "ok" | "no">("checking");
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      setIsAuthenticated(!!user);
-      setChecking(false);
-    });
+    let unsub: (() => void) | undefined;
+    let mounted = true;
 
-    return () => unsubscribe();
+    (async () => {
+      const auth = await loadAuth();                         // carga on-demand
+      const { onAuthStateChanged } = await import("firebase/auth");
+      unsub = onAuthStateChanged(auth, (user) => {
+        if (!mounted) return;
+        setState(user ? "ok" : "no");
+      });
+    })();
+
+    return () => { mounted = false; unsub?.(); };
   }, []);
 
-  if (checking) {
-    return <div className="text-center py-10">Loading...</div>;
-  }
-
-  return isAuthenticated ? <>{children}</> : <Navigate to="/login/dashboard" />;
+  if (state === "checking") return <div className="text-center py-10">Loading...</div>;
+  return state === "ok" ? <>{children}</> : <Navigate to="/login/dashboard" replace />;
 };
 
 export default AdminRoute;

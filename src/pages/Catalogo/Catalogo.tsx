@@ -1,12 +1,14 @@
+// src/pages/Catalogo/Catalogo.tsx
 import { useEffect, useMemo, useRef, useState } from "react";
 import SectionBlock from "../../components/SectionBlock";
 import ProjectCard from "./ProjectCard";
-import { collection, getDocsFromCache, getDocsFromServer } from "firebase/firestore";
-import { db } from "../../firebase";
 import { FiFilter, FiX, FiChevronDown } from "react-icons/fi";
 import { AnimatePresence, motion } from "framer-motion";
 import { Helmet } from "react-helmet-async";
 import BlockSection from "../../components/BlockSection";
+
+// ✅ Firebase: carga on-demand (no en el bundle inicial)
+import { loadFirestore } from "../../lib/firebaseDb";
 
 /* ==========================
    CANONICAL URL
@@ -315,8 +317,7 @@ const PatiosAndPergolasCatalog = () => {
     setMobileTempSelection(new Set(selectedFilters));
     setMobileSheetOpen(true);
 
-    // 🔒 Lock del scroll del body para que no se mueva el fondo.
-    // Usamos position: fixed para evitar el "scroll bleed" en iOS.
+    // 🔒 Lock del scroll del body
     scrollYRef.current = window.scrollY || 0;
     const body = document.body;
     body.style.position = "fixed";
@@ -324,13 +325,11 @@ const PatiosAndPergolasCatalog = () => {
     body.style.left = "0";
     body.style.right = "0";
     body.style.width = "100%";
-    body.style.overscrollBehavior = "none"; // evita scroll chaining hacia el body
+    body.style.overscrollBehavior = "none";
   };
 
   const sheetClose = () => {
     setMobileSheetOpen(false);
-
-    // 🔓 Restaurar el body al estado normal y volver a la posición original
     const body = document.body;
     body.style.position = "";
     body.style.top = "";
@@ -339,7 +338,6 @@ const PatiosAndPergolasCatalog = () => {
     body.style.width = "";
     body.style.overscrollBehavior = "";
     body.style.overflow = "";
-
     window.scrollTo(0, scrollYRef.current || 0);
   };
 
@@ -362,7 +360,7 @@ const PatiosAndPergolasCatalog = () => {
     });
   };
 
-  // Cleanup defensivo por si el componente se desmonta con el sheet abierto
+  // Cleanup defensivo
   useEffect(() => {
     return () => {
       const body = document.body;
@@ -399,6 +397,15 @@ const PatiosAndPergolasCatalog = () => {
   useEffect(() => {
     const fetchProjects = async () => {
       try {
+        // Firestore on-demand
+        const db = await loadFirestore();
+        const {
+          collection,
+          getDocsFromCache,
+          getDocsFromServer,
+        } = await import("firebase/firestore");
+
+        // 1) Intentar caché
         try {
           const snapshotCache = await getDocsFromCache(collection(db, "projects"));
           if (!snapshotCache.empty) {
@@ -408,6 +415,8 @@ const PatiosAndPergolasCatalog = () => {
         } catch {
           /* no cache */
         }
+
+        // 2) Servidor
         const snapshotServer = await getDocsFromServer(collection(db, "projects"));
         setProjects(snapshotServer.docs.map((d) => ({ id: d.id, ...d.data() })));
       } catch (e) {
@@ -576,7 +585,6 @@ const PatiosAndPergolasCatalog = () => {
      DESPLEGABLES (desktop)
   =========================== */
   const allGroupTitles = Object.keys(filterConfig);
-  // Por defecto: todos cerrados para que entren todas las cabeceras sin scroll
   const [openGroups, setOpenGroups] = useState<Set<string>>(new Set());
   const toggleGroup = (title: string) =>
     setOpenGroups((prev) => {
@@ -602,7 +610,7 @@ const PatiosAndPergolasCatalog = () => {
             name="description"
             content="Our portfolio of completed projects can be explored here. Be inspired by real transformations of patios, pergolas, and outdoor kitchens throughout the Houston area."
           />
-          <link rel="canonical" href={CANONICAL} />
+        <link rel="canonical" href={CANONICAL} />
           <meta property="og:type" content="website" />
           <meta property="og:title" content="Covered Patio &amp; Pergola Project Catalog | Aluminum Designs" />
           <meta
@@ -784,7 +792,7 @@ const PatiosAndPergolasCatalog = () => {
               </div>
             ) : filteredProjects.length === 0 ? (
               <div className="w-full flex flex-col items-center justify-center" style={resultsMinStyle}>
-                <div className="w-full max-w={[720] + 'px'} border border-dashed border-gray-300 rounded-2xl p-8 text-center bg-white/70">
+                <div className="w-full max-w-[720px] border border-dashed border-gray-300 rounded-2xl p-8 text-center bg-white/70">
                   <h3 className="text-lg font-semibold text-gray-800">No projects match your filters.</h3>
                   <p className="mt-2 text-sm text-gray-600">
                     Try removing some filters or resetting all.
@@ -874,7 +882,6 @@ const PatiosAndPergolasCatalog = () => {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              // Cerrar al tocar fuera
               onClick={sheetClose}
             />
             <motion.div
@@ -894,9 +901,7 @@ const PatiosAndPergolasCatalog = () => {
                 </button>
               </div>
 
-              {/* Contenedor scrollable del sheet:
-                  - overscroll-contain/touch-pan-y: evita propagación al body
-                  - WebkitOverflowScrolling: 'touch' para momentum en iOS */}
+              {/* Contenedor scrollable del sheet */}
               <div
                 className="max-h-[60vh] overflow-y-auto overscroll-contain overscroll-y-contain px-5 py-4 space-y-3 touch-pan-y"
                 style={{ WebkitOverflowScrolling: "touch" as any }}

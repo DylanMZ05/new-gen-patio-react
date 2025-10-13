@@ -72,7 +72,6 @@ const safePrefetch = (predicate: (p: string) => boolean) => {
   if (!canPrefetch()) return;
   for (const path in routeModules) {
     if (predicate(path)) {
-      // @ts-expect-error (Vite devuelve funciones importadoras)
       routeModules[path]().catch(() => {});
     }
   }

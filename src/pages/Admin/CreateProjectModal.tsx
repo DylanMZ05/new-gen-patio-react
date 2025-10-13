@@ -1,81 +1,73 @@
+// src/pages/Admin/CreateProjectModal.tsx
 import React, { useState, ChangeEvent } from "react";
-import { addDoc, collection, doc, updateDoc } from "firebase/firestore";
-import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
-import { db, storage } from "../../firebase";
-import { Project } from "./AdminDashboard";
 import { X } from "lucide-react";
+import { Project } from "./AdminDashboard";
+import { loadFirestore } from "../../lib/firebaseDb";
+import { loadStorage } from "../../lib/firebaseStorage";
 
-// 🔹 Compresor a WebP (máx ~1500px en lado mayor)
-const compressImage = (file: File): Promise<Blob> => {
-  return new Promise((resolve, reject) => {
-    const img = new Image();
-    const reader = new FileReader();
-
-    reader.onload = () => {
-      img.src = reader.result as string;
-    };
-    reader.onerror = reject;
-
-    img.onload = () => {
-      const canvas = document.createElement("canvas");
-      const maxSize = 1500;
-      const shouldResize = img.width > maxSize || img.height > maxSize;
-      const scale = shouldResize ? Math.min(maxSize / img.width, maxSize / img.height) : 1;
-      canvas.width = img.width * scale;
-      canvas.height = img.height * scale;
-
-      const ctx = canvas.getContext("2d");
-      ctx?.drawImage(img, 0, 0, canvas.width, canvas.height);
-
-      canvas.toBlob(
-        (blob) => {
-          if (blob) resolve(blob);
-          else reject(new Error("Error al comprimir imagen"));
-        },
-        "image/webp",
-        1
-      );
-    };
-
-    reader.readAsDataURL(file);
-  });
-};
-
-// ⚙️ Opciones de categorías (camelCase) — Panels separado
-const categoryOptions: Record<string, string[]> = {
+/* ===================== Catálogo de categorías ===================== */
+const categoryOptions = {
   coveredPatios: ["Attached Covered Patio", "FreeStanding Pergola", "Cantilevered Pergola"],
   outdoorKitchen: ["Modern Outdoor Kitchen", "Traditional Outdoor Kitchen"],
-
   // Estructura (marco)
   structureColors: ["Dark Bronze", "White", "Varied Colors"],
-
   // Paneles (techo)
   colorsRoofingPanels: ["Dark Bronze", "White", "Wood Imitation Panels"],
-
   composite: ["Black", "Wood Imitation"],
   hybrid: ["Polycarbonate", "Naked Pergola"],
   addons: ["TV Walls", "Privacy Walls", "Slags", "Fire Pit"],
   foundation: ["Concrete Slab", "Concrete Stamped", "Spray Decking", "Paver", "Tiles", "Turf"],
-};
+} as const;
 
+type CategoryKey = keyof typeof categoryOptions;
+
+/* ===================== Compresor a WebP ===================== */
+const compressImage = (file: File): Promise<Blob> =>
+  new Promise((resolve, reject) => {
+    const img = new Image();
+    const reader = new FileReader();
+    reader.onload = () => (img.src = reader.result as string);
+    reader.onerror = reject;
+    img.onload = () => {
+      const max = 1500;
+      const scale =
+        img.width > max || img.height > max
+          ? Math.min(max / img.width, max / img.height)
+          : 1;
+      const canvas = document.createElement("canvas");
+      canvas.width = Math.round(img.width * scale);
+      canvas.height = Math.round(img.height * scale);
+      const ctx = canvas.getContext("2d");
+      ctx?.drawImage(img, 0, 0, canvas.width, canvas.height);
+      canvas.toBlob(
+        (blob) => (blob ? resolve(blob) : reject(new Error("Error al comprimir imagen"))),
+        "image/webp",
+        1
+      );
+    };
+    reader.readAsDataURL(file);
+  });
+
+/* ===================== Props ===================== */
 interface Props {
   onClose: () => void;
   setProjects: React.Dispatch<React.SetStateAction<Project[]>>;
 }
 
+/* ===================== Componente ===================== */
 const CreateProjectModal: React.FC<Props> = ({ onClose, setProjects }) => {
-  // ✅ Inputs visibles (sin los derivados)
+  // Inputs visibles (sin derivados)
   const [fields, setFields] = useState<Partial<Project>>({
     title: "",
     size: "",
     more: "",
   });
 
-  const [categorySelections, setCategorySelections] = useState<{ [key: string]: string[] }>(() => {
-    const initial: { [key: string]: string[] } = {};
-    Object.keys(categoryOptions).forEach((category) => {
-      initial[category] = [];
-    });
+  const [categorySelections, setCategorySelections] = useState<
+    Record<CategoryKey, string[]>
+  >(() => {
+    const initial = {} as Record<CategoryKey, string[]>;
+    (Object.keys(categoryOptions) as CategoryKey[]).forEach((k) => (initial[k] = []));
     return initial;
   });
 
@@ -83,32 +75,31 @@ const CreateProjectModal: React.FC<Props> = ({ onClose, setProjects }) => {
   const [previewImages, setPreviewImages] = useState<string[]>([]);
   const [submitting, setSubmitting] = useState(false);
 
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setFields({ ...fields, [e.target.name]: e.target.value });
-  };
+  /* -------- Handlers -------- */
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) =>
+    setFields((p) => ({ ...p, [e.target.name]: e.target.value }));
 
   const handleImagesChange = (e: ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files ? Array.from(e.target.files) : [];
-    if (files.length > 0) {
-      setImageFiles((prev) => [...prev, ...files]);
-      setPreviewImages((prev) => [...prev, ...files.map((f) => URL.createObjectURL(f))]);
-    }
+    if (!files.length) return;
+    setImageFiles((p) => [...p, ...files]);
+    setPreviewImages((p) => [...p, ...files.map((f) => URL.createObjectURL(f))]);
   };
 
   const handleRemoveImage = (index: number) => {
-    setImageFiles((prev) => prev.filter((_, i) => i !== index));
-    setPreviewImages((prev) => prev.filter((_, i) => i !== index));
+    setImageFiles((p) => p.filter((_, i) => i !== index));
+    setPreviewImages((p) => p.filter((_, i) => i !== index));
   };
 
-  const handleCategoryToggle = (category: string, value: string) => {
+  const handleCategoryToggle = (category: CategoryKey, value: string) =>
     setCategorySelections((prev) => {
-      const current = prev[category] || [];
-      return current.includes(value)
-        ? { ...prev, [category]: current.filter((v) => v !== value) }
-        : { ...prev, [category]: [...current, value] };
+      const cur = prev[category] || [];
+      return cur.includes(value)
+        ? { ...prev, [category]: cur.filter((v) => v !== value) }
+        : { ...prev, [category]: [...cur, value] };
     });
-  };
 
+  /* -------- Submit -------- */
   const handleSubmit = async () => {
     if (!fields.title?.trim() || imageFiles.length === 0) {
       alert("Debes ingresar un título y al menos una imagen.");
@@ -116,64 +107,67 @@ const CreateProjectModal: React.FC<Props> = ({ onClose, setProjects }) => {
     }
 
     setSubmitting(true);
-
     try {
-      // 🔹 1) Derivados desde filtros (usar claves camelCase)
+      // 1) Derivados desde filtros
       const projectType =
         categorySelections.coveredPatios?.[0] ||
         categorySelections.outdoorKitchen?.[0] ||
         "";
 
-      // Colores de la ESTRUCTURA (marco) — string para mostrar
-      const structureColor = categorySelections.structureColors?.join(" + ") || "";
+      const structureColor = (categorySelections.structureColors || []).join(" + ") || "";
 
-      // Panels (techo): guardar CSV en colorsRoofingPanels y derivar colorsPanels para UI
-      const colorsRoofingPanelsCsv = categorySelections.colorsRoofingPanels?.join(",") || "";
-      const colorsPanels = categorySelections.colorsRoofingPanels?.join(" + ") || "";
+      // Panels (persistimos CSV y derivamos string para UI)
+      const colorsRoofingPanelsCsv =
+        (categorySelections.colorsRoofingPanels || []).join(",") || "";
+      const colorsPanels =
+        (categorySelections.colorsRoofingPanels || []).join(" + ") || "";
 
-      // 🔹 2) Payload base (sin forzar Record<string,string> para no romper images: string[])
+      // 2) Payload base (sin romper tipos de images)
       const basePayload: Partial<Project> & { colorsRoofingPanels?: string } = {
         title: fields.title || "",
         size: fields.size || "",
         more: fields.more || "",
         projectType,
         structureColor,
-        colorsPanels,              // sólo para mostrar en UI
-        images: [],                // se actualiza luego con URLs reales
-        colorsRoofingPanels: colorsRoofingPanelsCsv, // persistimos CSV
+        colorsPanels,                // para UI
+        colorsRoofingPanels: colorsRoofingPanelsCsv, // CSV persistido
+        images: [],                  // se completa luego
       };
 
-      // 🔹 3) Guardar TODOS los filtros como csv por categoría en un objeto aparte
+      // 3) Filtros CSV por categoría
       const filtersCsv: Record<string, string> = {};
-      Object.keys(categorySelections).forEach((key) => {
-        filtersCsv[key] = (categorySelections[key] || []).join(",");
+      (Object.keys(categorySelections) as CategoryKey[]).forEach((k) => {
+        filtersCsv[k] = (categorySelections[k] || []).join(",");
       });
 
-      // 🔹 4) Crear documento (sin imágenes aún)
+      // 4) Firestore on-demand (crear doc sin imágenes)
+      const db = await loadFirestore();
+      const { addDoc, collection, doc, updateDoc } = await import("firebase/firestore");
       const docRef = await addDoc(collection(db, "projects"), {
         ...basePayload,
         ...filtersCsv,
       });
 
-      // 🔹 5) Subir imágenes comprimidas
+      // 5) Subir imágenes comprimidas (Storage on-demand)
+      const storage = await loadStorage();
+      const { ref, uploadBytes, getDownloadURL } = await import("firebase/storage");
+
       const uploadedUrls: string[] = [];
       for (let i = 0; i < imageFiles.length; i++) {
-        const file = imageFiles[i];
-        const blob = await compressImage(file);
+        const blob = await compressImage(imageFiles[i]);
         const storageRef = ref(storage, `projects/${docRef.id}_${i}.webp`);
         await uploadBytes(storageRef, blob, { contentType: "image/webp" });
-        const url = await getDownloadURL(storageRef);
-        uploadedUrls.push(url);
+        uploadedUrls.push(await getDownloadURL(storageRef));
       }
 
-      // 🔹 6) Actualizar documento con URLs reales
+      // 6) Actualizar doc con URLs reales
       await updateDoc(doc(db, "projects", docRef.id), {
         ...basePayload,
         ...filtersCsv,
         images: uploadedUrls,
       });
 
-      // 🔹 7) Actualizar UI local
+      // 7) Actualizar UI local
       setProjects((prev) => [
         ...prev,
         {
@@ -193,7 +187,7 @@ const CreateProjectModal: React.FC<Props> = ({ onClose, setProjects }) => {
     }
   };
 
-
+  /* ===================== Render ===================== */
   return (
     <div className="fixed inset-0 bg-black/40 flex justify-center items-center z-50">
       <div className="bg-white p-6 rounded shadow w-full max-w-md max-h-[90vh] overflow-y-auto">
@@ -204,13 +198,13 @@ const CreateProjectModal: React.FC<Props> = ({ onClose, setProjects }) => {
           { name: "title", label: "Title" },
           { name: "size", label: "Size" },
           { name: "more", label: "More" },
-        ].map((field) => (
-          <div key={field.name} className="mb-3">
-            <label className="block text-sm font-medium mb-1">{field.label}</label>
+        ].map(({ name, label }) => (
+          <div key={name} className="mb-3">
+            <label className="block text-sm font-medium mb-1">{label}</label>
             <input
               type="text"
-              name={field.name}
-              value={(fields as any)[field.name] || ""}
+              name={name}
+              value={(fields as Record<string, string | undefined>)[name] || ""}
               onChange={handleChange}
               className="w-full border px-3 py-2 rounded"
             />
@@ -220,25 +214,26 @@ const CreateProjectModal: React.FC<Props> = ({ onClose, setProjects }) => {
         {/* Categorías */}
         <div className="mb-6">
           <h3 className="font-semibold text-lg mb-2">Categorías</h3>
-          {Object.entries(categoryOptions).map(([categoryKey, options]) => (
-            <div key={categoryKey} className="mb-4">
-              <p className="font-medium capitalize mb-1">
-                {categoryKey.replace(/([A-Z])/g, " $1")}
-              </p>
-              <div className="pl-2 space-y-1">
-                {options.map((option) => (
-                  <label key={option} className="flex items-center gap-2 text-sm">
-                    <input
-                      type="checkbox"
-                      checked={categorySelections[categoryKey]?.includes(option) || false}
-                      onChange={() => handleCategoryToggle(categoryKey, option)}
-                    />
-                    {option}
-                  </label>
-                ))}
+          {(Object.entries(categoryOptions) as [CategoryKey, readonly string[]][])
+            .map(([categoryKey, options]) => (
+              <div key={categoryKey} className="mb-4">
+                <p className="font-medium capitalize mb-1">
+                  {String(categoryKey).replace(/([A-Z])/g, " $1")}
+                </p>
+                <div className="pl-2 space-y-1">
+                  {options.map((option) => (
+                    <label key={option} className="flex items-center gap-2 text-sm">
+                      <input
+                        type="checkbox"
+                        checked={categorySelections[categoryKey]?.includes(option) || false}
+                        onChange={() => handleCategoryToggle(categoryKey, option)}
+                      />
+                      {option}
+                    </label>
+                  ))}
+                </div>
               </div>
-            </div>
-          ))}
+            ))}
         </div>
 
         {/* Subida de imágenes */}
@@ -274,11 +269,11 @@ const CreateProjectModal: React.FC<Props> = ({ onClose, setProjects }) => {
                   <button
                     type="button"
                     onClick={() => handleRemoveImage(index)}
-                    className="absolute top-1 right-1 bg-black bg-opacity-60 text-white rounded-full p-1 hover:bg-red-600 transition"
+                    className="absolute top-1 right-1 bg-black/60 text-white rounded-full p-1 hover:bg-red-600 transition"
                   >
                     <X size={16} />
                   </button>
-                  <p className="absolute bottom-1 right-2 text-xs text-white bg-black bg-opacity-60 px-2 py-1 rounded">
+                  <p className="absolute bottom-1 right-2 text-xs text-white bg-black/60 px-2 py-1 rounded">
                     {index + 1}
                   </p>
                 </div>
@@ -289,10 +284,7 @@ const CreateProjectModal: React.FC<Props> = ({ onClose, setProjects }) => {
 
         {/* Botones */}
         <div className="flex justify-end gap-3 mt-4">
-          <button
-            onClick={onClose}
-            className="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400"
-          >
+          <button onClick={onClose} className="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400">
             Cancelar
           </button>
           <button

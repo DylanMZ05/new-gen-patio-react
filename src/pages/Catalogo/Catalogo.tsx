@@ -143,9 +143,9 @@ function useHeaderHidden() {
   return hidden;
 }
 
-const HEADER_HEIGHT = 75;
+const HEADER_HEIGHT = 80;
 /* Sin banner ni espaciado extra */
-const BASE_OFFSET = 45;
+const BASE_OFFSET = 0;
 
 /* ==========================
    Altura mínima del panel de resultados

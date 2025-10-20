@@ -78,7 +78,7 @@
     <!-- ===== Popup Cookies (anti-CLS) ===== -->
     <div
       id="cookie-popup"
-      class="cookie-popup"
+      class="cookie-popup cv-stable-block"
       role="dialog"
       aria-modal="true"
       aria-live="polite"
@@ -105,6 +105,41 @@
       .cookie-btn--accept{ background:#ff6a00; color:#fff; }
       .cookie-btn--close{ background:transparent; color:#fff; border:1px solid #fff; }
       @media (prefers-reduced-motion: reduce){ .cookie-popup{ transition:none; } }
+
+        /* ==== Guardián anti-CLS opcional ==== */
+        .cv-guard{
+          content-visibility:auto;
+          contain-intrinsic-size:1000px;
+          min-height:1000px;
+        }
+        @supports not (contain-intrinsic-size:1px){
+          .cv-guard{ min-height:1000px; }
+        }
+
+        /* ==== Solo afecta a LA SECCIÓN problemática (no global) ==== */
+        .cv-stable-block{
+          content-visibility:auto;            /* Lazy paint pero estable */
+          contain: content;
+          contain-intrinsic-size: 780px;      /* ← Ajustalo al alto real */
+          min-height: 780px;
+        }
+        @media(max-width:768px){
+          .cv-stable-block{
+            contain-intrinsic-size: 620px;
+            min-height: 620px;
+          }
+        }
+
+        /* ==== Envoltorios con ratio fijo (videos/iframes) ==== */
+        .ratio-16x9{ aspect-ratio: 16/9; width: 100%; }
+        .ratio-4x3 { aspect-ratio: 4/3; width: 100%; }
+        .ratio-16x3, .ratio-4x3 > *{ width:100%; height:100%; display:block; }
+
+        /* ==== Reseteo de imágenes responsivo SIN romper tus cards ==== */
+        img[width][height]:not(.absolute):not([class*="h-"]):not([style*="height"]){
+          height:auto;
+          display:block;
+        }
     </style>
 
     <!-- ===== Carga diferida de marketing (solo tras consentimiento) ===== -->

@@ -44,7 +44,7 @@ const Header: React.FC = () => {
       const delta = y - lastY;
       lastY = y;
 
-      const deltaThreshold = 8;
+      const deltaThreshold = 0;
       const minYToHide = 120;
 
       if (menuOpen) {
@@ -99,25 +99,10 @@ const Header: React.FC = () => {
 
   return (
     <>
-      {/* <div id="promo-banner">
-        <BannerOferta
-          activo={true}
-          mensaje="Labor Day Special: Get 2 Free Manual Shades or 2 Sconce Lights – Sign your Project Before Sept 1st!"
-          modalTitulo="We didn’t want you to miss this!"
-          modalTexto={`Until Labor Day, sign your patio project with us and get a FREE 2 manual shade until 8 fits or 2 adjustable sconce lights 3 fits x 6 inches, as our gift 🎁.
-
-Perfect for adding shade and style to your new backyard!
-
-📅 Offer ends on September 1st
-
-Let’s book your spot today!`}
-          whatsappMensaje="Hello, I would like to know more about the offer for Labor Day"
-        />
-      </div> */}
 
       <header
         id="site-header"
-        className={`w-full fixed top-11 z-50 transition-colors duration-300 ${
+        className={`w-full fixed top-0 z-50 transition-colors duration-300 ${
           isScrolled ? "bg-white shadow-lg text-black" : "bg-gradient-to-b from-black to-transparent text-white"
         }`}
         role="banner"

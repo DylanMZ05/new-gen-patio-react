@@ -12,7 +12,7 @@ import { Helmet, HelmetProvider } from "react-helmet-async";
 
 // ====== Componentes globales críticos (no lazy) ======
 import Header from "./components/header/Header";
-import BannerOferta from "./components/BannerOferta";
+// import BannerOferta from "./components/BannerOferta";
 
 import useGoogleAdsTracking from "./hooks/useGoogleAdsTracking";
 
@@ -159,18 +159,18 @@ const Layout: React.FC = memo(() => {
   );
   const isNoLayout = matches(noLayoutRoutes, location.pathname);
 
-  const hideBannerRoutes = useMemo(
-    () => [
-      "/financing-options",
-      "/formpage",
-      "/get-a-free-quote-houston-tracking",
-      "/whatsapp-redirect",
-      "/login/dashboard",
-      "/admin/*",
-    ],
-    []
-  );
-  const showBanner = !isNoLayout && !matches(hideBannerRoutes, location.pathname);
+  // const hideBannerRoutes = useMemo(
+  //   () => [
+  //     "/financing-options",
+  //     "/formpage",
+  //     "/get-a-free-quote-houston-tracking",
+  //     "/whatsapp-redirect",
+  //     "/login/dashboard",
+  //     "/admin/*",
+  //   ],
+  //   []
+  // );
+  // const showBanner = !isNoLayout && !matches(hideBannerRoutes, location.pathname);
 
   // Montaje diferido en idle de pequeños widgets globales (no críticos)
   const [idleWidgets, setIdleWidgets] = useState(false);
@@ -185,7 +185,7 @@ const Layout: React.FC = memo(() => {
 
       {!isNoLayout && <Header />}
 
-      {showBanner && (
+      {/* {showBanner && (
         <BannerOferta
           activo={true}
           modalTitulo="The best autumn memories are made outdoors."
@@ -198,7 +198,7 @@ const Layout: React.FC = memo(() => {
             document.documentElement.style.setProperty("--top-offset", `${h}px`);
           }}
         />
-      )}
+      )} */}
 
       <Suspense fallback={<PageFallback />}>
         <Routes>
@@ -209,12 +209,7 @@ const Layout: React.FC = memo(() => {
             path="/outdoor-living-services"
             element={
               <>
-                {/* BlockSection es pesado → difiere su carga */}
-                <LazyWhenVisible minHeight={160}>
-                  <Suspense fallback={<div className="min-h-[160px]" aria-hidden="true" />}>
-                    <BlockSection />
-                  </Suspense>
-                </LazyWhenVisible>
+
                 <ServicesMain />
               </>
             }
@@ -224,7 +219,7 @@ const Layout: React.FC = memo(() => {
             path="/our-promise"
             element={
               <>
-                <LazyWhenVisible minHeight={160}>
+                <LazyWhenVisible>
                   <Suspense fallback={<div className="min-h-[160px]" aria-hidden="true" />}>
                     <BlockSection />
                   </Suspense>
@@ -238,7 +233,7 @@ const Layout: React.FC = memo(() => {
             path="/how-we-doit"
             element={
               <>
-                <LazyWhenVisible minHeight={160}>
+                <LazyWhenVisible>
                   <Suspense fallback={<div className="min-h-[160px]" aria-hidden="true" />}>
                     <BlockSection />
                   </Suspense>
@@ -252,7 +247,7 @@ const Layout: React.FC = memo(() => {
             path="/about-us"
             element={
               <>
-                <LazyWhenVisible minHeight={160}>
+                <LazyWhenVisible>
                   <Suspense fallback={<div className="min-h-[160px]" aria-hidden="true" />}>
                     <BlockSection />
                   </Suspense>
@@ -266,7 +261,7 @@ const Layout: React.FC = memo(() => {
             path="/blog"
             element={
               <>
-                <LazyWhenVisible minHeight={160}>
+                <LazyWhenVisible>
                   <Suspense fallback={<div className="min-h-[160px]" aria-hidden="true" />}>
                     <BlockSection />
                   </Suspense>

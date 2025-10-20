@@ -21,6 +21,16 @@ type CardProps = {
 };
 
 // =====================
+// Helpers (srcset + sizes)
+// =====================
+// Construye un srcset con anchos comunes. Si el servidor ignora ?w=, no pasa nada: el navegador cae a `src`.
+const buildSrcSet = (url: string) =>
+  `${url}?w=320 320w, ${url}?w=480 480w, ${url}?w=640 640w, ${url}?w=960 960w`;
+
+// Para estas cards: ~90vw en mobile y ~320px (md:w-80) en desktop.
+const CARD_SIZES = "(max-width: 768px) 90vw, 320px";
+
+// =====================
 // CARD COMPONENT
 // =====================
 const Card: React.FC<CardProps> = ({ title, imageUrl, link, options, subtitle }) => {
@@ -64,6 +74,8 @@ const Card: React.FC<CardProps> = ({ title, imageUrl, link, options, subtitle })
       <figure className="relative w-full h-64 overflow-hidden m-0">
         <img
           src={imageUrl}
+          srcSet={buildSrcSet(imageUrl)}
+          sizes={CARD_SIZES}
           alt={`New Gen Patio service: ${title}`}
           loading="lazy"
           width={640}
@@ -109,6 +121,8 @@ const Card: React.FC<CardProps> = ({ title, imageUrl, link, options, subtitle })
               >
                 <img
                   src={opt.imageUrl}
+                  srcSet={buildSrcSet(opt.imageUrl)}
+                  sizes={CARD_SIZES}
                   alt={`Service option: ${opt.title}`}
                   loading="lazy"
                   width={640}

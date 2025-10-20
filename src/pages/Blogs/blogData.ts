@@ -871,9 +871,4 @@ export const blogs: Blog[] = [
     ]
   }
 
-
-
-
-
-
 ];

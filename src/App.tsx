@@ -1,4 +1,6 @@
-import React, { memo, useMemo, Suspense, lazy, useEffect, useRef, useState } from "react";
+import React, {
+  memo, useMemo, Suspense, lazy, useEffect, useRef, useState
+} from "react";
 import {
   BrowserRouter as Router,
   Routes,
@@ -7,13 +9,13 @@ import {
   Navigate,
   matchPath,
   useParams,
+  Link,
 } from "react-router-dom";
 import { Helmet, HelmetProvider } from "react-helmet-async";
 
-// ====== Componentes globales críticos (no lazy) ======
+// ====== Componentes críticos (no lazy) ======
 import Header from "./components/header/Header";
 // import BannerOferta from "./components/BannerOferta";
-
 import useGoogleAdsTracking from "./hooks/useGoogleAdsTracking";
 
 // ====== Deferibles (lazy) ======
@@ -22,7 +24,7 @@ const Footer = lazy(() => import("./components/footer/footer"));
 const QuotePopup = lazy(() => import("./components/QuotePopup"));
 const BlockSection = lazy(() => import("./components/BlockSection"));
 
-// ====== Páginas (ya estaban con code splitting) ======
+// ====== Páginas ======
 const MainHome = lazy(() => import("./pages/Home/MainHome"));
 const Attached = lazy(() => import("./pages/Services/Attached"));
 const Freestanding = lazy(() => import("./pages/Services/Freestanding"));
@@ -46,8 +48,7 @@ const ContactRedirect = lazy(() => import("./pages/Contact/ContactRedirect"));
 const FreeQuoteTracking = lazy(() => import("./pages/traking/freequote-tracking"));
 const WhatsAppRedirect = lazy(() => import("./pages/traking/WhatsAppRedirect"));
 const ProjectsList = lazy(() => import("./pages/Catalogo/Catalogo"));
-
-// ====== Admin ======
+// Admin
 const AdminDashboard = lazy(() => import("./pages/Admin/AdminDashboard"));
 const Login = lazy(() => import("./pages/Admin/Login"));
 import AdminRoute from "./pages/Admin/AdminRoute";
@@ -63,18 +64,14 @@ const BlogsRedirect: React.FC = () => {
 
 const NoIndex: React.FC<{ children: React.ReactNode }> = ({ children }) => (
   <>
-    <Helmet>
-      <meta name="robots" content="noindex,nofollow" />
-    </Helmet>
+    <Helmet><meta name="robots" content="noindex,nofollow" /></Helmet>
     {children}
   </>
 );
 
 const ScrollToTop: React.FC = () => {
   const { pathname } = useLocation();
-  useEffect(() => {
-    window.scrollTo({ top: 0, left: 0, behavior: "auto" });
-  }, [pathname]);
+  useEffect(() => { window.scrollTo({ top: 0, left: 0, behavior: "auto" }); }, [pathname]);
   return null;
 };
 
@@ -99,26 +96,51 @@ const runIdle = (cb: () => void) => {
   else setTimeout(cb, 250);
 };
 
-// === Monta niños cuando están cerca del viewport ===
-// Anti-CLS: reservamos espacio con containIntrinsicSize (= alto estimado)
+/**
+ * ====== Prefetch de rutas probables ======
+ * Crea import() “en vacío” para que Vite descargue el chunk sin montarlo.
+ * Se llama en idle, al cargar Home y al hover/focus de links clave.
+ */
+const routePrefetchers: Record<string, () => Promise<any>> = {
+  "/outdoor-living-services": () => import("./pages/Home/ServicesMain"),
+  "/attached-aluminium-pergola-covered-patio": () => import("./pages/Services/Attached"),
+  "/free-standing-aluminium-pergola-covered-patio": () => import("./pages/Services/Freestanding"),
+  "/cantilever-aluminium-pergola": () => import("./pages/Services/Cantilever"),
+  "/patio-financing-houston": () => import("./pages/Calculator/Calculator"),
+  "/blog": () => import("./pages/Blogs/BlogsSectionPage"),
+  "/covered-patio-project-catalog": () => import("./pages/Catalogo/Catalogo"),
+};
+
+/** Link que hace prefetch del chunk al hover/focus (sin bloquear navegación) */
+const SmartLink: React.FC<React.ComponentProps<typeof Link> & { prefetchTo?: string }> = ({
+  prefetchTo, onMouseEnter, onFocus, ...props
+}) => {
+  const prefetch = () => {
+    if (!canPrefetch() || !prefetchTo) return;
+    const p = routePrefetchers[prefetchTo];
+    if (typeof p === "function") runIdle(() => p().catch(() => void 0));
+  };
+  return (
+    <Link
+      {...props}
+      onMouseEnter={(e) => { prefetch(); onMouseEnter?.(e); }}
+      onFocus={(e) => { prefetch(); onFocus?.(e); }}
+    />
+  );
+};
+
+// === Monta niños cuando están cerca del viewport (Anti-CLS con containIntrinsicSize) ===
 const LazyWhenVisible: React.FC<{
-  offset?: string;        // rootMargin Y
-  minHeight?: number;     // reserva de espacio anti-CLS
-  children: React.ReactNode;
-  fallback?: React.ReactNode;
+  offset?: string; minHeight?: number; children: React.ReactNode; fallback?: React.ReactNode;
 }> = ({ offset = "800px", minHeight = 0, children, fallback = null }) => {
   const ref = useRef<HTMLDivElement | null>(null);
   const [show, setShow] = useState(false);
-
   useEffect(() => {
     const el = ref.current;
     if (!el || show) return;
     const io = new IntersectionObserver(
       (entries) => {
-        if (entries.some((e) => e.isIntersecting)) {
-          setShow(true);
-          io.disconnect();
-        }
+        if (entries.some((e) => e.isIntersecting)) { setShow(true); io.disconnect(); }
       },
       { rootMargin: `${offset} 0px`, threshold: 0 }
     );
@@ -133,7 +155,6 @@ const LazyWhenVisible: React.FC<{
       style={{
         contain: "content" as any,
         minHeight,
-        // 👇 Clave: reserva el alto intrínseco para evitar layout shifts
         containIntrinsicSize: `${minHeight || 1}px` as any
       }}
       aria-hidden={!show}
@@ -159,20 +180,20 @@ const Layout: React.FC = memo(() => {
   );
   const isNoLayout = matches(noLayoutRoutes, location.pathname);
 
-  // const hideBannerRoutes = useMemo(
-  //   () => [
-  //     "/financing-options",
-  //     "/formpage",
-  //     "/get-a-free-quote-houston-tracking",
-  //     "/whatsapp-redirect",
-  //     "/login/dashboard",
-  //     "/admin/*",
-  //   ],
-  //   []
-  // );
-  // const showBanner = !isNoLayout && !matches(hideBannerRoutes, location.pathname);
+  // Prefetch suave de rutas “vecinas” cuando estás en Home
+  useEffect(() => {
+    if (!canPrefetch()) return;
+    if (location.pathname === "/") {
+      runIdle(() => {
+        // Precalienta las rutas más probables desde Home
+        routePrefetchers["/outdoor-living-services"]?.();
+        routePrefetchers["/covered-patio-project-catalog"]?.();
+        routePrefetchers["/blog"]?.();
+      });
+    }
+  }, [location.pathname]);
 
-  // Montaje diferido en idle de pequeños widgets globales (no críticos)
+  // Widgets globales diferidos en idle
   const [idleWidgets, setIdleWidgets] = useState(false);
   useEffect(() => {
     if (!canPrefetch()) return;
@@ -182,38 +203,14 @@ const Layout: React.FC = memo(() => {
   return (
     <>
       <ScrollToTop />
-
       {!isNoLayout && <Header />}
-
-      {/* {showBanner && (
-        <BannerOferta
-          activo={true}
-          modalTitulo="The best autumn memories are made outdoors."
-          modalTexto={
-            'Why move the party inside? Transform your patio into a cozy, festive retreat for the entire season. Imagine warm gatherings, stylish comfort, and unforgettable nights under the stars. \n \nFrom October 1st to 10th, you can get a 72-inch fire pit completely free with installation if you close your backyard with us. \n \n (Applicable only to new customers who close during this time period and while supplies last)'
-          }
-          whatsappMensaje={'Hi! I\'m here for "Get a FREE 72" electric fireplace. I\'d like to talk more about it.'}
-          storageKey="promo-sep-oct-2025"
-          onHeightChange={(h) => {
-            document.documentElement.style.setProperty("--top-offset", `${h}px`);
-          }}
-        />
-      )} */}
 
       <Suspense fallback={<PageFallback />}>
         <Routes>
           {/* Públicas */}
           <Route path="/" element={<MainHome />} />
           <Route path="/aluminium-custom-pergola-cover-patio" element={<PatiosAndPergolasHome />} />
-          <Route
-            path="/outdoor-living-services"
-            element={
-              <>
-
-                <ServicesMain />
-              </>
-            }
-          />
+          <Route path="/outdoor-living-services" element={<ServicesMain />} />
 
           <Route
             path="/our-promise"
@@ -316,12 +313,13 @@ const Layout: React.FC = memo(() => {
                 <p className="mb-6 text-lg text-gray-700">
                   The page you are looking for doesn&apos;t exist or has been moved.
                 </p>
-                <a
-                  href="/"
+                <SmartLink
+                  to="/"
+                  prefetchTo="/"
                   className="px-6 py-3 bg-[#1a214a] text-white rounded-lg shadow hover:bg-[#2a2f6a] transition duration-300 cursor-pointer"
                 >
                   Go back to homepage
-                </a>
+                </SmartLink>
               </div>
             }
           />
@@ -334,20 +332,15 @@ const Layout: React.FC = memo(() => {
           <QuotePopup />
         </Suspense>
       )}
-
       {!isNoLayout && idleWidgets && (
         <Suspense fallback={null}>
           <WspButton />
         </Suspense>
       )}
 
-      {/* Footer ↓ sólo cuando se acerca al viewport */}
+      {/* Footer ↓ solo cuando se acerca al viewport */}
       {!isNoLayout && (
-        <LazyWhenVisible
-          offset="800px"
-          minHeight={520}
-          fallback={<div className="min-h-[520px]" aria-hidden="true" />}
-        >
+        <LazyWhenVisible offset="800px" minHeight={520} fallback={<div className="min-h-[520px]" aria-hidden="true" />}>
           <Suspense fallback={<div className="min-h-[520px]" aria-hidden="true" />}>
             <Footer />
           </Suspense>

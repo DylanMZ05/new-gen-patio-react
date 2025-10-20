@@ -1,5 +1,6 @@
 import React, { memo, useEffect, useRef, useState, useCallback } from "react";
 import { Link } from "react-router-dom";
+import { Helmet } from "react-helmet-async";
 import useScrollToTop from "../../hooks/scrollToTop";
 
 /* ========================= Prefetch helpers ========================= */
@@ -54,10 +55,11 @@ const Main: React.FC = () => {
   const baseUrl = import.meta.env.BASE_URL || "/";
   // Poster en múltiples formatos/sizes
   const posterJpg = `${baseUrl}assets/videos/homevideo-poster.jpg`;
-  const posterWebp = `${baseUrl}assets/videos/homevideo-poster.webp`; // genera este si aún no existe
-  const posterAvif = `${baseUrl}assets/videos/homevideo-poster.avif`; // genera este si aún no existe
+  const posterWebp = `${baseUrl}assets/videos/homevideo-poster.webp`;
+  const posterAvif = `${baseUrl}assets/videos/homevideo-poster.avif`;
 
   const videoSrcWebm = `${baseUrl}assets/videos/homevideo.webm`;
+  const videoSrcMp4  = `${baseUrl}assets/videos/homevideo.mp4`;
   const trackSrc = `${baseUrl}assets/videos/homevideo.vtt`;
 
   /* ===== prefers-reduced-motion ===== */
@@ -95,6 +97,7 @@ const Main: React.FC = () => {
   useEffect(() => {
     const v = videoRef.current;
     if (!v) return;
+    // Si preferencia reduce motion, no forzamos autoplay
     if (visible && !reducedMotion && videoReady) {
       v.play().catch(() => {});
     } else {
@@ -124,17 +127,31 @@ const Main: React.FC = () => {
       className="relative flex w-full h-screen max-h-[1080px] overflow-hidden"
       aria-labelledby="main-heading"
       style={{
-        // Aisla el hero; evita efectos colaterales, pero no uses content-visibility aquí (es above-the-fold).
+        // Aisla el hero; evita efectos colaterales (no usar content-visibility aquí: es above-the-fold).
         contain: "layout paint size",
       } as any}
     >
+      {/* ===== Preloads en <head> para LCP/latencia ===== */}
+      <Helmet>
+        {/* Preconnect al mismo origen (seguro aunque no sea CDN) */}
+        <link rel="preconnect" href={window.location.origin} crossOrigin="" />
+        {/* Preload del poster (clave para LCP) */}
+        <link
+          rel="preload"
+          as="image"
+          href={posterWebp}
+          imagesrcset={`${posterWebp} 1920w, ${posterJpg} 1920w`}
+          imagesizes="100vw"
+          fetchpriority="high"
+        />
+      </Helmet>
+
       {/* Poster responsivo como LCP (ocupa el fondo hasta que el video esté listo) */}
       <picture
         className={`absolute top-0 left-0 w-full h-full z-0 transition-opacity duration-500 ${
           videoReady && !reducedMotion ? "opacity-0" : "opacity-100"
         }`}
         aria-hidden="true"
-        // evita eventos innecesarios (micro-optimización de input delay)
         style={{ pointerEvents: "none", willChange: "opacity" }}
       >
         {/* AVIF > WebP > JPG */}
@@ -167,13 +184,15 @@ const Main: React.FC = () => {
         loop
         // no bloquea interacción y mejora INP
         style={{ pointerEvents: "none", willChange: "opacity" }}
-        poster={posterWebp /* si no existe, queda el jpg */}
+        poster={posterWebp /* fallback natural al jpg si no existe */}
         onCanPlay={() => setVideoReady(true)}
         aria-hidden="true"
       >
         <source src={videoSrcWebm} type="video/webm" />
-        {/* <source src={`${baseUrl}assets/videos/homevideo.mp4`} type="video/mp4" /> */}
-        <track kind="captions" src={trackSrc} srcLang="en" label="English" default />
+        {/* MP4 para Safari/iOS */}
+        <source src={videoSrcMp4} type="video/mp4" />
+        {/* Si no usas captions, mantenlo sin 'default' para no descargarlo en el TTI */}
+        <track kind="captions" src={trackSrc} srcLang="en" label="English" />
       </video>
 
       {/* Capa oscura */}
@@ -184,9 +203,7 @@ const Main: React.FC = () => {
       />
 
       {/* Contenido principal */}
-      <div
-        className="relative z-20 flex flex-col items-start justify-center text-start w-full h-full px-4 text-white"
-      >
+      <div className="relative z-20 flex flex-col items-start justify-center text-start w-full h-full px-4 text-white">
         <div className="w-[90vw] sm:w-[70vw]">
           <h1 id="main-heading" className="text-2xl md:text-4xl font-bold">
             Custom Aluminium Outdoor Space Builders, Cover Patios and Pergolas

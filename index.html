@@ -47,6 +47,26 @@
         wait_for_update: 500
       });
     </script>
+
+    <style id="anti-cls">
+      .cv-guard{
+        content-visibility:auto;
+        contain-intrinsic-size:1000px;
+        min-height:1000px;
+      }
+      @supports not (contain-intrinsic-size:1px){ .cv-guard{ min-height:1000px; } }
+
+      .ratio-16x9{ aspect-ratio:16/9; width:100%; }
+      .ratio-4x3 { aspect-ratio:4/3;  width:100%; }
+      .ratio-16x9 > *,.ratio-4x3 > *{ width:100%; height:100%; display:block; }
+
+      /* Aplica solo si NO son absolutas y NO tienen una altura ya definida por clases o inline */
+      img[width][height]:not(.absolute):not([class*="h-"]):not([style*="height"]) {
+        height:auto;
+        display:block;
+      }
+    </style>
+
   </head>
 
   <body>

@@ -38,8 +38,8 @@ const Card: React.FC<CardProps> = ({ title, imageUrl, link, options, subtitle })
     }
   };
 
-  const handleOptionClick = (link: string) => {
-    navigate(link);
+  const handleOptionClick = (dest: string) => {
+    navigate(dest);
     scrollToTop();
   };
 
@@ -49,14 +49,8 @@ const Card: React.FC<CardProps> = ({ title, imageUrl, link, options, subtitle })
         setShowSplitView(false);
       }
     };
-
-    if (showSplitView) {
-      document.addEventListener("mousedown", handleClickOutside);
-    }
-
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
+    if (showSplitView) document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [showSplitView]);
 
   return (
@@ -67,7 +61,7 @@ const Card: React.FC<CardProps> = ({ title, imageUrl, link, options, subtitle })
       aria-label={`Go to ${title} service`}
     >
       {/* Imagen principal */}
-      <figure className="w-full h-64 overflow-hidden rounded-lg relative">
+      <figure className="relative w-full h-64 overflow-hidden m-0">
         <img
           src={imageUrl}
           alt={`New Gen Patio service: ${title}`}
@@ -76,7 +70,7 @@ const Card: React.FC<CardProps> = ({ title, imageUrl, link, options, subtitle })
           height={256} // h-64 ≈ 256px
           decoding="async"
           onError={(e) => (e.currentTarget.src = "/assets/images/default-placeholder.webp")}
-          className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
+          className="absolute inset-0 block w-full h-full object-cover transition-transform duration-300 hover:scale-105"
         />
         <motion.figcaption
           initial={{ opacity: 0, y: 20 }}
@@ -121,7 +115,7 @@ const Card: React.FC<CardProps> = ({ title, imageUrl, link, options, subtitle })
                   height={256}
                   decoding="async"
                   onError={(e) => (e.currentTarget.src = "/assets/images/default-placeholder.webp")}
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                  className="absolute inset-0 block w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                 />
                 <div className="absolute inset-0 bg-black/30 flex items-center justify-center">
                   <p className="text-white text-2xl font-bold text-center px-2">

@@ -100,6 +100,7 @@ const runIdle = (cb: () => void) => {
 };
 
 // === Monta niños cuando están cerca del viewport ===
+// Anti-CLS: reservamos espacio con containIntrinsicSize (= alto estimado)
 const LazyWhenVisible: React.FC<{
   offset?: string;        // rootMargin Y
   minHeight?: number;     // reserva de espacio anti-CLS
@@ -129,7 +130,12 @@ const LazyWhenVisible: React.FC<{
     <div
       ref={ref}
       className="[content-visibility:auto]"
-      style={{ contain: "content" as any, minHeight }}
+      style={{
+        contain: "content" as any,
+        minHeight,
+        // 👇 Clave: reserva el alto intrínseco para evitar layout shifts
+        containIntrinsicSize: `${minHeight || 1}px` as any
+      }}
       aria-hidden={!show}
     >
       {show ? children : fallback}
@@ -199,61 +205,76 @@ const Layout: React.FC = memo(() => {
           {/* Públicas */}
           <Route path="/" element={<MainHome />} />
           <Route path="/aluminium-custom-pergola-cover-patio" element={<PatiosAndPergolasHome />} />
-          <Route path="/outdoor-living-services" element={
-            <>
-              {/* BlockSection es pesado → difiere su carga */}
-              <LazyWhenVisible minHeight={120}>
-                <Suspense fallback={<div className="min-h-[120px]" aria-hidden="true" />}>
-                  <BlockSection />
-                </Suspense>
-              </LazyWhenVisible>
-              <ServicesMain />
-            </>
-          } />
+          <Route
+            path="/outdoor-living-services"
+            element={
+              <>
+                {/* BlockSection es pesado → difiere su carga */}
+                <LazyWhenVisible minHeight={160}>
+                  <Suspense fallback={<div className="min-h-[160px]" aria-hidden="true" />}>
+                    <BlockSection />
+                  </Suspense>
+                </LazyWhenVisible>
+                <ServicesMain />
+              </>
+            }
+          />
 
-          <Route path="/our-promise" element={
-            <>
-              <LazyWhenVisible minHeight={120}>
-                <Suspense fallback={<div className="min-h-[120px]" aria-hidden="true" />}>
-                  <BlockSection />
-                </Suspense>
-              </LazyWhenVisible>
-              <OurPromise />
-            </>
-          } />
+          <Route
+            path="/our-promise"
+            element={
+              <>
+                <LazyWhenVisible minHeight={160}>
+                  <Suspense fallback={<div className="min-h-[160px]" aria-hidden="true" />}>
+                    <BlockSection />
+                  </Suspense>
+                </LazyWhenVisible>
+                <OurPromise />
+              </>
+            }
+          />
 
-          <Route path="/how-we-doit" element={
-            <>
-              <LazyWhenVisible minHeight={120}>
-                <Suspense fallback={<div className="min-h-[120px]" aria-hidden="true" />}>
-                  <BlockSection />
-                </Suspense>
-              </LazyWhenVisible>
-              <OurProcess />
-            </>
-          } />
+          <Route
+            path="/how-we-doit"
+            element={
+              <>
+                <LazyWhenVisible minHeight={160}>
+                  <Suspense fallback={<div className="min-h-[160px]" aria-hidden="true" />}>
+                    <BlockSection />
+                  </Suspense>
+                </LazyWhenVisible>
+                <OurProcess />
+              </>
+            }
+          />
 
-          <Route path="/about-us" element={
-            <>
-              <LazyWhenVisible minHeight={120}>
-                <Suspense fallback={<div className="min-h-[120px]" aria-hidden="true" />}>
-                  <BlockSection />
-                </Suspense>
-              </LazyWhenVisible>
-              <AboutUsPage />
-            </>
-          } />
+          <Route
+            path="/about-us"
+            element={
+              <>
+                <LazyWhenVisible minHeight={160}>
+                  <Suspense fallback={<div className="min-h-[160px]" aria-hidden="true" />}>
+                    <BlockSection />
+                  </Suspense>
+                </LazyWhenVisible>
+                <AboutUsPage />
+              </>
+            }
+          />
 
-          <Route path="/blog" element={
-            <>
-              <LazyWhenVisible minHeight={120}>
-                <Suspense fallback={<div className="min-h-[120px]" aria-hidden="true" />}>
-                  <BlockSection />
-                </Suspense>
-              </LazyWhenVisible>
-              <BlogSectionPage />
-            </>
-          } />
+          <Route
+            path="/blog"
+            element={
+              <>
+                <LazyWhenVisible minHeight={160}>
+                  <Suspense fallback={<div className="min-h-[160px]" aria-hidden="true" />}>
+                    <BlockSection />
+                  </Suspense>
+                </LazyWhenVisible>
+                <BlogSectionPage />
+              </>
+            }
+          />
           <Route path="/blogs/blog/:slug" element={<BlogsRedirect />} />
           <Route path="/blog/:slug" element={<BlogPage />} />
 
@@ -327,8 +348,12 @@ const Layout: React.FC = memo(() => {
 
       {/* Footer ↓ sólo cuando se acerca al viewport */}
       {!isNoLayout && (
-        <LazyWhenVisible offset="800px" minHeight={360} fallback={<div className="min-h-[360px]" aria-hidden="true" />}>
-          <Suspense fallback={<div className="min-h-[360px]" aria-hidden="true" />}>
+        <LazyWhenVisible
+          offset="800px"
+          minHeight={520}
+          fallback={<div className="min-h-[520px]" aria-hidden="true" />}
+        >
+          <Suspense fallback={<div className="min-h-[520px]" aria-hidden="true" />}>
             <Footer />
           </Suspense>
         </LazyWhenVisible>

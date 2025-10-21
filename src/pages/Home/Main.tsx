@@ -133,18 +133,19 @@ const Main: React.FC = () => {
     >
       {/* ===== Preloads en <head> para LCP/latencia ===== */}
       <Helmet>
-        {/* Preconnect al mismo origen (seguro aunque no sea CDN) */}
+        {/* Preconnect al mismo origen (opcional) */}
         <link rel="preconnect" href={window.location.origin} crossOrigin="" />
+
         {/* Preload del poster (clave para LCP) */}
         <link
           rel="preload"
           as="image"
           href={posterWebp}
-          imagesrcset={`${posterWebp} 1920w, ${posterJpg} 1920w`}
-          imagesizes="100vw"
-          fetchpriority="high"
+          imageSrcSet={`${posterWebp} 1920w, ${posterJpg} 1920w`}
+          imageSizes="100vw"
         />
       </Helmet>
+
 
       {/* Poster responsivo como LCP (ocupa el fondo hasta que el video esté listo) */}
       <picture

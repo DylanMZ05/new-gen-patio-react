@@ -130,11 +130,30 @@ const SmartLink: React.FC<React.ComponentProps<typeof Link> & { prefetchTo?: str
 };
 
 // === Monta niños cuando están cerca del viewport (Anti-CLS con containIntrinsicSize) ===
+type MinH = number | { base: number; md?: number; lg?: number };
+
 const LazyWhenVisible: React.FC<{
-  offset?: string; minHeight?: number; children: React.ReactNode; fallback?: React.ReactNode;
+  offset?: string;
+  minHeight?: MinH;
+  children: React.ReactNode;
+  fallback?: React.ReactNode;
 }> = ({ offset = "800px", minHeight = 0, children, fallback = null }) => {
   const ref = useRef<HTMLDivElement | null>(null);
   const [show, setShow] = useState(false);
+
+  const computeMinH = (): number => {
+    if (typeof minHeight === "number") return minHeight || 0;
+    const w = typeof window !== "undefined" ? window.innerWidth : 1024;
+    if (typeof minHeight === "object") {
+      if (w >= 1024 && minHeight.lg) return minHeight.lg;
+      if (w >= 768 && minHeight.md) return minHeight.md;
+      return minHeight.base;
+    }
+    return 0;
+  };
+
+  const reserved = computeMinH();
+
   useEffect(() => {
     const el = ref.current;
     if (!el || show) return;
@@ -154,8 +173,8 @@ const LazyWhenVisible: React.FC<{
       className="[content-visibility:auto]"
       style={{
         contain: "content" as any,
-        minHeight,
-        containIntrinsicSize: `${minHeight || 1}px` as any
+        minHeight: reserved,
+        containIntrinsicSize: `${reserved || 1}px` as any
       }}
       aria-hidden={!show}
     >
@@ -216,8 +235,11 @@ const Layout: React.FC = memo(() => {
             path="/our-promise"
             element={
               <>
-                <LazyWhenVisible>
-                  <Suspense fallback={<div className="min-h-[160px]" aria-hidden="true" />}>
+                <LazyWhenVisible
+                  minHeight={{ base: 180, md: 360, lg: 480 }}
+                  fallback={<div className="min-h-[180px] md:min-h-[360px] lg:min-h-[480px]" aria-hidden="true" />}
+                >
+                  <Suspense fallback={<div className="min-h-[180px] md:min-h-[360px] lg:min-h-[480px]" aria-hidden="true" />}>
                     <BlockSection />
                   </Suspense>
                 </LazyWhenVisible>
@@ -230,8 +252,11 @@ const Layout: React.FC = memo(() => {
             path="/how-we-doit"
             element={
               <>
-                <LazyWhenVisible>
-                  <Suspense fallback={<div className="min-h-[160px]" aria-hidden="true" />}>
+                <LazyWhenVisible
+                  minHeight={{ base: 180, md: 360, lg: 480 }}
+                  fallback={<div className="min-h-[180px] md:min-h-[360px] lg:min-h-[480px]" aria-hidden="true" />}
+                >
+                  <Suspense fallback={<div className="min-h-[180px] md:min-h-[360px] lg:min-h-[480px]" aria-hidden="true" />}>
                     <BlockSection />
                   </Suspense>
                 </LazyWhenVisible>
@@ -244,8 +269,11 @@ const Layout: React.FC = memo(() => {
             path="/about-us"
             element={
               <>
-                <LazyWhenVisible>
-                  <Suspense fallback={<div className="min-h-[160px]" aria-hidden="true" />}>
+                <LazyWhenVisible
+                  minHeight={{ base: 180, md: 360, lg: 480 }}
+                  fallback={<div className="min-h-[180px] md:min-h-[360px] lg:min-h-[480px]" aria-hidden="true" />}
+                >
+                  <Suspense fallback={<div className="min-h-[180px] md:min-h-[360px] lg:min-h-[480px]" aria-hidden="true" />}>
                     <BlockSection />
                   </Suspense>
                 </LazyWhenVisible>
@@ -258,8 +286,11 @@ const Layout: React.FC = memo(() => {
             path="/blog"
             element={
               <>
-                <LazyWhenVisible>
-                  <Suspense fallback={<div className="min-h-[160px]" aria-hidden="true" />}>
+                <LazyWhenVisible
+                  minHeight={{ base: 180, md: 360, lg: 480 }}
+                  fallback={<div className="min-h-[180px] md:min-h-[360px] lg:min-h-[480px]" aria-hidden="true" />}
+                >
+                  <Suspense fallback={<div className="min-h-[180px] md:min-h-[360px] lg:min-h-[480px]" aria-hidden="true" />}>
                     <BlockSection />
                   </Suspense>
                 </LazyWhenVisible>
@@ -340,8 +371,24 @@ const Layout: React.FC = memo(() => {
 
       {/* Footer ↓ solo cuando se acerca al viewport */}
       {!isNoLayout && (
-        <LazyWhenVisible offset="800px" minHeight={520} fallback={<div className="min-h-[520px]" aria-hidden="true" />}>
-          <Suspense fallback={<div className="min-h-[520px]" aria-hidden="true" />}>
+        <LazyWhenVisible
+          offset="800px"
+          minHeight={{ base: 560, md: 720, lg: 900 }}   // ← subido para desktop
+          fallback={
+            <div
+              className="min-h-[560px] md:min-h-[720px] lg:min-h-[900px]"
+              aria-hidden="true"
+            />
+          }
+        >
+          <Suspense
+            fallback={
+              <div
+                className="min-h-[560px] md:min-h-[720px] lg:min-h-[900px]"
+                aria-hidden="true"
+              />
+            }
+          >
             <Footer />
           </Suspense>
         </LazyWhenVisible>

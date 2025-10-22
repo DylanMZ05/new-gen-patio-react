@@ -17,6 +17,7 @@ export interface Blog {
   slug: string;
   title: string;
   metaTitle?: string;
+  metaDescription?: string;
   subtitle: string;
   imageUrl: string;
   content: BlogContentBlock[];
@@ -739,30 +740,16 @@ export const blogs: Blog[] = [
     slug: "aluminum-pergola-maintenance",
     title: "Aluminum Pergola Maintenance Guide (By a Houston Builder)",
     metaTitle: "Aluminum Pergola Maintenance | Cleaning & Care Tips by Experts",
-    subtitle: "Keep your aluminum pergola looking new for years: simple care, pro tips, and what to avoid.",
+    metaDescription: "Learn how to clean and maintain your aluminum pergola like a pro. Expert tips from Houston builders to protect finish, prevent corrosion, and extend life.",
+    subtitle: "Why Aluminum Pergolas Need Regular Maintenance",
     imageUrl: "assets/images/Blogs/Blog-7/01.webp",
     date: "2025-10-20",
     author: "New Gen Patio LLC",
     content: [
-      {
-        type: "h1",
-        text: "Aluminum Pergola Maintenance Guide (By a Houston Builder)"
-      },
-      {
-        type: "image",
-        image: "assets/images/Blogs/Blog-7/01.webp"
-      },
+      /* Intro */
       {
         type: "text",
-        text: "Even though aluminum pergolas are durable and weather-resistant, they still need a simple care routine to stay beautiful and fully functional—especially in Houston’s mix of sun, humidity, pollen, and coastal air."
-      },
-      {
-        type: "h2",
-        text: "Why Aluminum Pergolas Need Regular Maintenance"
-      },
-      {
-        type: "text",
-        text: "In our day-to-day installations, we often see how **dust, pollen, and salt residue** can dull the powder-coated finish if left unchecked. A light cleaning routine a few times a year prevents oxidation, corrosion, and water staining."
+        text: "Even though aluminum pergolas are durable and weather-resistant, they still require regular care to stay beautiful and functional.\nIn my experience building pergolas across Houston, I’ve seen how dust, pollen, and salt residue from the coastal air can dull the finish if left unchecked.\nA simple cleaning routine every few months prevents long-term corrosion and fading of the powder coating."
       },
       {
         type: "h3",
@@ -772,103 +759,87 @@ export const blogs: Blog[] = [
         type: "text",
         text: "• Preserves the glossy finish and color.\n• Prevents oxidation and water stains.\n• Extends structural life and joint integrity."
       },
-      {
-        type: "image",
-        image: "assets/images/Blogs/Blog-7/02.webp"
-      },
-      {
-        type: "h2",
-        text: "The Right Way to Clean Your Aluminum Pergola"
-      },
-      {
-        type: "h3",
-        text: "Step 1 — Gentle Rinse"
-      },
+
+
+      /* Imagen intermedia */
+      { type: "image", image: "assets/images/Blogs/Blog-7/02.webp" },
+
+      /* ===== Sección 2 ===== */
+      { type: "h2", text: "The Right Way to Clean Your Aluminum Pergola" },
+      { type: "h3", text: "Step 1 — Gentle Rinse" },
       {
         type: "text",
         text: "Use a garden hose to remove loose dirt and debris. Never start scrubbing a dry surface—it can scratch the powder coat."
       },
-      {
-        type: "h3",
-        text: "Step 2 — Mild Soap Solution"
-      },
+      { type: "h3", text: "Step 2 — Mild Soap Solution" },
       {
         type: "text",
         text: "Mix warm water with a few drops of mild dish soap. Apply with a soft sponge or microfiber cloth. When cleaning client installations, I always remind them: **avoid bleach, ammonia, or acidic cleaners**, as these can discolor the finish."
       },
-      {
-        type: "h3",
-        text: "Step 3 — Rinse & Dry"
-      },
+      { type: "h3", text: "Step 3 — Rinse & Dry" },
       {
         type: "text",
         text: "Rinse thoroughly and let it air dry or wipe gently. In hot Texas afternoons, drying happens fast—but avoid direct sunlight during cleaning to prevent streaks."
       },
-      {
-        type: "h2",
-        text: "Seasonal Maintenance Tips"
-      },
+
+      /* ===== Sección 3 ===== */
+      { type: "h2", text: "Seasonal Maintenance Tips" },
       {
         type: "text",
         text: "Houston weather is unpredictable: intense sun, heavy rain, and even salt winds. Here’s how to adapt your pergola care throughout the year:"
       },
       {
         type: "text",
-        text: "**Spring:** Inspect drainage and remove pollen buildup.\n**Summer:** Check for expansion gaps due to heat.\n**Fall:** Clean gutters or attached roof panels from leaves.\n**Winter:** Wash away grime before cooler months; lubricate moving louvers if any."
+        text: "**Spring:** Inspect drainage and remove pollen buildup.\n\n**Summer:** Check for expansion gaps due to heat.\n\n**Fall:** Clean gutters or attached roof panels from leaves.\n\n**Winter:** Wash away grime before cooler months; lubricate moving louvers if any."
       },
       {
         type: "text",
         text: "Clients who follow this seasonal schedule rarely need repainting, even after 5+ years."
       },
-      {
-        type: "h2",
-        text: "Protecting the Finish and Structure"
-      },
+
+      /* ===== Sección 4 ===== */
+      { type: "h2", text: "Protecting the Finish and Structure" },
       {
         type: "text",
-        text: "• Apply a **non-abrasive car wax** every 6–12 months for UV protection.\n• Inspect hardware (screws, brackets, hinges). Stainless steel is ideal, but if you see oxidation, clean with WD-40.\n• If you have **motorized louvers**, test movement monthly and clear debris."
+        text: "• Apply a **non-abrasive car wax** every 6–12 months for UV protection.\n\n• Inspect hardware (screws, brackets, hinges). Stainless steel is ideal, but if you see oxidation, clean with WD-40.\n\n• If you have **motorized louvers**, test movement monthly and clear debris."
       },
       {
         type: "text",
         text: "💡 **Pro tip:** When we install custom pergolas at New Gen Patio, we recommend adding hidden drainage channels to prevent water pooling — a simple design tweak that dramatically improves longevity."
       },
-      {
-        type: "h2",
-        text: "Common Mistakes to Avoid"
-      },
+
+      /* ===== Sección 5 ===== */
+      { type: "h2", text: "Common Mistakes to Avoid" },
       {
         type: "text",
-        text: "• Using **pressure washers** too close — they strip the coating.\n• Cleaning with **rough sponges or steel wool**.\n• Ignoring small chips or scratches — touch them up early to prevent oxidation.\n• Using **chlorine-based cleaners** near pools without rinsing after."
+        text: "• Using **pressure washers** too close — they strip the coating.\n\n• Cleaning with **rough sponges or steel wool**.\n\n• Ignoring small chips or scratches — touch them up early to prevent oxidation.\n\n• Using **chlorine-based cleaners** near pools without rinsing after."
       },
-      {
-        type: "h2",
-        text: "When to Call a Professional"
-      },
+
+      /* ===== Sección 6 ===== */
+      { type: "h2", text: "When to Call a Professional" },
       {
         type: "text",
         text: "If you notice paint bubbling, bent louvers, or stuck drainage, it’s time for a professional inspection. A quick maintenance service every 18–24 months ensures alignment, seal integrity, and surface protection.\n\nAs a builder, I tell clients: “Don’t wait until it looks bad — a half-hour maintenance visit can save you a full repaint later.”"
       },
-      {
-        type: "h2",
-        text: "FAQs"
-      },
+
+      /* ===== Sección 7 (FAQs) ===== */
+      { type: "h2", text: "FAQs" },
       {
         type: "text",
         text: "**How often should I clean my aluminum pergola?**\nEvery 3–4 months, or more frequently if you live near the coast or a busy road.\n\n**Can I use a power washer?**\nYes, but keep the pressure low and nozzle at least 2 feet away.\n\n**What’s the best cleaner?**\nA mix of mild soap and water. Specialized aluminum cleaners are optional but not necessary.\n\n**Do I need to wax it?**\nOptional but beneficial — it adds UV protection and helps repel dirt."
       },
-      {
-        type: "image",
-        image: "assets/images/Blogs/Blog-7/03.webp"
-      },
-      {
-        type: "h2",
-        text: "Conclusion"
-      },
+
+      /* Imagen final antes del cierre */
+      { type: "image", image: "assets/images/Blogs/Blog-7/03.webp" },
+
+      /* ===== Conclusión ===== */
+      { type: "h2", text: "Conclusion" },
       {
         type: "text",
         text: "A well-maintained aluminum pergola can last decades, keeping your outdoor space elegant and functional. With the right care routine — gentle cleaning, seasonal checks, and attention to small details — you’ll preserve its modern look and structural strength.\n\nAnd if you’re in the Houston area and want a custom pergola built to last, **New Gen Patio** is your local expert in aluminum pergola design and installation."
-      },
+      }
     ]
   }
+
 
 ];

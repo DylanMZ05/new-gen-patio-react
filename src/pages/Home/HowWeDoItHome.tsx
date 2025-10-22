@@ -38,11 +38,19 @@ const prefetchOurProcessChunk = () => {
   const paths = Object.keys(moduleCandidates);
   if (paths.length === 0) return; // nada que prefetch-ar (no rompe)
   ourProcessPrefetched = true;
-  // toma la primera coincidencia
   const importer = moduleCandidates[paths[0]] as () => Promise<unknown>;
   importer().catch(() => {
     ourProcessPrefetched = false; // permitir reintento si falla
   });
+};
+
+/* ===== helper: reserva responsiva para evitar CLS ===== */
+const computeReserved = () => {
+  // Títulos + párrafo + botón + paddings: ~520–680px según viewport
+  const w = typeof window !== "undefined" ? window.innerWidth : 1024;
+  if (w >= 1280) return 680; // lg / desktop grande
+  if (w >= 768)  return 600; // md / tablet-desktop chico
+  return 520;                // base / mobile
 };
 
 const HowWeDoItHome: React.FC = () => {
@@ -62,15 +70,25 @@ const HowWeDoItHome: React.FC = () => {
           io.disconnect(); // sólo una vez
         }
       },
-      {
-        // Calienta bien antes de entrar en pantalla sin afectar el LCP
-        rootMargin: "800px 0px",
-        threshold: 0,
-      }
+      { rootMargin: "800px 0px", threshold: 0 }
     );
 
     io.observe(el);
     return () => io.disconnect();
+  }, []);
+
+  // Anti-CLS: reserva responsiva y sincroniza containIntrinsicSize
+  useEffect(() => {
+    const el = sectionRef.current;
+    if (!el) return;
+    const set = () => {
+      const h = computeReserved();
+      (el.style as any).minHeight = `${h}px`;
+      (el.style as any).containIntrinsicSize = `${h}px`;
+    };
+    set();
+    window.addEventListener("resize", set);
+    return () => window.removeEventListener("resize", set);
   }, []);
 
   return (
@@ -81,10 +99,11 @@ const HowWeDoItHome: React.FC = () => {
       aria-labelledby="how-we-do-it-heading"
       className="
         relative flex flex-col items-center justify-center py-12 px-6 text-center bg-gray-100
-        [content-visibility:auto] [contain-intrinsic-size:520px]
+        [content-visibility:auto]
       "
       // aislamos el layout interno para reducir trabajo de pintura/flujo
-      style={{ contain: "content" as any, minHeight: "320px" }}
+      style={{ contain: "content" as any }}
+      data-lwv="HowWeDoItHome"
     >
       <header>
         <h2

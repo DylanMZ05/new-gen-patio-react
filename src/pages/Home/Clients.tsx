@@ -1,5 +1,5 @@
 import "../../styles/googleCards.css";
-import React, { useRef, useEffect, useState, useMemo, memo } from "react";
+import React, { useRef, useEffect, useState, useMemo, memo, useCallback } from "react";
 
 /* === Ajustes de velocidad ===
    - Desktop: 20 px/s
@@ -16,6 +16,7 @@ const PLACEHOLDER = "/assets/images/default-placeholder.webp";
 // Atributo "fetchpriority" sin romper TypeScript (spread genérico)
 const LOW_FETCH_ATTR: Record<string, string> = { fetchpriority: "low" };
 
+
 const Clients: React.FC = () => {
   const containerRef = useRef<HTMLDivElement>(null); // contenedor visible
   const trackRef = useRef<HTMLAnchorElement>(null);   // tira que se anima
@@ -24,6 +25,22 @@ const Clients: React.FC = () => {
   const [animationDuration, setAnimationDuration] = useState("30s");
   const [visible, setVisible] = useState(false);
   const [reducedMotion, setReducedMotion] = useState(false);
+
+  // ===== Reserva responsiva para toda la sección (anti-CLS)
+  const computeReserved = () => {
+    // py-12 (96px) + títulos/divider/botón (~150–200px) + marquee 260px
+    // Deja margen cómodo para desktop
+    const w = typeof window !== "undefined" ? window.innerWidth : 1024;
+    if (w >= 1280) return 720; // lg
+    if (w >= 768)  return 640; // md
+    return 560;               // base
+  };
+  const [reserved, setReserved] = useState<number>(computeReserved());
+  useEffect(() => {
+    const onResize = () => setReserved(computeReserved());
+    window.addEventListener("resize", onResize);
+    return () => window.removeEventListener("resize", onResize);
+  }, []);
 
   // Construye rutas respetando BASE_URL si deployás en subcarpeta
   const baseUrl = import.meta.env.BASE_URL || "/";
@@ -35,7 +52,6 @@ const Clients: React.FC = () => {
     [baseUrl]
   );
 
-  // Detector de mobile para bajar más la velocidad
   const getSpeed = () => {
     if (typeof window === "undefined" || !window.matchMedia) return BASE_SPEED_DESKTOP;
     return window.matchMedia("(max-width: 768px)").matches
@@ -108,6 +124,25 @@ const Clients: React.FC = () => {
     };
   }, [visible]);
 
+  // Preload ligero de las primeras imágenes (en idle)
+  const warmUpImages = useCallback((urls: string[], max = 6) => {
+    const run = () => {
+      for (let i = 0; i < Math.min(max, urls.length); i++) {
+        const img = new Image();
+        (img as HTMLImageElement).decoding = "async";
+        img.src = urls[i];
+      }
+    };
+    (window as any).requestIdleCallback
+      ? (window as any).requestIdleCallback(run, { timeout: 1000 })
+      : setTimeout(run, 120);
+  }, []);
+
+  useEffect(() => {
+    if (!visible) return;
+    warmUpImages(images, 6);
+  }, [visible, images, warmUpImages]);
+
   return (
     <section
       ref={sectionRef}
@@ -116,9 +151,11 @@ const Clients: React.FC = () => {
       aria-labelledby="clients-heading"
       className="
         flex flex-col items-center justify-center py-12 px-6 border-t border-black/20 overflow-hidden bg-gray-100
-        [content-visibility:auto] [contain-intrinsic-size:520px]
+        [content-visibility:auto]
       "
-      style={{ contain: "content" as any, minHeight: 320 }}
+      /* 🔑 Anti-CLS: reserva estable + containIntrinsicSize igualado */
+      style={{ contain: "content" as any, minHeight: reserved, containIntrinsicSize: `${reserved}px` as any }}
+      data-lwv="Clients"
     >
       <p id="clients-heading" className="font-semibold text-4xl text-center">
         Our Clients
@@ -189,11 +226,8 @@ const Clients: React.FC = () => {
 
       {/* Estilos locales para pausa en hover/focus sin JS */}
       <style>{`
-        /* Pausa accesible de la animación cuando hay interacción */
         .group:hover .marquee-reviews,
-        .group:focus-within .marquee-reviews {
-          animation-play-state: paused;
-        }
+        .group:focus-within .marquee-reviews { animation-play-state: paused; }
         @media (prefers-reduced-motion: reduce) {
           .marquee-reviews { animation-play-state: paused !important; }
         }

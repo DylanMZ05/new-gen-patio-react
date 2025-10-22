@@ -6,6 +6,7 @@ import React, {
   Suspense,
   lazy,
   useState,
+  useCallback,
 } from "react";
 import { blogs } from "../Blogs/blogData";
 import { Link } from "react-router-dom";
@@ -32,6 +33,7 @@ const runIdle = (cb: () => void) => {
   if (w.requestIdleCallback) w.requestIdleCallback(cb, { timeout: 1500 });
   else setTimeout(cb, 300);
 };
+/* ================================================================ */
 
 /**
  * Prefetch robusto del chunk de la página detalle (dinámica /blog/:slug)
@@ -68,6 +70,24 @@ const prefetchSliderChunk = () => {
 };
 /* =================================================================== */
 
+/* ===== helper: reserva responsiva para toda la sección ===== */
+function useReservedHeight() {
+  const compute = () => {
+    const w = typeof window !== "undefined" ? window.innerWidth : 1024;
+    // Títulos (~120–160px) + carrusel 420px + paddings
+    if (w >= 1280) return 820; // desktop grande
+    if (w >= 768) return 680;  // tablets/desktop chico
+    return 560;                // mobile
+  };
+  const [h, setH] = useState<number>(compute());
+  useEffect(() => {
+    const onResize = () => setH(compute());
+    window.addEventListener("resize", onResize);
+    return () => window.removeEventListener("resize", onResize);
+  }, []);
+  return h;
+}
+
 const BlogCardSlider: React.FC = () => {
   // Ordenamos una sola vez (blogs es estático)
   const latestBlogs = useMemo(
@@ -84,9 +104,10 @@ const BlogCardSlider: React.FC = () => {
   // Montaje diferido: renderiza el Slider SOLO cuando está visible
   const sectionRef = useRef<HTMLElement | null>(null);
   const [visible, setVisible] = useState(false);
+  const reserved = useReservedHeight();
 
   // Warm-up de imágenes de las primeras N tarjetas para suavizar el primer scroll
-  const warmUpImages = (urls: string[], max = 6) => {
+  const warmUpImages = useCallback((urls: string[], max = 6) => {
     runIdle(() => {
       for (let i = 0; i < Math.min(max, urls.length); i++) {
         const img = new Image();
@@ -94,7 +115,7 @@ const BlogCardSlider: React.FC = () => {
         img.src = urls[i];
       }
     });
-  };
+  }, []);
 
   useEffect(() => {
     const el = sectionRef.current;
@@ -122,7 +143,7 @@ const BlogCardSlider: React.FC = () => {
 
     io.observe(el);
     return () => io.disconnect();
-  }, [latestBlogs, baseUrl]);
+  }, [latestBlogs, baseUrl, warmUpImages]);
 
   const blogSlides = useMemo(
     () =>
@@ -206,9 +227,15 @@ const BlogCardSlider: React.FC = () => {
       aria-labelledby="blogs-heading"
       className="
         py-16 px-6 bg-gray-200 border-t border-black/10
-        [content-visibility:auto] [contain-intrinsic-size:520px]
+        [content-visibility:auto]
       "
-      style={{ contain: "content" as any, minHeight: 360 }}
+      /* Reserva estable para toda la sección + containIntrinsicSize igualado */
+      style={{
+        contain: "content" as any,
+        minHeight: reserved,
+        containIntrinsicSize: `${reserved}px` as any,
+      }}
+      data-lwv="BlogCardSlider"
     >
       <div className="max-w-6xl mx-auto">
         <header className="text-center mb-10">

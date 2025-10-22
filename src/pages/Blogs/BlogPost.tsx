@@ -57,24 +57,35 @@ const BlogPost: React.FC<Blog & { slug: string }> = ({
 
   const pageUrl = `https://www.newgenpatio.com/blog/${slug}`;
 
+  // ===== Evitar H1 duplicado =====
+  const firstH1Index = content.findIndex((b) => b.type === "h1");
+  const headerTitle =
+    firstH1Index !== -1 && typeof (content[firstH1Index] as any).text === "string"
+      ? (content[firstH1Index] as any).text
+      : title;
+
+  const contentWithoutFirstH1 =
+    firstH1Index === -1 ? content : content.filter((_, idx) => idx !== firstH1Index);
+
   return (
     <>
       <Helmet>
-        <title>{metaTitle || title}</title>
+        <title>{metaTitle || headerTitle}</title>
         <meta name="description" content={subtitle} />
-        <meta property="og:title" content={metaTitle || title} />
+        <meta property="og:title" content={metaTitle || headerTitle} />
         <meta property="og:description" content={subtitle} />
         <meta property="og:image" content={resolvedImageUrl} />
         <meta property="og:type" content="article" />
         <meta property="og:url" content={pageUrl} />
       </Helmet>
 
+      {/* Lo dejamos tal cual pediste */}
       <BlockSection />
 
       <section>
         <img
           src={resolvedImageUrl}
-          alt={`Blog cover image: ${title}`}
+          alt={`Blog cover image: ${headerTitle}`}
           loading="lazy"
           width={1200}
           height={600}
@@ -86,7 +97,7 @@ const BlogPost: React.FC<Blog & { slug: string }> = ({
 
         <article className="max-w-3xl mx-auto p-6">
           <header>
-            <h1 className="text-3xl font-semibold mb-4">{title}</h1>
+            <h1 className="text-3xl font-semibold mb-4">{headerTitle}</h1>
             <h2 className="text-xl text-black/80 mb-2">{subtitle}</h2>
             <p className="text-sm text-black/70 mb-4">
               {formattedDate}
@@ -95,7 +106,7 @@ const BlogPost: React.FC<Blog & { slug: string }> = ({
             <div className="w-full h-[3px] bg-[#0d4754] mx-auto rounded-full"></div>
           </header>
 
-          {content.map((item, index) => {
+          {contentWithoutFirstH1.map((item, index) => {
             if (item.type === "text") {
               return (
                 <p key={index} className="text-gray-700 mt-4 whitespace-pre-line">
@@ -107,7 +118,7 @@ const BlogPost: React.FC<Blog & { slug: string }> = ({
                 <img
                   key={index}
                   src={`${baseUrl}${item.image}`}
-                  alt={`Illustration for: ${title}`}
+                  alt={`Illustration for: ${headerTitle}`}
                   loading="lazy"
                   width={800}
                   height={400}
@@ -155,12 +166,6 @@ const BlogPost: React.FC<Blog & { slug: string }> = ({
                     return null;
                   })}
                 </p>
-              );
-            } else if (item.type === "h1") {
-              return (
-                <h1 key={index} className="text-3xl font-semibold mt-6 text-black">
-                  {item.text}
-                </h1>
               );
             } else if (item.type === "h2") {
               return (

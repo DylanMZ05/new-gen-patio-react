@@ -1,4 +1,4 @@
-import { memo, useEffect, useRef, useCallback } from "react";
+import { memo, useEffect, useRef, useCallback, useState } from "react";
 import { Link } from "react-router-dom";
 import useScrollToTop from "../../hooks/scrollToTop";
 
@@ -44,9 +44,27 @@ const prefetchAboutUsChunk = () => {
   });
 };
 
+/* ===== helper: reserva responsiva que iguala containIntrinsicSize ===== */
+function useReservedHeight() {
+  const compute = () => {
+    const w = typeof window !== "undefined" ? window.innerWidth : 1024;
+    if (w >= 1024) return 720; // lg
+    if (w >= 768) return 640;  // md
+    return 520;                // base
+  };
+  const [h, setH] = useState<number>(compute());
+  useEffect(() => {
+    const onResize = () => setH(compute());
+    window.addEventListener("resize", onResize);
+    return () => window.removeEventListener("resize", onResize);
+  }, []);
+  return h;
+}
+
 const AboutUsHome: React.FC = () => {
   const scrollToTop = useScrollToTop();
   const sectionRef = useRef<HTMLElement | null>(null);
+  const reserved = useReservedHeight();
 
   // Prefetch cuando el bloque está cerca del viewport (sin tocar el primer paint)
   useEffect(() => {
@@ -80,9 +98,15 @@ const AboutUsHome: React.FC = () => {
       className="
         relative flex flex-col items-center justify-center
         py-12 px-6 text-center bg-gray-100
-        [content-visibility:auto] [contain-intrinsic-size:520px]
+        [content-visibility:auto]
       "
-      style={{ contain: "content" as any, minHeight: "320px" }}
+      /* 🔑 Reserva estable + containIntrinsicSize igualado para evitar CLS */
+      style={{
+        contain: "content" as any,
+        minHeight: reserved,
+        containIntrinsicSize: `${reserved}px` as any,
+      }}
+      data-lwv="AboutUsHome"
     >
       <header>
         <h2

@@ -15,7 +15,6 @@ import { Helmet, HelmetProvider } from "react-helmet-async";
 
 // ====== Componentes críticos (no lazy) ======
 import Header from "./components/header/Header";
-// import BannerOferta from "./components/BannerOferta";
 import useGoogleAdsTracking from "./hooks/useGoogleAdsTracking";
 
 // ====== Deferibles (lazy) ======
@@ -236,10 +235,8 @@ const Layout: React.FC = memo(() => {
             element={
               <>
                 <LazyWhenVisible
-                  minHeight={{ base: 180, md: 360, lg: 480 }}
-                  fallback={<div className="min-h-[180px] md:min-h-[360px] lg:min-h-[480px]" aria-hidden="true" />}
                 >
-                  <Suspense fallback={<div className="min-h-[180px] md:min-h-[360px] lg:min-h-[480px]" aria-hidden="true" />}>
+                  <Suspense>
                     <BlockSection />
                   </Suspense>
                 </LazyWhenVisible>
@@ -253,10 +250,8 @@ const Layout: React.FC = memo(() => {
             element={
               <>
                 <LazyWhenVisible
-                  minHeight={{ base: 180, md: 360, lg: 480 }}
-                  fallback={<div className="min-h-[180px] md:min-h-[360px] lg:min-h-[480px]" aria-hidden="true" />}
                 >
-                  <Suspense fallback={<div className="min-h-[180px] md:min-h-[360px] lg:min-h-[480px]" aria-hidden="true" />}>
+                  <Suspense>
                     <BlockSection />
                   </Suspense>
                 </LazyWhenVisible>
@@ -270,10 +265,8 @@ const Layout: React.FC = memo(() => {
             element={
               <>
                 <LazyWhenVisible
-                  minHeight={{ base: 180, md: 360, lg: 480 }}
-                  fallback={<div className="min-h-[180px] md:min-h-[360px] lg:min-h-[480px]" aria-hidden="true" />}
                 >
-                  <Suspense fallback={<div className="min-h-[180px] md:min-h-[360px] lg:min-h-[480px]" aria-hidden="true" />}>
+                  <Suspense>
                     <BlockSection />
                   </Suspense>
                 </LazyWhenVisible>
@@ -287,10 +280,8 @@ const Layout: React.FC = memo(() => {
             element={
               <>
                 <LazyWhenVisible
-                  minHeight={{ base: 180, md: 360, lg: 480 }}
-                  fallback={<div className="min-h-[180px] md:min-h-[360px] lg:min-h-[480px]" aria-hidden="true" />}
                 >
-                  <Suspense fallback={<div className="min-h-[180px] md:min-h-[360px] lg:min-h-[480px]" aria-hidden="true" />}>
+                  <Suspense>
                     <BlockSection />
                   </Suspense>
                 </LazyWhenVisible>

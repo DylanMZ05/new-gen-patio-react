@@ -183,6 +183,18 @@ const AboutUsPage: React.FC = () => {
               <p>Office Assistant</p>
             </div>
 
+            {/* Card 3: Rodolfo */}
+            <div className="flex flex-col justify-center items-center">
+              <img
+                className="w-full mt-3 object-cover rounded-2xl shadow-lg md:w-150"
+                src="assets/images/FotosDelEquipo/Alex-Daniel.webp"
+                alt="Alex Daniel - Project Consultant"
+                loading="lazy"
+              />
+              <h3 className="text-xl font-semibold mt-2">Alex Daniel</h3>
+              <p>Project Consultant</p>
+            </div>
+
             {/* Card 4: Lisandra */}
             <div className="flex flex-col justify-center items-center">
               <img

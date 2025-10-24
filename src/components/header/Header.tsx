@@ -1,4 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, {
+  useState,
+  useEffect,
+  useRef,
+  useMemo,
+  useCallback,
+} from "react";
 import { Link } from "react-router-dom";
 import { FaChevronUp } from "react-icons/fa";
 import useScroll from "./useScroll";
@@ -7,13 +13,42 @@ import useScrollToTop from "../../hooks/scrollToTop";
 
 // Alturas estables
 const HEADER_H_DESKTOP = 80; // px
-const HEADER_H_MOBILE = 64;  // px
+const HEADER_H_MOBILE = 80; // px
+
+// Texto de la promo (modal)
+const PROMO_TEXT = `Why move the party inside? Transform your patio into a cozy, festive retreat for the entire season. Imagine warm gatherings, stylish comfort, and unforgettable nights under the stars.
+Until October 31st, you can get a 72-inch fire pit completely free if you close your backyard with us. 
+(Applicable only to new customers who close during this time period and while supplies last)`;
+
+// Título opcional en el modal (no se ve en el banner, solo en el popup)
+const PROMO_TITLE = "The best autumn memories are made outdoors.  🍂🔥";
+
+// Mensaje WhatsApp default
+const DEFAULT_WA_MSG =
+  "Hi! I'm interested in the Fall Season patio offer with the free 72-inch fire pit 🔥 Can you tell me more?";
+
+// Número de WhatsApp: intenta leer de env, sino fallback
+const WA_PHONE =
+  (typeof import.meta !== "undefined" &&
+    // @ts-ignore
+    (import.meta.env?.VITE_WHATSAPP_PHONE as string)) ||
+  "+1 (346) 380-0845";
+
+// Key para persistir "Don't show again"
+const PROMO_STORAGE_KEY = "fall-offer-oct-31-2025";
 
 const Header: React.FC = () => {
   const scrollToTop = useScrollToTop();
   const isScrolled = useScroll(50);
 
-  const sectionIds = ["services", "catalog", "our-promise", "who-we-are", "blogs", "contact"];
+  const sectionIds = [
+    "services",
+    "catalog",
+    "our-promise",
+    "who-we-are",
+    "blogs",
+    "contact",
+  ];
 
   const [menuOpen, setMenuOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -29,11 +64,40 @@ const Header: React.FC = () => {
     contact: "/contact-us",
   };
 
-  // Evita scroll del body con el menú móvil abierto (no afecta layout -> no CLS)
+  // ==== PROMO BANNER STATE / LOGIC ====
+  const [promoHiddenByUser, setPromoHiddenByUser] = useState(false);
+  const [promoOpen, setPromoOpen] = useState(false); // modal abierto/cerrado
+  const [bannerHeight, setBannerHeight] = useState(0);
+
+  // chequear si el user ya tocó "Don't show again"
+  useEffect(() => {
+    const v = localStorage.getItem(PROMO_STORAGE_KEY);
+    if (v === "dismissed") {
+      setPromoHiddenByUser(true);
+    }
+  }, []);
+
+  // callback para cerrar la promo para siempre
+  const dismissPromoForever = useCallback(() => {
+    localStorage.setItem(PROMO_STORAGE_KEY, "dismissed");
+    setPromoHiddenByUser(true);
+    setPromoOpen(false);
+  }, []);
+
+  // construir link de whatsapp
+  const waLink = useMemo(() => {
+    const text = encodeURIComponent(DEFAULT_WA_MSG);
+    const phoneDigits = (WA_PHONE || "").replace(/[^\d]/g, ""); // limpiar formato
+    return `https://wa.me/${phoneDigits}?text=${text}`;
+  }, []);
+
+  // Evita scroll del body con el menú móvil abierto
   useEffect(() => {
     const prev = document.body.style.overflow;
     document.body.style.overflow = menuOpen ? "hidden" : prev || "auto";
-    return () => { document.body.style.overflow = prev; };
+    return () => {
+      document.body.style.overflow = prev;
+    };
   }, [menuOpen]);
 
   const handleClick = (id: string) => {
@@ -70,21 +134,188 @@ const Header: React.FC = () => {
     if (menuOpen) setHideOnScroll(false);
   }, [menuOpen]);
 
+  // =========================
+  // PromoBanner interno
+  // =========================
+  const promoBarRef = useRef<HTMLDivElement | null>(null);
+
+  // reportar altura del banner para empujar el header debajo
+  useEffect(() => {
+    if (!promoBarRef.current) return;
+    if (promoHiddenByUser) {
+      setBannerHeight(0);
+      return;
+    }
+
+    const el = promoBarRef.current;
+    // set inicial
+    setBannerHeight(el.clientHeight);
+
+    const ro = new ResizeObserver((entries) => {
+      const entry = entries[0];
+      const borderSize =
+        Array.isArray(entry.borderBoxSize) && entry.borderBoxSize.length > 0
+          ? entry.borderBoxSize[0]
+          : (entry as any).borderBoxSize;
+
+      if (borderSize?.blockSize) {
+        setBannerHeight(Math.round(borderSize.blockSize));
+      } else {
+        setBannerHeight(el.clientHeight);
+      }
+    });
+
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, [promoHiddenByUser]);
+
   return (
     <>
-      {/* ===== HEADER FIJO (overlay, sin spacer) ===== */}
+      {/* =======================
+          PROMO BANNER FIJO ARRIBA
+          ======================= */}
+      {!promoHiddenByUser && (
+        <>
+          <div
+            ref={promoBarRef}
+            className={[
+              "fixed top-0 left-0 w-full z-[1100] cursor-pointer select-none",
+              "shadow-[0_1px_0_rgba(0,0,0,.06)]",
+              // color de fondo de seguridad detrás de la textura
+              "bg-[#0d4754]",
+            ].join(" ")}
+            style={
+              {
+                ["--promo-banner-height" as any]: "45px",
+                height: "var(--promo-banner-height)",
+              } as React.CSSProperties
+            }
+            role="button"
+            tabIndex={0}
+            aria-label="Open promotion details"
+            onClick={() => setPromoOpen(true)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter" || e.key === " ") {
+                e.preventDefault();
+                setPromoOpen(true);
+              }
+            }}
+          >
+            {/* SOLO la imagen en mosaico animado. Sin texto encima. */}
+            <div className="relative w-full h-full overflow-hidden">
+              <div
+                className="absolute inset-0 pointer-events-none promo-tiling"
+                aria-hidden="true"
+              />
+            </div>
+          </div>
+
+          {/* Modal de la promo */}
+          {promoOpen && (
+            <div
+              className="fixed inset-0 z-[1150] flex items-center justify-center px-4"
+              role="dialog"
+              aria-modal="true"
+              aria-labelledby="promo-title"
+            >
+              {/* Fondo oscuro */}
+              <button
+                className="absolute inset-0 bg-black/50"
+                aria-label="Close modal"
+                onClick={() => setPromoOpen(false)}
+              />
+
+              {/* Tarjeta */}
+              <div
+                className="relative w-full max-w-md bg-white rounded-2xl shadow-xl p-6 animate-[promoPop_180ms_ease-out] will-change-transform will-change-opacity"
+                style={{ animationFillMode: "both" }}
+              >
+                {/* Botón cerrar */}
+                <button
+                  onClick={() => setPromoOpen(false)}
+                  className="absolute top-3 right-3 rounded-full px-2 py-1 text-gray-500 hover:text-gray-800 focus:outline-none focus-visible:ring"
+                  aria-label="Close"
+                >
+                  ✕
+                </button>
+
+                <h2
+                  id="promo-title"
+                  className="text-xl font-bold mb-3 text-[#0d4754]"
+                >
+                  {PROMO_TITLE}
+                </h2>
+
+                <p className="text-gray-700 whitespace-pre-wrap mb-5 text-[0.95rem] leading-relaxed">
+                  {PROMO_TEXT}
+                </p>
+
+                <a
+                  href={waLink}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="block w-full text-center font-semibold rounded-lg py-3 bg-green-600 text-white hover:bg-green-700 transition"
+                >
+                  Chat on WhatsApp
+                </a>
+
+                <button
+                  onClick={dismissPromoForever}
+                  className="mt-3 w-full text-sm text-gray-500 hover:text-gray-700"
+                >
+                  Don’t show again
+                </button>
+              </div>
+
+              {/* Animación popup */}
+              <style>{`
+                @keyframes promoPop {
+                  0% { transform: translateY(8px) scale(.98); opacity: 0; }
+                  100% { transform: translateY(0) scale(1); opacity: 1; }
+                }
+              `}</style>
+            </div>
+          )}
+
+          {/* estilos del mosaico animado */}
+          <style>{`
+            .promo-tiling {
+              background-image: image-set(
+                url("/assets/images/fondo-banner.webp") type("image/webp") 1x
+              );
+              background-repeat: repeat-x;
+              background-size: auto var(--promo-banner-height);
+              background-position: 0 50%;
+              animation: promo-pan 30s linear infinite;
+              will-change: background-position;
+              opacity: 1; /* dejamos la textura tal cual, sin bajar opacidad */
+            }
+
+            @keyframes promo-pan {
+              from { background-position: 0 50%; }
+              to   { background-position: -2000px 50%; }
+            }
+
+            @media (prefers-reduced-motion: reduce) {
+              .promo-tiling { animation: none; }
+            }
+          `}</style>
+        </>
+      )}
+
+      {/* ===== HEADER FIJO (navbar) ===== */}
       <header
         id="site-header"
-        className="fixed inset-x-0 top-0 z-50 transition-colors duration-300"
+        className="fixed inset-x-0 z-50 transition-colors duration-300"
         role="banner"
         style={{
+          // empujamos el header debajo del banner si está visible
+          top: promoHiddenByUser ? 0 : bannerHeight,
           height: `clamp(${HEADER_H_MOBILE}px, 10vw, ${HEADER_H_DESKTOP}px)`,
           transform: hideOnScroll ? "translateY(-140%)" : "translateY(0)",
           transition:
             "transform 480ms ease, background-color 300ms ease, color 300ms ease, box-shadow 300ms ease",
           willChange: "transform",
-          // Transparente con degradado sobre el video cuando NO hay scroll;
-          // Sólido con sombra cuando sí hay scroll.
           background: isScrolled
             ? "#ffffff"
             : "linear-gradient(to bottom, rgba(0,0,0,.85) 0%, rgba(0,0,0,0) 100%)",
@@ -93,11 +324,18 @@ const Header: React.FC = () => {
         }}
       >
         <div className="h-full flex items-center justify-between px-4 xl:px-15">
-          {/* ===== Logo + texto (dimensiones explícitas = cero salto) ===== */}
+          {/* ===== Logo + texto ===== */}
           <div className="flex items-center">
-            <Link to="/" aria-label="Home" onClick={scrollToTop} className="flex items-center">
+            <Link
+              to="/"
+              aria-label="Home"
+              onClick={scrollToTop}
+              className="flex items-center"
+            >
               <img
-                src={`/assets/images/IdentidadSVG/${isScrolled ? "LogoColor.svg" : "LogoBlanco.svg"}`}
+                src={`/assets/images/IdentidadSVG/${
+                  isScrolled ? "LogoColor.svg" : "LogoBlanco.svg"
+                }`}
                 alt="New Gen Patio Logo"
                 width={65}
                 height={80}
@@ -119,7 +357,11 @@ const Header: React.FC = () => {
           </div>
 
           {/* ===== Menú principal (desktop) ===== */}
-          <nav aria-label="Main Menu" role="navigation" className="hidden lg:flex h-full">
+          <nav
+            aria-label="Main Menu"
+            role="navigation"
+            className="hidden lg:flex h-full"
+          >
             <ul className="flex items-center gap-8">
               {sectionIds.map((id) =>
                 id === "our-promise" ? (
@@ -131,19 +373,28 @@ const Header: React.FC = () => {
                       setDropdownOpen(true);
                     }}
                     onMouseLeave={() => {
-                      dropdownTimeout = setTimeout(() => setDropdownOpen(false), 220);
+                      dropdownTimeout = setTimeout(
+                        () => setDropdownOpen(false),
+                        220
+                      );
                     }}
                   >
                     <button
                       className={`text-lg md:text-xl transition-colors duration-150 font-normal flex items-center gap-1 cursor-pointer ${
-                        isScrolled ? "text-black hover:text-orange-500" : "text-white hover:text-orange-400"
+                        isScrolled
+                          ? "text-black hover:text-orange-500"
+                          : "text-white hover:text-orange-400"
                       }`}
                       style={{ lineHeight: 1 }}
                     >
                       Our Promise
-                      <FaChevronUp className={`transition-transform ${dropdownOpen ? "rotate-180" : ""}`} />
+                      <FaChevronUp
+                        className={`transition-transform ${
+                          dropdownOpen ? "rotate-180" : ""
+                        }`}
+                      />
                     </button>
-                    {/* Dropdown ABSOLUTE -> no empuja layout */}
+
                     {dropdownOpen && (
                       <div
                         className="absolute left-0 mt-2 bg-white shadow-lg w-52 rounded-md overflow-hidden"
@@ -176,11 +427,17 @@ const Header: React.FC = () => {
                         scrollToTop();
                       }}
                       className={`text-lg md:text-xl transition-colors duration-150 font-normal ${
-                        isScrolled ? "text-black hover:text-orange-500" : "text-white hover:text-orange-400"
+                        isScrolled
+                          ? "text-black hover:text-orange-500"
+                          : "text-white hover:text-orange-400"
                       }`}
                       style={{ lineHeight: 1 }}
                     >
-                      {id.replace(/-/g, " ").charAt(0).toUpperCase() + id.replace(/-/g, " ").slice(1)}
+                      {id
+                        .replace(/-/g, " ")
+                        .charAt(0)
+                        .toUpperCase() +
+                        id.replace(/-/g, " ").slice(1)}
                     </Link>
                   </li>
                 )
@@ -188,7 +445,7 @@ const Header: React.FC = () => {
             </ul>
           </nav>
 
-          {/* ===== Botón hamburguesa (móvil, overlay) ===== */}
+          {/* ===== Botón hamburguesa (móvil) ===== */}
           <button
             className="lg:hidden focus:outline-none absolute top-4 right-5 z-[110] cursor-pointer pointer-events-auto"
             aria-label={menuOpen ? "Close menu" : "Open menu"}
@@ -213,7 +470,7 @@ const Header: React.FC = () => {
           </button>
         </div>
 
-        {/* ===== Menú móvil (fixed, fuera del flujo) ===== */}
+        {/* ===== Menú móvil (full screen overlay) ===== */}
         <div
           className={`lg:hidden fixed inset-0 z-[100] h-screen bg-[#0d4754] text-white 
           flex flex-col items-center justify-start pt-24 px-6
@@ -252,7 +509,9 @@ const Header: React.FC = () => {
                   style={{ lineHeight: 1 }}
                 >
                   Our Promise
-                  <FaChevronUp className={`${mobileDropdownOpen ? " rotate-180" : ""}`} />
+                  <FaChevronUp
+                    className={`${mobileDropdownOpen ? " rotate-180" : ""}`}
+                  />
                 </button>
 
                 {mobileDropdownOpen && (
@@ -295,7 +554,11 @@ const Header: React.FC = () => {
                 className="text-2xl transition-colors duration-150 hover:text-orange-500"
                 style={{ lineHeight: 1 }}
               >
-                {id.replace(/-/g, " ").charAt(0).toUpperCase() + id.replace(/-/g, " ").slice(1)}
+                {id
+                  .replace(/-/g, " ")
+                  .charAt(0)
+                  .toUpperCase() +
+                  id.replace(/-/g, " ").slice(1)}
               </Link>
             )
           )}

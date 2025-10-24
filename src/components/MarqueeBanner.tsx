@@ -19,7 +19,7 @@ const MarqueeBanner: React.FC = () => {
       to="/patio-financing-houston"
       className="
         group block w-screen fixed left-0 right-0 border-y border-white/20 shadow-lg bg-[#0d4754]
-        overflow-hidden relative py-3 z-[999]
+        overflow-hidden relative py-3
         [content-visibility:auto] [contain-intrinsic-size:var(--banner-height)]
         focus:outline-none focus-visible:ring-2 focus-visible:ring-white/70
       "

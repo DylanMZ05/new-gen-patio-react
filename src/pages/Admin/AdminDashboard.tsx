@@ -260,7 +260,7 @@ const AdminDashboard: React.FC = () => {
         La altura real del header ronda ~ (py-3 + líneas) ≈ 110-130px en mobile,
         ~90-100px en desktop. Le damos un padding-top seguro.
       */}
-      <main className="flex-1 px-4 pb-6 max-w-[1400px] mx-auto w-full pt-[130px] lg:pt-[110px]">
+      <main className="flex-1 px-4 pt-50 sm:pt-40 pb-6 max-w-[1400px] mx-auto w-full">
         {loading ? (
           <p className="text-gray-700">Cargando proyectos...</p>
         ) : sortedProjects.length === 0 ? (

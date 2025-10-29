@@ -7,6 +7,11 @@ interface Props {
 }
 
 const ProjectCard: React.FC<Props> = ({ project, onEdit }) => {
+  // addons llega como CSV ("TV Walls,Fire Pit,...")
+  const addonsPretty = project.addons
+    ? project.addons.split(",").map(a => a.trim()).filter(Boolean).join(", ")
+    : "";
+
   return (
     <div className="bg-white shadow rounded p-4">
       <img
@@ -18,7 +23,9 @@ const ProjectCard: React.FC<Props> = ({ project, onEdit }) => {
         alt={project.title}
         className="w-full h-48 object-cover rounded mb-4"
       />
+
       <h2 className="text-lg font-semibold">{project.title}</h2>
+
       <ul className="text-sm text-gray-700 mt-2 space-y-1">
         {project.projectType && (
           <li><strong>Project Type:</strong> {project.projectType}</li>
@@ -47,7 +54,12 @@ const ProjectCard: React.FC<Props> = ({ project, onEdit }) => {
         {project.timberSize && (
           <li><strong>Timber Size:</strong> {project.timberSize}</li>
         )}
+
+        {addonsPretty && (
+          <li><strong>Addons:</strong> {addonsPretty}</li>
+        )}
       </ul>
+
       <button
         onClick={onEdit}
         className="mt-4 bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition w-full cursor-pointer"

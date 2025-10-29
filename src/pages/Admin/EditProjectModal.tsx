@@ -1,5 +1,10 @@
 // src/pages/Admin/EditProjectModal.tsx
-import React, { useState, ChangeEvent, useEffect, useMemo } from "react";
+import React, {
+  useState,
+  ChangeEvent,
+  useEffect,
+  useMemo,
+} from "react";
 import { X } from "lucide-react";
 import { loadFirestore } from "../../lib/firebaseDb";
 import { loadStorage } from "../../lib/firebaseStorage";
@@ -7,38 +12,69 @@ import { Project } from "./AdminDashboard";
 
 /* ===================== Tipos / helpers ===================== */
 
-/** Proyecto con campos legados posibles (compatibilidad) */
 type ProjectWithLegacy = Project & {
   colorsRoofingPanels?: string; // CSV persistido (nuevo)
-  colorsPanels?: string;        // derivado legacy (mostrar)
-  imageUrl?: string;            // legacy
-  images?: string[];            // nuevo
+  colorsPanels?: string; // derivado legacy (mostrar)
+  imageUrl?: string; // legacy
+  images?: string[]; // nuevo
 };
 
-/** Catálogo de categorías, bien tipado para obtener las keys */
 const categoryOptions = {
-  coveredPatios: ["Attached Covered Patio", "FreeStanding Pergola", "Cantilevered Pergola"],
-  outdoorKitchen: ["Modern Outdoor Kitchen", "Traditional Outdoor Kitchen"],
+  coveredPatios: [
+    "Attached Covered Patio",
+    "FreeStanding Pergola",
+    "Cantilevered Pergola",
+  ],
+  outdoorKitchen: [
+    "Modern Outdoor Kitchen",
+    "Traditional Outdoor Kitchen",
+  ],
   structureColors: ["Dark Bronze", "White", "Varied Colors"],
-  colorsRoofingPanels: ["Dark Bronze", "White", "Wood Imitation Panels"],
+  colorsRoofingPanels: [
+    "Dark Bronze",
+    "White",
+    "Wood Imitation Panels",
+  ],
   composite: ["Black", "Wood Imitation"],
   hybrid: ["Polycarbonate", "Naked Pergola"],
-  addons: ["TV Walls", "Privacy Walls", "Slags", "Fire Pit"],
-  foundation: ["Concrete Slab", "Concrete Stamped", "Spray Decking", "Paver", "Tiles", "Turf"],
+
+  // ⬇⬇⬇ Addons actualizado, incluye lo nuevo
+  addons: [
+    "TV Walls",
+    "Privacy Walls",
+    "Slags",
+    "Fire Pit",
+    "Sconce Light",
+    "Enclosure Net",
+    "Deco Shades",
+    "Waterfall",
+  ],
+
+  foundation: [
+    "Concrete Slab",
+    "Concrete Stamped",
+    "Spray Decking",
+    "Paver",
+    "Tiles",
+    "Turf",
+  ],
 } as const;
 
 type CategoryKey = keyof typeof categoryOptions;
 
 const splitOrEmpty = (v: unknown): string[] =>
-  typeof v === "string" && v.length ? v.split(",").map((s) => s.trim()) : [];
+  typeof v === "string" && v.length
+    ? v.split(",").map((s) => s.trim())
+    : [];
 
-/** Lee un string de un objeto indexado dinámicamente, de forma segura para TS */
-const getStringField = (obj: unknown, key: string): string | undefined => {
+const getStringField = (
+  obj: unknown,
+  key: string
+): string | undefined => {
   const v = (obj as Record<string, unknown>)[key];
   return typeof v === "string" ? v : undefined;
 };
 
-/** Compresor a WebP (lado cliente) */
 const compressImage = (file: File): Promise<Blob> =>
   new Promise((resolve, reject) => {
     const img = new Image();
@@ -57,7 +93,10 @@ const compressImage = (file: File): Promise<Blob> =>
       const ctx = canvas.getContext("2d");
       ctx?.drawImage(img, 0, 0, canvas.width, canvas.height);
       canvas.toBlob(
-        (blob) => (blob ? resolve(blob) : reject(new Error("Compression failed"))),
+        (blob) =>
+          blob
+            ? resolve(blob)
+            : reject(new Error("Compression failed")),
         "image/webp",
         1
       );
@@ -68,113 +107,163 @@ const compressImage = (file: File): Promise<Blob> =>
 /* ===================== Props ===================== */
 
 interface Props {
-  project: Project; // se asume siempre presente
+  project: Project;
   onClose: () => void;
   setProjects: React.Dispatch<React.SetStateAction<Project[]>>;
 }
 
 /* ===================== Componente ===================== */
 
-const EditProjectModal: React.FC<Props> = ({ project, onClose, setProjects }) => {
-  // Acceso con compatibilidad
+const EditProjectModal: React.FC<Props> = ({
+  project,
+  onClose,
+  setProjects,
+}) => {
   const legacy = project as ProjectWithLegacy;
 
-  /* ---------- Derivaciones iniciales (memo) ---------- */
-
-  const initialSelections = useMemo<Record<CategoryKey, string[]>>(() => {
+  const initialSelections = useMemo<
+    Record<CategoryKey, string[]>
+  >(() => {
     const out = {} as Record<CategoryKey, string[]>;
-    (Object.keys(categoryOptions) as CategoryKey[]).forEach((key) => {
-      if (key === "colorsRoofingPanels") {
-        const fromNew = splitOrEmpty(legacy.colorsRoofingPanels);
-        const fromOld = splitOrEmpty(legacy.colorsPanels);
-        out[key] = (fromNew.length ? fromNew : fromOld) as string[];
-      } else {
-        out[key] = splitOrEmpty(getStringField(legacy, key)) as string[];
+    (Object.keys(categoryOptions) as CategoryKey[]).forEach(
+      (key) => {
+        if (key === "colorsRoofingPanels") {
+          const fromNew = splitOrEmpty(legacy.colorsRoofingPanels);
+          const fromOld = splitOrEmpty(legacy.colorsPanels);
+          out[key] = (fromNew.length
+            ? fromNew
+            : fromOld) as string[];
+        } else {
+          out[key] = splitOrEmpty(
+            getStringField(legacy, key)
+          ) as string[];
+        }
       }
-    });
+    );
     return out;
   }, [legacy]);
 
   const initialImages = useMemo<string[]>(() => {
-    if (Array.isArray(legacy.images) && legacy.images.length) return legacy.images;
+    if (Array.isArray(legacy.images) && legacy.images.length)
+      return legacy.images;
     if (legacy.imageUrl) return [legacy.imageUrl];
     return [];
   }, [legacy]);
 
-  /* ---------- Hooks de estado ---------- */
-
-  const [editedFields, setEditedFields] = useState<Partial<Project>>({
+  const [editedFields, setEditedFields] = useState<
+    Partial<Project>
+  >({
     title: project.title,
     size: project.size,
     more: project.more,
   });
 
-  const [categorySelections, setCategorySelections] =
-    useState<Record<CategoryKey, string[]>>(initialSelections);
+  const [categorySelections, setCategorySelections] = useState<
+    Record<CategoryKey, string[]>
+  >(initialSelections);
 
-  const [existingImages, setExistingImages] = useState<string[]>(initialImages);
+  const [existingImages, setExistingImages] =
+    useState<string[]>(initialImages);
   const [newImages, setNewImages] = useState<File[]>([]);
-  const [previewNewImages, setPreviewNewImages] = useState<string[]>([]);
+  const [previewNewImages, setPreviewNewImages] = useState<string[]>(
+    []
+  );
   const [removedImages, setRemovedImages] = useState<string[]>([]);
-  const [submittingChanges, setSubmittingChanges] = useState(false);
-
-  /* ---------- Handlers ---------- */
+  const [submittingChanges, setSubmittingChanges] =
+    useState(false);
 
   const handleEditChange = (e: ChangeEvent<HTMLInputElement>) =>
-    setEditedFields((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+    setEditedFields((prev) => ({
+      ...prev,
+      [e.target.name]: e.target.value,
+    }));
 
-  const handleImagesChange = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleImagesChange = (
+    e: ChangeEvent<HTMLInputElement>
+  ) => {
     const files = e.target.files ? Array.from(e.target.files) : [];
     if (!files.length) return;
     setNewImages((prev) => [...prev, ...files]);
-    setPreviewNewImages((prev) => [...prev, ...files.map((f) => URL.createObjectURL(f))]);
+    setPreviewNewImages((prev) => [
+      ...prev,
+      ...files.map((f) => URL.createObjectURL(f)),
+    ]);
   };
 
   const handleRemoveExistingImage = (index: number) => {
     setRemovedImages((prev) => [...prev, existingImages[index]]);
-    setExistingImages((prev) => prev.filter((_, i) => i !== index));
+    setExistingImages((prev) =>
+      prev.filter((_, i) => i !== index)
+    );
   };
 
   const handleRemoveNewImage = (index: number) => {
-    setNewImages((prev) => prev.filter((_, i) => i !== index));
-    setPreviewNewImages((prev) => prev.filter((_, i) => i !== index));
+    setNewImages((prev) =>
+      prev.filter((_, i) => i !== index)
+    );
+    setPreviewNewImages((prev) =>
+      prev.filter((_, i) => i !== index)
+    );
   };
 
-  const handleCategoryToggle = (category: CategoryKey, value: string) =>
+  const handleCategoryToggle = (
+    category: CategoryKey,
+    value: string
+  ) =>
     setCategorySelections((prev) => {
       const cur = prev[category] || [];
       return cur.includes(value)
-        ? { ...prev, [category]: cur.filter((v) => v !== value) }
+        ? {
+            ...prev,
+            [category]: cur.filter((v) => v !== value),
+          }
         : { ...prev, [category]: [...cur, value] };
     });
 
   const handleSubmitChanges = async () => {
     setSubmittingChanges(true);
     try {
-      // Storage on-demand
       const storage = await loadStorage();
-      const { ref, uploadBytes, getDownloadURL, deleteObject } = await import("firebase/storage");
+      const {
+        ref,
+        uploadBytes,
+        getDownloadURL,
+        deleteObject,
+      } = await import("firebase/storage");
 
       const uploadedUrls: string[] = [];
       for (let i = 0; i < newImages.length; i++) {
         const blob = await compressImage(newImages[i]);
-        const storageRef = ref(storage, `projects/${project.id}_${Date.now()}_${i}.webp`);
-        await uploadBytes(storageRef, blob, { contentType: "image/webp" });
+        const storageRef = ref(
+          storage,
+          `projects/${project.id}_${Date.now()}_${i}.webp`
+        );
+        await uploadBytes(storageRef, blob, {
+          contentType: "image/webp",
+        });
         uploadedUrls.push(await getDownloadURL(storageRef));
       }
 
-      // Borrar del storage las eliminadas
+      // Intento de borrar del storage las eliminadas
       for (const url of removedImages) {
         try {
-          const path = decodeURIComponent(url.split("/o/")[1].split("?")[0]);
+          const path = decodeURIComponent(
+            url.split("/o/")[1].split("?")[0]
+          );
           const storageRef = ref(storage, path);
           await deleteObject(storageRef);
         } catch (e) {
-          console.warn("No se pudo borrar del storage:", e);
+          console.warn(
+            "No se pudo borrar del storage:",
+            e
+          );
         }
       }
 
-      const finalImages = [...existingImages, ...uploadedUrls];
+      const finalImages = [
+        ...existingImages,
+        ...uploadedUrls,
+      ];
 
       // Derivados
       const projectType =
@@ -182,38 +271,51 @@ const EditProjectModal: React.FC<Props> = ({ project, onClose, setProjects }) =>
         categorySelections.outdoorKitchen?.[0] ||
         "";
 
-      const structureColor = (categorySelections.structureColors || []).join(" + ") || "";
+      const structureColor =
+        (categorySelections.structureColors || []).join(
+          " + "
+        ) || "";
 
-      const colorsRoofingPanelsCsv = (categorySelections.colorsRoofingPanels || []).join(",") || "";
-      const colorsPanels = (categorySelections.colorsRoofingPanels || []).join(" + ") || "";
+      const colorsRoofingPanelsCsv = (
+        categorySelections.colorsRoofingPanels || []
+      ).join(",") || "";
+      const colorsPanels = (
+        categorySelections.colorsRoofingPanels || []
+      ).join(" + ") || "";
 
-      const basePayload: Partial<Project> & { colorsRoofingPanels?: string } = {
+      const basePayload: Partial<Project> & {
+        colorsRoofingPanels?: string;
+      } = {
         title: editedFields.title || "",
         size: editedFields.size || "",
         more: editedFields.more || "",
         projectType,
         structureColor,
         colorsPanels, // para UI
-        colorsRoofingPanels: colorsRoofingPanelsCsv, // persistido CSV
+        colorsRoofingPanels: colorsRoofingPanelsCsv, // CSV
         images: finalImages,
       };
 
-      // Filtros CSV por categoría
+      // Filtros CSV por categoría (incluye addons actualizado)
       const filtersCsv: Record<string, string> = {};
-      (Object.keys(categorySelections) as CategoryKey[]).forEach((k) => {
-        filtersCsv[k] = (categorySelections[k] || []).join(",");
-      });
+      (Object.keys(categorySelections) as CategoryKey[]).forEach(
+        (k) => {
+          filtersCsv[k] = (
+            categorySelections[k] || []
+          ).join(",");
+        }
+      );
 
-      // Firestore on-demand
       const db = await loadFirestore();
-      const { updateDoc, doc, deleteField } = await import("firebase/firestore");
+      const { updateDoc, doc, deleteField } = await import(
+        "firebase/firestore"
+      );
       await updateDoc(doc(db, "projects", project.id), {
         ...basePayload,
         ...filtersCsv,
-        colorsPanels: deleteField(), // limpiar legacy
+        colorsPanels: deleteField(), // limpiamos legacy duplicado
       });
 
-      // Actualizar UI local
       setExistingImages(finalImages);
       setNewImages([]);
       setPreviewNewImages([]);
@@ -222,7 +324,13 @@ const EditProjectModal: React.FC<Props> = ({ project, onClose, setProjects }) =>
       setProjects((prev) =>
         prev.map((p) =>
           p.id === project.id
-            ? { ...p, ...basePayload, ...filtersCsv, images: finalImages, colorsPanels }
+            ? {
+                ...p,
+                ...basePayload,
+                ...filtersCsv,
+                images: finalImages,
+                colorsPanels,
+              }
             : p
         )
       );
@@ -237,24 +345,40 @@ const EditProjectModal: React.FC<Props> = ({ project, onClose, setProjects }) =>
   };
 
   const handleDeleteProject = async () => {
-    if (!window.confirm("¿Seguro que querés eliminar este proyecto?")) return;
+    if (
+      !window.confirm(
+        "¿Seguro que querés eliminar este proyecto?"
+      )
+    )
+      return;
     try {
       const storage = await loadStorage();
-      const { ref, deleteObject } = await import("firebase/storage");
+      const { ref, deleteObject } = await import(
+        "firebase/storage"
+      );
       for (const url of existingImages) {
         try {
-          const path = decodeURIComponent(url.split("/o/")[1].split("?")[0]);
+          const path = decodeURIComponent(
+            url.split("/o/")[1].split("?")[0]
+          );
           await deleteObject(ref(storage, path));
         } catch (e) {
-          console.warn("No se pudo borrar imagen:", e);
+          console.warn(
+            "No se pudo borrar imagen:",
+            e
+          );
         }
       }
 
       const db = await loadFirestore();
-      const { deleteDoc, doc } = await import("firebase/firestore");
+      const { deleteDoc, doc } = await import(
+        "firebase/firestore"
+      );
       await deleteDoc(doc(db, "projects", project.id));
 
-      setProjects((prev) => prev.filter((p) => p.id !== project.id));
+      setProjects((prev) =>
+        prev.filter((p) => p.id !== project.id)
+      );
       onClose();
     } catch (e) {
       console.error("❌ Error al eliminar:", e);
@@ -262,17 +386,16 @@ const EditProjectModal: React.FC<Props> = ({ project, onClose, setProjects }) =>
     }
   };
 
-  // (opcional) asegurar top al abrir
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
 
-  /* ===================== Render ===================== */
-
   return (
     <div className="fixed inset-0 bg-black/40 flex justify-center items-center z-50">
       <div className="bg-white p-6 rounded shadow w-full max-w-md max-h-[90vh] overflow-y-auto relative">
-        <h2 className="text-xl font-bold mb-4">Editar Proyecto</h2>
+        <h2 className="text-xl font-bold mb-4">
+          Editar Proyecto
+        </h2>
 
         {/* Campos de texto */}
         {[
@@ -281,11 +404,18 @@ const EditProjectModal: React.FC<Props> = ({ project, onClose, setProjects }) =>
           { name: "more", label: "More" },
         ].map(({ name, label }) => (
           <div key={name} className="mb-3">
-            <label className="block text-sm font-medium mb-1">{label}</label>
+            <label className="block text-sm font-medium mb-1">
+              {label}
+            </label>
             <input
               type="text"
               name={name}
-              value={(editedFields as Record<string, string | undefined>)[name] || ""}
+              value={
+                (editedFields as Record<
+                  string,
+                  string | undefined
+                >)[name] || ""
+              }
               onChange={handleEditChange}
               className="w-full border px-3 py-2 rounded"
             />
@@ -294,35 +424,69 @@ const EditProjectModal: React.FC<Props> = ({ project, onClose, setProjects }) =>
 
         {/* Categorías */}
         <div className="mb-6">
-          <h3 className="font-semibold text-lg mb-2">Categorías</h3>
-          {(Object.entries(categoryOptions) as [CategoryKey, readonly string[]][])
-            .map(([key, options]) => (
-              <div key={key} className="mb-4">
-                <p className="font-medium capitalize mb-1">{String(key).replace(/([A-Z])/g, " $1")}</p>
-                <div className="pl-2 space-y-1">
-                  {options.map((opt) => (
-                    <label key={opt} className="flex items-center gap-2 text-sm">
-                      <input
-                        type="checkbox"
-                        checked={categorySelections[key]?.includes(opt) || false}
-                        onChange={() => handleCategoryToggle(key, opt)}
-                      />
-                      {opt}
-                    </label>
-                  ))}
-                </div>
+          <h3 className="font-semibold text-lg mb-2">
+            Categorías
+          </h3>
+          {(Object.entries(categoryOptions) as [
+            CategoryKey,
+            readonly string[]
+          ][]).map(([key, options]) => (
+            <div key={key} className="mb-4">
+              <p className="font-medium capitalize mb-1">
+                {String(key).replace(
+                  /([A-Z])/g,
+                  " $1"
+                )}
+              </p>
+              <div className="pl-2 space-y-1">
+                {options.map((opt) => (
+                  <label
+                    key={opt}
+                    className="flex items-center gap-2 text-sm"
+                  >
+                    <input
+                      type="checkbox"
+                      checked={
+                        categorySelections[key]?.includes(
+                          opt
+                        ) || false
+                      }
+                      onChange={() =>
+                        handleCategoryToggle(key, opt)
+                      }
+                    />
+                    {opt}
+                  </label>
+                ))}
               </div>
-            ))}
+            </div>
+          ))}
         </div>
 
         {/* Imágenes */}
-        {(existingImages.length > 0 || previewNewImages.length > 0) && (
+        {(existingImages.length > 0 ||
+          previewNewImages.length > 0) && (
           <div className="mt-3 grid grid-cols-2 gap-3">
             {[
-              ...existingImages.map((src, index) => ({ src, type: "existing" as const, index })),
-              ...previewNewImages.map((src, index) => ({ src, type: "new" as const, index })),
+              ...existingImages.map(
+                (src, index) => ({
+                  src,
+                  type: "existing" as const,
+                  index,
+                })
+              ),
+              ...previewNewImages.map(
+                (src, index) => ({
+                  src,
+                  type: "new" as const,
+                  index,
+                })
+              ),
             ].map((item, i) => (
-              <div key={`${item.type}-${item.index}`} className="relative group">
+              <div
+                key={`${item.type}-${item.index}`}
+                className="relative group"
+              >
                 <img
                   src={item.src}
                   alt={`Imagen ${i + 1}`}
@@ -332,8 +496,12 @@ const EditProjectModal: React.FC<Props> = ({ project, onClose, setProjects }) =>
                   type="button"
                   onClick={() =>
                     item.type === "existing"
-                      ? handleRemoveExistingImage(item.index)
-                      : handleRemoveNewImage(item.index)
+                      ? handleRemoveExistingImage(
+                          item.index
+                        )
+                      : handleRemoveNewImage(
+                          item.index
+                        )
                   }
                   className="absolute top-1 right-1 bg-black/60 text-white rounded-full p-1 hover:bg-red-600 transition"
                 >
@@ -349,7 +517,9 @@ const EditProjectModal: React.FC<Props> = ({ project, onClose, setProjects }) =>
 
         {/* Uploader */}
         <div className="mb-4">
-          <h3 className="font-semibold text-lg mb-2">Añadir Imágenes</h3>
+          <h3 className="font-semibold text-lg mb-2">
+            Añadir Imágenes
+          </h3>
           <label
             htmlFor="fileInput"
             className="flex items-center justify-center px-4 py-2 bg-blue-600 text-white rounded cursor-pointer hover:bg-blue-700 transition w-full text-center"
@@ -368,7 +538,10 @@ const EditProjectModal: React.FC<Props> = ({ project, onClose, setProjects }) =>
 
         {/* Botones */}
         <div className="flex justify-end mt-4 gap-3">
-          <button onClick={onClose} className="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400">
+          <button
+            onClick={onClose}
+            className="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400"
+          >
             Cancelar
           </button>
           <button
@@ -381,10 +554,14 @@ const EditProjectModal: React.FC<Props> = ({ project, onClose, setProjects }) =>
             onClick={handleSubmitChanges}
             disabled={submittingChanges}
             className={`px-4 py-2 rounded text-white transition ${
-              submittingChanges ? "bg-green-400 cursor-wait" : "bg-green-600 hover:bg-green-700"
+              submittingChanges
+                ? "bg-green-400 cursor-wait"
+                : "bg-green-600 hover:bg-green-700"
             }`}
           >
-            {submittingChanges ? "Guardando..." : "Guardar Cambios"}
+            {submittingChanges
+              ? "Guardando..."
+              : "Guardar Cambios"}
           </button>
         </div>
       </div>

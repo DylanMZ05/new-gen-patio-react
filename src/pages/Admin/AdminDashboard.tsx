@@ -37,7 +37,10 @@ export interface Project {
   outdoorKitchen?: string;
   composite?: string;
   hybrid?: string;
+
+  // CSV de Addons seleccionados
   addons?: string;
+
   foundation?: string;
 
   order?: number;
@@ -150,13 +153,6 @@ const AdminDashboard: React.FC = () => {
   return (
     <div className="min-h-screen bg-gray-100 flex flex-col">
       {/* NAV SUPERIOR FIJO */}
-      {/*
-        Hacemos la barra fixed para que NUNCA se vaya,
-        igual que un navbar.
-        Le damos una altura estática aproximada en desktop
-        y mobile, y luego empujamos el <main> con padding-top
-        para que el contenido no quede escondido debajo.
-      */}
       <header
         className="
           fixed top-0 left-0 right-0 z-50
@@ -174,7 +170,6 @@ const AdminDashboard: React.FC = () => {
         >
           {/* Bloque IZQ: título / subtítulo / sort */}
           <div className="flex flex-col min-w-0">
-            {/* fila título + acciones (en mobile también mostramos los botones acá) */}
             <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3">
               <div className="min-w-0">
                 <h1 className="text-lg font-bold text-gray-900 leading-tight">
@@ -185,7 +180,7 @@ const AdminDashboard: React.FC = () => {
                 </p>
               </div>
 
-              {/* BOTONES DE ACCIÓN (visible en mobile / tablet) */}
+              {/* BOTONES DE ACCIÓN (mobile / tablet) */}
               <div className="flex flex-col xs:flex-row gap-2 sm:self-start lg:hidden">
                 <button
                   onClick={() => setCreatingProject(true)}
@@ -235,7 +230,7 @@ const AdminDashboard: React.FC = () => {
             </div>
           </div>
 
-          {/* Bloque DER: acciones (visible sólo en desktop / lg+) */}
+          {/* Bloque DER: acciones (desktop lg+) */}
           <div className="hidden lg:flex flex-col items-end gap-2 shrink-0">
             <button
               onClick={() => setCreatingProject(true)}
@@ -255,11 +250,6 @@ const AdminDashboard: React.FC = () => {
       </header>
 
       {/* CONTENIDO */}
-      {/*
-        Empujamos el contenido para que no quede bajo el header fijo.
-        La altura real del header ronda ~ (py-3 + líneas) ≈ 110-130px en mobile,
-        ~90-100px en desktop. Le damos un padding-top seguro.
-      */}
       <main className="flex-1 px-4 pt-50 sm:pt-40 pb-6 max-w-[1400px] mx-auto w-full">
         {loading ? (
           <p className="text-gray-700">Cargando proyectos...</p>

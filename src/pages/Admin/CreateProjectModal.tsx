@@ -7,16 +7,46 @@ import { loadStorage } from "../../lib/firebaseStorage";
 
 /* ===================== Catálogo de categorías ===================== */
 const categoryOptions = {
-  coveredPatios: ["Attached Covered Patio", "FreeStanding Pergola", "Cantilevered Pergola"],
-  outdoorKitchen: ["Modern Outdoor Kitchen", "Traditional Outdoor Kitchen"],
+  coveredPatios: [
+    "Attached Covered Patio",
+    "FreeStanding Pergola",
+    "Cantilevered Pergola",
+  ],
+  outdoorKitchen: [
+    "Modern Outdoor Kitchen",
+    "Traditional Outdoor Kitchen",
+  ],
   // Estructura (marco)
   structureColors: ["Dark Bronze", "White", "Varied Colors"],
   // Paneles (techo)
-  colorsRoofingPanels: ["Dark Bronze", "White", "Wood Imitation Panels"],
+  colorsRoofingPanels: [
+    "Dark Bronze",
+    "White",
+    "Wood Imitation Panels",
+  ],
   composite: ["Black", "Wood Imitation"],
   hybrid: ["Polycarbonate", "Naked Pergola"],
-  addons: ["TV Walls", "Privacy Walls", "Slags", "Fire Pit"],
-  foundation: ["Concrete Slab", "Concrete Stamped", "Spray Decking", "Paver", "Tiles", "Turf"],
+
+  // ⬇⬇⬇ Addons actualizados
+  addons: [
+    "TV Walls",
+    "Privacy Walls",
+    "Slags",
+    "Fire Pit",
+    "Sconce Light",
+    "Enclosure Net",
+    "Deco Shades",
+    "Waterfall",
+  ],
+
+  foundation: [
+    "Concrete Slab",
+    "Concrete Stamped",
+    "Spray Decking",
+    "Paver",
+    "Tiles",
+    "Turf",
+  ],
 } as const;
 
 type CategoryKey = keyof typeof categoryOptions;
@@ -40,7 +70,10 @@ const compressImage = (file: File): Promise<Blob> =>
       const ctx = canvas.getContext("2d");
       ctx?.drawImage(img, 0, 0, canvas.width, canvas.height);
       canvas.toBlob(
-        (blob) => (blob ? resolve(blob) : reject(new Error("Error al comprimir imagen"))),
+        (blob) =>
+          blob
+            ? resolve(blob)
+            : reject(new Error("Error al comprimir imagen")),
         "image/webp",
         1
       );
@@ -67,7 +100,9 @@ const CreateProjectModal: React.FC<Props> = ({ onClose, setProjects }) => {
     Record<CategoryKey, string[]>
   >(() => {
     const initial = {} as Record<CategoryKey, string[]>;
-    (Object.keys(categoryOptions) as CategoryKey[]).forEach((k) => (initial[k] = []));
+    (Object.keys(categoryOptions) as CategoryKey[]).forEach(
+      (k) => (initial[k] = [])
+    );
     return initial;
   });
 
@@ -83,7 +118,10 @@ const CreateProjectModal: React.FC<Props> = ({ onClose, setProjects }) => {
     const files = e.target.files ? Array.from(e.target.files) : [];
     if (!files.length) return;
     setImageFiles((p) => [...p, ...files]);
-    setPreviewImages((p) => [...p, ...files.map((f) => URL.createObjectURL(f))]);
+    setPreviewImages((p) => [
+      ...p,
+      ...files.map((f) => URL.createObjectURL(f)),
+    ]);
   };
 
   const handleRemoveImage = (index: number) => {
@@ -95,7 +133,10 @@ const CreateProjectModal: React.FC<Props> = ({ onClose, setProjects }) => {
     setCategorySelections((prev) => {
       const cur = prev[category] || [];
       return cur.includes(value)
-        ? { ...prev, [category]: cur.filter((v) => v !== value) }
+        ? {
+            ...prev,
+            [category]: cur.filter((v) => v !== value),
+          }
         : { ...prev, [category]: [...cur, value] };
     });
 
@@ -114,60 +155,75 @@ const CreateProjectModal: React.FC<Props> = ({ onClose, setProjects }) => {
         categorySelections.outdoorKitchen?.[0] ||
         "";
 
-      const structureColor = (categorySelections.structureColors || []).join(" + ") || "";
+      const structureColor =
+        (categorySelections.structureColors || []).join(" + ") || "";
 
       // Panels (persistimos CSV y derivamos string para UI)
       const colorsRoofingPanelsCsv =
         (categorySelections.colorsRoofingPanels || []).join(",") || "";
       const colorsPanels =
-        (categorySelections.colorsRoofingPanels || []).join(" + ") || "";
+        (categorySelections.colorsRoofingPanels || []).join(" + ") ||
+        "";
 
       // 2) Payload base (sin romper tipos de images)
-      const basePayload: Partial<Project> & { colorsRoofingPanels?: string } = {
+      const basePayload: Partial<Project> & {
+        colorsRoofingPanels?: string;
+      } = {
         title: fields.title || "",
         size: fields.size || "",
         more: fields.more || "",
         projectType,
         structureColor,
-        colorsPanels,                // para UI
+        colorsPanels, // para UI en tarjetas
         colorsRoofingPanels: colorsRoofingPanelsCsv, // CSV persistido
-        images: [],                  // se completa luego
+        images: [], // se completa luego
       };
 
       // 3) Filtros CSV por categoría
       const filtersCsv: Record<string, string> = {};
-      (Object.keys(categorySelections) as CategoryKey[]).forEach((k) => {
-        filtersCsv[k] = (categorySelections[k] || []).join(",");
-      });
+      (Object.keys(categorySelections) as CategoryKey[]).forEach(
+        (k) => {
+          filtersCsv[k] = (categorySelections[k] || []).join(",");
+        }
+      );
 
-      // 4) Firestore on-demand (crear doc sin imágenes)
+      // 4) Crear doc en Firestore (sin imágenes todavía)
       const db = await loadFirestore();
-      const { addDoc, collection, doc, updateDoc } = await import("firebase/firestore");
+      const { addDoc, collection, doc, updateDoc } = await import(
+        "firebase/firestore"
+      );
       const docRef = await addDoc(collection(db, "projects"), {
         ...basePayload,
         ...filtersCsv,
       });
 
-      // 5) Subir imágenes comprimidas (Storage on-demand)
+      // 5) Subir imágenes comprimidas (Firebase Storage)
       const storage = await loadStorage();
-      const { ref, uploadBytes, getDownloadURL } = await import("firebase/storage");
+      const { ref, uploadBytes, getDownloadURL } = await import(
+        "firebase/storage"
+      );
 
       const uploadedUrls: string[] = [];
       for (let i = 0; i < imageFiles.length; i++) {
         const blob = await compressImage(imageFiles[i]);
-        const storageRef = ref(storage, `projects/${docRef.id}_${i}.webp`);
-        await uploadBytes(storageRef, blob, { contentType: "image/webp" });
+        const storageRef = ref(
+          storage,
+          `projects/${docRef.id}_${i}.webp`
+        );
+        await uploadBytes(storageRef, blob, {
+          contentType: "image/webp",
+        });
         uploadedUrls.push(await getDownloadURL(storageRef));
       }
 
-      // 6) Actualizar doc con URLs reales
+      // 6) Actualizar el documento ya creado con las URLs finales
       await updateDoc(doc(db, "projects", docRef.id), {
         ...basePayload,
         ...filtersCsv,
         images: uploadedUrls,
       });
 
-      // 7) Actualizar UI local
+      // 7) Refrescar estado local
       setProjects((prev) => [
         ...prev,
         {
@@ -200,11 +256,16 @@ const CreateProjectModal: React.FC<Props> = ({ onClose, setProjects }) => {
           { name: "more", label: "More" },
         ].map(({ name, label }) => (
           <div key={name} className="mb-3">
-            <label className="block text-sm font-medium mb-1">{label}</label>
+            <label className="block text-sm font-medium mb-1">
+              {label}
+            </label>
             <input
               type="text"
               name={name}
-              value={(fields as Record<string, string | undefined>)[name] || ""}
+              value={
+                (fields as Record<string, string | undefined>)[name] ||
+                ""
+              }
               onChange={handleChange}
               className="w-full border px-3 py-2 rounded"
             />
@@ -214,26 +275,38 @@ const CreateProjectModal: React.FC<Props> = ({ onClose, setProjects }) => {
         {/* Categorías */}
         <div className="mb-6">
           <h3 className="font-semibold text-lg mb-2">Categorías</h3>
-          {(Object.entries(categoryOptions) as [CategoryKey, readonly string[]][])
-            .map(([categoryKey, options]) => (
-              <div key={categoryKey} className="mb-4">
-                <p className="font-medium capitalize mb-1">
-                  {String(categoryKey).replace(/([A-Z])/g, " $1")}
-                </p>
-                <div className="pl-2 space-y-1">
-                  {options.map((option) => (
-                    <label key={option} className="flex items-center gap-2 text-sm">
-                      <input
-                        type="checkbox"
-                        checked={categorySelections[categoryKey]?.includes(option) || false}
-                        onChange={() => handleCategoryToggle(categoryKey, option)}
-                      />
-                      {option}
-                    </label>
-                  ))}
-                </div>
+
+          {(Object.entries(categoryOptions) as [
+            CategoryKey,
+            readonly string[]
+          ][]).map(([categoryKey, options]) => (
+            <div key={categoryKey} className="mb-4">
+              <p className="font-medium capitalize mb-1">
+                {String(categoryKey).replace(/([A-Z])/g, " $1")}
+              </p>
+              <div className="pl-2 space-y-1">
+                {options.map((option) => (
+                  <label
+                    key={option}
+                    className="flex items-center gap-2 text-sm"
+                  >
+                    <input
+                      type="checkbox"
+                      checked={
+                        categorySelections[categoryKey]?.includes(
+                          option
+                        ) || false
+                      }
+                      onChange={() =>
+                        handleCategoryToggle(categoryKey, option)
+                      }
+                    />
+                    {option}
+                  </label>
+                ))}
               </div>
-            ))}
+            </div>
+          ))}
         </div>
 
         {/* Subida de imágenes */}
@@ -256,11 +329,13 @@ const CreateProjectModal: React.FC<Props> = ({ onClose, setProjects }) => {
             className="hidden"
           />
 
-          {/* Previsualización */}
           {previewImages.length > 0 && (
             <div className="mt-3 grid grid-cols-2 gap-3">
               {previewImages.map((src, index) => (
-                <div key={index} className="relative group">
+                <div
+                  key={index}
+                  className="relative group"
+                >
                   <img
                     src={src}
                     alt={`Previsualización ${index + 1}`}
@@ -284,14 +359,19 @@ const CreateProjectModal: React.FC<Props> = ({ onClose, setProjects }) => {
 
         {/* Botones */}
         <div className="flex justify-end gap-3 mt-4">
-          <button onClick={onClose} className="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400">
+          <button
+            onClick={onClose}
+            className="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400"
+          >
             Cancelar
           </button>
           <button
             onClick={handleSubmit}
             disabled={submitting}
             className={`px-4 py-2 rounded text-white transition ${
-              submitting ? "bg-green-400 cursor-wait" : "bg-green-600 hover:bg-green-700"
+              submitting
+                ? "bg-green-400 cursor-wait"
+                : "bg-green-600 hover:bg-green-700"
             }`}
           >
             {submitting ? "Subiendo..." : "Crear Proyecto"}

@@ -10,22 +10,23 @@ type Props = {
 const AUTO_SLIDE_MS = 7000;
 
 const ProjectCard: React.FC<Props> = ({ project }) => {
-  const [isOpen, setIsOpen] = useState(false);         // modal abierto
+  const [isOpen, setIsOpen] = useState(false); // modal abierto
   const [currentIndex, setCurrentIndex] = useState(0); // índice dentro del modal
-  const [thumbIndex, setThumbIndex] = useState(0);     // índice del slide en la card
+  const [thumbIndex, setThumbIndex] = useState(0); // índice del slide en la card
 
-  const [hovering, setHovering] = useState(false);     // pausa si hover en card
-  const [inView, setInView] = useState(true);          // pausa si fuera de viewport
-  const [pageVisible, setPageVisible] = useState(true);// pausa si pestaña oculta
+  const [hovering, setHovering] = useState(false); // pausa si hover en card
+  const [inView, setInView] = useState(true); // pausa si fuera de viewport
+  const [pageVisible, setPageVisible] = useState(true); // pausa si pestaña oculta
   const [coverLoaded, setCoverLoaded] = useState(false);
 
-  // 👉 Gate global: solo empezamos cuando el contenedor diga "todos listos"
+  // Gate global: arranque coordinado de slideshow
   const [slidesStart, setSlidesStart] = useState(false);
 
   // Normaliza lista de imágenes
   const images = useMemo<string[]>(
     () =>
-      Array.isArray(project.images) && project.images.length > 0
+      Array.isArray(project.images) &&
+      project.images.length > 0
         ? project.images.filter(Boolean)
         : project.imageUrl
         ? [project.imageUrl]
@@ -33,56 +34,106 @@ const ProjectCard: React.FC<Props> = ({ project }) => {
     [project.images, project.imageUrl]
   );
 
-  // -------- Slideshow en la CARD (no en el modal) --------
+  // --- NUEVO: pretty addons ---
+  const addonsPretty = useMemo(() => {
+    if (!project.addons) return "";
+    return project.addons
+      .split(",")
+      .map((s) => s.trim())
+      .filter(Boolean)
+      .join(", ");
+  }, [project.addons]);
+
+  // -------- Slideshow en la CARD --------
   const cardRef = useRef<HTMLDivElement | null>(null);
 
-  // Observa visibilidad de la card en viewport
+  // Visibilidad en viewport
   useEffect(() => {
     const node = cardRef.current;
     if (!node) return;
     const obs = new IntersectionObserver(
-      (entries) => setInView(entries[0]?.isIntersecting ?? true),
+      (entries) =>
+        setInView(entries[0]?.isIntersecting ?? true),
       { threshold: 0.15 }
     );
     obs.observe(node);
     return () => obs.disconnect();
   }, []);
 
-  // Observa visibilidad de la pestaña
+  // Visibilidad de la pestaña
   useEffect(() => {
-    const onVis = () => setPageVisible(document.visibilityState === "visible");
-    document.addEventListener("visibilitychange", onVis);
-    return () => document.removeEventListener("visibilitychange", onVis);
+    const onVis = () =>
+      setPageVisible(
+        document.visibilityState === "visible"
+      );
+    document.addEventListener(
+      "visibilitychange",
+      onVis
+    );
+    return () =>
+      document.removeEventListener(
+        "visibilitychange",
+        onVis
+      );
   }, []);
 
-  // Escucha el evento global que dispara el contenedor cuando TODAS las cards visibles ya cargaron
+  // Evento global "ngp:slides-start"
   useEffect(() => {
-    const onStart = () => setSlidesStart(true);
-    window.addEventListener("ngp:slides-start", onStart as EventListener);
-    return () => window.removeEventListener("ngp:slides-start", onStart as EventListener);
+    const onStart = () =>
+      setSlidesStart(true);
+    window.addEventListener(
+      "ngp:slides-start",
+      onStart as EventListener
+    );
+    return () =>
+      window.removeEventListener(
+        "ngp:slides-start",
+        onStart as EventListener
+      );
   }, []);
 
-  // Fallback opcional: si el evento nunca llegara por algún motivo, arrancar a los 6s
+  // Fallback: arranque tardío
   useEffect(() => {
-    const id = setTimeout(() => setSlidesStart((v) => v || true), 6000);
+    const id = setTimeout(
+      () =>
+        setSlidesStart((v) => v || true),
+      6000
+    );
     return () => clearTimeout(id);
   }, []);
 
-  // Auto-rotación (sincronizada): solo si hay múltiples imágenes, la card está visible,
-  // no hay hover, la pestaña está visible, el modal está cerrado, ya cargó la portada
-  // y el contenedor dio la señal global.
+  // Auto-rotación de thumbs
   useEffect(() => {
     if (images.length < 2) return;
-    if (!inView || hovering || !pageVisible || isOpen || !coverLoaded || !slidesStart) return;
+    if (
+      !inView ||
+      hovering ||
+      !pageVisible ||
+      isOpen ||
+      !coverLoaded ||
+      !slidesStart
+    )
+      return;
 
     const id = setInterval(() => {
-      setThumbIndex((prev) => (prev + 1) % images.length);
+      setThumbIndex(
+        (prev) =>
+          (prev + 1) % images.length
+      );
     }, AUTO_SLIDE_MS);
 
     return () => clearInterval(id);
-  }, [images.length, inView, hovering, pageVisible, isOpen, coverLoaded, slidesStart]);
+  }, [
+    images.length,
+    inView,
+    hovering,
+    pageVisible,
+    isOpen,
+    coverLoaded,
+    slidesStart,
+  ]);
 
-  // Si cambian las imágenes, resetea índices
+  // Reset indices si cambian imágenes
   useEffect(() => {
     setThumbIndex(0);
     setCurrentIndex(0);
@@ -100,21 +151,33 @@ const ProjectCard: React.FC<Props> = ({ project }) => {
 
   const showPrev = (e: React.MouseEvent) => {
     e.stopPropagation();
-    setCurrentIndex((prev) => (prev === 0 ? images.length - 1 : prev - 1));
+    setCurrentIndex((prev) =>
+      prev === 0
+        ? images.length - 1
+        : prev - 1
+    );
   };
 
   const showNext = (e: React.MouseEvent) => {
     e.stopPropagation();
-    setCurrentIndex((prev) => (prev === images.length - 1 ? 0 : prev + 1));
+    setCurrentIndex((prev) =>
+      prev === images.length - 1
+        ? 0
+        : prev + 1
+    );
   };
 
-  const currentThumbSrc = images[thumbIndex] || "/placeholder.jpg";
+  const currentThumbSrc =
+    images[thumbIndex] ||
+    "/placeholder.jpg";
 
-  // Variantes de animación: fade + sutil Ken Burns alternando dirección según índice
-  const enterScale = thumbIndex % 2 === 0 ? 1.04 : 1.02;
-  const exitScale  = thumbIndex % 2 === 0 ? 1.01 : 1.03;
-  const enterX = thumbIndex % 2 === 0 ? -8 : 8;  // px sutiles
-  const exitX  = thumbIndex % 2 === 0 ? 6 : -6;
+  // Animación de transición entre imágenes en la card
+  const enterScale =
+    thumbIndex % 2 === 0 ? 1.04 : 1.02;
+  const exitScale =
+    thumbIndex % 2 === 0 ? 1.01 : 1.03;
+  const enterX = thumbIndex % 2 === 0 ? -8 : 8;
+  const exitX = thumbIndex % 2 === 0 ? 6 : -6;
 
   return (
     <>
@@ -124,39 +187,67 @@ const ProjectCard: React.FC<Props> = ({ project }) => {
       >
         <div
           className="relative w-full h-64 overflow-hidden cursor-pointer"
-          onMouseEnter={() => setHovering(true)}
-          onMouseLeave={() => setHovering(false)}
-          onClick={() => handleOpen(thumbIndex)} // abre modal en el frame actual
+          onMouseEnter={() =>
+            setHovering(true)
+          }
+          onMouseLeave={() =>
+            setHovering(false)
+          }
+          onClick={() =>
+            handleOpen(thumbIndex)
+          }
         >
-          {/* Fade + Ken Burns suave entre imágenes en la card */}
-          <AnimatePresence mode="wait" initial={false}>
+          {/* Ken Burns suave + fade */}
+          <AnimatePresence
+            mode="wait"
+            initial={false}
+          >
             <motion.img
               key={currentThumbSrc}
               src={currentThumbSrc}
               alt={project.title}
               className="w-full h-64 object-cover will-change-transform"
-              initial={{ opacity: 0.0, scale: enterScale, x: enterX }}
-              animate={{ opacity: 1, scale: 1, x: 0 }}
-              exit={{ opacity: 0.0, scale: exitScale, x: exitX }}
-              transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
+              initial={{
+                opacity: 0.0,
+                scale: enterScale,
+                x: enterX,
+              }}
+              animate={{
+                opacity: 1,
+                scale: 1,
+                x: 0,
+              }}
+              exit={{
+                opacity: 0.0,
+                scale: exitScale,
+                x: exitX,
+              }}
+              transition={{
+                duration: 0.2,
+                ease: [0.22, 1, 0.36, 1],
+              }}
               draggable={false}
               loading="lazy"
-              onLoad={() => setCoverLoaded(true)}
+              onLoad={() =>
+                setCoverLoaded(true)
+              }
               onError={(e) => {
-                (e.currentTarget as HTMLImageElement).src = "/placeholder.jpg";
+                (e.currentTarget as HTMLImageElement).src =
+                  "/placeholder.jpg";
                 setCoverLoaded(true);
               }}
             />
           </AnimatePresence>
 
-          {/* Dots solo si hay múltiples imágenes */}
           {images.length > 1 && (
             <div className="absolute bottom-2 left-1/2 -translate-x-1/2 flex gap-1.5 px-2 py-1 rounded-full bg-black/30 backdrop-blur-sm">
               {images.map((_, i) => (
                 <span
                   key={`dot-${i}`}
                   className={`h-1.5 w-1.5 rounded-full ${
-                    i === thumbIndex ? "bg-white" : "bg-white/60"
+                    i === thumbIndex
+                      ? "bg-white"
+                      : "bg-white/60"
                   }`}
                   aria-hidden
                 />
@@ -172,53 +263,85 @@ const ProjectCard: React.FC<Props> = ({ project }) => {
           <ul className="text-sm text-gray-700 space-y-1">
             {project.projectType && (
               <li>
-                <span className="font-semibold">Project Type:</span>{" "}
+                <span className="font-semibold">
+                  Project Type:
+                </span>{" "}
                 {project.projectType}
               </li>
             )}
             {project.stain && (
               <li>
-                <span className="font-semibold">Stain:</span> {project.stain}
+                <span className="font-semibold">
+                  Stain:
+                </span>{" "}
+                {project.stain}
               </li>
             )}
             {project.size && (
               <li>
-                <span className="font-semibold">Size:</span> {project.size}
+                <span className="font-semibold">
+                  Size:
+                </span>{" "}
+                {project.size}
               </li>
             )}
             {project.structureColor && (
               <li>
-                <span className="font-semibold">Structure Color:</span>{" "}
+                <span className="font-semibold">
+                  Structure Color:
+                </span>{" "}
                 {project.structureColor}
               </li>
             )}
             {project.colorsPanels && (
               <li>
-                <span className="font-semibold">Colors Roofing Panels:</span>{" "}
+                <span className="font-semibold">
+                  Colors Roofing
+                  Panels:
+                </span>{" "}
                 {project.colorsPanels}
               </li>
             )}
             {project.more && (
               <li>
-                <span className="font-semibold">More:</span> {project.more}
+                <span className="font-semibold">
+                  More:
+                </span>{" "}
+                {project.more}
               </li>
             )}
             {project.rafterTail && (
               <li>
-                <span className="font-semibold">Rafter Tail:</span>{" "}
+                <span className="font-semibold">
+                  Rafter Tail:
+                </span>{" "}
                 {project.rafterTail}
               </li>
             )}
             {project.kneeBrace && (
               <li>
-                <span className="font-semibold">Knee Brace:</span>{" "}
+                <span className="font-semibold">
+                  Knee Brace:
+                </span>{" "}
                 {project.kneeBrace}
               </li>
             )}
             {project.timberSize && (
               <li>
-                <span className="font-semibold">Timber Size:</span>{" "}
+                <span className="font-semibold">
+                  Timber Size:
+                </span>{" "}
                 {project.timberSize}
+              </li>
+            )}
+
+            {/* NUEVO: mostramos Add-ons si existen */}
+            {addonsPretty && (
+              <li>
+                <span className="font-semibold">
+                  Add-ons:
+                </span>{" "}
+                {addonsPretty}
               </li>
             )}
           </ul>
@@ -233,7 +356,7 @@ const ProjectCard: React.FC<Props> = ({ project }) => {
         >
           <div
             className="relative max-w-3xl w-full mx-4"
-            onClick={(e) => e.stopPropagation()} // evita cerrar al click interno
+            onClick={(e) => e.stopPropagation()}
           >
             {/* Botón cerrar */}
             <button
@@ -243,17 +366,18 @@ const ProjectCard: React.FC<Props> = ({ project }) => {
               <X size={24} />
             </button>
 
-            {/* Imagen del modal */}
+            {/* Imagen modal */}
             <img
               src={images[currentIndex]}
               alt={`Imagen ${currentIndex + 1}`}
               className="w-full max-h-[80vh] object-contain rounded shadow"
               onError={(e) => {
-                (e.currentTarget as HTMLImageElement).src = "/placeholder.jpg";
+                (e.currentTarget as HTMLImageElement).src =
+                  "/placeholder.jpg";
               }}
             />
 
-            {/* Flechas de navegación */}
+            {/* Flechas navegación */}
             {images.length > 1 && (
               <>
                 <button

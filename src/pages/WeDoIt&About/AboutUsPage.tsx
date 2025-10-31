@@ -122,7 +122,7 @@ const AboutUsPage: React.FC = () => {
           <div className="w-full flex flex-col justify-between gap-5 mt-10 md:flex-row">
             <div className="flex-1 flex flex-col justify-center md:justify-start">
               <img
-                className="aspect-[3/2] mt-3 object-cover object-[0%_35%] rounded-2xl shadow-lg md:w-250"
+                className="aspect-[416/277] mt-3 object-cover rounded-2xl shadow-lg md:w-250"
                 src="assets/images/FotosDelEquipo/Rafa.webp"
                 alt="Rafa - Co-founder of New Gen Patio"
                 loading="lazy"
@@ -134,7 +134,7 @@ const AboutUsPage: React.FC = () => {
             </div>
             <div className="flex-1 flex flex-col justify-center md:justify-start">
               <img
-                className="aspect-[3/2] mt-3 object-cover object-[0%_35%] rounded-2xl shadow-lg md:w-250"
+                className="aspect-[416/277] mt-3 object-cover rounded-2xl shadow-lg md:w-250"
                 src="assets/images/FotosDelEquipo/Ale.webp"
                 alt="Alex - Co-founder of New Gen Patio"
                 loading="lazy"
@@ -148,7 +148,7 @@ const AboutUsPage: React.FC = () => {
 
           <div className="mt-10 grid grid-cols-1 gap-5 md:grid-cols-2">
             {/* Card 1: Marianne */}
-            <div className="flex flex-col justify-center items-center">
+            <div className="aspect-[416/277] flex flex-col justify-center items-center">
               <img
                 className="w-full mt-3 object-cover rounded-2xl shadow-lg md:w-150"
                 src="assets/images/FotosDelEquipo/Marianne.webp"
@@ -174,19 +174,7 @@ const AboutUsPage: React.FC = () => {
             {/* Card 3: Rodolfo */}
             <div className="flex flex-col justify-center items-center">
               <img
-                className="w-full mt-3 object-cover rounded-2xl shadow-lg md:w-150"
-                src="assets/images/FotosDelEquipo/Leandro.webp"
-                alt="Leandro - Office Assistant"
-                loading="lazy"
-              />
-              <h3 className="text-xl font-semibold mt-2">Leandro</h3>
-              <p>Office Assistant</p>
-            </div>
-
-            {/* Card 3: Rodolfo */}
-            <div className="flex flex-col justify-center items-center">
-              <img
-                className="w-full mt-3 object-cover rounded-2xl shadow-lg md:w-150"
+                className="aspect-[416/277] w-full mt-3 object-cover rounded-2xl shadow-lg md:w-150"
                 src="assets/images/FotosDelEquipo/Alex-Daniel.webp"
                 alt="Alex Daniel - Project Consultant"
                 loading="lazy"

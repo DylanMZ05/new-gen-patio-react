@@ -591,30 +591,25 @@ const PatiosAndPergolasCatalog = () => {
     )
       return projects;
 
-    return projects.filter(
-      (project) => {
-        for (const [
-          field,
-          selectedOptions,
-        ] of Object.entries(
-          selectedByField
-        )) {
-          const projectValues =
-            getCanonicalValues(
-              project,
-              field
-            );
-          if (
-            !setsEqual(
-              projectValues,
-              selectedOptions
-            )
-          )
-            return false;
+    return projects.filter((project) => {
+      for (const [field, selectedOptions] of Object.entries(selectedByField)) {
+        const projectValues = getCanonicalValues(project, field);
+
+        // Si el grupo es "addons" → basta que el proyecto tenga al menos uno de los seleccionados
+        if (field === "addons") {
+          const hasMatch = selectedOptions.some((opt) =>
+            projectValues.includes(opt)
+          );
+          if (!hasMatch) return false;
+          continue;
         }
-        return true;
+
+        // Para los demás filtros, mantenemos la coincidencia exacta
+        if (!setsEqual(projectValues, selectedOptions)) return false;
       }
-    );
+      return true;
+    });
+
   }, [projects, selectedByField]);
 
   /* ===== Progressive image loading logic ===== */

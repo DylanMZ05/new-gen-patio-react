@@ -20,7 +20,7 @@ const Step: React.FC<StepProps> = ({
 }) => {
   const [noMeasurements, setNoMeasurements] = useState(false);
 
-  const isMeasurementStep = stepData.fields?.some(field =>
+  const isMeasurementStep = stepData.fields?.some((field) =>
     ["width", "length", "height", "linear-feet"].includes(field.id)
   );
 
@@ -36,10 +36,11 @@ const Step: React.FC<StepProps> = ({
   };
 
   const allRequiredFieldsFilled = stepData.fields
-    ? stepData.fields.every((field) =>
-        !field.required ||
-        formData[field.id] ||
-        (noMeasurements && isMeasurementStepField(field.id))
+    ? stepData.fields.every(
+        (field) =>
+          !field.required ||
+          formData[field.id] ||
+          (noMeasurements && isMeasurementStepField(field.id))
       )
     : true;
 
@@ -68,8 +69,16 @@ const Step: React.FC<StepProps> = ({
   return (
     <div className="w-full max-w-[1080px] mb-12 p-6 bg-white shadow-lg rounded-lg flex flex-col items-center">
       <header className="text-center">
+        {/* 🔹 Título principal */}
         <h2 className="text-2xl font-semibold text-gray-800">{stepData.title}</h2>
         <div className="w-20 h-[3px] bg-[#0d4754] mx-auto mb-1 mt-2 rounded-full"></div>
+
+        {/* 🔸 Subtítulo opcional (para Foundation) */}
+        {stepData.subtitle && (
+          <p className="text-gray-700 text-base mt-1 mb-3">
+            {stepData.subtitle}
+          </p>
+        )}
       </header>
 
       {stepData.options && (
@@ -85,9 +94,11 @@ const Step: React.FC<StepProps> = ({
                 alt={`Option: ${option.text}`}
                 className="w-75 h-50 object-cover rounded-md transition-all hover:scale-105"
                 loading="lazy"
-                width={300} // Ajustá según el diseño real
+                width={300}
                 height={200}
-                onError={(e) => (e.currentTarget.src = "/assets/images/default-placeholder.webp")}
+                onError={(e) =>
+                  (e.currentTarget.src = "/assets/images/default-placeholder.webp")
+                }
               />
               <p className="mt-2 text-center text-2xl font-semibold text-black/90">
                 {option.text}
@@ -114,7 +125,9 @@ const Step: React.FC<StepProps> = ({
                     ? "border-red-500"
                     : "border-gray-300"
                 } rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500`}
-                required={field.required && (!noMeasurements || !isMeasurementStepField(field.id))}
+                required={
+                  field.required && (!noMeasurements || !isMeasurementStepField(field.id))
+                }
                 value={formData[field.id] || ""}
                 onChange={(e) => updateFormData(field.id, e.target.value)}
                 disabled={noMeasurements && isMeasurementStepField(field.id)}
@@ -122,7 +135,9 @@ const Step: React.FC<StepProps> = ({
               {field.required &&
                 !formData[field.id] &&
                 (!noMeasurements || !isMeasurementStepField(field.id)) && (
-                  <p className="text-red-500 text-sm mt-1">This field is required.</p>
+                  <p className="text-red-500 text-sm mt-1">
+                    This field is required.
+                  </p>
                 )}
             </div>
           ))}
@@ -143,7 +158,9 @@ const Step: React.FC<StepProps> = ({
         <div className="w-full max-w-md">
           {selections.length > 0 && (
             <div className="bg-gray-200 p-3 rounded-md text-center">
-              <h4 className="text-md font-semibold text-gray-700">Selected options:</h4>
+              <h4 className="text-md font-semibold text-gray-700">
+                Selected options:
+              </h4>
               <p>{selections.join(" | ")}</p>
             </div>
           )}
@@ -184,7 +201,10 @@ const Step: React.FC<StepProps> = ({
       )}
 
       {stepData.previousStep && (
-        <button onClick={previousStep} className="mt-4 text-black/70 hover:text-black/90 cursor-pointer transition">
+        <button
+          onClick={previousStep}
+          className="mt-4 text-black/70 hover:text-black/90 cursor-pointer transition"
+        >
           Back
         </button>
       )}

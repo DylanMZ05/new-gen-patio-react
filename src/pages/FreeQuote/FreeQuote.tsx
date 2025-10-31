@@ -39,6 +39,7 @@ const steps: Record<number, StepData> = {
   },
   5: {
     title: "Foundation",
+    subtitle: "What type of foundation do you already have?",
     options: [
       { img: "assets/images/FreeQUOTE/Patios&Pergolas/Foundation/Concrete.webp", text: "Concrete", nextStep: "final" },
       { img: "assets/images/FreeQUOTE/Patios&Pergolas/Foundation/Grass&Dirt.webp", text: "Grass or Dirt", nextStep: "final" },

@@ -3,7 +3,7 @@ import { StepData } from "../../hooks/useStepNavigation";
 
 interface StepProps {
   stepData: StepData;
-  nextStep: (step: number | "final", selectedOption?: string) => void;
+  nextStep: (step: number | string, selectedOption?: string) => void;
   previousStep: () => void;
   updateFormData: (id: string, value: string | number) => void;
   formData: Record<string, string | number>;

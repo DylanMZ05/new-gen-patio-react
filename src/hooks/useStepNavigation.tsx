@@ -1,50 +1,78 @@
+// src/hooks/useStepNavigation.ts
 import { useState } from "react";
 
 export interface StepData {
   title: string;
-  options?: { img: string; text: string; nextStep: number | "final" }[];
-  fields?: { label: string; id: string; required: boolean }[];
-  nextStep?: number | "final";
+  subtitle?: string; // ✅ NUEVO CAMPO opcional
+  options?: { img: string; text: string; nextStep: string | number }[];
+  fields?: { label: string; id: string; required?: boolean }[];
+  nextStep?: string | number;
   previousStep?: number;
 }
 
-// Hook para manejar la navegación de pasos y datos
-export const useStepNavigation = (steps: Record<number, StepData>) => {
+interface StepsMap {
+  [key: number]: StepData;
+}
+
+interface UseStepNavigationResult {
+  stepData: StepData;
+  nextStep: (step: string | number, selectedOption?: string) => void;
+  previousStep: () => void;
+  updateFormData: (id: string, value: string | number) => void;
+  formData: Record<string, string | number>;
+  selections: string[];
+}
+
+/**
+ * Hook que maneja la navegación de pasos en el formulario Free Quote
+ */
+export const useStepNavigation = (steps: StepsMap): UseStepNavigationResult => {
   const [currentStep, setCurrentStep] = useState<number>(1);
   const [formData, setFormData] = useState<Record<string, string | number>>({});
   const [selections, setSelections] = useState<string[]>([]);
 
-  // Función para avanzar al siguiente paso
-  const nextStep = (step: number | "final", selectedOption?: string) => {
-    // Si el usuario seleccionó una opción, la guardamos correctamente
+  const stepData = steps[currentStep];
+
+  const nextStep = (step: string | number, selectedOption?: string) => {
     if (selectedOption) {
-      setSelections((prevSelections) => {
-        const filteredSelections = prevSelections.filter(
-          (item) => !steps[currentStep]?.options?.some((opt) => opt.text === item)
-        );
-        return [...filteredSelections, selectedOption];
-      });
+      setSelections((prev) => [...prev, selectedOption]);
     }
 
-    // Si es el último paso, aseguramos que se guarde la última opción seleccionada
     if (step === "final") {
-      setCurrentStep(99); 
+      setCurrentStep(99); // paso final (Contact and Resume)
       return;
     }
 
-    setCurrentStep(step);
+    if (typeof step === "string") {
+      const numericStep = parseInt(step, 10);
+      if (!isNaN(numericStep)) {
+        setCurrentStep(numericStep);
+        return;
+      }
+    }
+
+    if (typeof step === "number") {
+      setCurrentStep(step);
+    }
   };
 
-  // Función para retroceder
   const previousStep = () => {
-    const prevStep = steps[currentStep]?.previousStep;
-    if (prevStep) setCurrentStep(prevStep);
+    const prev = stepData.previousStep;
+    if (prev) {
+      setCurrentStep(prev);
+    }
   };
 
-  // Función para actualizar los datos del formulario (medidas y contacto)
   const updateFormData = (id: string, value: string | number) => {
     setFormData((prev) => ({ ...prev, [id]: value }));
   };
 
-  return { currentStep, stepData: steps[currentStep], nextStep, previousStep, updateFormData, formData, selections };
+  return {
+    stepData,
+    nextStep,
+    previousStep,
+    updateFormData,
+    formData,
+    selections,
+  };
 };

@@ -180,14 +180,6 @@ const getCanonicalValues = (project: any, field: string): string[] => {
   return rawValues.map((v) => toCanonical(field, v));
 };
 
-// match exacto 1:1 entre sets, como ya venías haciendo
-const setsEqual = (a: string[], b: string[]) => {
-  const A = Array.from(new Set(a));
-  const B = Array.from(new Set(b));
-  if (A.length !== B.length) return false;
-  return A.every((v) => B.includes(v));
-};
-
 /* ==========================
    HEADER HIDE/SHOW OFFSET
 =========================== */
@@ -216,7 +208,7 @@ function useHeaderHidden() {
 }
 
 const HEADER_HEIGHT = 80;
-const BASE_OFFSET = 45;
+const BASE_OFFSET = 0;
 const RESULTS_MIN_VH = 72;
 
 /* ==========================
@@ -586,31 +578,29 @@ const PatiosAndPergolasCatalog = () => {
 
   /* ===== Filtering ===== */
   const filteredProjects = useMemo(() => {
-    if (
-      Object.keys(selectedByField).length === 0
-    )
-      return projects;
+    if (Object.keys(selectedByField).length === 0) return projects;
 
     return projects.filter((project) => {
       for (const [field, selectedOptions] of Object.entries(selectedByField)) {
-        const projectValues = getCanonicalValues(project, field);
+        // Canonicalizamos SIEMPRE
+        const projectValues = getCanonicalValues(project, field)
+          .map((v) => v.trim())
+          .filter(Boolean);
 
-        // Si el grupo es "addons" → basta que el proyecto tenga al menos uno de los seleccionados
-        if (field === "addons") {
-          const hasMatch = selectedOptions.some((opt) =>
-            projectValues.includes(opt)
-          );
-          if (!hasMatch) return false;
-          continue;
+        const sel = Array.from(new Set(selectedOptions.map((v) => v.trim()).filter(Boolean)));
+        const proj = Array.from(new Set(projectValues));
+
+        // 🔒 Si hay selección en un campo, el proyecto debe tener EXACTAMENTE esos valores (ni más ni menos)
+        if (sel.length === 0) continue; // por si algo raro dejó un campo vacío
+        if (proj.length !== sel.length) return false;
+        for (const v of sel) {
+          if (!proj.includes(v)) return false;
         }
-
-        // Para los demás filtros, mantenemos la coincidencia exacta
-        if (!setsEqual(projectValues, selectedOptions)) return false;
       }
       return true;
     });
-
   }, [projects, selectedByField]);
+
 
   /* ===== Progressive image loading logic ===== */
   const getCoverImage = (p: any): string | undefined => {

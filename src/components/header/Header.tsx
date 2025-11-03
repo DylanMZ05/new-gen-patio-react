@@ -1,9 +1,9 @@
 import React, {
   useState,
   useEffect,
-  useRef,
-  useMemo,
-  useCallback,
+  // useRef,        // 🔒 (promo) — desactivado
+  // useMemo,       // 🔒 (promo) — desactivado
+  // useCallback,   // 🔒 (promo) — desactivado
 } from "react";
 import { Link } from "react-router-dom";
 import { FaChevronUp } from "react-icons/fa";
@@ -15,27 +15,33 @@ import useScrollToTop from "../../hooks/scrollToTop";
 const HEADER_H_DESKTOP = 80; // px
 const HEADER_H_MOBILE = 80; // px
 
-// Texto de la promo (modal)
+/* ============================
+   🔒 BLOQUE PROMO DESACTIVADO
+   ----------------------------
+   - PROMO_TEXT
+   - PROMO_TITLE
+   - DEFAULT_WA_MSG
+   - WA_PHONE
+   - PROMO_STORAGE_KEY
+================================
+
 const PROMO_TEXT = `Why move the party inside? Transform your patio into a cozy, festive retreat for the entire season. Imagine warm gatherings, stylish comfort, and unforgettable nights under the stars.
 Until October 31st, you can get a 72-inch fire pit completely free if you close your backyard with us. 
 (Applicable only to new customers who close during this time period and while supplies last)`;
 
-// Título opcional en el modal (no se ve en el banner, solo en el popup)
 const PROMO_TITLE = "The best autumn memories are made outdoors.  🍂🔥";
 
-// Mensaje WhatsApp default
 const DEFAULT_WA_MSG =
   "Hi! I'm interested in the Fall Season patio offer with the free 72-inch fire pit 🔥 Can you tell me more?";
 
-// Número de WhatsApp: intenta leer de env, sino fallback
 const WA_PHONE =
   (typeof import.meta !== "undefined" &&
     // @ts-ignore
     (import.meta.env?.VITE_WHATSAPP_PHONE as string)) ||
   "+1 (346) 380-0845";
 
-// Key para persistir "Don't show again"
 const PROMO_STORAGE_KEY = "fall-offer-oct-31-2025";
+*/
 
 const Header: React.FC = () => {
   const scrollToTop = useScrollToTop();
@@ -64,12 +70,22 @@ const Header: React.FC = () => {
     contact: "/contact-us",
   };
 
-  // ==== PROMO BANNER STATE / LOGIC ====
+  /* ============================
+     🔒 ESTADO / LÓGICA PROMO OFF
+     ----------------------------
+     - promoHiddenByUser
+     - promoOpen
+     - bannerHeight
+     - read from localStorage
+     - dismissPromoForever
+     - waLink
+     - promoBarRef & ResizeObserver
+  =================================
+
   const [promoHiddenByUser, setPromoHiddenByUser] = useState(false);
-  const [promoOpen, setPromoOpen] = useState(false); // modal abierto/cerrado
+  const [promoOpen, setPromoOpen] = useState(false);
   const [bannerHeight, setBannerHeight] = useState(0);
 
-  // chequear si el user ya tocó "Don't show again"
   useEffect(() => {
     const v = localStorage.getItem(PROMO_STORAGE_KEY);
     if (v === "dismissed") {
@@ -77,19 +93,47 @@ const Header: React.FC = () => {
     }
   }, []);
 
-  // callback para cerrar la promo para siempre
   const dismissPromoForever = useCallback(() => {
     localStorage.setItem(PROMO_STORAGE_KEY, "dismissed");
     setPromoHiddenByUser(true);
     setPromoOpen(false);
   }, []);
 
-  // construir link de whatsapp
   const waLink = useMemo(() => {
     const text = encodeURIComponent(DEFAULT_WA_MSG);
-    const phoneDigits = (WA_PHONE || "").replace(/[^\d]/g, ""); // limpiar formato
+    const phoneDigits = (WA_PHONE || "").replace(/[^\d]/g, "");
     return `https://wa.me/${phoneDigits}?text=${text}`;
   }, []);
+
+  const promoBarRef = useRef<HTMLDivElement | null>(null);
+  useEffect(() => {
+    if (!promoBarRef.current) return;
+    if (promoHiddenByUser) {
+      setBannerHeight(0);
+      return;
+    }
+
+    const el = promoBarRef.current;
+    setBannerHeight(el.clientHeight);
+
+    const ro = new ResizeObserver((entries) => {
+      const entry = entries[0];
+      const borderSize =
+        Array.isArray(entry.borderBoxSize) && entry.borderBoxSize.length > 0
+          ? entry.borderBoxSize[0]
+          : (entry as any).borderBoxSize;
+
+      if (borderSize?.blockSize) {
+        setBannerHeight(Math.round(borderSize.blockSize));
+      } else {
+        setBannerHeight(el.clientHeight);
+      }
+    });
+
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, [promoHiddenByUser]);
+  */
 
   // Evita scroll del body con el menú móvil abierto
   useEffect(() => {
@@ -134,46 +178,13 @@ const Header: React.FC = () => {
     if (menuOpen) setHideOnScroll(false);
   }, [menuOpen]);
 
-  // =========================
-  // PromoBanner interno
-  // =========================
-  const promoBarRef = useRef<HTMLDivElement | null>(null);
-
-  // reportar altura del banner para empujar el header debajo
-  useEffect(() => {
-    if (!promoBarRef.current) return;
-    if (promoHiddenByUser) {
-      setBannerHeight(0);
-      return;
-    }
-
-    const el = promoBarRef.current;
-    // set inicial
-    setBannerHeight(el.clientHeight);
-
-    const ro = new ResizeObserver((entries) => {
-      const entry = entries[0];
-      const borderSize =
-        Array.isArray(entry.borderBoxSize) && entry.borderBoxSize.length > 0
-          ? entry.borderBoxSize[0]
-          : (entry as any).borderBoxSize;
-
-      if (borderSize?.blockSize) {
-        setBannerHeight(Math.round(borderSize.blockSize));
-      } else {
-        setBannerHeight(el.clientHeight);
-      }
-    });
-
-    ro.observe(el);
-    return () => ro.disconnect();
-  }, [promoHiddenByUser]);
-
   return (
     <>
       {/* =======================
-          PROMO BANNER FIJO ARRIBA
-          ======================= */}
+          🔒 PROMO BANNER REMOVIDO DE LA UI
+          (para reactivar, descomentá todo el bloque superior y el JSX de abajo)
+          =======================
+
       {!promoHiddenByUser && (
         <>
           <div
@@ -181,7 +192,6 @@ const Header: React.FC = () => {
             className={[
               "fixed top-0 left-0 w-full z-[1100] cursor-pointer select-none",
               "shadow-[0_1px_0_rgba(0,0,0,.06)]",
-              // color de fondo de seguridad detrás de la textura
               "bg-[#0d4754]",
             ].join(" ")}
             style={
@@ -201,7 +211,6 @@ const Header: React.FC = () => {
               }
             }}
           >
-            {/* SOLO la imagen en mosaico animado. Sin texto encima. */}
             <div className="relative w-full h-full overflow-hidden">
               <div
                 className="absolute inset-0 pointer-events-none promo-tiling"
@@ -210,7 +219,6 @@ const Header: React.FC = () => {
             </div>
           </div>
 
-          {/* Modal de la promo */}
           {promoOpen && (
             <div
               className="fixed inset-0 z-[1150] flex items-center justify-center px-4"
@@ -218,19 +226,16 @@ const Header: React.FC = () => {
               aria-modal="true"
               aria-labelledby="promo-title"
             >
-              {/* Fondo oscuro */}
               <button
                 className="absolute inset-0 bg-black/50"
                 aria-label="Close modal"
                 onClick={() => setPromoOpen(false)}
               />
 
-              {/* Tarjeta */}
               <div
                 className="relative w-full max-w-md bg-white rounded-2xl shadow-xl p-6 animate-[promoPop_180ms_ease-out] will-change-transform will-change-opacity"
                 style={{ animationFillMode: "both" }}
               >
-                {/* Botón cerrar */}
                 <button
                   onClick={() => setPromoOpen(false)}
                   className="absolute top-3 right-3 rounded-full px-2 py-1 text-gray-500 hover:text-gray-800 focus:outline-none focus-visible:ring"
@@ -267,7 +272,6 @@ const Header: React.FC = () => {
                 </button>
               </div>
 
-              {/* Animación popup */}
               <style>{`
                 @keyframes promoPop {
                   0% { transform: translateY(8px) scale(.98); opacity: 0; }
@@ -277,7 +281,6 @@ const Header: React.FC = () => {
             </div>
           )}
 
-          {/* estilos del mosaico animado */}
           <style>{`
             .promo-tiling {
               background-image: image-set(
@@ -288,7 +291,7 @@ const Header: React.FC = () => {
               background-position: 0 50%;
               animation: promo-pan 30s linear infinite;
               will-change: background-position;
-              opacity: 1; /* dejamos la textura tal cual, sin bajar opacidad */
+              opacity: 1;
             }
 
             @keyframes promo-pan {
@@ -302,6 +305,7 @@ const Header: React.FC = () => {
           `}</style>
         </>
       )}
+      */}
 
       {/* ===== HEADER FIJO (navbar) ===== */}
       <header
@@ -309,8 +313,8 @@ const Header: React.FC = () => {
         className="fixed inset-x-0 z-50 transition-colors duration-300"
         role="banner"
         style={{
-          // empujamos el header debajo del banner si está visible
-          top: promoHiddenByUser ? 0 : bannerHeight,
+          // ✅ Como el banner está desactivado, el header siempre arranca en top: 0
+          top: 0,
           height: `clamp(${HEADER_H_MOBILE}px, 10vw, ${HEADER_H_DESKTOP}px)`,
           transform: hideOnScroll ? "translateY(-140%)" : "translateY(0)",
           transition:

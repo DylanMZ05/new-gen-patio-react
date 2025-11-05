@@ -582,24 +582,29 @@ const PatiosAndPergolasCatalog = () => {
 
     return projects.filter((project) => {
       for (const [field, selectedOptions] of Object.entries(selectedByField)) {
-        // Canonicalizamos SIEMPRE
+        // Valores del proyecto (normalizados y únicos)
         const projectValues = getCanonicalValues(project, field)
           .map((v) => v.trim())
           .filter(Boolean);
+        const projSet = new Set(projectValues);
 
-        const sel = Array.from(new Set(selectedOptions.map((v) => v.trim()).filter(Boolean)));
-        const proj = Array.from(new Set(projectValues));
+        // Valores seleccionados (normalizados y únicos)
+        const sel = Array.from(
+          new Set(selectedOptions.map((v) => v.trim()).filter(Boolean))
+        );
 
-        // 🔒 Si hay selección en un campo, el proyecto debe tener EXACTAMENTE esos valores (ni más ni menos)
-        if (sel.length === 0) continue; // por si algo raro dejó un campo vacío
-        if (proj.length !== sel.length) return false;
-        for (const v of sel) {
-          if (!proj.includes(v)) return false;
+        // Si hay selección en este campo, el proyecto debe incluir TODOS (AND) los seleccionados,
+        // pero puede tener valores extra (superset).
+        if (sel.length > 0) {
+          for (const v of sel) {
+            if (!projSet.has(v)) return false; // falta uno → descarta
+          }
         }
       }
-      return true;
+      return true; // pasó todos los campos con selección
     });
   }, [projects, selectedByField]);
+
 
 
   /* ===== Progressive image loading logic ===== */

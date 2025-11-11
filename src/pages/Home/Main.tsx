@@ -48,18 +48,19 @@ const Main: React.FC = () => {
 
   const [visible, setVisible] = useState(false);
   const [videoReady, setVideoReady] = useState(false);
+  const [videoError, setVideoError] = useState(false);
   const [reducedMotion, setReducedMotion] = useState(false);
 
   const scrollToTop = useScrollToTop();
 
   const baseUrl = import.meta.env.BASE_URL || "/";
-  // Poster en múltiples formatos/sizes
   const posterJpg = `${baseUrl}assets/videos/homevideo-poster.jpg`;
   const posterWebp = `${baseUrl}assets/videos/homevideo-poster.webp`;
   const posterAvif = `${baseUrl}assets/videos/homevideo-poster.avif`;
+  const fallbackImg = `${baseUrl}assets/images/Products/Patios&Pergolas/Attached/18.webp`;
 
   const videoSrcWebm = `${baseUrl}assets/videos/homevideo.webm`;
-  const videoSrcMp4  = `${baseUrl}assets/videos/homevideo.mp4`;
+  const videoSrcMp4 = `${baseUrl}assets/videos/homevideo.mp4`;
   const trackSrc = `${baseUrl}assets/videos/homevideo.vtt`;
 
   /* ===== prefers-reduced-motion ===== */
@@ -72,11 +73,10 @@ const Main: React.FC = () => {
     return () => mq.removeEventListener("change", update);
   }, []);
 
-  /* ===== Intersection para visibilidad y prefetch ===== */
+  /* ===== IntersectionObserver ===== */
   useEffect(() => {
     const el = sectionRef.current;
     if (!el) return;
-
     const io = new IntersectionObserver(
       (entries) => {
         const onScreen = entries.some((e) => e.isIntersecting);
@@ -88,34 +88,32 @@ const Main: React.FC = () => {
       },
       { rootMargin: "0px 0px -20%", threshold: 0.1 }
     );
-
     io.observe(el);
     return () => io.disconnect();
   }, []);
 
-  /* ===== Play/Pause según estado ===== */
+  /* ===== Play/Pause ===== */
   useEffect(() => {
     const v = videoRef.current;
     if (!v) return;
-    // Si preferencia reduce motion, no forzamos autoplay
-    if (visible && !reducedMotion && videoReady) {
+    if (visible && !reducedMotion && videoReady && !videoError) {
       v.play().catch(() => {});
     } else {
       v.pause();
     }
-  }, [visible, reducedMotion, videoReady]);
+  }, [visible, reducedMotion, videoReady, videoError]);
 
-  /* ===== Pausar si la pestaña se oculta ===== */
+  /* ===== Pausar si pestaña oculta ===== */
   useEffect(() => {
     const v = videoRef.current;
     if (!v) return;
     const onVis = () => {
       if (document.visibilityState === "hidden") v.pause();
-      else if (visible && !reducedMotion && videoReady) v.play().catch(() => {});
+      else if (visible && !reducedMotion && videoReady && !videoError) v.play().catch(() => {});
     };
     document.addEventListener("visibilitychange", onVis);
     return () => document.removeEventListener("visibilitychange", onVis);
-  }, [visible, reducedMotion, videoReady]);
+  }, [visible, reducedMotion, videoReady, videoError]);
 
   const onPatiosIntent = useCallback(() => runIdle(prefetchPatios), []);
   const onQuoteIntent = useCallback(() => runIdle(prefetchQuote), []);
@@ -126,17 +124,10 @@ const Main: React.FC = () => {
       id="home"
       className="relative flex w-full h-screen max-h-[1080px] overflow-hidden"
       aria-labelledby="main-heading"
-      style={{
-        // Aisla el hero; evita efectos colaterales (no usar content-visibility aquí: es above-the-fold).
-        contain: "layout paint size",
-      } as any}
+      style={{ contain: "layout paint size" } as any}
     >
-      {/* ===== Preloads en <head> para LCP/latencia ===== */}
       <Helmet>
-        {/* Preconnect al mismo origen (opcional) */}
         <link rel="preconnect" href={window.location.origin} crossOrigin="" />
-
-        {/* Preload del poster (clave para LCP) */}
         <link
           rel="preload"
           as="image"
@@ -146,18 +137,16 @@ const Main: React.FC = () => {
         />
       </Helmet>
 
-
-      {/* Poster responsivo como LCP (ocupa el fondo hasta que el video esté listo) */}
+      {/* ===== Poster inicial (visible mientras se carga el video o si falla) ===== */}
       <picture
-        className={`absolute top-0 left-0 w-full h-full z-0 transition-opacity duration-500 ${
-          videoReady && !reducedMotion ? "opacity-0" : "opacity-100"
+        className={`absolute top-0 left-0 w-full h-full z-0 transition-opacity duration-700 ${
+          videoReady && !videoError ? "opacity-0" : "opacity-100"
         }`}
         aria-hidden="true"
         style={{ pointerEvents: "none", willChange: "opacity" }}
       >
-        {/* AVIF > WebP > JPG */}
-        <source type="image/avif" srcSet={`${posterAvif} 1920w`} sizes="100vw" />
-        <source type="image/webp" srcSet={`${posterWebp} 1920w`} sizes="100vw" />
+        <source type="image/avif" srcSet={posterAvif} sizes="100vw" />
+        <source type="image/webp" srcSet={posterWebp} sizes="100vw" />
         <img
           src={posterJpg}
           alt="Modern aluminum patio cover at sunset"
@@ -171,30 +160,43 @@ const Main: React.FC = () => {
         />
       </picture>
 
-      {/* Video de fondo (se hace visible cuando está listo) */}
-      <video
-        ref={videoRef}
-        id="background-video"
-        className={`absolute top-0 left-0 w-full h-full object-cover max-h-[1080px] z-0 transition-opacity duration-500 ${
-          videoReady && !reducedMotion ? "opacity-100" : "opacity-0"
-        }`}
-        preload="metadata"
-        autoPlay
-        muted
-        playsInline
-        loop
-        // no bloquea interacción y mejora INP
-        style={{ pointerEvents: "none", willChange: "opacity" }}
-        poster={posterWebp /* fallback natural al jpg si no existe */}
-        onCanPlay={() => setVideoReady(true)}
-        aria-hidden="true"
-      >
-        <source src={videoSrcWebm} type="video/webm" />
-        {/* MP4 para Safari/iOS */}
-        <source src={videoSrcMp4} type="video/mp4" />
-        {/* Si no usas captions, mantenlo sin 'default' para no descargarlo en el TTI */}
-        <track kind="captions" src={trackSrc} srcLang="en" label="English" />
-      </video>
+      {/* ===== Video de fondo ===== */}
+      {!videoError && (
+        <video
+          ref={videoRef}
+          id="background-video"
+          className={`absolute top-0 left-0 w-full h-full object-cover max-h-[1080px] z-0 transition-opacity duration-700 ${
+            videoReady && !reducedMotion ? "opacity-100" : "opacity-0"
+          }`}
+          preload="none"
+          autoPlay
+          muted
+          playsInline
+          loop
+          style={{ pointerEvents: "none", willChange: "opacity" }}
+          poster={posterWebp}
+          onCanPlay={() => setVideoReady(true)}
+          onError={() => setVideoError(true)}
+          aria-hidden="true"
+        >
+          <source src={videoSrcWebm} type="video/webm" />
+          <source src={videoSrcMp4} type="video/mp4" />
+          <track kind="captions" src={trackSrc} srcLang="en" label="English" />
+        </video>
+      )}
+
+      {/* ===== Imagen fallback si falla el video ===== */}
+      {videoError && (
+        <img
+          src={fallbackImg}
+          alt="Patio project fallback image"
+          className="absolute top-0 left-0 w-full h-full object-cover z-0"
+          width={1920}
+          height={1080}
+          loading="lazy"
+          decoding="async"
+        />
+      )}
 
       {/* Capa oscura */}
       <div

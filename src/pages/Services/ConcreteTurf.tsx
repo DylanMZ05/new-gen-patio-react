@@ -6,6 +6,7 @@ import SectionBlock from "../../components/SectionBlock";
 import WhyUsLink from "./components/WhyUsLink";
 import Services from "../Home/services/services";
 import { Helmet } from "react-helmet-async";
+import Clients from "../Home/Clients";
 
 import FreeQuoteButton from "../../components/FreeQuoteButton";
 
@@ -170,7 +171,10 @@ const ConcreteTurf: React.FC = () => {
       </div>
 
       <WhyUsLink backgroundImage={backgroundImage} />
-      <Services showQuoteButton={false} />
+              <Services showQuoteButton={false} />
+        <div className="w-screen">
+          <Clients></Clients>  
+        </div>
       <MarqueeBanner />
     </section>
   );

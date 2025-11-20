@@ -52,6 +52,8 @@ const AdminDashboard = lazy(() => import("./pages/Admin/AdminDashboard"));
 const Login = lazy(() => import("./pages/Admin/Login"));
 import AdminRoute from "./pages/Admin/AdminRoute";
 
+import Clients from "./pages/Home/Clients";
+
 // ====== Helpers ======
 const matches = (patterns: string[], pathname: string) =>
   patterns.some((p) => matchPath({ path: p, end: false }, pathname));
@@ -241,6 +243,7 @@ const Layout: React.FC = memo(() => {
                   </Suspense>
                 </LazyWhenVisible>
                 <OurPromise />
+                <Clients></Clients>
               </>
             }
           />
@@ -256,6 +259,7 @@ const Layout: React.FC = memo(() => {
                   </Suspense>
                 </LazyWhenVisible>
                 <OurProcess />
+                <Clients></Clients>
               </>
             }
           />
@@ -271,6 +275,7 @@ const Layout: React.FC = memo(() => {
                   </Suspense>
                 </LazyWhenVisible>
                 <AboutUsPage />
+                <Clients></Clients>
               </>
             }
           />
@@ -286,6 +291,7 @@ const Layout: React.FC = memo(() => {
                   </Suspense>
                 </LazyWhenVisible>
                 <BlogSectionPage />
+                <Clients></Clients>
               </>
             }
           />

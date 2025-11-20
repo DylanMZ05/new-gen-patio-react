@@ -8,6 +8,8 @@ import WhyUsLink from "./components/WhyUsLink";
 import Services from "../Home/services/services";
 import FreeQuoteButton from "../../components/FreeQuoteButton";
 
+import Clients from "../Home/Clients";
+
 // --- Keywords provistas (orden de mayor a menor relevancia) ---
 const KEYWORDS_RAW = [
   "covered patio attached to house",
@@ -206,6 +208,9 @@ const Attached: React.FC = () => {
 
         <WhyUsLink backgroundImage={backgroundImage} />
         <Services showQuoteButton={false} />
+        <div className="w-screen">
+          <Clients></Clients>  
+        </div>
       </section>
     </>
   );

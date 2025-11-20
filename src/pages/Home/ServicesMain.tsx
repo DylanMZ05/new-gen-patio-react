@@ -12,6 +12,8 @@ import { Helmet } from "react-helmet-async";
 import BlockSection from "../../components/BlockSection";
 import SectionBlock from "../../components/SectionBlock";
 
+import Clients from "./Clients";
+
 // ↓ Bajo el fold: cargar on-demand
 const MarqueeBanner = lazy(() => import("../../components/MarqueeBanner"));
 const ImageTextSection = lazy(() => import("../../components/ImgTxtSection"));
@@ -365,6 +367,11 @@ const ServicesMain: React.FC = () => {
         <LazySection minHeight={48} ariaLabel="Promotional banner bottom">
           <MarqueeBanner />
         </LazySection>
+
+              <div className="w-screen">
+        
+                <Clients></Clients>  
+              </div>
       </main>
     </>
   );

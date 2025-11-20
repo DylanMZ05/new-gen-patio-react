@@ -7,6 +7,7 @@ import SectionBlock from "../../components/SectionBlock";
 import WhyUsLink from "./components/WhyUsLink";
 import Services from "../Home/services/services";
 import FreeQuoteButton from "../../components/FreeQuoteButton";
+import Clients from "../Home/Clients";
 
 // --- Keywords provistas (orden de mayor a menor relevancia) ---
 const KEYWORDS_RAW = [
@@ -148,7 +149,10 @@ const Freestanding: React.FC = () => {
         </div>
 
         <WhyUsLink backgroundImage={backgroundImage} />
-        <Services showQuoteButton={false} />
+                <Services showQuoteButton={false} />
+        <div className="w-screen">
+          <Clients></Clients>  
+        </div>
         <FreeQuoteButton questionText="Got a project in mind?" buttonText="Let’s Talk" />
       </section>
     </>

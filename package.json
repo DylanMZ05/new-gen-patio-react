@@ -9,7 +9,8 @@
     "lint": "eslint .",
     "format": "prettier --write .",
     "preview": "vite preview",
-    "deploy": "gh-pages -d dist"
+    "deploy": "gh-pages -d dist",
+    "bing": "node notificar-bing.js"
   },
   "dependencies": {
     "@rivercode/facebook-conversion-api-nextjs": "^4.3.2",

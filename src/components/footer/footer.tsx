@@ -133,7 +133,7 @@ const Footer: React.FC = () => {
             <div>
               <p className="font-semibold text-2xl mb-3">CONTACT</p>
               <a
-                href="https://wa.me/+13465819082"
+                href="tel:+13465819082"
                 target="_blank"
                 rel="noopener noreferrer nofollow"
                 className="flex items-center gap-2 text-white/80 hover:text-orange-400 transition-all"

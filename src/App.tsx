@@ -14,16 +14,21 @@ import {
 import { Helmet, HelmetProvider } from "react-helmet-async";
 
 // ====== Componentes críticos (no lazy) ======
+// ✅ Revertido a importación estándar (sin extensión)
 import Header from "./components/header/Header";
 import useGoogleAdsTracking from "./hooks/useGoogleAdsTracking";
+// 🟢 IMPORTACIÓN DEL SCHEMA (sin extensión)
+import SchemaMarkup from "./SEO/SchemaMarkup"; 
 
 // ====== Deferibles (lazy) ======
+// ✅ Revertido a importación estándar (sin extensión)
 const WspButton = lazy(() => import("./components/WspButton"));
 const Footer = lazy(() => import("./components/footer/footer"));
 const QuotePopup = lazy(() => import("./components/QuotePopup"));
 const BlockSection = lazy(() => import("./components/BlockSection"));
 
 // ====== Páginas ======
+// ✅ Revertido a importación estándar (sin extensión)
 const MainHome = lazy(() => import("./pages/Home/MainHome"));
 const Attached = lazy(() => import("./pages/Services/Attached"));
 const Freestanding = lazy(() => import("./pages/Services/Freestanding"));
@@ -50,8 +55,8 @@ const ProjectsList = lazy(() => import("./pages/Catalogo/Catalogo"));
 // Admin
 const AdminDashboard = lazy(() => import("./pages/Admin/AdminDashboard"));
 const Login = lazy(() => import("./pages/Admin/Login"));
+// ✅ Revertido a importación estándar (sin extensión)
 import AdminRoute from "./pages/Admin/AdminRoute";
-
 import Clients from "./pages/Home/Clients";
 
 // ====== Helpers ======
@@ -102,6 +107,7 @@ const runIdle = (cb: () => void) => {
  * Crea import() “en vacío” para que Vite descargue el chunk sin montarlo.
  * Se llama en idle, al cargar Home y al hover/focus de links clave.
  */
+// ✅ Rutas de prefetch corregidas a importación estándar (sin extensión)
 const routePrefetchers: Record<string, () => Promise<any>> = {
   "/outdoor-living-services": () => import("./pages/Home/ServicesMain"),
   "/attached-aluminium-pergola-covered-patio": () => import("./pages/Services/Attached"),
@@ -222,6 +228,10 @@ const Layout: React.FC = memo(() => {
 
   return (
     <>
+      {/* 🟢 Schema Markup Global: LocalBusiness */}
+      {/* Se aplica a todas las páginas fuera de <Routes> */}
+      <SchemaMarkup type="business" />
+
       <ScrollToTop />
       {!isNoLayout && <Header />}
 
@@ -236,6 +246,8 @@ const Layout: React.FC = memo(() => {
             path="/our-promise"
             element={
               <>
+                {/* 🟢 Schema Markup Específico: FAQPage */}
+                <SchemaMarkup type="faq" />
                 <LazyWhenVisible
                 >
                   <Suspense>

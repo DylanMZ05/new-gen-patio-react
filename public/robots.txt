@@ -1,7 +1,7 @@
 User-agent: *
 Disallow: /wp-admin/
 Disallow: /wp-includes/
-Disallow: /financing-options/   # Evitamos que esta ruta sin header/footer sea indexada
+Disallow: /financing-options/
 Disallow: /calculator/
 Disallow: /formpage/
 Disallow: /freequote/
@@ -9,5 +9,17 @@ Disallow: /freequote/
 Allow: /public/
 Allow: /assets/
 Allow: /favicon.ico
+
+User-agent: GPTBot
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: CCBot
+Allow: /
 
 Sitemap: https://www.newgenpatio.com/sitemap.xml

@@ -1,12 +1,13 @@
-// notificar-bing.js
 import https from 'https';
 
-// CONFIGURACIÓN
-const HOST = "www.newgenpatio.com/";
-const KEY = "7b3a0962ae044841ab1868b11e470247"; // La misma que está en public
+// --- CONFIGURACIÓN ---
+// NOTA: Sin la barra al final para evitar dobles barras
+const HOST = "www.newgenpatio.com"; 
+const KEY = "7b3a0962ae044841ab1868b11e470247";
 const KEY_LOCATION = `https://${HOST}/${KEY}.txt`;
 
-// LISTA DE URLS (Pon aquí las rutas principales que cambiaron)
+// --- LISTA CORRECTA (LIMPIA) ---
+// Al enviar esta lista, Bing priorizará estas URLs sobre las que tenían //
 const urlList = [
   `https://${HOST}/`,
   `https://${HOST}/outdoor-living-services`,
@@ -44,13 +45,27 @@ const options = {
   }
 };
 
+console.log("------------------------------------------------");
+console.log(`Enviando ${urlList.length} URLs corregidas a Bing...`);
+console.log("------------------------------------------------");
+
 const req = https.request(options, res => {
-  console.log(`Estado: ${res.statusCode}`);
-  res.on('data', d => process.stdout.write(d));
+  console.log(`Respuesta del servidor: ${res.statusCode}`);
+  
+  res.on('data', d => {
+    process.stdout.write(d);
+  });
+
+  res.on('end', () => {
+    if (res.statusCode === 200) {
+      console.log("\n\n✅ ¡ÉXITO! Las URLs correctas han sido enviadas.");
+      console.log("Bing actualizará el índice y descartará las versiones con '//' con el tiempo.");
+    } else {
+      console.log("\n❌ Hubo un problema. Revisa el código de error.");
+    }
+  });
 });
 
 req.on('error', error => console.error(error));
 req.write(data);
 req.end();
-
-console.log("Enviando notificación a Bing/IndexNow...");

@@ -1,273 +1,244 @@
-import "../../styles/googleCards.css";
 import React, {
   useRef,
   useEffect,
   memo,
 } from "react";
+// Importa tus estilos de componente
+import "../../styles/googleCards.css"; 
 
-/* === Ajustes de velocidad (DESACTIVADO)
-   - Desktop: 20 px/s
-   - Mobile:  12 px/s
-   - La duración del loop siempre queda entre 45s y 240s
-*/
-// const TOTAL_IMAGES = 71;
-// const BASE_SPEED_DESKTOP = 20; // px/seg
-// const BASE_SPEED_MOBILE  = 12; // px/seg
-// const MIN_SECONDS        = 45;
-// const MAX_SECONDS        = 240;
-// const PLACEHOLDER = "/assets/images/default-placeholder.webp";
+/* === Lógica de Marquee, Elfsight y Lógica de Scroll de Botones COMENTADOS === */
 
-// // Atributo "fetchpriority" sin romper TypeScript (spread genérico)
-// const LOW_FETCH_ATTR: Record<string, string> = { fetchpriority: "low" };
+// Define un tipo para las reseñas
+interface Review {
+  autor: string;
+  puntuacion: number;
+  texto: string;
+  fecha: string;
+  inicial: string; 
+  color: string; 
+}
+
+/* =========================================================================
+   SIMULACIÓN DE DATOS (REEMPLAZAR POR LA LLAMADA REAL AL BACKEND)
+   
+   Estos datos simulan que tu BACKEND ya los FILTRÓ (solo 4 o 5 estrellas).
+   ========================================================================= */
+
+const DUMMY_REVIEWS: Review[] = [
+    {
+        autor: "Scott M.",
+        puntuacion: 5,
+        texto: "New Gen Patio Exceeded Every Expectation! I can't say enough good things about NewGen. They were very kind to work with.",
+        fecha: "3 days ago",
+        inicial: "S",
+        color: "bg-purple-500"
+    },
+    {
+        autor: "Toufic",
+        puntuacion: 5,
+        texto: "I am very pleased with NewGen. They did an outdoor kitchen for us and the quality is excellent and the price is very reasonable. The sales person Daniel was very kind and easy to work with. We are extremely happy.",
+        fecha: "18 days ago",
+        inicial: "T",
+        color: "bg-amber-600"
+    },
+    {
+        autor: "Shaun",
+        puntuacion: 4,
+        texto: "Rafael and Alejandro at New Gen Patio are exceptional. They have been incredibly thorough in their communication and punctual. The installation was fantastic. I highly recommend their service.",
+        fecha: "18 days ago",
+        inicial: "S",
+        color: "bg-orange-500"
+    },
+    {
+        autor: "Jose",
+        puntuacion: 4,
+        texto: "The best experience ever, very professional and really easy process to get all the permits to install my patio cover. Luis was my sales representative and he was very responsive and helpful.",
+        fecha: "22 days ago",
+        inicial: "J",
+        color: "bg-blue-600"
+    },
+    {
+        autor: "Christian",
+        puntuacion: 5,
+        texto: "I highly recommend New Gen Patio since day one they were very professional. Javier was my sales representative and he was very helpful.",
+        fecha: "28 days ago",
+        inicial: "C",
+        color: "bg-cyan-600"
+    },
+    {
+        autor: "Maria L.",
+        puntuacion: 5,
+        texto: "Calidad excelente y atención al detalle. ¡Quedé impresionada con el resultado final de mi patio!",
+        fecha: "1 month ago",
+        inicial: "M",
+        color: "bg-pink-500"
+    },
+    {
+        autor: "Pedro R.",
+        puntuacion: 4,
+        texto: "Muy buen trabajo, llegaron a tiempo y cumplieron con todo lo prometido.",
+        fecha: "1 month ago",
+        inicial: "P",
+        color: "bg-teal-500"
+    },
+];
+
+
+/* =========================================================================
+   FUNCIONES DE UTILIDAD PARA EL RENDERIZADO
+   ========================================================================= */
+
+/**
+ * Genera el HTML de las estrellas (llenas y vacías).
+ */
+const StarRating: React.FC<{ rating: number }> = memo(({ rating }) => {
+    return (
+        <div className="flex text-yellow-500 text-xs">
+            {[...Array(rating)].map((_, i) => (
+                <span key={`filled-${i}`} className="estrella-llena">★</span>
+            ))}
+            {[...Array(5 - rating)].map((_, i) => (
+                <span key={`empty-${i}`} className="estrella-vacia text-gray-300">★</span>
+            ))}
+        </div>
+    );
+});
+
+
+/**
+ * Filtra las reseñas por el umbral de 4 o 5 estrellas.
+ */
+const getFilteredReviews = (reviews: Review[]): Review[] => {
+    return reviews.filter(review => review.puntuacion >= 4);
+};
+
+/* =========================================================================
+   COMPONENTE PRINCIPAL
+   ========================================================================= */
 
 const Clients: React.FC = () => {
-  /* ==========================
-     ESTADO Y LÓGICA DEL CARRUSEL DESACTIVADOS
-     ========================== */
-
-  // const containerRef = useRef<HTMLDivElement>(null); // contenedor visible
-  // const trackRef = useRef<HTMLAnchorElement>(null);   // tira que se anima
   const sectionRef = useRef<HTMLElement | null>(null);
-
-  // const [animationDuration, setAnimationDuration] = useState("30s");
-  // const [visible, setVisible] = useState(false);
-  // const [reducedMotion, setReducedMotion] = useState(false);
-
-  // // ===== Reserva responsiva para toda la sección (anti-CLS)
-  // const computeReserved = () => {
-  //   // py-12 (96px) + títulos/divider/botón (~150–200px) + marquee 260px
-  //   // Deja margen cómodo para desktop
-  //   const w = typeof window !== "undefined" ? window.innerWidth : 1024;
-  //   if (w >= 1280) return 720; // lg
-  //   if (w >= 768)  return 640; // md
-  //   return 560;               // base
-  // };
-  // const [reserved, setReserved] = useState<number>(computeReserved());
-  // useEffect(() => {
-  //   const onResize = () => setReserved(computeReserved());
-  //   window.addEventListener("resize", onResize);
-  //   return () => window.removeEventListener("resize", onResize);
-  // }, []);
-
-  // // Construye rutas respetando BASE_URL si deployás en subcarpeta
-  // const baseUrl = import.meta.env.BASE_URL || "/";
-  // const images = useMemo(
-  //   () =>
-  //     Array.from({ length: TOTAL_IMAGES }, (_, i) =>
-  //       `${baseUrl}assets/images/opinions/${String(i + 1).padStart(2, "0")}.webp`
-  //     ),
-  //   [baseUrl]
-  // );
-
-  // const getSpeed = () => {
-  //   if (typeof window === "undefined" || !window.matchMedia) return BASE_SPEED_DESKTOP;
-  //   return window.matchMedia("(max-width: 768px)").matches
-  //     ? BASE_SPEED_MOBILE
-  //     : BASE_SPEED_DESKTOP;
-  // };
-
-  // // Montaje diferido: renderiza el carrusel solo cuando entra en viewport
-  // useEffect(() => {
-  //   const el = sectionRef.current;
-  //   if (!el) return;
-  //   const io = new IntersectionObserver(
-  //     (entries) => {
-  //       if (entries.some((e) => e.isIntersecting)) {
-  //         setVisible(true);
-  //         requestAnimationFrame(() => void containerRef.current?.scrollWidth);
-  //         io.disconnect();
-  //       }
-  //     },
-  //     { rootMargin: "200px 0px", threshold: 0.05 }
-  //   );
-  //   io.observe(el);
-  //   return () => io.disconnect();
-  // }, []);
-
-  // // Respeta prefers-reduced-motion
-  // useEffect(() => {
-  //   if (typeof window === "undefined" || !window.matchMedia) return;
-  //   const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
-  //   const handler = () => setReducedMotion(mq.matches);
-  //   handler();
-  //   mq.addEventListener("change", handler);
-  //   return () => mq.removeEventListener("change", handler);
-  // }, []);
-
-  // // Calcula duración en función del ancho real del track y la velocidad target
-  // useEffect(() => {
-  //   const node = trackRef.current; // medimos la tira que se anima
-  //   if (!node || !visible) return;
-
-  //   const recompute = () => {
-  //     // Como duplicamos el contenido, un loop es la mitad del ancho total
-  //     const loopWidth = Math.max(1, node.scrollWidth / 2); // px
-  //     const speed = getSpeed();                            // px/s
-  //     const seconds = loopWidth / speed;
-  //     const clamped = Math.max(MIN_SECONDS, Math.min(MAX_SECONDS, seconds));
-  //     setAnimationDuration(`${clamped.toFixed(2)}s`);
-  //   };
-
-  //   // Ejecuta el primer cálculo en idle para no competir con el paint
-  //   const idle = (cb: () => void) =>
-  //     (window as any).requestIdleCallback
-  //       ? (window as any).requestIdleCallback(cb, { timeout: 1200 })
-  //       : setTimeout(cb, 120);
-
-  //   const ro = new ResizeObserver(() => idle(recompute));
-  //   ro.observe(node);
-  //   idle(recompute);
-
-  //   let mm: MediaQueryList | null = null;
-  //   const onChange = () => idle(recompute);
-  //   if (typeof window !== "undefined" && window.matchMedia) {
-  //     mm = window.matchMedia("(max-width: 768px)");
-  //     mm.addEventListener("change", onChange);
-  //   }
-
-  //   return () => {
-  //     ro.disconnect();
-  //     mm?.removeEventListener("change", onChange);
-  //   };
-  // }, [visible]);
-
-  // // Preload ligero de las primeras imágenes (en idle)
-  // const warmUpImages = useCallback((urls: string[], max = 6) => {
-  //   const run = () => {
-  //     for (let i = 0; i < Math.min(max, urls.length); i++) {
-  //       const img = new Image();
-  //       (img as HTMLImageElement).decoding = "async";
-  //       img.src = urls[i];
-  //     }
-  //   };
-  //   (window as any).requestIdleCallback
-  //     ? (window as any).requestIdleCallback(run, { timeout: 1000 })
-  //     : setTimeout(run, 120);
-  // }, []);
-
-  // useEffect(() => {
-  //   if (!visible) return;
-  //   warmUpImages(images, 6);
-  // }, [visible, images, warmUpImages]);
-
-  /* ==========================
-     SOLO ELFSIGHT ACTIVO
-     ========================== */
-
-  useEffect(() => {
-    if (typeof document === "undefined") return;
-
-    const scriptId = "elfsight-platform-script";
-    if (document.getElementById(scriptId)) return; // evitar duplicados
-
-    const script = document.createElement("script");
-    script.id = scriptId;
-    script.src = "https://elfsightcdn.com/platform.js";
-    script.async = true;
-    document.body.appendChild(script);
-
-    // No removemos el script para que el widget siga funcionando
-  }, []);
+  
+  const reseñasAMostrar = getFilteredReviews(DUMMY_REVIEWS);
 
   return (
     <>
       <section
-      ref={sectionRef}
-      id="reviews"
-      role="region"
-      aria-labelledby="clients-heading"
-      className="
-        flex flex-col items-center justify-center py-12 px-6 border-t border-black/20 overflow-hidden bg-gray-100 min-h-[600px] pt-5
-      "
-      data-lwv="Clients"
-    >
-      {/* <p id="clients-heading" className="font-semibold text-4xl text-center">
-        Our Clients
-      </p>
-      <div className="w-24 h-1 bg-[#0d4754] mt-4 mb-5 rounded-full" /> */}
-
-      {/* ==========================
-          CARRUSEL / MARQUEE ORIGINAL DESACTIVADO
-          Para reactivarlo, descomentar este bloque y la lógica de arriba.
-      ========================== */}
-      {/*
-      <div
-        className="group marquee-reviews-container max-w-[1080px] h-[260px]"
-        ref={containerRef}
-        aria-hidden={!visible}
+        ref={sectionRef}
+        id="reviews"
+        role="region"
+        aria-labelledby="clients-heading"
+        // Fondo gris claro de la página
+        className="flex justify-center py-12 px-6 bg-gray-50 min-h-[500px]"
+        data-lwv="Clients"
       >
-        {visible ? (
-          <a
-            ref={trackRef}
-            href="https://www.google.com/search?q=new+gen+patio+reviews"
-            target="_blank"
-            rel="noopener noreferrer nofollow"
-            referrerPolicy="no-referrer"
-            className="marquee-reviews cursor-pointer"
-            style={{
-              animationDuration,
-              animationPlayState: reducedMotion ? "paused" : "running",
-            }}
-            aria-label="Open Google reviews for New Gen Patio in a new tab"
-            title="Open Google reviews"
-          >
-            {[...images, ...images].map((src, index) => (
-              <div key={index} className="review-card">
-                <img
-                  {...LOW_FETCH_ATTR}
-                  src={src}
-                  alt={`Google review image ${index + 1} for New Gen Patio`}
-                  width={320}
-                  height={260}
-                  loading="lazy"
-                  decoding="async"
-                  draggable={false}
-                  onError={(e) => {
-                    const img = e.currentTarget as HTMLImageElement & {
-                      dataset: DOMStringMap & { fallbackApplied?: string };
-                    };
-                    if (img.dataset.fallbackApplied) return;
-                    img.dataset.fallbackApplied = "1";
-                    img.src = `${baseUrl}${PLACEHOLDER.replace(/^\//, "")}`;
-                  }}
-                />
-              </div>
-            ))}
-          </a>
-        ) : (
-          <div className="w-full h-full" aria-hidden="true" />
-        )}
-      </div>
+        {/* Contenedor central blanco y flotante (Máximo 5XL) */}
+        <div className="w-full max-w-5xl bg-white shadow-xl rounded-lg p-8 md:p-10">
+            
+            <p id="clients-heading" className="font-semibold text-2xl text-center mb-6 text-gray-800">
+                What Our Customers Say
+            </p>
 
-      <a
-        href="https://www.google.com/search?q=new+gen+patio+reviews"
-        target="_blank"
-        rel="noopener noreferrer nofollow"
-        referrerPolicy="no-referrer"
-        className="text-white bg-black text-xl font-semibold px-5 pt-1 pb-2 rounded-full mt-5 inline-block transition-all hover:bg-black/90 hover:scale-105 focus:ring-2 focus:ring-white focus:outline-none"
-        aria-label="View all Google reviews for New Gen Patio"
-      >
-        View all reviews
-      </a>
+            {/* ============== ENCABEZADO SUPERIOR DE GOOGLE ============== */}
+            <div className="flex flex-col md:flex-row md:justify-between md:items-center mb-6 pb-4 border-b border-gray-100">
+                
+                {/* Puntuación Global */}
+                <div className="flex items-center mb-4 md:mb-0">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/2048px-Google_%22G%22_Logo.svg.png" alt="Google Logo" className="w-6 h-6 mr-2" />
+                    <div>
+                        <p className="font-bold text-xl text-gray-800 leading-none">Excellent on Google</p>
+                        <div className="flex items-center mt-1">
+                            {/* Estrellas 5.0 */}
+                            <StarRating rating={5} /> 
+                            <span className="text-gray-500 text-sm ml-2 font-semibold">5.0</span>
+                            <span className="text-gray-400 text-sm ml-1">({reseñasAMostrar.length}+)</span>
+                        </div>
+                    </div>
+                </div>
 
-      <style>{`
-        .group:hover .marquee-reviews,
-        .group:focus-within .marquee-reviews { animation-play-state: paused; }
-        @media (prefers-reduced-motion: reduce) {
-          .marquee-reviews { animation-play-state: paused !important; }
-        }
-      `}</style>
-      */}
+                {/* Botón de Reseña */}
+                <a
+                    href="https://www.google.com/search?q=new+gen+patio+reviews" // Reemplaza con tu link de reseña directa
+                    target="_blank"
+                    rel="noopener noreferrer nofollow"
+                    className="
+                        bg-orange-500 text-white font-semibold text-base py-2 px-4 rounded 
+                        transition-colors hover:bg-orange-600 shadow-md text-center
+                    "
+                >
+                    Review us on Google
+                </a>
+            </div>
 
-      {/* ==========================
-          WIDGET DE ELFSIGHT (ÚNICO ACTIVO)
-         ========================== */}
-      <div className="mt-8 w-full max-w-[1080px]">
-        <div
-          className="elfsight-app-e1766564-6d69-4f05-9dff-09a38f83d32c"
-          data-elfsight-app-lazy
-        ></div>
-      </div>
+
+            {/* ==========================
+                SLIDER DE RESEÑAS INDIVIDUALES (SCROLL HORIZONTAL)
+                ========================== */}
+            <div className="relative">
+                {reseñasAMostrar.length > 0 ? (
+                    <div 
+                        // Utilizamos overflow-x-scroll y snap-x para el deslizamiento táctil/con mouse
+                        className="
+                            flex gap-6 overflow-x-scroll pb-4 
+                            snap-x snap-mandatory scrollbar-hide
+                            /* En escritorio, forzamos la visualización de 4 columnas */
+                            lg:overflow-x-hidden lg:pb-0 
+                            lg:grid lg:grid-cols-4 
+                        "
+                        id="reseñas-slider-contenedor"
+                    >
+                        {reseñasAMostrar.map((reseña, index) => (
+                            <div 
+                                key={index} 
+                                // Estilos de la tarjeta compacta
+                                className="
+                                    reseña-card bg-white rounded-lg p-3 shadow-sm border border-gray-100 
+                                    min-w-[280px] h-auto snap-center 
+                                    lg:min-w-0 lg:h-[260px] lg:shadow-none
+                                "
+                            >
+                                {/* Header de la tarjeta (Avatar + Info) */}
+                                <div className="flex items-start mb-2">
+                                    <div className={`w-8 h-8 rounded-full ${reseña.color} flex items-center justify-center text-white font-bold text-sm mr-2 flex-shrink-0`}>
+                                        {reseña.inicial}
+                                    </div>
+                                    <div>
+                                        <div className="font-semibold text-gray-800 leading-tight">{reseña.autor}</div>
+                                        <div className="text-xs text-gray-500">{reseña.fecha}</div>
+                                    </div>
+                                </div>
+                                
+                                <StarRating rating={reseña.puntuacion} />
+
+                                {/* Cuerpo: Texto de la Reseña */}
+                                <p className="reseña-texto text-gray-700 text-sm my-2 line-clamp-3">
+                                    {reseña.texto}
+                                </p>
+                                
+                                {/* Enlace "Read more" (simulado) */}
+                                <a href="#" className="text-xs text-blue-600 hover:text-blue-700 font-medium">
+                                    Read more
+                                </a>
+
+                                {/* Simulación de las imágenes */}
+                                <div className="flex space-x-1 mt-2">
+                                    <div className="w-1/3 h-12 bg-gray-100 rounded-sm"></div>
+                                    <div className="w-1/3 h-12 bg-gray-100 rounded-sm"></div>
+                                    <div className="w-1/3 h-12 bg-gray-100 rounded-sm"></div>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                ) : (
+                    <div className="text-center text-gray-500 py-10">
+                        Cargando reseñas o aún no hay reseñas para mostrar.
+                    </div>
+                )}
+            </div>
+            
+            {/* Aquí NO incluimos el Free Google Reviews Widget ni la paginación */}
+
+        </div>
       </section>
     </>
   );

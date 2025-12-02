@@ -1,4 +1,15 @@
-import React from 'react';
+// src/SEO/SchemaMarkup.tsx
+
+// --- INTERFACE DE PROPS (CORRECCIÓN TS7031) ---
+/**
+ * Define las propiedades esperadas para el componente SchemaMarkup.
+ * El tipo debe ser una unión de cadenas literales para asegurar que solo se pasen
+ * valores conocidos ('business' o 'faq').
+ */
+interface SchemaMarkupProps {
+  type: 'business' | 'faq';
+}
+
 
 // --- DATOS DEL NEGOCIO (LocalBusiness) ---
 const localBusinessData = {
@@ -7,7 +18,7 @@ const localBusinessData = {
   "name": "New Gen Patio",
   "description": "Empresa líder en diseño y construcción de exteriores en Houston, especializada en pérgolas de aluminio, cocinas de exterior y pavimentación.",
   "url": "https://www.newgenpatio.com",
-  "image": "https://www.newgenpatio.com/assets/images/logo.png", 
+  "image": "https://www.newgenpatio.com/assets/images/logo.png",
   "telephone": "+1-832-XXX-XXXX", // <--- ¡PON TU TELÉFONO REAL AQUÍ!
   "email": "contact@newgenpatio.com", // <--- ¡PON TU EMAIL REAL AQUÍ!
   "address": {
@@ -18,7 +29,7 @@ const localBusinessData = {
   },
   "geo": {
     "@type": "GeoCoordinates",
-    "latitude": 29.7604, 
+    "latitude": 29.7604,
     "longitude": -95.3698
   },
   "serviceArea": {
@@ -94,10 +105,10 @@ const faqData = {
 
 /**
  * Componente que inyecta datos estructurados JSON-LD en el head del documento.
- * @param {object} props
+ * @param {SchemaMarkupProps} props
  * @param {'business' | 'faq'} props.type - Define el tipo de Schema a inyectar ('business' o 'faq').
  */
-const SchemaMarkup = ({ type }) => {
+const SchemaMarkup = ({ type }: SchemaMarkupProps) => { // <-- CORRECCIÓN APLICADA AQUÍ: Se tipifican las props
   let data = {};
 
   if (type === 'business') {
@@ -105,17 +116,23 @@ const SchemaMarkup = ({ type }) => {
   } else if (type === 'faq') {
     data = faqData;
   } else {
+    // Para asegurar que data se maneje como un objeto vacío si el tipo es inválido.
     return null;
   }
 
+  // Comprobación de que el objeto de datos no está vacío.
   if (Object.keys(data).length === 0) {
     return null;
   }
 
+  // Convertimos el objeto de datos a una cadena JSON para inyectarlo.
+  // El JSON.stringify debe ser seguro aquí ya que 'data' proviene de constantes locales.
+  const jsonLdString = JSON.stringify(data);
+
   return (
     <script
       type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(data) }}
+      dangerouslySetInnerHTML={{ __html: jsonLdString }}
     />
   );
 };

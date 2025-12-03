@@ -37,9 +37,9 @@ const Clients: React.FC = () => {
             id="reviews"
             role="region"
             aria-labelledby="clients-heading"
-            className="flex justify-center py-12 px-6 bg-gray-50 overflow-hidden" 
+            className="flex justify-center py-12 px-6 bg-gray-50 min-h-[500px] overflow-hidden" 
             >
-                <div className="h-60 sm:h-full w-full max-w-5xl bg-white shadow-xl rounded-lg p-8 md:p-10">
+                <div className="w-full max-w-5xl bg-white shadow-xl rounded-lg p-8 md:p-10">
                     
                     <p id="clients-heading" className="font-semibold text-2xl text-center mb-6 text-gray-800">
                         What Our Customers Say
@@ -81,7 +81,7 @@ const Clients: React.FC = () => {
                     <div className="relative">
                         <div 
                             className="
-                                hidden sm:flex gap-6 overflow-x-scroll pb-4 
+                                flex gap-6 overflow-x-scroll pb-4 
                                 scrollbar-style
                             "
                             id="reseñas-slider-contenedor"

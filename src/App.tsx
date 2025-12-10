@@ -115,7 +115,7 @@ const routePrefetchers: Record<string, () => Promise<any>> = {
   "/cantilever-aluminium-pergola": () => import("./pages/Services/Cantilever"),
   "/patio-financing-houston": () => import("./pages/Calculator/Calculator"),
   "/blog": () => import("./pages/Blogs/BlogsSectionPage"),
-  "/covered-patio-project-catalog": () => import("./pages/Catalogo/Catalogo"),
+  "/covered-patio-project-catalog": () => import("./pages/Catalogo/Catalogo"), 
 };
 
 /** Link que hace prefetch del chunk al hover/focus (sin bloquear navegación) */

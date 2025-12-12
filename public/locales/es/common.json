@@ -1,0 +1,46 @@
+{
+  "copyright": "© 2024 NEW GEN PATIO. TODOS LOS DERECHOS RESERVADOS.",
+  "privacy-policy": "Política de Privacidad",
+  "terms-of-service": "Términos de Servicio",
+  
+  "financing-banner-text": "Financiamiento Flexible Disponible — ¡Hasta 18 Meses sin Intereses!",
+  "financing-banner-cta": "¡Aplica Ahora!",
+  "financing-banner-aria-label": "Ir a la calculadora de financiamiento - Hasta 18 meses al 0% de interés",
+
+  "quote-question-default": "¿Desea obtener un Presupuesto Gratuito?",
+  "quote-button-default": "Obtenga un Presupuesto Gratuito",
+  
+  "quote-button-question": "¿Tienes un proyecto en mente?",
+  "quote-button-cta": "Hablemos",
+  
+  "quote-question-faq": "¿Tienes un proyecto en mente?",
+  "quote-button-faq": "Hablemos",
+
+  "stats-title": "+500 Proyectos Completados",
+  "map-description": "Haz clic en el botón de abajo para ver un mapa con las ubicaciones de proyectos finalizados.",
+  "map-button-open": "📍 VER MAPA",
+  "map-button-close": "📍 CERRAR MAPA",
+  "map-title": "Ubicaciones de New Gen Patio",
+
+  "cta-question-large": "¿Tienes un",
+  "cta-project-word": "proyecto en mente?",
+  
+  "financing-title-large": "¡FINANCIAMIENTO FLEXIBLE!",
+  "financing-subtitle": "Opciones disponibles por hasta",
+  "financing-interest": "¡18 MESES al 0% DE INTERÉS!",
+  "financing-link-text": "¡APLICA AHORA!",
+  "financing-link-aria": "Consultar opciones de financiación",
+
+  "logo-alt": "Logo New Gen Patio",
+  "company-title": "NEW GEN PATIO",
+  "company-description": "Transformamos tus espacios exteriores con patios y pérgolas elaborados por expertos. Nos especializamos en crear áreas exteriores impresionantes y funcionales que elevan tu estilo de vida y añaden valor duradero a tu hogar. Con diseño, calidad y comunicación clara en el centro de cada proyecto, garantizamos una experiencia fluida de principio a fin.",
+  "contact-title": "CONTACTO",
+  "location-title": "UBICACIÓN",
+  "location-area": "(Houston y áreas circundantes)",
+  "schedule-title": "HORARIOS",
+  "schedule-weekday": "Lunes a Viernes: 8:00 AM - 6:00 PM",
+  "schedule-saturday": "Sábado: 9:00 AM - 4:00 PM",
+  "schedule-sunday": "Domingo: Cerrado",
+  "navigation-title": "Navegación",
+  "footer-nav-aria": "Navegación del Pie de Página"
+}

@@ -2,6 +2,7 @@
 import React, { useMemo } from "react";
 import { Link } from "react-router-dom";
 import useScrollToTop from "../hooks/scrollToTop";
+import { useTranslation } from "react-i18next"; // ⬅️ Nuevo: Importamos useTranslation
 
 interface FreeQuoteButtonProps {
   questionText?: string;
@@ -16,14 +17,24 @@ interface FreeQuoteButtonProps {
 }
 
 const FreeQuoteButton: React.FC<FreeQuoteButtonProps> = ({
-  questionText = "Do you want to get a Free Quote?",
-  buttonText = "Get a Free Quote",
+  // ⬅️ CRÍTICO: Usamos las claves por defecto para i18n aquí.
+  questionText: questionTextProp,
+  buttonText: buttonTextProp,
   linkTo = "/get-a-free-quote-houston",
   className,
   size = "md",
   gtmId = "free_quote_cta",
 }) => {
-  // ✅ usar el hook correctamente (antes te faltaban los paréntesis)
+  // ⬅️ Usamos el namespace 'common'
+  const { t } = useTranslation('common');
+
+  // Si las props no se pasan, usamos la traducción por defecto.
+  const defaultQuestionText = t('quote-question-default', { defaultValue: "Do you want to get a Free Quote?" });
+  const defaultButtonText = t('quote-button-default', { defaultValue: "Get a Free Quote" });
+
+  const questionText = questionTextProp ?? defaultQuestionText;
+  const buttonText = buttonTextProp ?? defaultButtonText;
+
   const scrollToTop = useScrollToTop();
 
   const sizeClasses = useMemo(() => {
@@ -42,7 +53,7 @@ const FreeQuoteButton: React.FC<FreeQuoteButtonProps> = ({
     <nav
       className={["text-center mt-10", className || ""].join(" ")}
       role="navigation"
-      aria-label="Free quote section"
+      aria-label={t('quote-button-aria-label', { defaultValue: "Free quote section" })} // ⬅️ Traducción del aria-label de la nav
     >
       {questionText && (
         <p className="text-2xl font-semibold">{questionText}</p>
@@ -60,7 +71,8 @@ const FreeQuoteButton: React.FC<FreeQuoteButtonProps> = ({
             sizeClasses,
           ].join(" ")}
           onClick={scrollToTop}
-          aria-label={buttonText}
+          // ⬅️ Usamos el buttonText ya traducido o pasado por prop
+          aria-label={buttonText} 
         >
           {buttonText}
         </Link>

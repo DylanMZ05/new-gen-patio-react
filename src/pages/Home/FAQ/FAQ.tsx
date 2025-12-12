@@ -4,8 +4,9 @@ import { Link } from "react-router-dom";
 import FAQItem from "./FAQItem";
 import FreeQuoteButton from "../../../components/FreeQuoteButton";
 import useScrollToTop from "../../../hooks/scrollToTop";
+import { useTranslation } from "react-i18next"; // ⬅️ Nuevo: Importamos useTranslation
 
-/* ========================= Prefetch helpers ========================= */
+/* ========================= Prefetch helpers (Sin cambios) ========================= */
 const canPrefetch = () => {
   if (typeof navigator !== "undefined") {
     const conn = (navigator as any).connection;
@@ -42,6 +43,9 @@ const prefetchProcess = () => {
 /* =================================================================== */
 
 const FAQ: React.FC = () => {
+  // ⬅️ CRÍTICO: Usamos el namespace 'faq' y 'common' para los botones
+  const { t } = useTranslation(['faq', 'common']);
+
   const scrollToTop = useScrollToTop();
   const sectionRef = useRef<HTMLElement | null>(null);
   const [visible, setVisible] = useState(false);
@@ -65,35 +69,34 @@ const FAQ: React.FC = () => {
     return () => io.disconnect();
   }, []);
 
-  // Datos (uno de los answers usa <Link> con el handler)
+  // ⬅️ CRÍTICO: Datos traducidos. El useMemo depende de 't'
   const faqData = useMemo(
     () => [
       {
-        question: "How do your pergolas differ from wooden pergolas?",
-        answer:
-          "Our aluminum pergolas are more durable, weather-resistant, and maintenance-free. They don't warp, crack, or rot and require no staining or sealing.",
+        question: t('q1-title'),
+        answer: t('q1-answer'),
       },
       {
-        question: "How can I request a free quote?",
-        answer:
-          "Call +1 (346) 581-9082 or click the 'Free Quote' button on our website. It's quick and easy!",
+        question: t('q2-title'),
+        answer: t('q2-answer', { phone: '+1 (346) 581-9082' }), // Usamos interpolación para el teléfono
       },
       {
-        question: "What is the process from start to finish?",
+        question: t('q3-title'),
+        // La respuesta con JSX debe construirse usando la traducción de los fragmentos
         answer: (
           <>
             <ol className="list-decimal pl-5 space-y-1">
-              <li>Request a free quote online or call us.</li>
-              <li>Schedule a free in-home consultation.</li>
-              <li>Receive a formal quote with 3D renderings.</li>
-              <li>Sign the approved proposal and submit a 25% deposit.</li>
-              <li>Schedule the construction start date.</li>
-              <li>Get regular updates before construction.</li>
-              <li>Construction begins with our quality assurance.</li>
-              <li>Final walk-through and review.</li>
+              <li>{t('q3-step-1')}</li>
+              <li>{t('q3-step-2')}</li>
+              <li>{t('q3-step-3')}</li>
+              <li>{t('q3-step-4')}</li>
+              <li>{t('q3-step-5')}</li>
+              <li>{t('q3-step-6')}</li>
+              <li>{t('q3-step-7')}</li>
+              <li>{t('q3-step-8')}</li>
             </ol>
             <p className="mt-3">
-              Want to learn more{" "}
+              {t('q3-link-prefix', { defaultValue: "Want to learn more " })}
               <Link
                 to="/how-we-doit"
                 onClick={scrollToTop}
@@ -102,50 +105,53 @@ const FAQ: React.FC = () => {
                 onTouchStart={() => runIdle(prefetchProcess)}
                 className="text-orange-600 font-semibold hover:underline"
               >
-                Click here to see our full process.
+                {t('q3-link-text', { defaultValue: "Click here to see our full process" })}
               </Link>
-              .
+              {t('q3-link-suffix', { defaultValue: "." })}
             </p>
           </>
         ),
       },
       {
-        question: "What payment methods do you accept?",
-        answer:
-          "We accept ACH transfers, checks, wire transfers, and credit cards. Flexible payment options available.",
+        question: t('q4-title'),
+        answer: t('q4-answer'),
       },
       {
-        question: "What materials do you use for the roofing?",
-        answer:
-          "We use high-quality insulated aluminum roofing panels with a 3-inch core of compressed styrofoam. We also offer polycarbonate and methacrylate options for natural light filtering.",
+        question: t('q5-title'),
+        answer: t('q5-answer'),
       },
       {
-        question: "Do you offer financing options?",
-        answer:
-          "Yes! We partner with Hearth Financing and VistaFi to offer up to 18 months of 0% interest financing.",
+        question: t('q6-title'),
+        answer: t('q6-answer'),
       },
       {
-        question: "Where do you offer your services?",
-        answer:
-          "We are based in Spring, Texas, and serve clients across the entire state, focusing on the Houston area.",
+        question: t('q7-title'),
+        answer: t('q7-answer'),
       },
-    ] as const,
-    [scrollToTop]
+    ],
+    [scrollToTop, t] // ⬅️ CRÍTICO: Dependencia de 't' para que se actualice la traducción
   );
 
-  // JSON-LD para SEO (incluye sólo respuestas de texto plano)
+  // JSON-LD (incluye sólo respuestas de texto plano)
   const faqJsonLd = useMemo(() => {
     const items = faqData
       .filter((f) => typeof f.answer === "string")
       .map((f) => ({
         "@type": "Question",
-        name: f.question,
+        // ⬅️ Usamos las preguntas/respuestas traducidas
+        name: f.question, 
         acceptedAnswer: { "@type": "Answer", text: f.answer as string },
       }));
     return items.length
-      ? { "@context": "https://schema.org", "@type": "FAQPage", mainEntity: items }
+      ? { 
+          "@context": "https://schema.org", 
+          "@type": "FAQPage", 
+          mainEntity: items,
+          // ⬅️ Añadimos nombre traducido para el JSON-LD (SEO)
+          name: t('json-ld-name', { defaultValue: "New Gen Patio - Frequently Asked Questions" })
+        }
       : null;
-  }, [faqData]);
+  }, [faqData, t]);
 
   return (
     <section
@@ -162,15 +168,18 @@ const FAQ: React.FC = () => {
     >
       <header className="text-center">
         <p id="faq-heading" className="font-semibold text-2xl text-[#0d4754]">
-          FAQs
+          {t('header-small-title', { defaultValue: "FAQs" })} {/* ⬅️ Traducción */}
         </p>
-        <h2 className="font-semibold text-4xl text-center">Frequently Asked Questions</h2>
+        <h2 className="font-semibold text-4xl text-center">
+          {t('header-large-title', { defaultValue: "Frequently Asked Questions" })} {/* ⬅️ Traducción */}
+        </h2>
         <div className="w-24 h-1 bg-[#0d4754] mt-4 mb-5 rounded-full mx-auto" aria-hidden="true" />
       </header>
 
       <div className="w-full max-w-2xl">
         {visible ? (
           faqData.map((faq) => (
+            // Las props question y answer son strings o JSX traducidos de faqData
             <FAQItem key={faq.question} question={faq.question} answer={faq.answer} />
           ))
         ) : (
@@ -180,9 +189,9 @@ const FAQ: React.FC = () => {
       </div>
 
       <p className="mt-5 font-normal text-xl text-center">
-        Have another question?
+        {t('contact-prefix', { defaultValue: "Have another question?" })}
         <br />
-        No problem,{" "}
+        {t('contact-text-1', { defaultValue: "No problem, " })}
         <a
           href="https://wa.me/13465819082"
           target="_blank"
@@ -190,14 +199,15 @@ const FAQ: React.FC = () => {
           className="text-orange-600 font-semibold hover:underline"
           data-gtm="faq_whatsapp_cta"
         >
-          contact us
+          {t('contact-link', { defaultValue: "contact us" })} {/* ⬅️ Traducción */}
         </a>
-        .
+        {t('contact-suffix', { defaultValue: "." })}
       </p>
 
       <FreeQuoteButton
-        questionText="Got a project in mind?"
-        buttonText="Let’s Talk"
+        // ⬅️ Usamos las claves específicas del CTA de la sección FAQ
+        questionText={t('common:quote-question-faq', { defaultValue: "Got a project in mind?" })}
+        buttonText={t('common:quote-button-faq', { defaultValue: "Let’s Talk" })}
         gtmId="faq_free_quote_cta"
       />
 

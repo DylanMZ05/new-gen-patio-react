@@ -43,13 +43,13 @@ const LanguageSwitch: React.FC<{ isScrolled: boolean; isMobile: boolean }> = ({
 
   const baseClasses = `
     font-semibold text-sm rounded-full transition-opacity duration-150 p-0.5
-    flex items-center justify-center border-2
+    flex items-center justify-center border-2 cursor-pointer
   `;
 
   const sizeClass = isMobile ? "w-8 h-8" : "w-6 h-6";
 
   return (
-    <div className="flex items-center space-x-2">
+    <div className="flex items-center space-x-2 hidden">
       {LANGUAGES.map((lang) => (
         <button
           key={lang.code}

@@ -26,7 +26,7 @@ const Calculator: React.FC = () => {
         {/* Título principal optimizado */}
         <div className="w-full text-center">
           <h1 className="text-white/90 text-3xl md:text-4xl font-bold text-center mb-2 max-w-3xl leading-tight mx-auto">
-            Affordable Patio Financing Options in Houston
+            Affordable Patio Financing Options
           </h1>
           <div
             className="bg-orange-500 border border-white/10 h-1 w-50 rounded-full mx-auto mb-6"

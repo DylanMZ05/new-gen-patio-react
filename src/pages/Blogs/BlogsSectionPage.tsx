@@ -3,8 +3,15 @@ import { blogs } from "../Blogs/blogData";
 import MarqueeBanner from "../../components/MarqueeBanner";
 import FreeQuoteButton from "../../components/FreeQuoteButton";
 import { Helmet } from "react-helmet-async";
+import { useTranslation } from "react-i18next"; // ⬅️ Nuevo: Importamos useTranslation
 
 const BlogsSectionPage: React.FC = () => {
+  // ⬅️ Usamos el namespace 'blog'
+  const { t, i18n } = useTranslation(['blog', 'common']);
+  
+  // Obtenemos el código de idioma para el formato de fecha (ej: 'en', 'es')
+  const currentLang = i18n.language || 'en';
+
   const handleScrollToTop = () => {
     window.scrollTo({ top: 0, behavior: "instant" });
   };
@@ -16,10 +23,14 @@ const BlogsSectionPage: React.FC = () => {
   return (
     <>
       <Helmet>
-        <title>Outdoor Living Blog | Patio & Pergola Design Ideas | New Gen Patio</title>
+        {/* ⬅️ Traducción: Título de la página */}
+        <title>{t('seo-title', { defaultValue: "Outdoor Living Blog | Patio & Pergola Design Ideas | New Gen Patio" })}</title>
+        {/* ⬅️ Traducción: Descripción SEO */}
         <meta 
           name="description" 
-          content="Your source for outdoor living inspiration. Design ideas, expert tips, and the latest trends for patios, pergolas, and outdoor kitchens can be discovered." 
+          content={t('seo-description', { 
+             defaultValue: "Your source for outdoor living inspiration. Design ideas, expert tips, and the latest trends for patios, pergolas, and outdoor kitchens can be discovered." 
+           })} 
         />
         <link rel="canonical" href="https://www.newgenpatio.com/blog" />
       </Helmet>
@@ -27,9 +38,13 @@ const BlogsSectionPage: React.FC = () => {
       <section className="pt-16 pb-10 px-6 bg-gray-200 border-t border-black/10">
         <div className="max-w-6xl mx-auto">
           <header className="text-center">
-            <h1 className="text-2xl font-semibold text-[#0d4754]">NEW GEN PATIO BLOGS</h1>
+            {/* ⬅️ Traducción: Título Pequeño (h1) */}
+            <h1 className="text-2xl font-semibold text-[#0d4754]">
+              {t('header-title-small', { defaultValue: "NEW GEN PATIO BLOGS" })}
+            </h1>
+            {/* ⬅️ Traducción: Título Grande (h2) */}
             <h2 className="text-4xl font-semibold text-black">
-              Latest Insights & Outdoor Living Ideas
+              {t('header-title-large', { defaultValue: "Latest Insights & Outdoor Living Ideas" })}
             </h2>
             <div className="w-24 h-1 bg-[#0d4754] mt-4 mb-6 mx-auto rounded-full"></div>
           </header>
@@ -37,7 +52,7 @@ const BlogsSectionPage: React.FC = () => {
           {/* Grid con ajuste para blogs impares */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
             {blogs.map((blog) => {
-              const formattedDate = new Date(blog.date).toLocaleDateString("en-US", {
+              const formattedDate = new Date(blog.date).toLocaleDateString(currentLang, {
                 year: "numeric",
                 month: "long",
                 day: "numeric",
@@ -57,9 +72,9 @@ const BlogsSectionPage: React.FC = () => {
                     <figure className="w-full h-64">
                       <img
                         src={resolvedImageUrl}
-                        alt={`Blog post: ${blog.title}`}
+                        alt={t('blog-alt', { defaultValue: "Blog post:", blogTitle: blog.title })}
                         loading="lazy"
-                        width={800} // Ajustá según diseño real (thumbnail, posiblemente 800x400)
+                        width={800} 
                         height={400}
                         className="w-full h-full object-cover"
                         onError={(e) => (e.currentTarget.src = defaultImage)}
@@ -86,8 +101,8 @@ const BlogsSectionPage: React.FC = () => {
           </div>
         </div>
         <FreeQuoteButton 
-          questionText="Ready to transform your outdoor space?"
-          buttonText="Request Your Free Estimate"
+          questionText={t('cta-question', { defaultValue: "Ready to transform your outdoor space?" })}
+          buttonText={t('cta-button', { defaultValue: "Request Your Free Estimate" })}
         />
       </section>
       <MarqueeBanner />

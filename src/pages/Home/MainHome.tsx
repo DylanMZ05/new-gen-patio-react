@@ -173,10 +173,10 @@ const MainHome: React.FC = () => {
   return (
     <>
       <Helmet>
-        <title>New Gen Patio | Aluminum Pergolas & Patio Covers Houston</title>
+        <title>New Gen Patio | Luxury Custom Aluminum Pergolas & Covered Patios</title>
         <meta
           name="description"
-          content="Your Houston home's outdoor potential is realized with New Gen Patio's custom solutions. Luxury aluminum pergolas and covered patios are designed and built by our team. Get your free quote!"
+          content="Transform your Houston outdoor space with custom luxury aluminum pergolas and covered patios. We are expert builders offering custom designs, expert installation, and a lifetime warranty. Get a free quote!"
         />
         <meta name="keywords" content={KEYWORDS_FINAL} />
         <link rel="canonical" href="https://www.newgenpatio.com/" />

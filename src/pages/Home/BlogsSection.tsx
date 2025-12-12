@@ -11,11 +11,12 @@ import React, {
 import { blogs } from "../Blogs/blogData";
 import { Link } from "react-router-dom";
 import useScrollToTop from "../../hooks/scrollToTop";
+import { useTranslation } from "react-i18next"; // ⬅️ Nuevo: Importamos useTranslation
 
 // Lazy del slider (reduce JS inicial)
 const Slider = lazy(() => import("../../components/Slider/SliderBlogs"));
 
-/* ========================= Prefetch helpers ========================= */
+/* ========================= Prefetch helpers (Sin cambios) ========================= */
 const canPrefetch = () => {
   if (typeof navigator !== "undefined") {
     const conn = (navigator as any).connection;
@@ -36,9 +37,9 @@ const runIdle = (cb: () => void) => {
 /* ================================================================ */
 
 /**
- * Prefetch robusto del chunk de la página detalle (dinámica /blog/:slug)
- * - Usa import.meta.glob para no depender de la carpeta exacta.
- */
+ * Prefetch robusto del chunk de la página detalle (dinámica /blog/:slug)
+ * (Sin cambios)
+ */
 let blogPagePrefetched = false;
 const blogPageModules = import.meta.glob([
   "../**/BlogPage*.tsx",
@@ -57,9 +58,9 @@ const prefetchBlogPageChunk = () => {
 };
 
 /**
- * Prefetch del chunk del Slider cuando se aproxima
- * (por si el dynamic import aún no está resuelto).
- */
+ * Prefetch del chunk del Slider cuando se aproxima
+ * (Sin cambios)
+ */
 let sliderPrefetched = false;
 const prefetchSliderChunk = () => {
   if (sliderPrefetched || !canPrefetch()) return;
@@ -70,14 +71,14 @@ const prefetchSliderChunk = () => {
 };
 /* =================================================================== */
 
-/* ===== helper: reserva responsiva para toda la sección ===== */
+/* ===== helper: reserva responsiva para toda la sección (Sin cambios) ===== */
 function useReservedHeight() {
   const compute = () => {
     const w = typeof window !== "undefined" ? window.innerWidth : 1024;
     // Títulos (~120–160px) + carrusel 420px + paddings
     if (w >= 1280) return 820; // desktop grande
-    if (w >= 768) return 680;  // tablets/desktop chico
-    return 560;                // mobile
+    if (w >= 768) return 680;  // tablets/desktop chico
+    return 560;                // mobile
   };
   const [h, setH] = useState<number>(compute());
   useEffect(() => {
@@ -89,6 +90,10 @@ function useReservedHeight() {
 }
 
 const BlogCardSlider: React.FC = () => {
+  // ⬅️ CRÍTICO: Usamos el namespace 'blog'
+  const { t, i18n } = useTranslation('blog'); 
+  const currentLang = i18n.language || 'en';
+
   // Ordenamos una sola vez (blogs es estático)
   const latestBlogs = useMemo(
     () =>
@@ -149,9 +154,10 @@ const BlogCardSlider: React.FC = () => {
     () =>
       latestBlogs.map((blog) => {
         const dateObj = new Date(blog.date);
+        // ⬅️ CRÍTICO: Usamos el idioma activo para el formato de fecha
         const formattedDate = isNaN(dateObj.getTime())
           ? blog.date
-          : dateObj.toLocaleDateString("en-US", {
+          : dateObj.toLocaleDateString(currentLang, { // ⬅️ Usamos currentLang
               year: "numeric",
               month: "long",
               day: "numeric",
@@ -174,17 +180,19 @@ const BlogCardSlider: React.FC = () => {
                 hover:scale-[1.02] transition-transform
                 motion-reduce:transform-none motion-reduce:transition-none
               "
-              aria-label={`Read blog: ${blog.title}`}
+              // ⬅️ Traducción: aria-label
+              aria-label={t('read-blog-aria-label', { defaultValue: `Read blog: ${blog.title}`, blogTitle: blog.title })}
               data-gtm="blog_card"
             >
               <figure className="w-full h-52">
                 <img
                   src={imgSrc}
-                  alt={`Cover image for blog post: ${blog.title}`}
+                  // ⬅️ Traducción: alt de la imagen
+                  alt={t('card-image-alt', { defaultValue: `Cover image for blog post: ${blog.title}`, blogTitle: blog.title })}
                   loading="lazy"
                   decoding="async"
-                  width={600}  // tamaño intrínseco aproximado
-                  height={208} // h-52 ≈ 208px
+                  width={600}  
+                  height={208} 
                   sizes="(min-width:1280px) 360px, (min-width:768px) 50vw, 100vw"
                   className="w-full h-full object-cover"
                   draggable={false}
@@ -202,10 +210,10 @@ const BlogCardSlider: React.FC = () => {
               <div className="flex flex-col justify-between flex-grow p-5">
                 <div>
                   <h3 className="text-xl font-semibold text-gray-800">
-                    {blog.title}
+                    {blog.title} {/* NOTA: El título del blog debe estar en blogData.js o ser un t() */}
                   </h3>
                   <p className="text-gray-600 mt-2 text-sm line-clamp-3">
-                    {blog.subtitle}
+                    {blog.subtitle} {/* NOTA: El subtítulo del blog debe estar en blogData.js o ser un t() */}
                   </p>
                 </div>
                 <div className="text-right mt-4">
@@ -216,7 +224,7 @@ const BlogCardSlider: React.FC = () => {
           </div>
         );
       }),
-    [latestBlogs, baseUrl, scrollToTop]
+    [latestBlogs, baseUrl, scrollToTop, t, currentLang] // ⬅️ Aseguramos que se actualice al cambiar de idioma
   );
 
   return (
@@ -240,10 +248,10 @@ const BlogCardSlider: React.FC = () => {
       <div className="max-w-6xl mx-auto">
         <header className="text-center mb-10">
           <h2 id="blogs-heading" className="text-2xl font-semibold text-[#0d4754]">
-            NEW GEN PATIO BLOGS
+            {t('header-title-small', { defaultValue: "NEW GEN PATIO BLOGS" })} {/* ⬅️ Traducción */}
           </h2>
           <p className="text-4xl font-semibold text-black">
-            Latest Insights & Outdoor Living Ideas
+            {t('header-title-large', { defaultValue: "Latest Insights & Outdoor Living Ideas" })} {/* ⬅️ Traducción */}
           </p>
           <div className="w-24 h-1 bg-[#0d4754] mt-4 mx-auto rounded-full" aria-hidden="true" />
         </header>

@@ -1,0 +1,46 @@
+{
+  "copyright": "© 2024 NEW GEN PATIO. ALL RIGHTS RESERVED.",
+  "privacy-policy": "Privacy Policy",
+  "terms-of-service": "Terms of Service",
+  
+  "financing-banner-text": "Flexible Financing Available — Up to 18 Months at 0% Interest!",
+  "financing-banner-cta": "Apply Now!",
+  "financing-banner-aria-label": "Go to financing calculator - Up to 18 months at 0% interest",
+
+  "quote-question-default": "Do you want to get a Free Quote?",
+  "quote-button-default": "Get a Free Quote",
+  
+  "quote-button-question": "Got a project in mind?",
+  "quote-button-cta": "Let’s Talk",
+  
+  "quote-question-faq": "Got a project in mind?",
+  "quote-button-faq": "Let’s Talk",
+
+  "stats-title": "+500 Projects Completed",
+  "map-description": "Click the button below to view a map with completed project locations.",
+  "map-button-open": "📍 VIEW MAP",
+  "map-button-close": "📍 CLOSE MAP",
+  "map-title": "New Gen Patio Locations",
+
+  "cta-question-large": "Do you have a",
+  "cta-project-word": "project in mind?",
+  
+  "financing-title-large": "FLEXIBLE FINANCING!",
+  "financing-subtitle": "Options available for up to",
+  "financing-interest": "18 MONTHS at 0% INTEREST!",
+  "financing-link-text": "APPLY NOW!",
+  "financing-link-aria": "Check financing options",
+
+  "logo-alt": "New Gen Patio Logo",
+  "company-title": "NEW GEN PATIO",
+  "company-description": "Transforming your outdoor spaces with expertly crafted patios and pergolas. We specialize in creating stunning, functional outdoor areas that elevate your lifestyle and add lasting value to your home. With design, quality, and clear communication at the heart of every project, we ensure a seamless experience from concept to completion.",
+  "contact-title": "CONTACT",
+  "location-title": "LOCATION",
+  "location-area": "(Houston and surrounding areas)",
+  "schedule-title": "SCHEDULES",
+  "schedule-weekday": "Monday - Friday: 8:00 AM - 6:00 PM",
+  "schedule-saturday": "Saturday: 9:00 AM - 4:00 PM",
+  "schedule-sunday": "Sunday: Closed",
+  "navigation-title": "Navigation",
+  "footer-nav-aria": "Footer Navigation"
+}

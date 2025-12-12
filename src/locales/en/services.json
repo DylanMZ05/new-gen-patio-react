@@ -1,0 +1,18 @@
+{
+  "header-title-1": "OUR SERVICES",
+  "header-title-2": "What We Offer",
+  "header-description": "We craft premium patios, pergolas, and outdoor kitchens designed for style, durability, and functionality.",
+  "json-ld-list-name": "New Gen Patio - Services",
+  "cards": {
+    "patios-and-pergolas": {
+      "title": "Covered Patios & Pergolas"
+    },
+    "outdoor-kitchens": {
+      "title": "Outdoor Kitchens"
+    },
+    "additional-services": {
+      "title": "Additional Services",
+      "subtitle": "Landscaping | Concrete | Artificial Turf"
+    }
+  }
+}

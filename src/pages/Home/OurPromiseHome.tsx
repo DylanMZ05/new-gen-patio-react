@@ -1,8 +1,9 @@
 import React, { memo, useEffect, useRef, useState, useCallback } from "react";
 import { Link } from "react-router-dom";
 import useScrollToTop from "../../hooks/scrollToTop";
+import { useTranslation } from "react-i18next"; // ⬅️ Nuevo: Importamos useTranslation
 
-/* ===== perf helpers ===== */
+/* ===== perf helpers (Sin cambios) ===== */
 const canPrefetch = () => {
   if (typeof navigator !== "undefined") {
     const conn = (navigator as any).connection;
@@ -20,7 +21,7 @@ const runIdle = (cb: () => void) => {
   else setTimeout(cb, 250);
 };
 
-/* ===== prefetch /our-promise robusto ===== */
+/* ===== prefetch /our-promise robusto (Sin cambios) ===== */
 let ourPromisePrefetched = false;
 const ourPromiseModules = import.meta.glob([
   "../../pages/**/OurPromise*.tsx",
@@ -37,6 +38,9 @@ const prefetchOurPromiseChunk = () => {
 };
 
 const OurProcessHome: React.FC = () => {
+  // ⬅️ CRÍTICO: Usamos el namespace 'our-promise'
+  const { t } = useTranslation('our-promise'); 
+    
   const scrollToTop = useScrollToTop();
   const sectionRef = useRef<HTMLElement | null>(null);
 
@@ -70,7 +74,6 @@ const OurProcessHome: React.FC = () => {
     return () => io.disconnect();
   }, []);
 
-  // también permitimos intención del usuario
   const onIntent = useCallback(() => runIdle(prefetchOurPromiseChunk), []);
 
   return (
@@ -86,10 +89,9 @@ const OurProcessHome: React.FC = () => {
       "
       style={{ contain: "content" as any, minHeight: "320px" }}
     >
-      {/* Background: la MISMA img es la que dispara el onLoad → no se queda en opacity-0 */}
       <img
         src={shouldLoadBg ? bgSrc : undefined}
-        alt=""
+        alt={t('bg-alt', { defaultValue: "Elegant covered patio background with sunrays" })}
         aria-hidden="true"
         className={`absolute inset-0 z-0 w-full h-full object-cover transition-opacity duration-700
           ${bgLoaded ? "opacity-100" : "opacity-0"} motion-reduce:transition-none`}
@@ -115,15 +117,13 @@ const OurProcessHome: React.FC = () => {
       {/* Contenido */}
       <div className="relative z-20 max-w-2xl px-6 text-center">
         <h2 id="about-heading" className="font-semibold text-3xl md:text-4xl">
-          Quality &amp; Sustainability Commitment
+          {t('title', { defaultValue: "Quality & Sustainability Commitment" })} {/* ⬅️ Traducción Título */}
         </h2>
 
         <div className="w-24 h-1 bg-orange-600 mt-4 mb-3 mx-auto rounded-full" aria-hidden="true" />
 
         <h3 className="text-lg leading-relaxed opacity-90">
-          We design maintenance-free aluminum structures backed by a 5-year warranty. Our
-          100% recyclable materials ensure durability while reducing environmental impact.
-          From custom 3D designs to seamless permit handling, we make your outdoor vision a reality.
+          {t('description', { defaultValue: "We design maintenance-free aluminum structures backed by a 5-year warranty. Our 100% recyclable materials ensure durability while reducing environmental impact. From custom 3D designs to seamless permit handling, we make your outdoor vision a reality." })} {/* ⬅️ Traducción Descripción */}
         </h3>
 
         <Link
@@ -138,10 +138,10 @@ const OurProcessHome: React.FC = () => {
           onPointerEnter={onIntent}
           onFocus={onIntent}
           onTouchStart={onIntent}
-          aria-label="Learn more about our quality and sustainability commitment"
+          aria-label={t('link-aria-label', { defaultValue: "Learn more about our quality and sustainability commitment" })}
           data-gtm="our_promise_cta"
         >
-          Our Promise
+          {t('link-button-text', { defaultValue: "Our Promise" })}
         </Link>
       </div>
     </section>

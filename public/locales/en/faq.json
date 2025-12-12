@@ -1,0 +1,40 @@
+{
+  "header-small-title": "FAQs",
+  "header-large-title": "Frequently Asked Questions",
+  "json-ld-name": "New Gen Patio - Frequently Asked Questions",
+  "contact-prefix": "Have another question?",
+  "contact-text-1": "No problem, ",
+  "contact-link": "contact us",
+  "contact-suffix": ".",
+  
+  "q1-title": "How do your pergolas differ from wooden pergolas?",
+  "q1-answer": "Our aluminum pergolas are more durable, weather-resistant, and maintenance-free. They don't warp, crack, or rot and require no staining or sealing.",
+  
+  "q2-title": "How can I request a free quote?",
+  "q2-answer": "Call {{phone}} or click the 'Free Quote' button on our website. It's quick and easy!",
+  
+  "q3-title": "What is the process from start to finish?",
+  "q3-step-1": "Request a free quote online or call us.",
+  "q3-step-2": "Schedule a free in-home consultation.",
+  "q3-step-3": "Receive a formal quote with 3D renderings.",
+  "q3-step-4": "Sign the approved proposal and submit a 25% deposit.",
+  "q3-step-5": "Schedule the construction start date.",
+  "q3-step-6": "Get regular updates before construction.",
+  "q3-step-7": "Construction begins with our quality assurance.",
+  "q3-step-8": "Final walk-through and review.",
+  "q3-link-prefix": "Want to learn more ",
+  "q3-link-text": "Click here to see our full process",
+  "q3-link-suffix": ".",
+  
+  "q4-title": "What payment methods do you accept?",
+  "q4-answer": "We accept ACH transfers, checks, wire transfers, and credit cards. Flexible payment options available.",
+  
+  "q5-title": "What materials do you use for the roofing?",
+  "q5-answer": "We use high-quality insulated aluminum roofing panels with a 3-inch core of compressed styrofoam. We also offer polycarbonate and methacrylate options for natural light filtering.",
+  
+  "q6-title": "Do you offer financing options?",
+  "q6-answer": "Yes! We partner with Hearth Financing and VistaFi to offer up to 18 months of 0% interest financing.",
+  
+  "q7-title": "Where do you offer your services?",
+  "q7-answer": "We are based in Spring, Texas, and serve clients across the entire state, focusing on the Houston area."
+}

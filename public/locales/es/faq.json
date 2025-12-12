@@ -1,0 +1,40 @@
+{
+  "header-small-title": "PREGUNTAS FRECUENTES",
+  "header-large-title": "Preguntas Hechas Frecuentemente",
+  "json-ld-name": "New Gen Patio - Preguntas Frecuentes",
+  "contact-prefix": "¿Tienes otra pregunta?",
+  "contact-text-1": "No hay problema, ",
+  "contact-link": "contáctanos",
+  "contact-suffix": ".",
+  
+  "q1-title": "¿En qué se diferencian sus pérgolas de las pérgolas de madera?",
+  "q1-answer": "Nuestras pérgolas de aluminio son más duraderas, resistentes a la intemperie y libres de mantenimiento. No se deforman, agrietan ni pudren, y no requieren teñido ni sellado.",
+  
+  "q2-title": "¿Cómo puedo solicitar un presupuesto gratuito?",
+  "q2-answer": "Llama al {{phone}} o haz clic en el botón 'Presupuesto Gratuito' en nuestro sitio web. ¡Es rápido y fácil!",
+  
+  "q3-title": "¿Cuál es el proceso de principio a fin?",
+  "q3-step-1": "Solicita un presupuesto gratuito en línea o llámanos.",
+  "q3-step-2": "Agenda una consulta gratuita en el hogar.",
+  "q3-step-3": "Recibe un presupuesto formal con renders 3D.",
+  "q3-step-4": "Firma la propuesta aprobada y envía un depósito del 25%.",
+  "q3-step-5": "Agenda la fecha de inicio de la construcción.",
+  "q3-step-6": "Recibe actualizaciones periódicas antes de la construcción.",
+  "q3-step-7": "La construcción comienza con nuestra garantía de calidad.",
+  "q3-step-8": "Revisión y recorrido final.",
+  "q3-link-prefix": "¿Quieres saber más? ",
+  "q3-link-text": "Haz clic aquí para ver nuestro proceso completo",
+  "q3-link-suffix": ".",
+  
+  "q4-title": "¿Qué métodos de pago aceptan?",
+  "q4-answer": "Aceptamos transferencias ACH, cheques, transferencias bancarias y tarjetas de crédito. Opciones de pago flexibles disponibles.",
+  
+  "q5-title": "¿Qué materiales utilizan para el techo?",
+  "q5-answer": "Utilizamos paneles de techo de aluminio aislados de alta calidad con un núcleo de 3 pulgadas de espuma de poliestireno comprimido. También ofrecemos opciones de policarbonato y metacrilato para filtrado de luz natural.",
+  
+  "q6-title": "¿Ofrecen opciones de financiación?",
+  "q6-answer": "¡Sí! Nos asociamos con Hearth Financing y VistaFi para ofrecer hasta 18 meses de financiación al 0% de interés.",
+  
+  "q7-title": "¿Dónde ofrecen sus servicios?",
+  "q7-answer": "Nuestra base está en Spring, Texas, y servimos a clientes en todo el estado, centrándonos en el área de Houston."
+}

@@ -2,6 +2,8 @@ import React, { memo, useEffect, useRef, useState, useCallback } from "react";
 import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import useScrollToTop from "../../hooks/scrollToTop";
+// ⬅️ Nuevo: Importamos useTranslation
+import { useTranslation } from "react-i18next"; 
 
 /* ========================= Prefetch helpers ========================= */
 const canPrefetch = () => {
@@ -43,6 +45,9 @@ const prefetchQuote = () => {
 /* =================================================================== */
 
 const Main: React.FC = () => {
+  // ⬅️ CRÍTICO: Inicializamos la traducción con el namespace 'home'
+  const { t } = useTranslation('home'); 
+
   const sectionRef = useRef<HTMLElement | null>(null);
   const videoRef = useRef<HTMLVideoElement | null>(null);
 
@@ -149,7 +154,8 @@ const Main: React.FC = () => {
         <source type="image/webp" srcSet={posterWebp} sizes="100vw" />
         <img
           src={posterJpg}
-          alt="Modern aluminum patio cover at sunset"
+          // ⬅️ Traducción: Alt del poster
+          alt={t('image-alt-poster')}
           className="w-full h-full object-cover max-h-[1080px]"
           width={1920}
           height={1080}
@@ -181,6 +187,7 @@ const Main: React.FC = () => {
         >
           <source src={videoSrcWebm} type="video/webm" />
           <source src={videoSrcMp4} type="video/mp4" />
+          {/* Mantenemos la pista VTT en inglés o la traducimos si es necesario */}
           <track kind="captions" src={trackSrc} srcLang="en" label="English" />
         </video>
       )}
@@ -189,7 +196,8 @@ const Main: React.FC = () => {
       {videoError && (
         <img
           src={fallbackImg}
-          alt="Patio project fallback image"
+          // ⬅️ Traducción: Alt del fallback
+          alt={t('image-alt-fallback')}
           className="absolute top-0 left-0 w-full h-full object-cover z-0"
           width={1920}
           height={1080}
@@ -209,7 +217,8 @@ const Main: React.FC = () => {
       <div className="relative z-20 flex flex-col items-start justify-center text-start w-full h-full px-4 text-white">
         <div className="w-[90vw] sm:w-[70vw]">
           <h1 id="main-heading" className="text-2xl md:text-4xl font-bold">
-            Custom Aluminium Outdoor Space Builders, Cover Patios and Pergolas
+            {/* ⬅️ Traducción: Título Principal (H1) */}
+            {t('main-heading')}
           </h1>
 
           <div className="w-[45vw] md:w-80 h-[3px] bg-orange-700 mt-4 mb-1 ml-1 rounded-full" />
@@ -223,7 +232,8 @@ const Main: React.FC = () => {
               onFocus={onPatiosIntent}
               onTouchStart={onPatiosIntent}
             >
-              Aluminum Pergolas and Covered Patios for Texas Homes
+              {/* ⬅️ Traducción: Subtítulo (H2/Link) */}
+              {t('subheading')}
             </Link>
           </h2>
 
@@ -239,9 +249,11 @@ const Main: React.FC = () => {
             onPointerEnter={onQuoteIntent}
             onFocus={onQuoteIntent}
             onTouchStart={onQuoteIntent}
-            aria-label="Get a free quote for your outdoor project"
+            // ⬅️ Traducción: aria-label del botón
+            aria-label={t('quote-aria-label')}
           >
-            Get a Free Quote
+            {/* ⬅️ Traducción: Texto del botón */}
+            {t('quote-button')}
           </Link>
         </div>
       </div>

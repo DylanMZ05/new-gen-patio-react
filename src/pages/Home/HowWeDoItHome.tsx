@@ -1,8 +1,9 @@
 import { memo, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import useScrollToTop from "../../hooks/scrollToTop";
+import { useTranslation } from "react-i18next"; // ⬅️ Importamos useTranslation
 
-/* ========================= Helpers de rendimiento ========================= */
+/* ========================= Helpers de rendimiento (Sin cambios) ========================= */
 const canPrefetch = () => {
   if (typeof navigator !== "undefined") {
     const conn = (navigator as any).connection;
@@ -23,10 +24,8 @@ const runIdle = (cb: () => void) => {
 /* ======================================================================== */
 
 /**
- * Prefetch robusto del chunk de "OurProcess"
- * - Usa import.meta.glob para no depender del nombre exacto de carpetas/archivos (incluye el caso con "&").
- * - Importa la primera coincidencia y, si falla, vuelve a permitir otro intento.
- */
+ * Prefetch robusto del chunk de "OurProcess"
+ */
 let ourProcessPrefetched = false;
 const moduleCandidates = import.meta.glob([
   "../../pages/**/OurProcess*.tsx",
@@ -49,13 +48,17 @@ const computeReserved = () => {
   // Títulos + párrafo + botón + paddings: ~520–680px según viewport
   const w = typeof window !== "undefined" ? window.innerWidth : 1024;
   if (w >= 1280) return 680; // lg / desktop grande
-  if (w >= 768)  return 600; // md / tablet-desktop chico
-  return 520;                // base / mobile
+  if (w >= 768)  return 600; // md / tablet-desktop chico
+  return 520;                // base / mobile
 };
 
 const HowWeDoItHome: React.FC = () => {
+  // ⬅️ CRÍTICO: Usamos el namespace 'our-process'
+  const { t } = useTranslation('our-process');
+    
   const handleScrollToTop = useScrollToTop();
-  const sectionRef = useRef<HTMLElement | null>(null);
+  // 🚨 CORRECCIÓN: Inicializar useRef con null, no con su propia referencia.
+  const sectionRef = useRef<HTMLElement | null>(null); 
 
   // Prefetch cuando la sección se aproxima al viewport (idle)
   useEffect(() => {
@@ -110,30 +113,33 @@ const HowWeDoItHome: React.FC = () => {
           id="how-we-do-it-heading"
           className="text-2xl font-semibold text-[#0d4754] tracking-wide uppercase"
         >
-          How We Do It
+          {t('title-small', { defaultValue: "How We Do It" })} {/* ⬅️ Traducción */}
         </h2>
-        <p className="text-4xl font-semibold text-black mt-2">From idea to reality</p>
+        <p className="text-4xl font-semibold text-black mt-2">
+            {t('title-large', { defaultValue: "From idea to reality" })} {/* ⬅️ Traducción */}
+        </p>
         <div className="w-24 h-1 bg-[#0d4754] my-3 rounded-full mx-auto" aria-hidden="true" />
       </header>
 
       <h3 className="text-lg font-medium text-black/90 max-w-2xl">
-        From concept to completion, we craft premium outdoor spaces that blend elegance and
-        functionality. Our process ensures durability, style, and efficiency, delivering a
-        hassle-free experience from start to finish.
+        {t('description', { 
+             defaultValue: "From concept to completion, we craft premium outdoor spaces that blend elegance and functionality. Our process ensures durability, style, and efficiency, delivering a hassle-free experience from start to finish." 
+        })} {/* ⬅️ Traducción */}
       </h3>
 
       <Link
         to="/how-we-doit"
         className="bg-orange-500 border border-white/10 text-white text-lg font-semibold px-6 py-2 rounded-full mt-6 inline-block
-                 transition-all hover:bg-orange-600 hover:scale-105 focus:ring-2 focus:ring-orange-500 focus:outline-none"
+                 transition-all hover:bg-orange-600 hover:scale-105 focus:ring-2 focus:ring-orange-500 focus:outline-none"
         onClick={handleScrollToTop}
-        aria-label="Learn more about how we build high-quality patios and pergolas"
+        // ⬅️ Traducción: aria-label
+        aria-label={t('link-aria-label', { defaultValue: "Learn more about how we build high-quality patios and pergolas" })}
         // Prefetch por intención de interacción (no bloquea el hilo principal)
         onMouseEnter={() => runIdle(prefetchOurProcessChunk)}
         onFocus={() => runIdle(prefetchOurProcessChunk)}
         onTouchStart={() => runIdle(prefetchOurProcessChunk)}
       >
-        How We Do It
+        {t('link-button-text', { defaultValue: "How We Do It" })} {/* ⬅️ Traducción */}
       </Link>
     </section>
   );

@@ -1,0 +1,18 @@
+{
+  "header-title-1": "NUESTROS SERVICIOS",
+  "header-title-2": "¿Qué Ofrecemos?",
+  "header-description": "Diseñamos y construimos patios cubiertos, pérgolas y cocinas exteriores de primera calidad para ofrecer estilo, durabilidad y funcionalidad.",
+  "json-ld-list-name": "New Gen Patio - Servicios",
+  "cards": {
+    "patios-and-pergolas": {
+      "title": "Patios Cubiertos y Pérgolas"
+    },
+    "outdoor-kitchens": {
+      "title": "Cocinas Exteriores"
+    },
+    "additional-services": {
+      "title": "Servicios Adicionales",
+      "subtitle": "Paisajismo | Concreto | Césped Artificial"
+    }
+  }
+}

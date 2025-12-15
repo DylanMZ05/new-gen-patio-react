@@ -1,41 +1,69 @@
 import { useCallback, useMemo, useState } from "react";
 import { FaInstagram, FaTiktok, FaPhoneAlt, FaEnvelope, FaPinterest, FaFacebookF } from "react-icons/fa";
 import { Link } from "react-router-dom";
-import useScrollToTop from "../../hooks/scrollToTop";
-import ContractorCard from "../ContractorCard";
+import useScrollToTop from "../../../hooks/scrollToTop";
+import ContractorCardEs from "../ContractorCardEs";
 // ❌ Eliminado: import { useTranslation } from "react-i18next"; 
 
-const Footer: React.FC = () => {
+const FooterEs: React.FC = () => {
   // ❌ Eliminado: const { t } = useTranslation(['common', 'header']);
     
   const scrollToTop = useScrollToTop();
   const [isMapOpen, setIsMapOpen] = useState(false);
   const MAP_BAR = 68;
 
-  // Menú de navegación (Hardcodeado)
+  // Menú de navegación (Hardcodeado y ajustado para rutas ES)
   const navItems = useMemo(() => ["services", "our-promise", "who-we-are", "blogs", "contact"] as const, []);
   const routeMap: Record<(typeof navItems)[number], string> = {
-    services: "/aluminium-custom-pergola-cover-patio",
-    "our-promise": "/how-we-doit",
-    "who-we-are": "/about-us",
-    blogs: "/blog",
-    contact: "/contact-us",
+    services: "/aluminium-custom-pergola-cover-patio/es", // ✅ Ruta ES
+    "our-promise": "/how-we-doit/es", // ✅ Ruta ES
+    "who-we-are": "/about-us/es", // ✅ Ruta ES
+    blogs: "/blog/es", // ✅ Ruta ES
+    contact: "/contact-us/es", // ✅ Ruta ES
   };
   
-  // Textos del menú (Hardcodeado en inglés)
+  // Textos del menú (Hardcodeado en español)
   const navItemLabels: Record<(typeof navItems)[number], string> = {
-    services: "Services",
-    "our-promise": "Our Promise",
-    "who-we-are": "Who We Are",
-    blogs: "Blogs",
-    contact: "Contact",
+    services: "Servicios", // ✅ Traducido
+    "our-promise": "Nuestra Promesa", // ✅ Traducido
+    "who-we-are": "Quiénes Somos", // ✅ Traducido
+    blogs: "Blog", // ✅ Traducido
+    contact: "Contacto", // ✅ Traducido
   };
   
   const toggleMap = useCallback(() => setIsMapOpen(v => !v), []);
 
   // ✅ Hardcodeado: Textos del botón del mapa
-  const mapButtonText = isMapOpen ? "📍 CLOSE MAP" : "📍 VIEW MAP";
+  const mapButtonText = isMapOpen ? "📍 CERRAR MAPA" : "📍 VER MAPA"; // ✅ Traducido
   
+  // === TEXTOS FIJOS EN ESPAÑOL ===
+  const PROJECTS_COMPLETED = "+500 Proyectos Completados";
+  const MAP_DESCRIPTION = "Haz clic en el botón de abajo para ver un mapa con las ubicaciones de proyectos finalizados.";
+  const MAP_TITLE = "Ubicaciones de New Gen Patio";
+  const CTA_QUESTION_LARGE = "¿Tienes un ";
+  const CTA_PROJECT_WORD = "proyecto en mente?";
+  const FINANCING_TITLE = "¡FINANCIAMIENTO FLEXIBLE!";
+  const FINANCING_SUBTITLE = "Opciones disponibles de hasta";
+  const FINANCING_INTEREST = "¡18 MESES a 0% INTERÉS!";
+  const FINANCING_LINK_ARIA = "Revisar opciones de financiamiento";
+  const FINANCING_LINK_TEXT = "¡APLICA AHORA!";
+  const LOGO_ALT = "Logotipo de New Gen Patio";
+  const COMPANY_TITLE = "NEW GEN PATIO";
+  const COMPANY_DESCRIPTION = "Transformamos tus espacios exteriores con patios y pérgolas elaborados por expertos. Nos especializamos en crear áreas exteriores impresionantes y funcionales que elevan tu estilo de vida y añaden valor duradero a tu hogar. Con diseño, calidad y comunicación clara en el corazón de cada proyecto, aseguramos una experiencia fluida de principio a fin.";
+  const CONTACT_TITLE = "CONTACTO";
+  const LOCATION_TITLE = "UBICACIÓN";
+  const LOCATION_ADDRESS = "17903 Shaw Rd, Houston, TX 77429, United States";
+  const LOCATION_AREA = "(Houston y áreas circundantes)";
+  const SCHEDULE_TITLE = "HORARIOS";
+  const SCHEDULE_WEEKDAY = "Lunes - Viernes: 8:00 AM - 6:00 PM";
+  const SCHEDULE_SATURDAY = "Sábado: 9:00 AM - 4:00 PM";
+  const SCHEDULE_SUNDAY = "Domingo: Cerrado";
+  const NAVIGATION_TITLE = "Navegación";
+  const COPYRIGHT = "© 2024 NEW GEN PATIO. TODOS LOS DERECHOS RESERVADOS.";
+  // Ruta del logo, ajustada para salir de español/components/footer
+  const LOGO_PATH = "../../../assets/images/IdentidadSVG/LogoBlanco.svg";
+
+
   return (
     <>
       {/* ===================== Top section: Stats + Map ===================== */}
@@ -44,12 +72,12 @@ const Footer: React.FC = () => {
         <div className="flex flex-col items-center justify-center pt-[50px]">
           {/* ✅ Hardcodeado: Proyectos Completados */}
           <p className="font-semibold text-4xl text-center px-1 leading-tight">
-             {"+500 Projects Completed"}
+             {PROJECTS_COMPLETED} {/* ✅ Traducido */}
           </p>
           <div className="w-30 h-[3px] bg-[#0d4754] mt-4 mb-2 rounded-full" aria-hidden="true" />
           {/* ✅ Hardcodeado: Descripción del mapa */}
           <p className="text-center text-gray-800 text-base mt-2 px-4">
-            {"Click the button below to view a map with completed project locations."}
+            {MAP_DESCRIPTION} {/* ✅ Traducido */}
           </p>
         </div>
 
@@ -61,7 +89,7 @@ const Footer: React.FC = () => {
             aria-expanded={isMapOpen}
             aria-controls="project-map"
           >
-            {mapButtonText} {/* ✅ Hardcodeado del botón */}
+            {mapButtonText} {/* ✅ Traducido */}
           </button>
         </div>
 
@@ -74,7 +102,7 @@ const Footer: React.FC = () => {
           >
             <iframe
               // ✅ Hardcodeado: Título del mapa
-              title={"New Gen Patio Locations"}
+              title={MAP_TITLE} // ✅ Traducido
               src="https://www.google.com/maps/d/embed?mid=1vO80YEvHvKl5MYKvlnHiZ6L6cdQo4Xc&ehbc=2E312F"
               loading="lazy"
               referrerPolicy="no-referrer-when-downgrade"
@@ -92,16 +120,16 @@ const Footer: React.FC = () => {
           {/* Contact CTA */}
           <p className="text-white text-5xl font-semibold mb-4 text-center mx-8 leading-tight">
             {/* ✅ Hardcodeado: CTA Question Large */}
-            {"Do you have a "} <br /> 
+            {CTA_QUESTION_LARGE} <br /> {/* ✅ Traducido */}
             {/* ✅ Hardcodeado: CTA Project Word */}
-            {"project in mind?"}
+            {CTA_PROJECT_WORD} {/* ✅ Traducido */}
           </p>
 
           <div className="flex flex-col-reverse gap-4 mb-5 items-start md:w-full md:flex-row md:justify-between px-5 max-w-[1100px]">
             {/* Contractor Call-To-Action Card (NOTE: Assuming ContractorCard is static or has its own hardcoded texts) */}
             <div className="w-full md:max-w-md">
               <div className="min-h-[300px] md:min-h-[260px]">
-                <ContractorCard />
+                <ContractorCardEs />
               </div>
             </div>
 
@@ -111,26 +139,22 @@ const Footer: React.FC = () => {
               style={{ minHeight: 260 }}
             >
               <p className="text-2xl font-bold md:text-3xl">
-                 {/* ✅ Hardcodeado: Financing Title Large */}
-                 {"FLEXIBLE FINANCING!"} 
+                 {FINANCING_TITLE} {/* ✅ Traducido */}
               </p>
               <p className="mt-2 text-xl text-white/80 md:text-2xl">
-                 {/* ✅ Hardcodeado: Financing Subtitle */}
-                 {"Options available for up to"} 
+                 {FINANCING_SUBTITLE} {/* ✅ Traducido */}
               </p>
               <p className="text-2xl font-bold md:text-3xl">
-                 {/* ✅ Hardcodeado: Financing Interest */}
-                 {"18 MONTHS at 0% INTEREST!"} 
+                 {FINANCING_INTEREST} {/* ✅ Traducido */}
               </p>
               <Link
-                to="/patio-financing-houston"
+                to="/patio-financing-houston/es" // ✅ Ruta ES
                 className="bg-orange-500 border border-white/10 text-white px-4 py-2 mt-4 rounded-full font-semibold hover:bg-orange-600 transition-all"
                 onClick={scrollToTop}
                 // ✅ Hardcodeado: Financing Link Aria
-                aria-label={"Check financing options"}
+                aria-label={FINANCING_LINK_ARIA} // ✅ Traducido
               >
-                {/* ✅ Hardcodeado: Financing Link Text */}
-                {"APPLY NOW!"}
+                {FINANCING_LINK_TEXT} {/* ✅ Traducido */}
               </Link>
             </div>
           </div>
@@ -138,9 +162,9 @@ const Footer: React.FC = () => {
           {/* Brand / Info */}
           <div className="w-full px-5">
             <img
-              src="/assets/images/IdentidadSVG/LogoBlanco.svg"
+              src={LOGO_PATH} // ✅ Ruta ajustada
               // ✅ Hardcodeado: Logo Alt
-              alt={"New Gen Patio Logo"}
+              alt={LOGO_ALT} // ✅ Traducido
               className="h-20 p-2 pl-0 select-none"
               width={160}
               height={80}
@@ -156,20 +180,17 @@ const Footer: React.FC = () => {
             {/* Company Info */}
             <div className="flex flex-col text-white md:max-w-[50%]">
               <p className="font-semibold text-2xl mb-3">
-                 {/* ✅ Hardcodeado: Company Title */}
-                 {"NEW GEN PATIO"}
+                 {COMPANY_TITLE} {/* ✅ Traducido (Mismo texto en inglés) */}
               </p>
               <p className="text-white/80">
-                 {/* ✅ Hardcodeado: Company Description */}
-                 {"Transforming your outdoor spaces with expertly crafted patios and pergolas. We specialize in creating stunning, functional outdoor areas that elevate your lifestyle and add lasting value to your home. With design, quality, and clear communication at the heart of every project, we ensure a seamless experience from concept to completion."} 
+                 {COMPANY_DESCRIPTION} {/* ✅ Traducido */}
               </p>
             </div>
 
             {/* Contact Info */}
             <div>
               <p className="font-semibold text-2xl mb-3">
-                 {/* ✅ Hardcodeado: Contact Title */}
-                 {"CONTACT"}
+                 {CONTACT_TITLE} {/* ✅ Traducido */}
               </p>
               <a
                 href="tel:+13465819082"
@@ -192,8 +213,7 @@ const Footer: React.FC = () => {
             {/* Location */}
             <div>
               <p className="font-semibold text-2xl mb-3">
-                 {/* ✅ Hardcodeado: Location Title */}
-                 {"LOCATION"}
+                 {LOCATION_TITLE} {/* ✅ Traducido */}
               </p>
               <a
                 href="https://www.google.com/maps/place/New+Gen+Patio+LLC+%2F+Aluminum+Pergola+Builders+in+Houston"
@@ -201,31 +221,26 @@ const Footer: React.FC = () => {
                 rel="noopener noreferrer"
                 className="text-white/80 hover:text-orange-400 transition-all"
               >
-                17903 Shaw Rd, Houston, TX 77429, United States 
+                {LOCATION_ADDRESS} {/* ✅ Traducido (Dirección permanece en EN) */}
               </a>
               <p className="text-white/50 text-md">
-                 {/* ✅ Hardcodeado: Location Area */}
-                 {"(Houston and surrounding areas)"}
+                 {LOCATION_AREA} {/* ✅ Traducido */}
               </p>
             </div>
 
             {/* Schedules */}
             <div>
               <p className="font-semibold text-2xl mb-3">
-                 {/* ✅ Hardcodeado: Schedule Title */}
-                 {"SCHEDULES"}
+                 {SCHEDULE_TITLE} {/* ✅ Traducido */}
               </p>
               <p className="text-white/80">
-                 {/* ✅ Hardcodeado: Schedule Weekday */}
-                 {"Monday - Friday: 8:00 AM - 6:00 PM"}
+                 {SCHEDULE_WEEKDAY} {/* ✅ Traducido */}
               </p>
               <p className="text-white/80">
-                 {/* ✅ Hardcodeado: Schedule Saturday */}
-                 {"Saturday: 9:00 AM - 4:00 PM"}
+                 {SCHEDULE_SATURDAY} {/* ✅ Traducido */}
               </p>
               <p className="text-white/80">
-                 {/* ✅ Hardcodeado: Schedule Sunday */}
-                 {"Sunday: Closed"}
+                 {SCHEDULE_SUNDAY} {/* ✅ Traducido */}
               </p>
             </div>
           </div>
@@ -248,16 +263,18 @@ const Footer: React.FC = () => {
 
           {/* Navigation */}
           <p className="text-white/90 text-xl font-semibold mt-2 text-center">
-                 {/* ✅ Hardcodeado: Navigation Title */}
-                 {"Navigation"}
+                 {NAVIGATION_TITLE} {/* ✅ Traducido */}
           </p>
-          <nav className="flex flex-wrap justify-center text-white text-sm mt-4 gap-2" aria-label={"Footer Navigation"}>
+          <nav className="flex flex-wrap justify-center text-white text-sm mt-4 gap-2" aria-label={"Navegación de Pie de Página"}>
             {navItems.map((id, index) => {
-              const path = routeMap[id] ?? `/${id}`;
+              // Aseguramos que la ruta tenga /es
+              const base = routeMap[id] ?? `/${id}`;
+              const path = base.endsWith('/es') ? base : `${base}/es`; // Añadir /es si falta
+              
               return (
                 <span key={id} className="inline-flex items-center">
                   <Link to={path} className="hover:text-orange-400 transition-colors" onClick={scrollToTop}>
-                    {navItemLabels[id] ?? id.replace(/-/g, " ").toUpperCase()} {/* ✅ Hardcodeado con fallback */}
+                    {navItemLabels[id] ?? id.replace(/-/g, " ").toUpperCase()} {/* ✅ Traducido (o fallback) */}
                   </Link>
                   {index !== navItems.length - 1 && (
                     <span aria-hidden="true" className="text-white/70 mx-1">•</span>
@@ -270,8 +287,7 @@ const Footer: React.FC = () => {
           {/* Copyright */}
           <div className="w-full bg-white/40 h-[1px] my-5" aria-hidden="true" />
           <p className="text-white text-center">
-             {/* ✅ Hardcodeado: Copyright */}
-             {"© 2024 NEW GEN PATIO. ALL RIGHTS RESERVED."}
+             {COPYRIGHT} {/* ✅ Traducido */}
           </p>
         </section>
       </footer>
@@ -279,4 +295,4 @@ const Footer: React.FC = () => {
   );
 };
 
-export default Footer;
+export default FooterEs;

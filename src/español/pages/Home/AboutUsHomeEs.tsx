@@ -1,7 +1,7 @@
 import React, { memo, useEffect, useRef, useCallback, useState } from "react";
 import { Link } from "react-router-dom";
-import useScrollToTop from "../../hooks/scrollToTop";
-// ❌ Eliminado: import { useTranslation } from "react-i18next";
+import useScrollToTop from "../../../hooks/scrollToTop";
+// ❌ ELIMINADO: import { useTranslation } from "react-i18next"; // ⬅️ Nuevo: Importamos useTranslation
 
 /* ========================= Perf helpers (Sin cambios) ========================= */
 const canPrefetch = () => {
@@ -59,8 +59,8 @@ function useReservedHeight() {
   return h;
 }
 
-const AboutUsHome: React.FC = () => {
-  // ❌ Eliminado: const { t } = useTranslation('about-us');
+const AboutUsHomeEs: React.FC = () => {
+  // ❌ ELIMINADO: const { t } = useTranslation('about-us');
     
   const scrollToTop = useScrollToTop();
   const sectionRef = useRef<HTMLElement | null>(null);
@@ -88,6 +88,13 @@ const AboutUsHome: React.FC = () => {
 
   // Prefetch por intención (hover/focus/touch) sin bloquear el hilo principal
   const onIntent = useCallback(() => runIdle(prefetchAboutUsChunk), []);
+  
+  // === TEXTOS TRADUCIDOS ===
+  const TITLE_SMALL = "SOBRE NOSOTROS";
+  const TITLE_LARGE = "Apasionados por los Espacios Exteriores";
+  const DESCRIPTION = "Somos más que constructores: somos un equipo dedicado a diseñar espacios exteriores que inspiran conexión, comodidad y recuerdos duraderos.";
+  const LINK_ARIA_LABEL = "Conoce más sobre nuestro equipo y misión";
+  const LINK_BUTTON_TEXT = "Saber Más Sobre Nosotros";
 
   return (
     <section
@@ -106,46 +113,41 @@ const AboutUsHome: React.FC = () => {
         minHeight: reserved,
         containIntrinsicSize: `${reserved}px` as any,
       }}
-      data-lwv="AboutUsHome"
+      data-lwv="AboutUsHomeEs"
     >
       <header>
         <h2
           id="about-us-heading"
           className="text-2xl font-semibold text-[#0d4754] tracking-wide uppercase"
         >
-          {/* ✅ Hardcodeado: Título Pequeño */}
-          {"ABOUT US"}
+          {TITLE_SMALL} {/* ⬅️ Traducción Título Pequeño */}
         </h2>
         <p className="text-4xl font-semibold text-black mt-2">
-          {/* ✅ Hardcodeado: Título Grande */}
-          {"Passionate About Outdoors"}
+          {TITLE_LARGE} {/* ⬅️ Traducción Título Grande */}
         </p>
         <div className="w-24 h-1 bg-[#0d4754] my-3 rounded-full mx-auto" aria-hidden="true" />
       </header>
 
       <h3 className="text-lg font-medium text-black/90 max-w-2xl">
-        {/* ✅ Hardcodeado: Descripción */}
-        {"We’re more than builders — we’re a team dedicated to designing outdoor spaces that inspire connection, comfort, and lasting memories."}
+        {DESCRIPTION} {/* ⬅️ Traducción Descripción */}
       </h3>
 
       <Link
-        to="/about-us"
+        to="/about-us/es" // ⬅️ RUTA ES
         className="bg-orange-500 border border-white/10 text-white text-lg font-semibold px-6 py-2 rounded-full mt-6 inline-block
                    transition-all hover:bg-orange-600 hover:scale-105 focus:ring-2 focus:ring-orange-500 focus:outline-none
                    motion-reduce:transform-none motion-reduce:transition-none"
         onClick={scrollToTop}
-        // ✅ Hardcodeado: aria-label
-        aria-label={"Learn more about our team and mission"}
+        aria-label={LINK_ARIA_LABEL}
         onPointerEnter={onIntent}
         onFocus={onIntent}
         onTouchStart={onIntent}
         data-gtm="about_us_cta"
       >
-        {/* ✅ Hardcodeado: Texto botón */}
-        {"Learn More About Us"}
+        {LINK_BUTTON_TEXT} {/* ⬅️ Traducción Texto botón */}
       </Link>
     </section>
   );
 };
 
-export default memo(AboutUsHome);
+export default memo(AboutUsHomeEs);

@@ -1,13 +1,12 @@
 import React, {
   useState,
   useEffect,
-
 } from "react";
 import { Link } from "react-router-dom";
 import { FaChevronUp } from "react-icons/fa";
 import useScroll from "./useScroll";
-import "../../App.css";
-import useScrollToTop from "../../hooks/scrollToTop";
+import "../../../App.css"; // ⬅️ + "../" extra
+import useScrollToTop from "../../../hooks/scrollToTop"; // ⬅️ + "../" extra
 // ❌ Eliminado: import { useTranslation } from "react-i18next"; 
 
 // Alturas estables
@@ -19,9 +18,31 @@ const HEADER_H_MOBILE = 80; // px
 /* ==================================================================== */
 
 const LANGUAGES = [
-  { code: "en", label: "English", flag: "/assets/images/estados-unidos.webp" },
-  { code: "es", label: "Español", flag: "/assets/images/espana.webp" },
+  { code: "en", label: "Inglés", flag: "../../assets/images/estados-unidos.webp" }, // ⬅️ + "../" extra
+  { code: "es", label: "Español", flag: "../../assets/images/espana.webp" }, // ⬅️ + "../" extra
 ];
+
+// Función para determinar la ruta de destino al cambiar de idioma
+const getLanguageLink = (code: string) => {
+    const currentPath = window.location.pathname;
+
+    // Si el código es 'en' (Inglés), eliminamos el sufijo /es
+    if (code === 'en') {
+        // Elimina '/es' si existe al final, si no, devuelve la ruta base
+        return currentPath.replace(/\/es$/, '') || '/';
+    }
+    
+    // Si el código es 'es' (Español), aseguramos que termine en /es (o sea /es)
+    if (currentPath.endsWith('/es')) {
+        return currentPath;
+    }
+    // Si es la ruta raíz ("/") en inglés, vamos a "/es"
+    if (currentPath === '/') {
+        return '/es';
+    }
+    // Si es otra ruta en inglés (ej: /about-us), vamos a /about-us/es
+    return currentPath + '/es';
+};
 
 const LanguageSwitch: React.FC<{ isScrolled: boolean; isMobile: boolean }> = ({
   isScrolled,
@@ -29,26 +50,11 @@ const LanguageSwitch: React.FC<{ isScrolled: boolean; isMobile: boolean }> = ({
 }) => {
   // ❌ Eliminado: const { i18n, ready } = useTranslation();
   
-  // Hardcodeado a 'en' (o lo que se necesite para el sitio principal)
-  const currentLanguage = 'en'; 
+  // Hardcodeado a 'es' para esta versión en español
+  const currentLanguage = 'es'; 
 
-  // Función para determinar la ruta de cambio
-  const getLanguageLink = (code: string) => {
-    // Si el código es 'en' (el idioma principal), la ruta base es la ruta actual sin /es
-    if (code === 'en') {
-        return window.location.pathname.replace('/es', '');
-    }
-    
-    // Si el código es 'es', añadimos /es si no está ya.
-    const currentPath = window.location.pathname;
-    if (currentPath.endsWith('/es') || currentPath === '/') {
-        // Si ya está en /es o es la raíz, redirige a /es
-        return '/es'; 
-    }
-    // Si es otra ruta (ej: /about-us), redirige a /about-us/es
-    return currentPath + '/es';
-  };
-  
+  // ❌ Eliminado: changeLanguage logic
+
   const baseClasses = `
     font-semibold text-sm rounded-full transition-opacity duration-150 p-0.5
     flex items-center justify-center border-2 cursor-pointer
@@ -57,32 +63,26 @@ const LanguageSwitch: React.FC<{ isScrolled: boolean; isMobile: boolean }> = ({
   const sizeClass = isMobile ? "w-8 h-8" : "w-6 h-6";
 
   return (
-    <div className="flex items-center space-x-2"> {/* ✅ HECHO: Removido "hidden" para que se muestre */}
+    <div className="flex items-center space-x-2"> {/* ✅ HECHO: Añadir switch de idiomas, oculto removido */}
       {LANGUAGES.map((lang) => (
-        <Link // Usamos Link para la navegación
+        <Link // Usamos Link en lugar de button para la navegación
           key={lang.code}
-          to={getLanguageLink(lang.code)} // ✅ HECHO: La ruta se calcula con getLanguageLink
-          aria-label={`Switch to ${lang.label}`}
+          to={getLanguageLink(lang.code)} // Utiliza la función para obtener la ruta
+          aria-label={`Cambiar a ${lang.label}`} // ✅ Traducido: aria-label
           title={lang.label}
           className={`${baseClasses} 
             ${
-              // Esto solo es para marcar visualmente el idioma 'en' si se desea
-              currentLanguage.startsWith(lang.code) && lang.code === 'en'
+              currentLanguage.startsWith(lang.code) 
                 ? "border-orange-500 opacity-100" 
                 : isScrolled
                 ? "border-gray-300 opacity-70 hover:opacity-100 hover:border-orange-300" 
                 : "border-white/50 opacity-70 hover:opacity-100 hover:border-white" 
             }
-            ${
-              // Marcado especial para el idioma "es" si la URL lo contiene, aunque currentLanguage sea 'en'
-              lang.code === 'es' && window.location.pathname.includes('/es') 
-              ? "border-orange-500 opacity-100" : ""
-            }
           `}
         >
           <img
             src={lang.flag}
-            alt={`${lang.label} Flag`}
+            alt={`Bandera de ${lang.label}`} // ✅ Traducido: alt text
             width={isMobile ? 32 : 24}
             height={isMobile ? 32 : 24}
             className={`object-cover rounded-full ${sizeClass}`}
@@ -100,20 +100,20 @@ const LanguageSwitch: React.FC<{ isScrolled: boolean; isMobile: boolean }> = ({
 /* ⭐️ COMPONENTE HEADER PRINCIPAL ⭐️               */
 /* ==================================================================== */
 
-const Header: React.FC = () => {
+const HeaderEs: React.FC = () => {
   // ❌ Eliminado: const { t } = useTranslation("header"); 
 
   const scrollToTop = useScrollToTop();
   const isScrolled = useScroll(50);
 
-  // ✅ Hardcodeado: Menú en inglés
+  // ✅ Hardcodeado: Menú en ESPAÑOL
   const menuItems: { [key: string]: string } = {
-    services: "Services",
-    catalog: "Catalog",
-    "our-promise": "Our Promise",
-    "who-we-are": "Who We Are",
-    blogs: "Blogs",
-    contact: "Contact",
+    services: "Servicios", // ✅ Traducido
+    catalog: "Catálogo", // ✅ Traducido
+    "our-promise": "Nuestra Promesa", // ✅ Traducido
+    "who-we-are": "Quiénes Somos", // ✅ Traducido
+    blogs: "Blog", // ✅ Traducido
+    contact: "Contacto", // ✅ Traducido
   };
   
   const sectionIds = Object.keys(menuItems);
@@ -123,13 +123,14 @@ const Header: React.FC = () => {
   const [mobileDropdownOpen, setMobileDropdownOpen] = useState(false);
   let dropdownTimeout: ReturnType<typeof setTimeout>;
 
+  // ✅ Modificado: Todas las rutas llevan a /es
   const routeMap: { [key: string]: string } = {
-    services: "/outdoor-living-services",
-    catalog: "/covered-patio-project-catalog",
-    "our-promise": "/how-we-doit", // NOTE: This is linked to /how-we-doit, but the text is "Our Promise"
-    "who-we-are": "/about-us",
-    blogs: "/blog",
-    contact: "/contact-us",
+    services: "/outdoor-living-services/es",
+    catalog: "/covered-patio-project-catalog/es",
+    "our-promise": "/how-we-doit/es", // NOTE: This is linked to /how-we-doit, but the text is "Our Promise"
+    "who-we-are": "/about-us/es",
+    blogs: "/blog/es",
+    contact: "/contact-us/es",
   };
 
   // Evita scroll del body con el menú móvil abierto
@@ -199,16 +200,16 @@ const Header: React.FC = () => {
           {/* ===== Logo + texto (IZQUIERDA) ===== */}
           <div className="flex items-center">
             <Link
-              to="/"
-              aria-label="Home"
+              to="/es" // ✅ Modificado: Home link a /es
+              aria-label="Inicio" // ✅ Traducido: aria-label
               onClick={scrollToTop}
               className="flex items-center"
             >
               <img
-                src={`/assets/images/IdentidadSVG/${
+                src={`../../assets/images/IdentidadSVG/${ // ⬅️ + "../" extra
                   isScrolled ? "LogoColor.svg" : "LogoBlanco.svg"
                 }`}
-                alt="New Gen Patio Logo"
+                alt="Logotipo de New Gen Patio" // ✅ Traducido: alt text
                 width={65}
                 height={80}
                 className="h-14 md:h-16 w-auto p-2 pl-0 select-none"
@@ -224,14 +225,14 @@ const Header: React.FC = () => {
               style={{ lineHeight: 1.05 }}
             >
               <p className="font-bold">NEW GEN PATIO</p>
-              <p className="font-medium opacity-90">Modern Outdoor Living</p>
+              <p className="font-medium opacity-90">Vida Exterior Moderna</p> {/* ✅ Traducido */}
             </div>
           </div>
 
           {/* ===== Menú principal (DESKTOP) + Switch Idioma (DERECHA) ===== */}
           <div className="flex items-center h-full gap-8">
             <nav
-              aria-label="Main Menu"
+              aria-label="Menú Principal" // ✅ Traducido: aria-label
               role="navigation"
               className="hidden lg:flex h-full"
             >
@@ -260,7 +261,7 @@ const Header: React.FC = () => {
                         }`}
                         style={{ lineHeight: 1 }}
                       >
-                        {menuItems[id]} {/* ✅ Hardcodeado: Our Promise */}
+                        {menuItems[id]} {/* ✅ Traducido: Nuestra Promesa */}
                         <FaChevronUp
                           className={`transition-transform ${
                             dropdownOpen ? "rotate-180" : ""
@@ -275,18 +276,18 @@ const Header: React.FC = () => {
                           onMouseLeave={() => setDropdownOpen(false)}
                         >
                           <Link
-                            to="/our-promise"
+                            to="/our-promise/es" // ✅ Modificado: link a /es
                             onClick={scrollToTop}
                             className="block pl-3 py-2 text-black/90 font-semibold hover:bg-gray-100 transition hover:text-orange-500"
                           >
-                            {"Our Promise"} {/* ✅ Hardcodeado: Our Promise (Submenu) */}
+                            {"Nuestra Promesa"} {/* ✅ Traducido: Nuestra Promesa (Submenú) */}
                           </Link>
                           <Link
-                            to="/how-we-doit"
+                            to="/how-we-doit/es" // ✅ Modificado: link a /es
                             onClick={scrollToTop}
                             className="block pl-3 py-2 text-black/90 font-semibold hover:bg-gray-100 transition hover:text-orange-500"
                           >
-                            {"How we do it"} {/* ✅ Hardcodeado: How we do it (Submenu) */}
+                            {"Cómo lo hacemos"} {/* ✅ Traducido: How we do it (Submenú) */}
                           </Link>
                         </div>
                       )}
@@ -294,7 +295,7 @@ const Header: React.FC = () => {
                   ) : (
                     <li key={id}>
                       <Link
-                        to={routeMap[id]}
+                        to={routeMap[id]} // ✅ Modificado: link a /es (usa routeMap)
                         onClick={() => {
                           handleClick(id);
                           scrollToTop();
@@ -306,7 +307,7 @@ const Header: React.FC = () => {
                         }`}
                         style={{ lineHeight: 1 }}
                       >
-                        {menuItems[id]} {/* ✅ Hardcodeado: Other menu items */}
+                        {menuItems[id]} {/* ✅ Traducido: Otros elementos del menú */}
                       </Link>
                     </li>
                   )
@@ -316,7 +317,7 @@ const Header: React.FC = () => {
 
             {/* ⬅️ SWITCH DE IDIOMA (DESKTOP) */}
             <div className="hidden lg:block">
-              <LanguageSwitch isScrolled={isScrolled} isMobile={false} /> {/* ✅ HECHO: Se llama aquí */}
+              <LanguageSwitch isScrolled={isScrolled} isMobile={false} />
             </div>
           </div>
 
@@ -324,7 +325,7 @@ const Header: React.FC = () => {
           {/* ===== Botón hamburguesa (móvil) ===== */}
           <button
             className="lg:hidden focus:outline-none absolute top-4 right-5 z-[110] cursor-pointer pointer-events-auto"
-            aria-label={menuOpen ? "Close menu" : "Open menu"}
+            aria-label={menuOpen ? "Cerrar menú" : "Abrir menú"} // ✅ Traducido: aria-label
             aria-expanded={menuOpen}
             onClick={() => setMenuOpen((prev) => !prev)}
           >
@@ -356,8 +357,8 @@ const Header: React.FC = () => {
         >
           {/* Logo en Mobile */}
           <Link
-            to="/"
-            aria-label="Home"
+            to="/es" // ✅ Modificado: Home link a /es
+            aria-label="Inicio" // ✅ Traducido: aria-label
             onClick={() => {
               scrollToTop();
               setMenuOpen(false);
@@ -366,8 +367,8 @@ const Header: React.FC = () => {
             className="mb-4"
           >
             <img
-              src="/assets/images/IdentidadSVG/LogoBlanco.svg"
-              alt="New Gen Patio Logo"
+              src="../../assets/images/IdentidadSVG/LogoBlanco.svg" // ⬅️ + "../" extra
+              alt="Logotipo de New Gen Patio" // ✅ Traducido: alt text
               width={200}
               height={80}
               className="h-20 w-auto p-2 select-none"
@@ -378,7 +379,7 @@ const Header: React.FC = () => {
           </Link>
           
           {/* ⬅️ SWITCH DE IDIOMA (MOBILE) */}
-          <LanguageSwitch isScrolled={isScrolled} isMobile={true} /> {/* ✅ HECHO: Se llama aquí */}
+          <LanguageSwitch isScrolled={isScrolled} isMobile={true} />
 
 
           {/* ===== Items del menú móvil ===== */}
@@ -390,7 +391,7 @@ const Header: React.FC = () => {
                   onClick={() => setMobileDropdownOpen(!mobileDropdownOpen)}
                   style={{ lineHeight: 1 }}
                 >
-                  {menuItems[id]} {/* ✅ Hardcodeado: Our Promise */}
+                  {menuItems[id]} {/* ✅ Traducido: Nuestra Promesa */}
                   <FaChevronUp
                     className={`${mobileDropdownOpen ? " rotate-180" : ""}`}
                   />
@@ -399,7 +400,7 @@ const Header: React.FC = () => {
                 {mobileDropdownOpen && (
                   <div className="flex flex-col w-full text-center mt-2">
                     <Link
-                      to="/our-promise"
+                      to="/our-promise/es" // ✅ Modificado: link a /es
                       onClick={() => {
                         scrollToTop();
                         setMenuOpen(false);
@@ -407,10 +408,10 @@ const Header: React.FC = () => {
                       }}
                       className="block py-2 text-lg hover:text-orange-500"
                     >
-                      {"Our Promise"} {/* ✅ Hardcodeado: Our Promise (Submenu) */}
+                      {"Nuestra Promesa"} {/* ✅ Traducido: Nuestra Promesa (Submenú) */}
                     </Link>
                     <Link
-                      to="/how-we-doit"
+                      to="/how-we-doit/es" // ✅ Modificado: link a /es
                       onClick={() => {
                         scrollToTop();
                         setMenuOpen(false);
@@ -418,7 +419,7 @@ const Header: React.FC = () => {
                       }}
                       className="block py-2 text-lg hover:text-orange-500"
                     >
-                      {"How we do it"} {/* ✅ Hardcodeado: How we do it (Submenu) */}
+                      {"Cómo lo hacemos"} {/* ✅ Traducido: How we do it (Submenú) */}
                     </Link>
                   </div>
                 )}
@@ -426,7 +427,7 @@ const Header: React.FC = () => {
             ) : (
               <Link
                 key={id}
-                to={routeMap[id]}
+                to={routeMap[id]} // ✅ Modificado: link a /es (usa routeMap)
                 onClick={() => {
                   handleClick(id);
                   scrollToTop();
@@ -436,7 +437,7 @@ const Header: React.FC = () => {
                 className="text-2xl transition-colors duration-150 hover:text-orange-500"
                 style={{ lineHeight: 1 }}
               >
-                {menuItems[id]} {/* ✅ Hardcodeado: Other menu items */}
+                {menuItems[id]} {/* ✅ Traducido: Otros elementos del menú */}
               </Link>
             )
           )}
@@ -446,4 +447,4 @@ const Header: React.FC = () => {
   );
 };
 
-export default Header;
+export default HeaderEs;

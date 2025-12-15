@@ -8,13 +8,14 @@ import React, {
   useState,
   useCallback,
 } from "react";
-import { blogs } from "../Blogs/blogData";
+// ✅ CORREGIDO: Importamos la data blogsEs desde la ruta ES
+import { blogsEs } from "../Blogs/blogDataEs"; // Asumo que el archivo es blogDataEs.ts y exporta blogsEs
 import { Link } from "react-router-dom";
-import useScrollToTop from "../../hooks/scrollToTop";
-// ❌ Eliminado: import { useTranslation } from "react-i18next"; 
+import useScrollToTop from "../../../hooks/scrollToTop";
+// ❌ ELIMINADO: import { useTranslation } from "react-i18next"; 
 
 // Lazy del slider (reduce JS inicial)
-const Slider = lazy(() => import("../../components/Slider/SliderBlogs"));
+const Slider = lazy(() => import("../../../components/Slider/SliderBlogs"));
 
 /* ========================= Prefetch helpers (Sin cambios) ========================= */
 const canPrefetch = () => {
@@ -37,10 +38,10 @@ const runIdle = (cb: () => void) => {
 /* ================================================================ */
 
 /**
- * Prefetch robusto del chunk de la página detalle (dinámica /blog/:slug)
- * (Sin cambios)
+ * Prefetch robusto del chunk de la página detalle (dinámica /blog/:slug/es)
  */
 let blogPagePrefetched = false;
+// Se asume que BlogPageEs se está creando en el futuro
 const blogPageModules = import.meta.glob([
   "../**/BlogPage*.tsx",
   "../**/BlogPage*.jsx",
@@ -59,19 +60,18 @@ const prefetchBlogPageChunk = () => {
 
 /**
  * Prefetch del chunk del Slider cuando se aproxima
- * (Sin cambios)
  */
 let sliderPrefetched = false;
 const prefetchSliderChunk = () => {
   if (sliderPrefetched || !canPrefetch()) return;
   sliderPrefetched = true;
-  import("../../components/Slider/SliderBlogs").catch(() => {
+  import("../../../components/Slider/SliderBlogs").catch(() => {
     sliderPrefetched = false;
   });
 };
 /* =================================================================== */
 
-/* ===== helper: reserva responsiva para toda la sección (Sin cambios) ===== */
+/* ===== helper: reserva responsiva para toda la sección (Corregido) ===== */
 function useReservedHeight() {
   const compute = () => {
     const w = typeof window !== "undefined" ? window.innerWidth : 1024;
@@ -84,21 +84,19 @@ function useReservedHeight() {
   useEffect(() => {
     const onResize = () => setH(compute());
     window.addEventListener("resize", onResize);
-    return () => window.removeEventListener("resize", onResize);
+    return () => window.removeEventListener("resize", onResize); 
   }, []);
   return h;
 }
 
-const BlogCardSlider: React.FC = () => {
-  // ❌ Eliminado: const { t, i18n } = useTranslation('blog'); 
-  // ❌ Eliminado: const currentLang = i18n.language || 'en';
-  // ✅ Hardcodeamos a 'en' para el formato de fecha
-  const currentLang = 'en'; 
+const BlogsSectionEs: React.FC = () => {
+  // ❌ ELIMINADO: const { t, i18n } = useTranslation('blog'); 
 
-  // Ordenamos una sola vez (blogs es estático)
+  // ✅ CORREGIDO: Usamos la data importada como blogsEs
   const latestBlogs = useMemo(
     () =>
-      [...blogs].sort(
+      // Usamos blogsEs, que asumimos contiene la data traducida y las rutas ES
+      [...blogsEs].sort(
         (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
       ),
     []
@@ -150,27 +148,40 @@ const BlogCardSlider: React.FC = () => {
     io.observe(el);
     return () => io.disconnect();
   }, [latestBlogs, baseUrl, warmUpImages]);
+  
+  // === TEXTOS TRADUCIDOS FIJOS ===
+  const HEADER_TITLE_SMALL = "BLOG DE NEW GEN PATIO";
+  const HEADER_TITLE_LARGE = "Últimas Noticias e Ideas de Vida Exterior";
+  const READ_BLOG_ARIA_LABEL_PREFIX = "Leer blog: ";
+  // Usamos es-ES para formatear la fecha
+  const formatBlogDate = (dateString: string) => {
+    const dateObj = new Date(dateString);
+    return isNaN(dateObj.getTime())
+      ? dateString
+      : dateObj.toLocaleDateString('es-ES', {  // <-- Formato en español fijo
+          year: "numeric",
+          month: "long",
+          day: "numeric",
+        });
+  };
+
 
   const blogSlides = useMemo(
     () =>
       latestBlogs.map((blog) => {
-        const dateObj = new Date(blog.date);
-        // ✅ Usamos 'en' para el formato de fecha (hardcodeado)
-        const formattedDate = isNaN(dateObj.getTime())
-          ? blog.date
-          : dateObj.toLocaleDateString(currentLang, { 
-              year: "numeric",
-              month: "long",
-              day: "numeric",
-            });
+        
+        const formattedDate = formatBlogDate(blog.date);
 
         // respeta BASE_URL y evita problemas con espacios/& en nombres
         const imgSrc = `${baseUrl}${encodeURI(blog.imageUrl)}`;
+        
+        // La URL de destino DEBE incluir /es
+        const linkTo = `/blog/${blog.slug}/es`;
 
         return (
           <div key={blog.id} className="h-full flex">
             <Link
-              to={`/blog/${blog.slug}`}
+              to={linkTo} // ⬅️ Ruta ES
               onClick={scrollToTop}
               onPointerEnter={() => runIdle(prefetchBlogPageChunk)}
               onFocus={() => runIdle(prefetchBlogPageChunk)}
@@ -181,15 +192,15 @@ const BlogCardSlider: React.FC = () => {
                 hover:scale-[1.02] transition-transform
                 motion-reduce:transform-none motion-reduce:transition-none
               "
-              // ✅ Hardcodeado: aria-label
-              aria-label={`Read blog: ${blog.title}`}
+              // ⬅️ Traducción: aria-label
+              aria-label={`${READ_BLOG_ARIA_LABEL_PREFIX}${blog.title}`}
               data-gtm="blog_card"
             >
               <figure className="w-full h-52">
                 <img
                   src={imgSrc}
-                  // ✅ Hardcodeado: alt de la imagen
-                  alt={`Cover image for blog post: ${blog.title}`}
+                  // ⬅️ Traducción: alt de la imagen
+                  alt={`Imagen de portada para la publicación de blog: ${blog.title}`}
                   loading="lazy"
                   decoding="async"
                   width={600}  
@@ -214,7 +225,7 @@ const BlogCardSlider: React.FC = () => {
                     {blog.title} 
                   </h3>
                   <p className="text-gray-600 mt-2 text-sm line-clamp-3">
-                    {blog.subtitle}
+                    {blog.subtitle} 
                   </p>
                 </div>
                 <div className="text-right mt-4">
@@ -225,7 +236,7 @@ const BlogCardSlider: React.FC = () => {
           </div>
         );
       }),
-    [latestBlogs, baseUrl, scrollToTop, currentLang]
+    [latestBlogs, baseUrl, scrollToTop]
   );
 
   return (
@@ -244,17 +255,15 @@ const BlogCardSlider: React.FC = () => {
         minHeight: reserved,
         containIntrinsicSize: `${reserved}px` as any,
       }}
-      data-lwv="BlogCardSlider"
+      data-lwv="BlogCardSliderEs"
     >
       <div className="max-w-6xl mx-auto">
         <header className="text-center mb-10">
           <h2 id="blogs-heading" className="text-2xl font-semibold text-[#0d4754]">
-            {/* ✅ Hardcodeado: header-title-small */}
-            {"NEW GEN PATIO BLOGS"}
+            {HEADER_TITLE_SMALL} {/* ⬅️ Traducción */}
           </h2>
           <p className="text-4xl font-semibold text-black">
-            {/* ✅ Hardcodeado: header-title-large */}
-            {"Latest Insights & Outdoor Living Ideas"}
+            {HEADER_TITLE_LARGE} {/* ⬅️ Traducción */}
           </p>
           <div className="w-24 h-1 bg-[#0d4754] mt-4 mx-auto rounded-full" aria-hidden="true" />
         </header>
@@ -277,4 +286,4 @@ const BlogCardSlider: React.FC = () => {
   );
 };
 
-export default memo(BlogCardSlider);
+export default memo(BlogsSectionEs);

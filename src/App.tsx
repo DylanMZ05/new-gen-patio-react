@@ -14,21 +14,38 @@ import {
 import { Helmet, HelmetProvider } from "react-helmet-async";
 
 // ====== Componentes críticos (no lazy) ======
-// ✅ Revertido a importación estándar (sin extensión)
+// Versión Base (EN)
 import Header from "./components/header/Header";
+// Versión en Español (ES)
+import HeaderEs from "./español/components/header/HeaderEs"; // <-- Importación del Header ES
 import useGoogleAdsTracking from "./hooks/useGoogleAdsTracking";
 // 🟢 IMPORTACIÓN DEL SCHEMA (sin extensión)
 import SchemaMarkup from "./SEO/SchemaMarkup"; 
 
 // ====== Deferibles (lazy) ======
-// ✅ Revertido a importación estándar (sin extensión)
+// Versión Base (EN)
 const WspButton = lazy(() => import("./components/WspButton"));
 const Footer = lazy(() => import("./components/footer/footer"));
 const QuotePopup = lazy(() => import("./components/QuotePopup"));
 const BlockSection = lazy(() => import("./components/BlockSection"));
+// Versión en Español (ES)
+const WspButtonEs = WspButton; // Se podría usar el mismo si es solo visual
+const FooterEs = lazy(() => import("./español/components/footer/FooterEs")); // <-- Nuevo Footer en español
+const QuotePopupEs = QuotePopup; // Se podría usar el mismo
+const BlockSectionEs = BlockSection; // Se podría usar el mismo
+// Otros componentes ES necesarios para la estructura interna de MainHomeEs
+const MarqueeBannerEs = lazy(() => import("./español/components/MarqueeBannerEs")); // Importación ES
+// const ServicesEs = lazy(() => import("./español/pages/Home/services/ServicesEs"));
+// const HowWeDoItHomeEs = lazy(() => import("./español/pages/Home/HowWeDoItHomeEs"));
+// const OurPromiseHomeEs = lazy(() => import("./español/pages/Home/OurPromiseHomeEs"));
+// const AboutUsHomeEs = lazy(() => import("./español/pages/Home/AboutUsHomeEs"));
+// const ClientsEs = lazy(() => import("./español/pages/Home/ClientsEs"));
+// const FAQEs = lazy(() => import("./español/pages/Home/FAQ/FAQEs"));
+// const BlogsSectionEs = lazy(() => import("./español/pages/Home/BlogsSectionEs"));
+
 
 // ====== Páginas ======
-// ✅ Revertido a importación estándar (sin extensión)
+// Versión Base (EN)
 const MainHome = lazy(() => import("./pages/Home/MainHome"));
 const Attached = lazy(() => import("./pages/Services/Attached"));
 const Freestanding = lazy(() => import("./pages/Services/Freestanding"));
@@ -52,12 +69,17 @@ const ContactRedirect = lazy(() => import("./pages/Contact/ContactRedirect"));
 const FreeQuoteTracking = lazy(() => import("./pages/traking/freequote-tracking"));
 const WhatsAppRedirect = lazy(() => import("./pages/traking/WhatsAppRedirect"));
 const ProjectsList = lazy(() => import("./pages/Catalogo/Catalogo"));
+
+// Versión en Español (ES)
+const MainHomeEs = lazy(() => import("./español/pages/Home/MainHomeEs")); // <-- Home ES
+
 // Admin
 const AdminDashboard = lazy(() => import("./pages/Admin/AdminDashboard"));
 const Login = lazy(() => import("./pages/Admin/Login"));
 // ✅ Revertido a importación estándar (sin extensión)
 import AdminRoute from "./pages/Admin/AdminRoute";
 import Clients from "./pages/Home/Clients";
+
 
 // ====== Helpers ======
 const matches = (patterns: string[], pathname: string) =>
@@ -66,6 +88,11 @@ const matches = (patterns: string[], pathname: string) =>
 const BlogsRedirect: React.FC = () => {
   const { slug } = useParams();
   return <Navigate to={`/blog/${slug ?? ""}`} replace />;
+};
+
+const BlogsRedirectEs: React.FC = () => {
+  const { slug } = useParams();
+  return <Navigate to={`/blog/${slug ?? ""}/es`} replace />;
 };
 
 const NoIndex: React.FC<{ children: React.ReactNode }> = ({ children }) => (
@@ -91,6 +118,8 @@ const canPrefetch = () => {
     if (conn?.saveData) return false;
     const t = String(conn?.effectiveType || "").toLowerCase();
     if (t.includes("2g") || t.includes("slow-2g")) return false;
+    // Incluimos la comprobación de idioma para prefetch
+    if (window.location.pathname.includes('/es')) return false; // No prefetch en versión ES
   }
   if (typeof document !== "undefined" && document.visibilityState === "hidden") return false;
   return true;
@@ -117,12 +146,18 @@ const routePrefetchers: Record<string, () => Promise<any>> = {
   "/blog": () => import("./pages/Blogs/BlogsSectionPage"),
   "/covered-patio-project-catalog": () => import("./pages/Catalogo/Catalogo"), 
 };
+// Rutas de prefetch ES (se mantienen aquí por consistencia aunque canPrefetch() las desactiva)
+const routePrefetchersEs: Record<string, () => Promise<any>> = {
+  "/es": () => import("./español/pages/Home/MainHomeEs"),
+};
+
 
 /** Link que hace prefetch del chunk al hover/focus (sin bloquear navegación) */
 const SmartLink: React.FC<React.ComponentProps<typeof Link> & { prefetchTo?: string }> = ({
   prefetchTo, onMouseEnter, onFocus, ...props
 }) => {
   const prefetch = () => {
+    // Nota: El prefetch solo se ejecuta en la versión base (EN), ver canPrefetch()
     if (!canPrefetch() || !prefetchTo) return;
     const p = routePrefetchers[prefetchTo];
     if (typeof p === "function") runIdle(() => p().catch(() => void 0));
@@ -193,6 +228,16 @@ const LazyWhenVisible: React.FC<{
 const Layout: React.FC = memo(() => {
   const location = useLocation();
   useGoogleAdsTracking();
+  
+  // Determinamos si estamos en una ruta en español (ruta base o cualquier ruta con /es)
+  const isSpanishRoute = location.pathname === '/es' || (location.pathname.includes('/es') && location.pathname.length > 3);
+  
+  // Usamos los componentes ES o EN basados en la ruta
+  const CurrentHeader = isSpanishRoute ? HeaderEs : Header;
+  const CurrentFooter = isSpanishRoute ? FooterEs : Footer;
+  const CurrentWspButton = isSpanishRoute ? WspButtonEs : WspButton;
+  const CurrentQuotePopup = isSpanishRoute ? QuotePopupEs : QuotePopup;
+
 
   const noLayoutRoutes = useMemo(
     () => [
@@ -201,6 +246,9 @@ const Layout: React.FC = memo(() => {
       "/whatsapp-redirect",
       "/login/dashboard",
       "/admin/*",
+      "/financing-options/es", // ✅ Añadido /es
+      "/get-a-free-quote-houston-tracking/es", // ✅ Añadido /es
+      "/whatsapp-redirect/es", // ✅ Añadido /es
     ],
     []
   );
@@ -215,6 +263,12 @@ const Layout: React.FC = memo(() => {
         routePrefetchers["/outdoor-living-services"]?.();
         routePrefetchers["/covered-patio-project-catalog"]?.();
         routePrefetchers["/blog"]?.();
+      });
+    }
+    if (location.pathname === "/es") {
+      runIdle(() => {
+        // Precalienta las rutas más probables desde Home ES
+        routePrefetchersEs["/es"]?.();
       });
     }
   }, [location.pathname]);
@@ -233,11 +287,12 @@ const Layout: React.FC = memo(() => {
       <SchemaMarkup type="business" />
 
       <ScrollToTop />
-      {!isNoLayout && <Header />}
+      {/* Usamos el Header correcto basado en el idioma */}
+      {!isNoLayout && <CurrentHeader />}
 
       <Suspense fallback={<PageFallback />}>
         <Routes>
-          {/* Públicas */}
+          {/* Públicas (Versión base EN) */}
           <Route path="/" element={<MainHome />} />
           <Route path="/aluminium-custom-pergola-cover-patio" element={<PatiosAndPergolasHome />} />
           <Route path="/outdoor-living-services" element={<ServicesMain />} />
@@ -330,6 +385,13 @@ const Layout: React.FC = memo(() => {
           <Route path="/whatsapp-redirect" element={<NoIndex><WhatsAppRedirect /></NoIndex>} />
           <Route path="/covered-patio-project-catalog" element={<ProjectsList />} />
 
+
+          {/* ========================================== */}
+          {/* RUTAS EN ESPAÑOL (/es) */}
+          {/* ========================================== */}
+
+          <Route path="/es" element={<MainHomeEs />} /> {/* <-- Única ruta ES activa */}
+          
           {/* Admin */}
           <Route path="/login/dashboard" element={<Login />} />
           <Route
@@ -341,25 +403,50 @@ const Layout: React.FC = memo(() => {
             }
           />
 
-          {/* Redirección /contact → /contact-us */}
+          {/* Redirecciones */}
+          {/* /contact → /contact-us (EN) */}
           <Route path="/contact" element={<Navigate to="/contact-us" replace />} />
+          {/* /contact/es → /contact-us/es (ES) */}
+          <Route path="/contact/es" element={<Navigate to="/contact-us/es" replace />} />
+          {/* Redirección para /es/algo (por si se ingresa mal) -> /algo/es */}
+          <Route path="/es/:path" element={<Navigate to={window.location.pathname.replace('/es/', '/') + '/es'} replace />} />
+
 
           {/* 404 */}
           <Route
             path="*"
             element={
               <div className="min-h-screen flex flex-col justify-center items-center text-center px-4 py-20 bg-white">
-                <h1 className="text-5xl font-bold mb-4 text-[#1a214a]">404 - Page Not Found</h1>
-                <p className="mb-6 text-lg text-gray-700">
-                  The page you are looking for doesn&apos;t exist or has been moved.
-                </p>
-                <SmartLink
-                  to="/"
-                  prefetchTo="/"
-                  className="px-6 py-3 bg-[#1a214a] text-white rounded-lg shadow hover:bg-[#2a2f6a] transition duration-300 cursor-pointer"
-                >
-                  Go back to homepage
-                </SmartLink>
+                {/* 404 para inglés y español (si la ruta no es /es) */}
+                {isSpanishRoute ? (
+                    <>
+                        <h1 className="text-5xl font-bold mb-4 text-[#1a214a]">404 - Página no encontrada</h1>
+                        <p className="mb-6 text-lg text-gray-700">
+                            La página que estás buscando no existe o ha sido movida.
+                        </p>
+                        <SmartLink
+                            to="/es"
+                            prefetchTo="/" // Prefetch sigue siendo a la raíz EN, ya que el componente es compartido
+                            className="px-6 py-3 bg-[#1a214a] text-white rounded-lg shadow hover:bg-[#2a2f6a] transition duration-300 cursor-pointer"
+                        >
+                            Volver a la página de inicio
+                        </SmartLink>
+                    </>
+                ) : (
+                    <>
+                        <h1 className="text-5xl font-bold mb-4 text-[#1a214a]">404 - Page Not Found</h1>
+                        <p className="mb-6 text-lg text-gray-700">
+                            The page you are looking for doesn&apos;t exist or has been moved.
+                        </p>
+                        <SmartLink
+                            to="/"
+                            prefetchTo="/"
+                            className="px-6 py-3 bg-[#1a214a] text-white rounded-lg shadow hover:bg-[#2a2f6a] transition duration-300 cursor-pointer"
+                        >
+                            Go back to homepage
+                        </SmartLink>
+                    </>
+                )}
               </div>
             }
           />
@@ -369,12 +456,12 @@ const Layout: React.FC = memo(() => {
       {/* Widgets globales diferidos */}
       {!isNoLayout && idleWidgets && (
         <Suspense fallback={null}>
-          <QuotePopup />
+          <CurrentQuotePopup />
         </Suspense>
       )}
       {!isNoLayout && idleWidgets && (
         <Suspense fallback={null}>
-          <WspButton />
+          <CurrentWspButton />
         </Suspense>
       )}
 
@@ -398,7 +485,7 @@ const Layout: React.FC = memo(() => {
               />
             }
           >
-            <Footer />
+            <CurrentFooter />
           </Suspense>
         </LazyWhenVisible>
       )}

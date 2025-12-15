@@ -1,7 +1,7 @@
 import React, { memo, useEffect, useRef, useState, useCallback } from "react";
 import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
-import useScrollToTop from "../../hooks/scrollToTop";
+import useScrollToTop from "../../../hooks/scrollToTop";
 // ❌ Eliminado: import { useTranslation } from "react-i18next";
 
 /* ========================= Prefetch helpers ========================= */
@@ -28,7 +28,8 @@ let patiosPrefetched = false;
 const prefetchPatios = () => {
   if (patiosPrefetched || !canPrefetch()) return;
   patiosPrefetched = true;
-  import("../../pages/Home/PatiosAndPergolasHome").catch(() => {
+  // Ruta de prefetch para la versión ES
+  import("./PatiosAndPergolasHomeEs").catch(() => { // Corregido: apunto al componente ES
     patiosPrefetched = false;
   });
 };
@@ -37,13 +38,14 @@ let quotePrefetched = false;
 const prefetchQuote = () => {
   if (quotePrefetched || !canPrefetch()) return;
   quotePrefetched = true;
-  import("../../pages/FreeQuote/FreeQuote").catch(() => {
+  // Ruta de prefetch para la versión ES
+  import("../FreeQuote/FreeQuoteEs").catch(() => {
     quotePrefetched = false;
   });
 };
 /* =================================================================== */
 
-const Main: React.FC = () => {
+const MainEs: React.FC = () => {
   // ❌ Eliminado: const { t } = useTranslation('home');
 
   const sectionRef = useRef<HTMLElement | null>(null);
@@ -57,10 +59,14 @@ const Main: React.FC = () => {
   const scrollToTop = useScrollToTop();
 
   const baseUrl = import.meta.env.BASE_URL || "/";
+  
+  // Rutas de archivos (se asume que están en el directorio público, se mantiene el patrón original)
   const posterJpg = `${baseUrl}assets/videos/homevideo-poster.jpg`;
   const posterWebp = `${baseUrl}assets/videos/homevideo-poster.webp`;
   const posterAvif = `${baseUrl}assets/videos/homevideo-poster.avif`;
-  const fallbackImg = `${baseUrl}assets/images/Products/Patios&Pergolas/Attached/18.webp`;
+  
+  // Usamos la ruta relativa para el fallback si el componente está anidado en español/pages/Home
+  const fallbackImg = `../../assets/images/Products/Patios&Pergolas/Attached/18.webp`; 
 
   const videoSrcWebm = `${baseUrl}assets/videos/homevideo.webm`;
   const videoSrcMp4 = `${baseUrl}assets/videos/homevideo.mp4`;
@@ -121,6 +127,15 @@ const Main: React.FC = () => {
   const onPatiosIntent = useCallback(() => runIdle(prefetchPatios), []);
   const onQuoteIntent = useCallback(() => runIdle(prefetchQuote), []);
 
+  // === TEXTOS TRADUCIDOS ===
+  const IMAGE_ALT_POSTER = "Cubierta de patio de aluminio moderna al atardecer";
+  const IMAGE_ALT_FALLBACK = "Imagen de respaldo de proyecto de patio";
+  const MAIN_HEADING = "Constructores de Pérgolas de Aluminio y Patios Cubiertos de Lujo a Medida";
+  const SUBHEADING = "Transforma tu espacio exterior con nosotros. Diseños personalizados, garantía de por vida e instalación experta.";
+  const QUOTE_ARIA_LABEL = "Obtener presupuesto gratuito para tu proyecto exterior";
+  const QUOTE_BUTTON = "Pedir Presupuesto Gratis";
+
+
   return (
     <section
       ref={sectionRef}
@@ -152,8 +167,8 @@ const Main: React.FC = () => {
         <source type="image/webp" srcSet={posterWebp} sizes="100vw" />
         <img
           src={posterJpg}
-          // ✅ Texto Hardcodeado: Alt del poster
-          alt={"Modern aluminum patio cover at sunset"}
+          // ✅ Texto plano traducido
+          alt={IMAGE_ALT_POSTER}
           className="w-full h-full object-cover max-h-[1080px]"
           width={1920}
           height={1080}
@@ -185,7 +200,7 @@ const Main: React.FC = () => {
         >
           <source src={videoSrcWebm} type="video/webm" />
           <source src={videoSrcMp4} type="video/mp4" />
-          {/* Mantenemos la pista VTT en inglés o la traducimos si es necesario */}
+          {/* Pista de subtítulos (mantener en inglés si el video no tiene pista en español) */}
           <track kind="captions" src={trackSrc} srcLang="en" label="English" />
         </video>
       )}
@@ -194,8 +209,8 @@ const Main: React.FC = () => {
       {videoError && (
         <img
           src={fallbackImg}
-          // ✅ Texto Hardcodeado: Alt del fallback
-          alt={"Patio project fallback image"}
+          // ✅ Texto plano traducido
+          alt={IMAGE_ALT_FALLBACK}
           className="absolute top-0 left-0 w-full h-full object-cover z-0"
           width={1920}
           height={1080}
@@ -215,28 +230,28 @@ const Main: React.FC = () => {
       <div className="relative z-20 flex flex-col items-start justify-center text-start w-full h-full px-4 text-white">
         <div className="w-[90vw] sm:w-[70vw]">
           <h1 id="main-heading" className="text-2xl md:text-4xl font-bold">
-            {/* ✅ Texto Hardcodeado: Título Principal (H1) */}
-            {"Luxury Custom Aluminum Pergolas and Covered Patios Builders"}
+            {/* ✅ Título Principal (H1) en texto plano */}
+            {MAIN_HEADING}
           </h1>
 
           <div className="w-[45vw] md:w-80 h-[3px] bg-orange-700 mt-4 mb-1 ml-1 rounded-full" />
 
           <h2 className="text-xl md:text-3xl font-semibold">
             <Link
-              to="/aluminium-custom-pergola-cover-patio"
+              to="/aluminium-custom-pergola-cover-patio/es" // <-- Ruta ES
               className="text-inherit hover:underline"
               onClick={scrollToTop}
               onPointerEnter={onPatiosIntent}
               onFocus={onPatiosIntent}
               onTouchStart={onPatiosIntent}
             >
-              {/* ✅ Texto Hardcodeado: Subtítulo (H2/Link) */}
-              {"Transform your outdoor space with us. Custom designs, lifetime warranty & expert installation."}
+              {/* ✅ Subtítulo (H2/Link) en texto plano */}
+              {SUBHEADING}
             </Link>
           </h2>
 
           <Link
-            to="/get-a-free-quote-houston"
+            to="/get-a-free-quote-houston/es" // <-- Ruta ES
             className="
               bg-orange-500 border border-white/10 text-white text-lg font-semibold px-4 py-1 rounded-full mt-4 mb-2 inline-block
               transition-transform transition-colors duration-200 hover:bg-orange-600 hover:scale-105
@@ -247,11 +262,11 @@ const Main: React.FC = () => {
             onPointerEnter={onQuoteIntent}
             onFocus={onQuoteIntent}
             onTouchStart={onQuoteIntent}
-            // ✅ Texto Hardcodeado: aria-label del botón
-            aria-label={"Get a free quote for your outdoor project"}
+            // ✅ aria-label del botón en texto plano
+            aria-label={QUOTE_ARIA_LABEL}
           >
-            {/* ✅ Texto Hardcodeado: Texto del botón */}
-            {"Get a Free Quote"}
+            {/* ✅ Texto del botón en texto plano */}
+            {QUOTE_BUTTON}
           </Link>
         </div>
       </div>
@@ -259,4 +274,4 @@ const Main: React.FC = () => {
   );
 };
 
-export default memo(Main);
+export default memo(MainEs);

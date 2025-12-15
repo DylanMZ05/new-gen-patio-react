@@ -1,15 +1,15 @@
 import React, { memo, useEffect, useRef, useState, useCallback } from "react";
 import { Link } from "react-router-dom";
-import useScrollToTop from "../../hooks/scrollToTop";
-// ❌ Eliminado: import { useTranslation } from "react-i18next";
+import useScrollToTop from "../../../hooks/scrollToTop";
+// ❌ ELIMINADO: import { useTranslation } from "react-i18next"; 
 
 /* ===== perf helpers (Sin cambios) ===== */
 const canPrefetch = () => {
   if (typeof navigator !== "undefined") {
     const conn = (navigator as any).connection;
     if (conn?.saveData) return false;
-    const t = String(conn?.effectiveType || "").toLowerCase();
-    if (t.includes("2g") || t.includes("slow-2g")) return false;
+    const type = String(conn?.effectiveType || "").toLowerCase();
+    if (type.includes("2g") || type.includes("slow-2g")) return false;
   }
   if (typeof document !== "undefined" && document.visibilityState === "hidden") return false;
   return true;
@@ -37,8 +37,8 @@ const prefetchOurPromiseChunk = () => {
   });
 };
 
-const OurProcessHome: React.FC = () => {
-  // ❌ Eliminado: const { t } = useTranslation('our-promise'); 
+const OurPromiseHomeEs: React.FC = () => {
+  // ❌ ELIMINADO: const { t } = useTranslation('our-promise'); 
     
   const scrollToTop = useScrollToTop();
   const sectionRef = useRef<HTMLElement | null>(null);
@@ -75,6 +75,14 @@ const OurProcessHome: React.FC = () => {
 
   const onIntent = useCallback(() => runIdle(prefetchOurPromiseChunk), []);
 
+  // === TEXTOS TRADUCIDOS ===
+  const BG_ALT = "Fondo elegante de patio cubierto con rayos de sol";
+  const TITLE = "Compromiso de Calidad y Sostenibilidad";
+  const DESCRIPTION = "Diseñamos estructuras de aluminio libres de mantenimiento respaldadas por una garantía de 5 años. Nuestros materiales 100% reciclables garantizan durabilidad mientras reducen el impacto ambiental. Desde diseños 3D personalizados hasta la gestión de permisos, hacemos realidad tu visión exterior.";
+  const LINK_ARIA_LABEL = "Aprende más sobre nuestro compromiso de calidad y sostenibilidad";
+  const LINK_BUTTON_TEXT = "Nuestra Promesa";
+
+
   return (
     <section
       ref={sectionRef}
@@ -90,8 +98,7 @@ const OurProcessHome: React.FC = () => {
     >
       <img
         src={shouldLoadBg ? bgSrc : undefined}
-        // ✅ Hardcodeado: bg-alt
-        alt={"Elegant covered patio background with sunrays"}
+        alt={BG_ALT}
         aria-hidden="true"
         className={`absolute inset-0 z-0 w-full h-full object-cover transition-opacity duration-700
           ${bgLoaded ? "opacity-100" : "opacity-0"} motion-reduce:transition-none`}
@@ -117,19 +124,17 @@ const OurProcessHome: React.FC = () => {
       {/* Contenido */}
       <div className="relative z-20 max-w-2xl px-6 text-center">
         <h2 id="about-heading" className="font-semibold text-3xl md:text-4xl">
-          {/* ✅ Hardcodeado: Título */}
-          {"Quality & Sustainability Commitment"}
+          {TITLE} {/* ⬅️ Traducción Título */}
         </h2>
 
         <div className="w-24 h-1 bg-orange-600 mt-4 mb-3 mx-auto rounded-full" aria-hidden="true" />
 
         <h3 className="text-lg leading-relaxed opacity-90">
-          {/* ✅ Hardcodeado: Descripción */}
-          {"We design maintenance-free aluminum structures backed by a 5-year warranty. Our 100% recyclable materials ensure durability while reducing environmental impact. From custom 3D designs to seamless permit handling, we make your outdoor vision a reality."}
+          {DESCRIPTION} {/* ⬅️ Traducción Descripción */}
         </h3>
 
         <Link
-          to="/our-promise"
+          to="/our-promise/es" // ⬅️ Ruta ES
           className="
             text-black bg-white text-lg font-semibold px-6 py-2 rounded-full mt-6 inline-block
             transition-transform transition-colors duration-200 hover:bg-white/90 hover:scale-105
@@ -140,16 +145,14 @@ const OurProcessHome: React.FC = () => {
           onPointerEnter={onIntent}
           onFocus={onIntent}
           onTouchStart={onIntent}
-          // ✅ Hardcodeado: link-aria-label
-          aria-label={"Learn more about our quality and sustainability commitment"}
+          aria-label={LINK_ARIA_LABEL}
           data-gtm="our_promise_cta"
         >
-          {/* ✅ Hardcodeado: link-button-text */}
-          {"Our Promise"}
+          {LINK_BUTTON_TEXT}
         </Link>
       </div>
     </section>
   );
 };
 
-export default memo(OurProcessHome);
+export default memo(OurPromiseHomeEs);

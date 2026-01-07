@@ -1183,6 +1183,520 @@ export const blogs: Blog[] = [
       }
     ]
   },
+  {
+    id: 9,
+    slug: "attached-vs-freestanding-vs-cantilever-patio-covers-houston",
+    title: "Attached vs Freestanding vs Cantilever: Which Patio Cover Fits Your Houston Home?",
+    metaTitle: "Attached vs Freestanding vs Cantilever Patio Covers (Houston) | New Gen Patio",
+    metaDescription: "Compare attached, freestanding and cantilever aluminum patio covers for Houston—use cases, drainage, 120-mph engineering and a ~4-day build timeline.",
+    subtitle: "Houston backyards face a tough combo: heat, humidity, sudden storms, and tight lot layouts.",
+    imageUrl: "assets/images/Products/Patios&Pergolas/Attached/01.webp",
+    date: "2025-12-26",
+    author: "New Gen Patio LLC",
+    content: [
+      {
+        type: "h1",
+        text: "Attached vs Freestanding vs Cantilever: Which Patio Cover Fits Your Houston Home?"
+      },
+      {
+        type: "text",
+        text: "Houston backyards face a tough combo: heat, humidity, sudden storms, and tight lot layouts. Picking the right structure—attached, freestanding, or cantilever—decides how cool, dry and usable your outdoor room feels. At New Gen Patio, we design and build from scratch with premium finishes, focusing on comfort and low maintenance so your patio becomes an everyday destination, not just a weekend project. That’s our philosophy: we don’t just build covers; we create experiences that upgrade your home life."
+      },
+      {
+        type: "image",
+        image: "assets/images/Products/Patios&Pergolas/Attached/02.webp"
+      },
+      {
+        type: "h2",
+        text: "What Actually Changes Between Attached, Freestanding and Cantilever"
+      },
+      {
+        type: "h3",
+        text: "Footprint, setbacks and usable space"
+      },
+      {
+        type: "text",
+        text: "• **Attached** ties into your roofline, saving posts and maximizing floor area—great when space is tight off the back door.\n• **Freestanding** gives you a second “destination” anywhere on the lot (poolside lounge, dining pavilion) and helps organize large yards into purposeful zones.\n• **Cantilever** moves structure to one side and projects shade outward with minimal front posts—ideal for driveways/carports or narrow side yards."
+      },
+      {
+        type: "h3",
+        text: "Roof tie-ins (attached) vs free placement (freestanding)"
+      },
+      {
+        type: "text",
+        text: "Attached covers require proper flashing and slope to keep water out, then send it into gutters. Freestanding covers don’t touch the house, so placement is all about sun, wind and circulation around pools or gardens—power is run cleanly via concealed conduit by our in-house electrical team."
+      },
+      {
+        type: "inlineText",
+        inlineText: [
+          { text: "Learn more about the " },
+          { link: { to: "/blog/difference-between-covered-patio-and-pergola", label: "covered patio vs pergola" } },
+          { text: " differences and " },
+          { link: { to: "/blog/best-patio-cover-types", label: "best patio cover types" } },
+          { text: " for your layout." }
+        ]
+      },
+      {
+        type: "h3",
+        text: "Tight driveways & carports: when cantilever is unbeatable"
+      },
+      {
+        type: "text",
+        text: "Cantilever beams free up turning radius and door swing while delivering serious shade. They’re also a clean, modern aesthetic that reads “custom” from the curb."
+      },
+      {
+        type: "h2",
+        text: "Cost, Maintenance & Lifespan (Houston realities)"
+      },
+      {
+        type: "h3",
+        text: "What actually moves price"
+      },
+      {
+        type: "text",
+        text: "• **Span & height:** longer spans and taller structures drive beam sizing and anchoring.\n• **Post/anchor count & footing work:** more posts and deeper footings cost more—pool decks and expansive clays can change the footing plan.\n• **Roof type:** insulated EPS panels add comfort and noise control vs non-insulated; they feature aluminum skins, hidden fasteners and 20–30 years durability, a sweet spot for Gulf climates.\n• **Electrical scope:** fans, can lights, heaters and switches (we handle electrical in-house for a clean look).\n• **Finishes & colors:** your Materials Catalog includes wood-grain ceilings (e.g., Cedar, Brown Oak, Smokey Gray) and smooth or stucco finishes. Upgrading ceiling finish tiers adds cost (Level 2 ≈+$2.50/sqft, Level 3 ≈+$2.00/sqft), while structure colors in Level 1 are standard."
+      },
+      {
+        type: "h3",
+        text: "Quick aluminum care routine"
+      },
+      {
+        type: "text",
+        text: "Aluminum needs little upkeep: low-pressure rinse, non-abrasive cleaner, clear gutters, check fasteners—especially after big storms."
+      },
+      {
+        type: "link",
+        link: { to: "/blog/aluminum-pergola-maintenance", label: "See our Aluminum Pergola Maintenance guide" }
+      },
+      {
+        type: "h2",
+        text: "Safety by Design — Engineered up to 120 mph"
+      },
+      {
+        type: "h3",
+        text: "Posts, anchors and spacing to resist uplift"
+      },
+      {
+        type: "text",
+        text: "A 120-mph rating is more than a claim—it defines post sizing, anchor selection, spacing and footing depth for the exposure around your home. In practical terms: right-sized beams for span and height, uplift-rated anchors, and footings that suit Houston soils and hardscapes."
+      },
+      {
+        type: "h3",
+        text: "Footing depth for local soils and pool decks"
+      },
+      {
+        type: "text",
+        text: "Pool decks may call for specialized anchors or piers; expansive clays need depth and stabilization. We specify this during the site visit and design phase so the cover feels rock solid the day it’s finished."
+      },
+      {
+        type: "h2",
+        text: "Drainage & Site Conditions That Prevent Puddles"
+      },
+      {
+        type: "h3",
+        text: "Gutter sizing, downspout routing and splash control"
+      },
+      {
+        type: "text",
+        text: "We size gutters to roof area and route downspouts so water exits away from slabs and landscaping. It’s a small detail that saves you from splash stains and slippery spots."
+      },
+      {
+        type: "h3",
+        text: "Concrete grades and turf transitions"
+      },
+      {
+        type: "inlineText",
+        inlineText: [
+          { text: "If you’re pouring a new slab or refreshing turf, we coordinate slopes and transitions so water moves cleanly. Pairing with our " },
+          { link: { to: "/concrete-and-turf-installation-houston", label: "Concrete & Turf Installation" } },
+          { text: " team keeps this seamless." }
+        ]
+      },
+      {
+        type: "h2",
+        text: "Permits, HOA & Documentation (Houston/Austin)"
+      },
+      {
+        type: "h3",
+        text: "We advise and prep docs; you file and pay"
+      },
+      {
+        type: "text",
+        text: "We’ll prepare drawings/specs and engineer-stamped plans when required; you submit and pay city/HOA fees. This keeps your timeline moving while ensuring the design meets code and HOA guidelines."
+      },
+      {
+        type: "h3",
+        text: "What inspections cover (roofing & electrical)"
+      },
+      {
+        type: "text",
+        text: "During the build, our team installs insulated roof panels, connects gutters, and completes professional electrical for lights/fans—these steps are part of Phase 3 in our standard process and set you up for a clean final inspection."
+      },
+      {
+        type: "image",
+        image: "assets/images/Products/Patios&Pergolas/Attached/04.webp"
+      },
+      {
+        type: "h2",
+        text: "Timeline & Next Steps"
+      },
+      {
+        type: "h3",
+        text: "Phone ballpark → on-site visit → 3D + formal quote"
+      },
+      {
+        type: "text",
+        text: "Start by sharing rough measurements/photos for a quick ballpark. If it fits, we schedule an on-site visit, take precise measurements and prepare a 3D rendering so you can see the design before we build. That personalized, resort-at-home vision is core to how we work."
+      },
+      {
+        type: "h3",
+        text: "Approvals + deposit → ~4 business-day build → walkthrough"
+      },
+      {
+        type: "text",
+        text: "Once approvals and deposit are in, we schedule. The typical build duration is ~4 working days, with four clear phases from prep to final review; we install roof panels, gutters and electrical in Phase 3, then complete finishes and do a thorough walkthrough in Phase 4."
+      },
+      {
+        type: "h2",
+        text: "Quick Decision Matrix (Use-case Examples)"
+      },
+      {
+        type: "inlineText",
+        inlineText: [
+          { text: "• **Seamless extension off the living room** → " },
+          { link: { to: "/attached-aluminium-pergola-covered-patio", label: "Attached aluminum patio cover" } },
+          { text: ". Keep posts to a minimum and integrate lighting/fans for daily use." }
+        ]
+      },
+      {
+        type: "inlineText",
+        inlineText: [
+          { text: "• **Poolside dining/lounge away from the house** → " },
+          { link: { to: "/free-standing-aluminium-pergola-covered-patio", label: "Freestanding aluminum patio cover" } },
+          { text: ". Flexible placement for airflow and splash control; add screens for bugs/privacy." }
+        ]
+      },
+      {
+        type: "inlineText",
+        inlineText: [
+          { text: "• **Tight driveway or 2-car shade with minimal posts** → " },
+          { link: { to: "/cantilever-aluminium-pergola", label: "Cantilever aluminum pergola / carport" } },
+          { text: ". Modern look, clear space for doors/turns; perfect as a carport solution." }
+        ]
+      },
+      {
+        type: "h2",
+        text: "Ready to Design Your Shade?"
+      },
+      {
+        type: "text",
+        text: "We’ll help you pick the right structure for your home and style, then elevate it with LED lighting, fans, heaters, and even a full outdoor kitchen—so your backyard truly works day and night."
+      },
+      {
+        type: "inlineText",
+        inlineText: [
+          { text: "Explore our " },
+          { link: { to: "/modern-outdoor-kitchens-houston", label: "modern outdoor kitchens" } },
+          { text: " and " },
+          { link: { to: "/traditional-outdoor-kitchens-houston", label: "traditional outdoor kitchens" } },
+          { text: " to complete your space." }
+        ]
+      },
+      {
+        type: "freeQuote",
+        questionText: "Get a Free Estimate — immediate response, 8am–6pm",
+        buttonText: "Schedule a Free Consultation",
+        linkTo: "/get-a-free-quote-houston"
+      },
+      {
+        type: "h2",
+        text: "FAQs"
+      },
+      {
+        type: "text",
+        text: "**Q1. Which option is best for a tight driveway or two-car carport?**\n**Cantilever.** It delivers big shade with minimal front posts, preserving turning radius and door swing."
+      },
+      {
+        type: "text",
+        text: "**Q2. Will an attached cover leak where it meets my roof?**\nNot when detailed correctly—proper **flashing and pitch** send water to gutters and away from fascia/siding. Phase 3 of our process includes roof panels and gutter connection."
+      },
+      {
+        type: "text",
+        text: "**Q3. Is a freestanding cover better for pool areas?**\nOften yes—open airflow, flexible placement and cleaner splash control around decks. It also helps define a “destination” zone in larger yards."
+      },
+      {
+        type: "text",
+        text: "**Q4. Do all three options meet your 120-mph engineering standard?**\nYes—attached, freestanding and cantilever builds are engineered up to **120 mph** when installed to spec."
+      },
+      {
+        type: "text",
+        text: "**Q5. What drives the price difference between the three?**\nSpan/height, number of posts/anchors and footing work, roof type (**insulated EPS vs non-insulated**), electrical scope, and finish/colour tier."
+      },
+      {
+        type: "image",
+        image: "assets/images/Products/Patios&Pergolas/Attached/07.webp"
+      }
+    ]
+  },
+  {
+    id: 10,
+    slug: "austin-patio-cover-permits-hoa-homeowners-guide",
+    title: "Austin Patio Cover Permits & HOA: A Homeowner’s Guide (What You Actually Need)",
+    metaTitle: "Austin Patio Cover Permits & HOA Guide | New Gen Patio",
+    metaDescription: "Learn the permits, HOA steps and documents for patio covers in Austin—what you file, what we prepare (engineer-stamped plans), and how to keep timelines moving.",
+    subtitle: "Austin is one of the best cities to enjoy the outdoors—until red tape slows your build.",
+    imageUrl: "assets/images/Blogs/Blog-4/01.webp",
+    date: "2026-01-10",
+    author: "New Gen Patio LLC",
+    content: [
+      {
+        type: "h1",
+        text: "Austin Patio Cover Permits & HOA: A Homeowner’s Guide (What You Actually Need)"
+      },
+      {
+        type: "text",
+        text: "Austin is one of the best cities to enjoy the outdoors—until red tape slows your build. This guide explains how city permits and HOA approvals work for aluminum patio covers in Austin, exactly what you submit, what we prepare for you, and the timeline from that first call to a finished, code-compliant space. Our promise is simple: we don’t just build covers—we create outdoor experiences and make the process clear from day one."
+      },
+      {
+        type: "h2",
+        text: "City Permit vs HOA Approval (Know the Difference)"
+      },
+      {
+        type: "h3",
+        text: "What the City checks vs what the HOA checks"
+      },
+      {
+        type: "text",
+        text: "Think of them as two separate green lights:"
+      },
+      {
+        type: "text",
+        text: "• **City of Austin**: checks code and safety—structure, setbacks, drainage notes, inspections, etc."
+      },
+      {
+        type: "text",
+        text: "• **Your HOA**: checks appearance and placement—how the cover looks and fits neighborhood rules."
+      },
+      {
+        type: "text",
+        text: "Many projects need both. We’ll guide you on requirements and prepare a clean package; you file and pay the fees to your HOA and the City."
+      },
+      {
+        type: "h3",
+        text: "Who does what (your role vs ours)"
+      },
+      {
+        type: "text",
+        text: "• **We prepare**: scaled site plan, construction drawings with dimensions and materials, and engineer-stamped plans when required."
+      },
+      {
+        type: "text",
+        text: "• **You file & pay**: submit to your HOA and the City’s online portal; sign forms, pay fees, and receive approvals."
+      },
+      {
+        type: "image",
+        image: "assets/images/Blogs/Blog-4/01.webp"
+      },
+      {
+        type: "h2",
+        text: "Do You Need a Permit? (Austin Basics)"
+      },
+      {
+        type: "text",
+        text: "Most solid-roof aluminum patio covers will require a permit in Austin. The city will review safety, structural logic and compliance with local rules, then schedule any required inspections during construction. If your project is small or unusual, use the City’s online portal to confirm whether a permit applies. When in doubt, assume you’ll need both HOA and City approvals before building."
+      },
+      {
+        type: "h2",
+        text: "Documents Checklist We Prepare With You"
+      },
+      {
+        type: "h3",
+        text: "Site plan with dimensions & setbacks"
+      },
+      {
+        type: "text",
+        text: "A properly scaled site plan avoids back-and-forth. We’ll mark the cover’s footprint, posts, property lines, and any nearby features that affect drainage or access."
+      },
+      {
+        type: "h3",
+        text: "Construction drawings + engineer stamp"
+      },
+      {
+        type: "text",
+        text: "Drawings include posts, beams, roof panels, anchoring and footings—engineer-stamped when required. That stamp gives reviewers confidence your design meets standards for uplift and lateral loads (we engineer our aluminum covers up to 120 mph when installed to spec)."
+      },
+      {
+        type: "h3",
+        text: "Materials & finishes + electrical notes"
+      },
+      {
+        type: "text",
+        text: "We include a clear list of finishes (e.g., EPS insulated roof panels with aluminum skins) and any electrical (fans, lights, heaters), which we install in-house for a clean result."
+      },
+      {
+        type: "h2",
+        text: "Timeline: From First Call to Permit to Build"
+      },
+      {
+        type: "h3",
+        text: "Phone ballpark → on-site visit → 3D + formal quote"
+      },
+      {
+        type: "text",
+        text: "Share rough measurements/photos to get a ballpark. If it fits, we visit your home, take precise measurements, and create a free 3D rendering so you can see your design before you commit."
+      },
+      {
+        type: "h3",
+        text: "Submittals & scheduling → ~4 business-day build → walkthrough"
+      },
+      {
+        type: "text",
+        text: "Once HOA/City approvals and your deposit are in, we lock your date. Our typical build duration is ~4 working days, with a clear four-phase plan:"
+      },
+      {
+        type: "text",
+        text: "1. **Preparation & Site Setup** (materials verification, base prep)"
+      },
+      {
+        type: "text",
+        text: "2. **Structural Assembly** (posts, beams, footings)"
+      },
+      {
+        type: "text",
+        text: "3. **Roofing & Electrical** (install insulated panels, connect gutters, professional electrical for lights/fans)"
+      },
+      {
+        type: "text",
+        text: "4. **Finishing & Final Review** (cleanup, testing, walkthrough)"
+      },
+      {
+        type: "image",
+        image: "assets/images/Blogs/Blog-6/01.webp"
+      },
+      {
+        type: "h2",
+        text: "Avoid Delays (Pro Tips for Austin)"
+      },
+      {
+        type: "text",
+        text: "• **Scale your site plan.** Unscaled drawings are the #1 cause of review comments."
+      },
+      {
+        type: "text",
+        text: "• **Show setbacks and heights.** Mark distances to property lines and roof height at the highest point."
+      },
+      {
+        type: "text",
+        text: "• **Note drainage.** Indicate where gutters and downspouts discharge so water flows away from slabs and landscaping."
+      },
+      {
+        type: "text",
+        text: "• **Keep submittals consistent.** Dimensions must match across your site plan and construction drawings."
+      },
+      {
+        type: "text",
+        text: "• **Respond quickly.** If reviewers request a tweak, we’ll update drawings so you can resubmit without losing momentum."
+      },
+      {
+        type: "h2",
+        text: "What Inspections Typically Look Like"
+      },
+      {
+        type: "text",
+        text: "During the build, inspectors may look at footings/anchors, structural connections, and electrical. Our process anticipates those checkpoints—Phase 3 includes roof panels, gutters and electrical with a safety check before we move to finishes. That way your inspection day is smooth and short."
+      },
+      {
+        type: "h2",
+        text: "Why Aluminum Covers Pass Review (and Age Well)"
+      },
+      {
+        type: "text",
+        text: "• **Engineered strength**: posts, beams and anchors specified for your exposure (up to 120 mph)."
+      },
+      {
+        type: "text",
+        text: "• **Thermal & acoustic comfort**: EPS insulated panels reduce heat transfer and rain noise—great for year-round use."
+      },
+      {
+        type: "text",
+        text: "• **Low maintenance**: aluminum finishes resist corrosion and fading; just rinse, clear gutters and check fasteners after big storms."
+      },
+      {
+        type: "text",
+        text: "• **Design consistency**: our 3D process ensures the submittal package matches the final build—no surprises for you or reviewers."
+      },
+      {
+        type: "h2",
+        text: "Where We Work (Austin Metro)"
+      },
+      {
+        type: "text",
+        text: "We serve Round Rock, Cedar Park, Georgetown, Pflugerville, Leander, Lakeway, Buda, Kyle, Hutto, and surrounding communities."
+      },
+      {
+        type: "image",
+        image: "assets/images/Blogs/Blog-5/03.webp"
+      },
+      {
+        type: "h2",
+        text: "Frequently Asked Questions (Austin Permits & HOA)"
+      },
+      {
+        type: "text",
+        text: "**Q1. Do I need a city permit for a solid-roof aluminum patio cover in Austin?**\nMost projects do. The City reviews safety/code and schedules inspections during the build. We prepare drawings/specs; you file and pay via the City’s online portal."
+      },
+      {
+        type: "text",
+        text: "**Q2. How is HOA approval different from a city permit?**\nHOA focuses on appearance and placement; the City focuses on code and safety. Many projects require both approvals in parallel."
+      },
+      {
+        type: "text",
+        text: "**Q3. What documents will I need to submit?**\nA scaled site plan, construction drawings with dimensions/materials, and engineer-stamped plans when required. We prepare these with you so reviewers have everything they need."
+      },
+      {
+        type: "text",
+        text: "**Q4. How long do approvals take?**\nIt varies by HOA and city workload. Clean, consistent submittals minimize back-and-forth; once approved and scheduled, our typical build is ~4 working days."
+      },
+      {
+        type: "text",
+        text: "**Q5. Do your covers meet local wind expectations?**\nYes—our aluminum covers are engineered up to 120 mph when installed to specification (posts, anchors, spacing and footing depth are designed for your site)."
+      },
+      {
+        type: "h2",
+        text: "Ready to Move From Paperwork to Patio?"
+      },
+      {
+        type: "text",
+        text: "Tell us what you’re dreaming of—we’ll help you prepare a clean submittal, then deliver a finished cover that feels like it was always part of your home."
+      },
+      {
+        type: "inlineText",
+        inlineText: [
+          { text: "Whether you need an " },
+          { link: { to: "/attached-aluminium-pergola-covered-patio", label: "attached aluminum patio cover" } },
+          { text: " or a " },
+          { link: { to: "/free-standing-aluminium-pergola-covered-patio", label: "freestanding aluminum pergola" } },
+          { text: ", our team ensures your " },
+          { link: { to: "/outdoor-living-services", label: "outdoor living services" } },
+          { text: " are handled professionally." }
+        ]
+      },
+      {
+        type: "inlineText",
+        inlineText: [
+          { text: "Check our solutions for " },
+          { link: { to: "/cantilever-aluminium-pergola", label: "cantilever aluminum carports" } },
+          { text: ", " },
+          { link: { to: "/modern-outdoor-kitchens-houston", label: "modern" } },
+          { text: " and " },
+          { link: { to: "/traditional-outdoor-kitchens-houston", label: "traditional outdoor kitchens" } },
+          { text: ", or even " },
+          { link: { to: "/concrete-and-turf-installation-houston", label: "concrete and turf installation" } },
+          { text: "." }
+        ]
+      },
+    ]
+  },
 
 
 ];

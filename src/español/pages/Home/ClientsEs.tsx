@@ -52,7 +52,7 @@ const ClientsEs: React.FC = () => {
             aria-labelledby="clients-heading"
             className="flex justify-center py-12 px-6 bg-gray-50 min-h-[500px] overflow-hidden" 
             >
-                <div className="w-full max-w-5xl bg-white shadow-xl rounded-lg p-8 md:p-10">
+                <div className="w-screen max-w-5xl bg-white shadow-xl rounded-lg p-8 md:p-10">
                     
                     <p id="clients-heading" className="font-semibold text-2xl text-center mb-6 text-gray-800">
                         {MAIN_HEADING} {/* ✅ Traducido */}

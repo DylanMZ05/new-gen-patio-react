@@ -17,7 +17,7 @@ import Clients from "./ClientsEs";
 // ↓ Bajo el fold: cargar on-demand
 const MarqueeBanner = lazy(() => import("../../components/MarqueeBannerEs"));
 const ImageTextSection = lazy(() => import("../../components/ImgTxtSectionEs"));
-const Services = lazy(() => import("./services/servicesEs"));
+const Services = lazy(() => import("./services/ServicesEs"));
 
 /* ===================== Helpers ===================== */
 const idleCall = (cb: () => void) => {
@@ -76,181 +76,100 @@ const LazySection: React.FC<LazySectionProps> = ({
   );
 };
 
-/* ===================== Keywords ===================== */
-// --- Keywords provistas (orden de mayor a menor relevancia) ---
+/* ===================== Keywords (Adaptadas) ===================== */
 const KEYWORDS_RAW = [
   "pergola",
-  "outdoor living",
-  "covered patio covers",
-  "patio cover cover",
-  "patios and pergolas",
-  "pergola in patio",
-  "pergola patio",
-  "pergola with patio",
-  "outdoor pergolas",
-  "outdoor patio",
-  "patio shade",
-  "outdoor shade",
-  "pergola for roof",
-  "pergola roofing",
-  "roof of pergola",
-  "backyard patio",
-  "patio designs",
-  "covered patio",
-  "patio roofing",
-  "patio with roof",
-  "backyard pergola",
-  "covered pergolas",
-  "pergola and cover",
-  "pergola in the backyard",
+  "vida al aire libre",
+  "patios techados",
+  "cubiertas para patio",
+  "patios y pergolas",
+  "pergola en patio",
+  "pergola para jardin",
+  "pergolas modernas",
+  "sombra para patio",
+  "techos para exterior",
+  "diseño de patios",
   "pergolas houston",
-  "pergolas houston tx",
-  "aluminium covered patio",
-  "aluminum covered patio",
-  "aluminum patio cover materials",
-  "aluminum pergolas",
-  "cover your pergola",
-  "outdoor sun shade",
-  "backyard shade",
-  "cover outdoor patio",
-  "houston patio",
-  "outdoor living spaces",
-  "outdoor patio covers",
-  "patio cover outdoor",
-  "patio shade covers",
-  "metal patio covers",
-  "patio construction",
-  "aluminum carport",
-  "modern pergolas",
-  "pergola and shade",
-  "shade pergola",
-  "backyard cover patio",
-  "covered patio backyard",
-  "patio cover backyard",
-  "patio extension",
-  "porch cover",
-  "pergola co",
-  "pergola roofing panels",
-  "aluminum awning",
-  "custom pergolas",
-  "customizable pergola",
-  "pergola price",
-  "polycarbonate roofing for pergola",
-  "small pergola",
-  "cover my pergola",
-  "pergola connected to roof",
-  "pergola with privacy wall",
-  "patio cover and pergola",
-  "patio covered pergola",
-  "pergola roof cover",
-  "prefab pergola",
-  "prefabricated pergolas",
-  "aluminum patio roof",
-  "install pergola",
-  "insulated aluminum roof panels",
-  "outdoor pergola with roof",
-  "pergola materials",
-  "pergola rain cover",
-  "pergola connected to house",
-  "pergola over patio",
-  "polycarbonate sheets for pergola",
-  "structure pergolas",
-  "backyard patio pergola",
-  "house pergola",
-  "outdoor patio pergola",
-  "patio pergola with roof",
-  "pergola sizes",
-  "weatherproof pergolas",
-  "aluminium gazebo",
-  "aluminum pergola with canopy",
-  "backyard pergola designs",
-  "backyard pergola with roof",
-  "contemporary pergolas",
-  "custom aluminum pergola",
-  "modern aluminium pergola",
-  "modern aluminum pergola",
-  "aluminum pergola shade",
-  "aluminum roofing panels for patio",
-  "backyard covered pergola",
-  "commercial pergolas",
-  "custom size pergola",
-  "long pergola",
-  "mirador aluminum pergola",
-  "pergola aluminum roof",
-  "aluminium garden pagoda",
-  "aluminium patio",
-  "aluminium pergola roof",
-  "aluminium pergola sale",
-  "aluminium pergola with roof",
-  "aluminium roof pergola",
-  "aluminum covered pergola",
-  "aluminum garden pergola",
-  "aluminum modern pergola",
-  "aluminum patio pergola",
+  "pergolas de aluminio",
+  "espacios exteriores",
+  "construccion de patios",
+  "carport de aluminio",
+  "pergolas a medida",
+  "pergolas personalizadas",
+  "precio de pergolas",
+  "pergola conectada a la casa",
+  "pergola con pared de privacidad",
+  "pergola prefabricada",
+  "techo de aluminio para patio",
+  "instalar pergola",
+  "paneles de techo aislados",
+  "materiales para pergola",
+  "pergola resistente al clima",
+  "pergolas de metal",
+  "cubierta para terraza",
+  "extension de patio",
 ];
 const MAX_KW = 30;
 
-/* ===================== Datos de la página ===================== */
+/* ===================== Datos de la página (Traducidos) ===================== */
 const sectionsData3Raw = [
   {
     id: 6,
-    title: "Custom Outdoor Living Spaces",
+    title: "Espacios Personalizados al Aire Libre",
     description:
-      "Discover our modern, innovative solutions designed to enhance outdoor living with style, functionality, and durability.",
+      "Descubre nuestras soluciones modernas e innovadoras diseñadas para mejorar tu vida al aire libre con estilo, funcionalidad y durabilidad.",
     backgroundImage: "assets/images/Products/Patios&Pergolas/Attached/04.webp",
   },
 ];
 
 const sectionsRaw = [
   {
-    title: " 1. Expands Your Living Area Without Major Construction",
-    text: "By transforming your outdoor space, you gain an entirely new area to cook, dine, relax, and entertain—without the cost or disruption of an interior renovation.",
+    title: " 1. Amplía tu área habitable sin grandes construcciones",
+    text: "Al transformar tu espacio exterior, ganas un área completamente nueva para cocinar, cenar, relajarte y entretener, sin el costo o la interrupción de una renovación interior.",
     imageUrl: "assets/images/Products/Patios&Pergolas/Attached/02.webp",
     imagePosition: "right" as const,
   },
   {
-    title: "2. Enhances Quality of Life",
-    text: "Spending time outdoors has been proven to reduce stress, improve mood, and strengthen relationships. A well-designed outdoor space encourages family time, social gatherings, and peaceful moments in nature.",
+    title: "2. Mejora la calidad de vida",
+    text: "Se ha demostrado que pasar tiempo al aire libre reduce el estrés, mejora el estado de ánimo y fortalece las relaciones. Un espacio exterior bien diseñado fomenta el tiempo en familia y las reuniones sociales.",
     imageUrl: "assets/images/Products/Patios&Pergolas/Attached/03.webp",
     imagePosition: "left" as const,
   },
   {
-    title: "3. Boosts Property Value and Curb Appeal",
-    text: "Outdoor upgrades such as pergolas, kitchens, or landscaped patios are highly attractive to buyers. They are considered premium features that increase market value and make your home stand out.",
+    title: "3. Aumenta el valor de la propiedad",
+    text: "Las mejoras exteriores como pérgolas, cocinas o patios diseñados son altamente atractivas para los compradores. Se consideran características premium que aumentan el valor de mercado.",
     imageUrl: "assets/images/Products/Patios&Pergolas/Attached/05.webp",
     imagePosition: "right" as const,
   },
   {
-    title: "4. Adapts to All Seasons and Activities",
-    text: "With proper design and materials, your outdoor space can be used year-round for cooking, relaxing, or hosting events—turning it into one of the most versatile parts of your home.",
+    title: "4. Se adapta a todas las estaciones y actividades",
+    text: "Con el diseño y los materiales adecuados, tu espacio exterior puede usarse durante todo el año para cocinar, relajarse o eventos, convirtiéndose en una de las partes más versátiles de tu hogar.",
     imageUrl: "assets/images/Products/Patios&Pergolas/Attached/08.webp",
     imagePosition: "left" as const,
   },
   {
-    title: "5. High-Quality & Durable Materials",
-    text: "We use premium materials that ensure weather resistance, low maintenance, and a flawless appearance for years to come. Investing in quality means enjoying your outdoor space worry-free.",
+    title: "5. Materiales duraderos de alta calidad",
+    text: "Utilizamos materiales premium que garantizan resistencia a la intemperie, bajo mantenimiento y una apariencia impecable durante años. Invertir en calidad es disfrutar sin preocupaciones.",
     imageUrl: "assets/images/Products/Patios&Pergolas/Attached/13.webp",
     imagePosition: "right" as const,
   },
   {
-    title: "6. Expertise & Professionalism Guaranteed",
-    text: "Our team of specialists transforms patios with meticulous attention to detail. From design to installation, we ensure the final result exceeds your expectations.",
+    title: "6. Experiencia y profesionalismo garantizado",
+    text: "Nuestro equipo de especialistas transforma patios con meticulosa atención al detalle. Desde el diseño hasta la instalación, aseguramos que el resultado final supere tus expectativas.",
     imageUrl: "assets/images/Products/Patios&Pergolas/Attached/20.webp",
     imagePosition: "left" as const,
   },
 ];
 
 /* ===================== Página ===================== */
-const ServicesMain: React.FC = () => {
+const ServicesMainEs: React.FC = () => {
   const baseUrl = import.meta.env.BASE_URL || "/";
 
-  // Keywords dedup + cap
   const KEYWORDS_FINAL = useMemo(() => {
     const dedup = Array.from(new Set(KEYWORDS_RAW));
     return dedup.slice(0, MAX_KW).join(", ");
   }, []);
 
-  // Normaliza paths con BASE_URL y encode por `&`
   const sectionsData3 = useMemo(
     () =>
       sectionsData3Raw.map((s) => ({
@@ -269,14 +188,12 @@ const ServicesMain: React.FC = () => {
     [baseUrl]
   );
 
-  // Preload del hero background
   const heroBg = sectionsData3[0]?.backgroundImage;
 
-  // Prefetchers encadenados
   const prefetchMarquee = () =>
     idleCall(() => import("../../components/MarqueeBannerEs"));
   const prefetchServices = () =>
-    idleCall(() => import("./services/servicesEs"));
+    idleCall(() => import("./services/ServicesEs"));
   const prefetchImgTxt = () =>
     idleCall(() => import("../../components/ImgTxtSectionEs"));
 
@@ -285,15 +202,15 @@ const ServicesMain: React.FC = () => {
   return (
     <>
       <Helmet>
-        <title>Expert Outdoor Living Design &amp; Construction | New Gen Patio</title>
+        <title>Diseño y Construcción Experta de Espacios Exteriores | New Gen Patio</title>
         <meta
           name="description"
-          content="Discover premier design & construction for outdoor living. Durable, elegant spaces are created by expert builders. 100% custom aluminum pergolas, covered patios, and outdoor kitchens are created. Explore our designs!"
+          content="Descubre el mejor diseño y construcción para la vida al aire libre. Creamos espacios duraderos y elegantes. Pérgolas de aluminio 100% personalizadas, patios techados y cocinas exteriores."
         />
         <meta name="keywords" content={KEYWORDS_FINAL} />
         <link
           rel="canonical"
-          href="https://www.newgenpatio.com/outdoor-living-services"
+          href="https://www.newgenpatio.com/outdoor-living-services/es"
         />
         {heroBg && <link rel="preload" as="image" href={heroBg} />}
       </Helmet>
@@ -302,15 +219,13 @@ const ServicesMain: React.FC = () => {
         className="flex flex-col justify-center items-center mb-10"
         style={pageContain}
       >
-        {/* Above-the-fold */}
         <BlockSection />
         <SectionBlock sections={sectionsData3} />
 
-        {/* Bajo el fold → on-view */}
         <LazySection
           minHeight={48}
           prefetchNext={prefetchServices}
-          ariaLabel="Promotional banner"
+          ariaLabel="Banner promocional"
         >
           <MarqueeBanner />
         </LazySection>
@@ -318,44 +233,42 @@ const ServicesMain: React.FC = () => {
         <LazySection
           minHeight={820}
           prefetchNext={prefetchImgTxt}
-          ariaLabel="Services grid"
+          ariaLabel="Cuadrícula de servicios"
         >
           <Services />
         </LazySection>
 
-        {/* Texto estático ligero */}
         <section className="w-full max-w-5xl px-4 pb-8 text-center">
           <h2 className="text-3xl font-bold text-black/90 mb-4">
-            Why do I need to take advantage of the outdoor spaces in my home?
+            ¿Por qué necesito aprovechar los espacios al aire libre de mi hogar?
           </h2>
           <div className="w-24 h-1 bg-[#0d4754] my-3 rounded-full mx-auto" />
           <p className="text-xl">
-            Maximizing your outdoor spaces isn’t just about aesthetics—it’s
-            about extending your lifestyle. When you invest in your backyard,
-            patio, or outdoor kitchen, you're creating a{" "}
+            Maximizar tus espacios exteriores no se trata solo de estética, se trata de 
+            extender tu estilo de vida. Cuando inviertes en tu patio o cocina exterior, 
+            estás creando un{" "}
             <strong>
-              functional living area that increases your home’s value, comfort,
-              and versatility.
+              área habitable funcional que aumenta el valor, la comodidad y la 
+              versatilidad de tu hogar.
             </strong>
           </p>
-          <p className="text-xl">
-            Here are four strong reasons why taking full advantage of your
-            outdoor space is a smart decision:
+          <p className="text-xl mt-4">
+            Aquí tienes cuatro razones poderosas por las que aprovechar al máximo tu 
+            espacio exterior es una decisión inteligente:
           </p>
         </section>
 
         <div className="pt-8 px-5 max-w-3xl">
           <h2 className="font-bold text-4xl mb-3 text-center text-black/90">
-            Benefits
+            Beneficios
           </h2>
           <div className="w-16 h-[3px] bg-[#0d4754] mt-3 mx-auto rounded-full" />
         </div>
 
-        {/* Grilla de secciones con imagen → lazy y anti-CLS */}
         <LazySection
           minHeight={1200}
           prefetchNext={prefetchMarquee}
-          ariaLabel="Benefits gallery"
+          ariaLabel="Galería de beneficios"
         >
           <>
             {sections.map((section, index) => (
@@ -364,17 +277,16 @@ const ServicesMain: React.FC = () => {
           </>
         </LazySection>
 
-        <LazySection minHeight={48} ariaLabel="Promotional banner bottom">
+        <LazySection minHeight={48} ariaLabel="Banner promocional inferior">
           <MarqueeBanner />
         </LazySection>
 
-              <div className="w-screen">
-        
-                <Clients></Clients>  
-              </div>
+        <div className="w-screen">
+          <Clients />
+        </div>
       </main>
     </>
   );
 };
 
-export default memo(ServicesMain);
+export default memo(ServicesMainEs);

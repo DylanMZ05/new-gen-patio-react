@@ -1,6 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { StepData } from "../../hooks/useStepNavigation";
 
+/**
+ * 1. URL DE IMPLEMENTACIÓN ACTUALIZADA:
+ * Esta es la URL del script unificado que maneja Contractors y Quotes.
+ */
+const SCRIPT_URL_QUOTE = "https://script.google.com/macros/s/AKfycbzoeSqMsVeJe4XbEBOvHpb7oAW8z_T4WBgdqXwVTuJYQaBKgUYMYtoneQnifbUC-R_6fw/exec";
+
 interface StepProps {
   stepData: StepData;
   nextStep: (step: number | string, selectedOption?: string) => void;
@@ -55,6 +61,38 @@ const Step: React.FC<StepProps> = ({
     • *Notes:* ${formData.notes || "None"}
   `;
 
+  /**
+   * FUNCIÓN DE ENVÍO FINAL
+   * Envía los datos al script unificado y procesa la redirección.
+   */
+  const handleFinalSubmit = async () => {
+    const message = buildMessage();
+
+    // Preparamos los datos para el Script Unificado
+    const fd = new FormData();
+    // INDICAMOS QUE ESTE ES EL FORMULARIO DE COTIZACIÓN (Pestaña PRUEBA)
+    fd.append("formType", "quote"); 
+    fd.append("name", String(formData.name || ""));
+    fd.append("phone", String(formData.phone || ""));
+    fd.append("email", String(formData.email || ""));
+
+    try {
+      // Envío a Google Sheets (modo no-cors para evitar bloqueos de redirección)
+      fetch(SCRIPT_URL_QUOTE, {
+        method: "POST",
+        body: fd,
+        mode: "no-cors", 
+      });
+      console.log("Data sent to Unified Google Script (Quote).");
+    } catch (error) {
+      console.error("Error al guardar en Sheets:", error);
+    }
+
+    // Lógica de WhatsApp y redirección al Tracking de Houston
+    sessionStorage.setItem("whatsappMessage", message);
+    window.open("/get-a-free-quote-houston-tracking", "_blank");
+  };
+
   const handleIDontKnow = () => {
     setNoMeasurements(true);
     nextStep(stepData.nextStep!);
@@ -64,16 +102,14 @@ const Step: React.FC<StepProps> = ({
     if (isMeasurementStep) {
       setNoMeasurements(false);
     }
-  }, [stepData]);
+  }, [stepData, isMeasurementStep]);
 
   return (
     <div className="w-full max-w-[1080px] mb-12 p-6 bg-white shadow-lg rounded-lg flex flex-col items-center">
       <header className="text-center">
-        {/* 🔹 Título principal */}
         <h2 className="text-2xl font-semibold text-gray-800">{stepData.title}</h2>
         <div className="w-20 h-[3px] bg-[#0d4754] mx-auto mb-1 mt-2 rounded-full"></div>
 
-        {/* 🔸 Subtítulo opcional (para Foundation) */}
         {stepData.subtitle && (
           <p className="text-gray-700 text-base mt-1 mb-3">
             {stepData.subtitle}
@@ -81,6 +117,7 @@ const Step: React.FC<StepProps> = ({
         )}
       </header>
 
+      {/* Renderizado de Opciones con Imágenes */}
       {stepData.options && (
         <div className="flex flex-wrap justify-center mt-4 gap-4">
           {stepData.options.map((option, index) => (
@@ -88,6 +125,7 @@ const Step: React.FC<StepProps> = ({
               key={index}
               className="p-2 rounded-lg transition cursor-pointer"
               onClick={() => nextStep(option.nextStep, option.text)}
+              type="button"
             >
               <img
                 src={option.img}
@@ -108,6 +146,7 @@ const Step: React.FC<StepProps> = ({
         </div>
       )}
 
+      {/* Renderizado de Campos de Formulario */}
       {stepData.fields && (
         <fieldset className="mt-4 w-full max-w-md">
           {stepData.fields.map((field) => (
@@ -154,6 +193,7 @@ const Step: React.FC<StepProps> = ({
         </fieldset>
       )}
 
+      {/* Lógica de Resumen Final y Botón de Envío */}
       {stepData.title === "Contact and Resume" ? (
         <div className="w-full max-w-md">
           {selections.length > 0 && (
@@ -168,42 +208,43 @@ const Step: React.FC<StepProps> = ({
           {getFormattedInputs() && (
             <div className="mt-4 bg-gray-200 p-3 rounded-md">
               <h4 className="text-md font-semibold text-gray-700">~ Measures:</h4>
-              <p>{getFormattedInputs()}</p>
+              <pre className="whitespace-pre-wrap font-sans">{getFormattedInputs()}</pre>
             </div>
           )}
 
           <button
-            onClick={() => {
-              const message = buildMessage();
-              sessionStorage.setItem("whatsappMessage", message);
-              window.open("/get-a-free-quote-houston-tracking", "_blank");
-            }}
+            onClick={handleFinalSubmit}
             disabled={!allRequiredFieldsFilled}
             className={`w-full py-2 rounded-full transition ${
               allRequiredFieldsFilled
                 ? "bg-green-500 text-white hover:bg-green-600 cursor-pointer"
                 : "bg-gray-400 text-gray-700 cursor-not-allowed"
             } mt-4`}
+            type="button"
           >
             {allRequiredFieldsFilled ? "Send to WhatsApp 📩" : "Complete all fields"}
           </button>
         </div>
       ) : (
+        // Botón de continuación para pasos intermedios con campos
         stepData.fields && (
           <button
             onClick={() => nextStep(stepData.nextStep!)}
             disabled={!allRequiredFieldsFilled}
             className="w-full max-w-75 bg-blue-500 text-white py-2 rounded-full hover:bg-blue-600 transition mt-3 cursor-pointer"
+            type="button"
           >
             Continue
           </button>
         )
       )}
 
+      {/* Botón de Retroceso */}
       {stepData.previousStep && (
         <button
           onClick={previousStep}
           className="mt-4 text-black/70 hover:text-black/90 cursor-pointer transition"
+          type="button"
         >
           Back
         </button>

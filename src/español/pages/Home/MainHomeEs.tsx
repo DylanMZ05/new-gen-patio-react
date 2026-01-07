@@ -17,7 +17,7 @@ import MainEs from "./MainEs";
 // --- Lazy chunks (cargan cuando los renderizamos) ---
 // TODOS USAN EL SUFIJO 'Es' Y LA RUTA RELATIVA CORRECTA DENTRO DE ESPAÑOL/PAGES/HOME
 const MarqueeBannerEs = lazy(() => import("../../components/MarqueeBannerEs")); // <-- ES
-const ServicesEs = lazy(() => import("./services/servicesEs")); // <-- ES
+const ServicesEs = lazy(() => import("./services/ServicesEs")); // <-- ES
 const HowWeDoItHomeEs = lazy(() => import("./HowWeDoItHomeEs")); // <-- ES
 const OurPromiseHomeEs = lazy(() => import("./OurPromiseHomeEs")); // <-- ES
 const AboutUsHomeEs = lazy(() => import("./AboutUsHomeEs")); // <-- ES

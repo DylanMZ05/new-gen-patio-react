@@ -1,6 +1,6 @@
 import React from "react";
-import CardGrid from "./CardGridEs";
-import FreeQuoteButton from "../../../components/FreeQuoteButtonEs";
+import CardGridEs from "./CardGridEs";
+import FreeQuoteButtonEs from "../../../components/FreeQuoteButtonEs";
 
 interface ServicesProps {
   showQuoteButton?: boolean;
@@ -8,23 +8,23 @@ interface ServicesProps {
 
 const serviceCards = [
   {
-    title: "Attached Style",
-    imageUrl: "assets/images/Products/Patios&Pergolas/Attached/01.webp",
-    link: "/attached-aluminium-pergola-covered-patio",
+    title: "Estilo Adosado",
+    imageUrl: "../assets/images/Products/Patios&Pergolas/Attached/01.webp",
+    link: "/attached-aluminium-pergola-covered-patio/es",
   },
   {
-    title: "Freestanding Style",
-    imageUrl: "assets/images/Products/Patios&Pergolas/Freestanding/07.webp",
-    link: "/free-standing-aluminium-pergola-covered-patio",
+    title: "Estilo Independiente",
+    imageUrl: "../assets/images/Products/Patios&Pergolas/Freestanding/07.webp",
+    link: "/free-standing-aluminium-pergola-covered-patio/es",
   },
-    {
-    title: "Cantilever Style",
-    imageUrl: "assets/images/Products/Patios&Pergolas/Cantilever/21.webp",
-    link: "/cantilever-aluminium-pergola",
+  {
+    title: "Estilo Voladizo (Cantilever)",
+    imageUrl: "../assets/images/Products/Patios&Pergolas/Cantilever/21.webp",
+    link: "/cantilever-aluminium-pergola/es",
   },
 ];
 
-const PatiosAndPergolasCard: React.FC<ServicesProps> = ({ showQuoteButton = true }) => {
+const PatioAndPergolasCardEs: React.FC<ServicesProps> = ({ showQuoteButton = true }) => {
   return (
     <section
       id="services"
@@ -32,22 +32,24 @@ const PatiosAndPergolasCard: React.FC<ServicesProps> = ({ showQuoteButton = true
       className="flex flex-col items-center justify-center py-12 px-6"
     >
       <header className="text-center max-w-2xl">
-        <p className="text-2xl font-semibold text-[#0d4754]">PATIOS AND PERGOLAS</p>
-        <h2 id="services-heading" className="text-4xl font-semibold">Patios and Pergolas for Outdoor Spaces</h2>
+        <p className="text-2xl font-semibold text-[#0d4754]">PATIOS Y PÉRGOLAS</p>
+        <h2 id="services-heading" className="text-4xl font-semibold">Patios y Pérgolas para Espacios Exteriores</h2>
         <div className="w-24 h-1 bg-[#0d4754] my-3 rounded-full mx-auto"></div>
         <p className="text-center font-semibold text-black/80 mb-6 max-w-2xl">
-          We craft premium patios, pergolas, and outdoor kitchens designed for style, durability, and functionality.
+          Diseñamos patios, pérgolas y cocinas exteriores de primera calidad, creados para aportar estilo, durabilidad y funcionalidad a su hogar.
         </p>
       </header>
 
-      <CardGrid cards={serviceCards} />
+      <CardGridEs cards={serviceCards} />
 
-      {showQuoteButton && <FreeQuoteButton 
-                      questionText="Got a project in mind?"
-                      buttonText="Let’s Talk"
-                    />}
+      {showQuoteButton && (
+        <FreeQuoteButtonEs 
+          questionText="¿Tiene un proyecto en mente?"
+          buttonText="Hablemos"
+        />
+      )}
     </section>
   );
 };
 
-export default PatiosAndPergolasCard;
+export default PatioAndPergolasCardEs;

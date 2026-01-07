@@ -8,44 +8,29 @@ import {
   useLocation,
   Navigate,
   matchPath,
-  useParams,
+  // useParams,
   Link,
 } from "react-router-dom";
 import { Helmet, HelmetProvider } from "react-helmet-async";
 
 // ====== Componentes críticos (no lazy) ======
-// Versión Base (EN)
 import Header from "./components/header/Header";
-// Versión en Español (ES)
-import HeaderEs from "./español/components/header/HeaderEs"; // <-- Importación del Header ES
+import HeaderEs from "./español/components/header/HeaderEs"; 
 import useGoogleAdsTracking from "./hooks/useGoogleAdsTracking";
-// 🟢 IMPORTACIÓN DEL SCHEMA (sin extensión)
 import SchemaMarkup from "./SEO/SchemaMarkup"; 
 
 // ====== Deferibles (lazy) ======
-// Versión Base (EN)
 const WspButton = lazy(() => import("./components/WspButton"));
 const Footer = lazy(() => import("./components/footer/footer"));
 const QuotePopup = lazy(() => import("./components/QuotePopup"));
 const BlockSection = lazy(() => import("./components/BlockSection"));
+
 // Versión en Español (ES)
-const WspButtonEs = WspButton; // Se podría usar el mismo si es solo visual
-const FooterEs = lazy(() => import("./español/components/footer/FooterEs")); // <-- Nuevo Footer en español
-const QuotePopupEs = QuotePopup; // Se podría usar el mismo
-const BlockSectionEs = BlockSection; // Se podría usar el mismo
-// Otros componentes ES necesarios para la estructura interna de MainHomeEs
-const MarqueeBannerEs = lazy(() => import("./español/components/MarqueeBannerEs")); // Importación ES
-// const ServicesEs = lazy(() => import("./español/pages/Home/services/ServicesEs"));
-// const HowWeDoItHomeEs = lazy(() => import("./español/pages/Home/HowWeDoItHomeEs"));
-// const OurPromiseHomeEs = lazy(() => import("./español/pages/Home/OurPromiseHomeEs"));
-// const AboutUsHomeEs = lazy(() => import("./español/pages/Home/AboutUsHomeEs"));
-// const ClientsEs = lazy(() => import("./español/pages/Home/ClientsEs"));
-// const FAQEs = lazy(() => import("./español/pages/Home/FAQ/FAQEs"));
-// const BlogsSectionEs = lazy(() => import("./español/pages/Home/BlogsSectionEs"));
+const WspButtonEs = lazy(() => import("./español/components/WspButtonEs"));
+const FooterEs = lazy(() => import("./español/components/footer/FooterEs")); 
+const QuotePopupEs = lazy(() => import("./español/components/QuotePopupEs"));
 
-
-// ====== Páginas ======
-// Versión Base (EN)
+// ====== Páginas Base (EN) ======
 const MainHome = lazy(() => import("./pages/Home/MainHome"));
 const Attached = lazy(() => import("./pages/Services/Attached"));
 const Freestanding = lazy(() => import("./pages/Services/Freestanding"));
@@ -70,30 +55,39 @@ const FreeQuoteTracking = lazy(() => import("./pages/traking/freequote-tracking"
 const WhatsAppRedirect = lazy(() => import("./pages/traking/WhatsAppRedirect"));
 const ProjectsList = lazy(() => import("./pages/Catalogo/Catalogo"));
 
-// Versión en Español (ES)
-const MainHomeEs = lazy(() => import("./español/pages/Home/MainHomeEs")); // <-- Home ES
+// ====== Páginas en ESPAÑOL (ES) ======
+const MainHomeEs = lazy(() => import("./español/pages/Home/MainHomeEs"));
+const AttachedEs = lazy(() => import("./español/pages/Services/AttachedEs"));
+const FreestandingEs = lazy(() => import("./español/pages/Services/FreestandingEs"));
+const CantileverEs = lazy(() => import("./español/pages/Services/CantileverEs"));
+const OutdoorKitchenEs = lazy(() => import("./español/pages/Services/OutdoorKitchenEs"));
+const ConcreteTurfEs = lazy(() => import("./español/pages/Services/ConcreteTurfEs"));
+const OutdoorKitchenModernEs = lazy(() => import("./español/pages/Services/OutdoorKitchenModernEs"));
+const OutdoorKitchenTraditionalEs = lazy(() => import("./español/pages/Services/OutdoorKitchenTraditionalEs"));
+const PatiosAndPergolasHomeEs = lazy(() => import("./español/pages/Home/PatiosAndPergolasHomeEs"));
+const ServicesMainEs = lazy(() => import("./español/pages/Home/ServicesMainEs"));
+const OurPromiseHomeEs = lazy(() => import("./español/pages/Home/OurPromiseHomeEs"));
+const AboutUsHomeEs = lazy(() => import("./español/pages/Home/AboutUsHomeEs"));
+const BlogSectionPageEs = lazy(() => import("./español/pages/Blogs/BlogsSectionPageEs"));
+const BlogPageEs = lazy(() => import("./español/pages/Blogs/BlogPageEs"));
+const FreeQuoteEs = lazy(() => import("./español/pages/FreeQuote/FreeQuoteEs"));
+const FormPageEs = lazy(() => import("./español/components/FormPageEs"));
+// const ProjectsListEs = lazy(() => import("./español/pages/Catalogo/CatalogoEs"));
 
 // Admin
 const AdminDashboard = lazy(() => import("./pages/Admin/AdminDashboard"));
 const Login = lazy(() => import("./pages/Admin/Login"));
-// ✅ Revertido a importación estándar (sin extensión)
 import AdminRoute from "./pages/Admin/AdminRoute";
 import Clients from "./pages/Home/Clients";
-
 
 // ====== Helpers ======
 const matches = (patterns: string[], pathname: string) =>
   patterns.some((p) => matchPath({ path: p, end: false }, pathname));
 
-const BlogsRedirect: React.FC = () => {
-  const { slug } = useParams();
-  return <Navigate to={`/blog/${slug ?? ""}`} replace />;
-};
-
-const BlogsRedirectEs: React.FC = () => {
-  const { slug } = useParams();
-  return <Navigate to={`/blog/${slug ?? ""}/es`} replace />;
-};
+// const BlogsRedirect: React.FC = () => {
+//   const { slug } = useParams();
+//   return <Navigate to={`/blog/${slug ?? ""}`} replace />;
+// };
 
 const NoIndex: React.FC<{ children: React.ReactNode }> = ({ children }) => (
   <>
@@ -108,22 +102,20 @@ const ScrollToTop: React.FC = () => {
   return null;
 };
 
-// Fallback muy liviano para Suspense
 const PageFallback: React.FC = () => <div className="min-h-[40vh]" aria-hidden="true" />;
 
-// === perf helpers para idle/prefetch ===
 const canPrefetch = () => {
   if (typeof navigator !== "undefined") {
     const conn = (navigator as any).connection;
     if (conn?.saveData) return false;
     const t = String(conn?.effectiveType || "").toLowerCase();
     if (t.includes("2g") || t.includes("slow-2g")) return false;
-    // Incluimos la comprobación de idioma para prefetch
-    if (window.location.pathname.includes('/es')) return false; // No prefetch en versión ES
+    if (window.location.pathname.includes('/es')) return false; 
   }
   if (typeof document !== "undefined" && document.visibilityState === "hidden") return false;
   return true;
 };
+
 const runIdle = (cb: () => void) => {
   if (typeof window === "undefined") return;
   const w = window as any;
@@ -131,12 +123,6 @@ const runIdle = (cb: () => void) => {
   else setTimeout(cb, 250);
 };
 
-/**
- * ====== Prefetch de rutas probables ======
- * Crea import() “en vacío” para que Vite descargue el chunk sin montarlo.
- * Se llama en idle, al cargar Home y al hover/focus de links clave.
- */
-// ✅ Rutas de prefetch corregidas a importación estándar (sin extensión)
 const routePrefetchers: Record<string, () => Promise<any>> = {
   "/outdoor-living-services": () => import("./pages/Home/ServicesMain"),
   "/attached-aluminium-pergola-covered-patio": () => import("./pages/Services/Attached"),
@@ -146,18 +132,15 @@ const routePrefetchers: Record<string, () => Promise<any>> = {
   "/blog": () => import("./pages/Blogs/BlogsSectionPage"),
   "/covered-patio-project-catalog": () => import("./pages/Catalogo/Catalogo"), 
 };
-// Rutas de prefetch ES (se mantienen aquí por consistencia aunque canPrefetch() las desactiva)
+
 const routePrefetchersEs: Record<string, () => Promise<any>> = {
   "/es": () => import("./español/pages/Home/MainHomeEs"),
 };
 
-
-/** Link que hace prefetch del chunk al hover/focus (sin bloquear navegación) */
 const SmartLink: React.FC<React.ComponentProps<typeof Link> & { prefetchTo?: string }> = ({
   prefetchTo, onMouseEnter, onFocus, ...props
 }) => {
   const prefetch = () => {
-    // Nota: El prefetch solo se ejecuta en la versión base (EN), ver canPrefetch()
     if (!canPrefetch() || !prefetchTo) return;
     const p = routePrefetchers[prefetchTo];
     if (typeof p === "function") runIdle(() => p().catch(() => void 0));
@@ -171,7 +154,6 @@ const SmartLink: React.FC<React.ComponentProps<typeof Link> & { prefetchTo?: str
   );
 };
 
-// === Monta niños cuando están cerca del viewport (Anti-CLS con containIntrinsicSize) ===
 type MinH = number | { base: number; md?: number; lg?: number };
 
 const LazyWhenVisible: React.FC<{
@@ -229,15 +211,12 @@ const Layout: React.FC = memo(() => {
   const location = useLocation();
   useGoogleAdsTracking();
   
-  // Determinamos si estamos en una ruta en español (ruta base o cualquier ruta con /es)
-  const isSpanishRoute = location.pathname === '/es' || (location.pathname.includes('/es') && location.pathname.length > 3);
+  const isSpanishRoute = location.pathname === '/es' || (location.pathname.startsWith('/es/') || location.pathname.endsWith('/es'));
   
-  // Usamos los componentes ES o EN basados en la ruta
   const CurrentHeader = isSpanishRoute ? HeaderEs : Header;
   const CurrentFooter = isSpanishRoute ? FooterEs : Footer;
   const CurrentWspButton = isSpanishRoute ? WspButtonEs : WspButton;
   const CurrentQuotePopup = isSpanishRoute ? QuotePopupEs : QuotePopup;
-
 
   const noLayoutRoutes = useMemo(
     () => [
@@ -246,20 +225,18 @@ const Layout: React.FC = memo(() => {
       "/whatsapp-redirect",
       "/login/dashboard",
       "/admin/*",
-      "/financing-options/es", // ✅ Añadido /es
-      "/get-a-free-quote-houston-tracking/es", // ✅ Añadido /es
-      "/whatsapp-redirect/es", // ✅ Añadido /es
+      "/financing-options/es",
+      "/get-a-free-quote-houston-tracking/es",
+      "/whatsapp-redirect/es",
     ],
     []
   );
   const isNoLayout = matches(noLayoutRoutes, location.pathname);
 
-  // Prefetch suave de rutas “vecinas” cuando estás en Home
   useEffect(() => {
     if (!canPrefetch()) return;
     if (location.pathname === "/") {
       runIdle(() => {
-        // Precalienta las rutas más probables desde Home
         routePrefetchers["/outdoor-living-services"]?.();
         routePrefetchers["/covered-patio-project-catalog"]?.();
         routePrefetchers["/blog"]?.();
@@ -267,13 +244,11 @@ const Layout: React.FC = memo(() => {
     }
     if (location.pathname === "/es") {
       runIdle(() => {
-        // Precalienta las rutas más probables desde Home ES
         routePrefetchersEs["/es"]?.();
       });
     }
   }, [location.pathname]);
 
-  // Widgets globales diferidos en idle
   const [idleWidgets, setIdleWidgets] = useState(false);
   useEffect(() => {
     if (!canPrefetch()) return;
@@ -282,89 +257,23 @@ const Layout: React.FC = memo(() => {
 
   return (
     <>
-      {/* 🟢 Schema Markup Global: LocalBusiness */}
-      {/* Se aplica a todas las páginas fuera de <Routes> */}
       <SchemaMarkup type="business" />
-
       <ScrollToTop />
-      {/* Usamos el Header correcto basado en el idioma */}
       {!isNoLayout && <CurrentHeader />}
 
       <Suspense fallback={<PageFallback />}>
         <Routes>
-          {/* Públicas (Versión base EN) */}
+          {/* ========================================== */}
+          {/* RUTAS EN INGLÉS (BASE)                     */}
+          {/* ========================================== */}
           <Route path="/" element={<MainHome />} />
           <Route path="/aluminium-custom-pergola-cover-patio" element={<PatiosAndPergolasHome />} />
           <Route path="/outdoor-living-services" element={<ServicesMain />} />
-
-          <Route
-            path="/our-promise"
-            element={
-              <>
-                {/* 🟢 Schema Markup Específico: FAQPage */}
-                <SchemaMarkup type="faq" />
-                <LazyWhenVisible
-                >
-                  <Suspense>
-                    <BlockSection />
-                  </Suspense>
-                </LazyWhenVisible>
-                <OurPromise />
-                <Clients></Clients>
-              </>
-            }
-          />
-
-          <Route
-            path="/how-we-doit"
-            element={
-              <>
-                <LazyWhenVisible
-                >
-                  <Suspense>
-                    <BlockSection />
-                  </Suspense>
-                </LazyWhenVisible>
-                <OurProcess />
-                <Clients></Clients>
-              </>
-            }
-          />
-
-          <Route
-            path="/about-us"
-            element={
-              <>
-                <LazyWhenVisible
-                >
-                  <Suspense>
-                    <BlockSection />
-                  </Suspense>
-                </LazyWhenVisible>
-                <AboutUsPage />
-                <Clients></Clients>
-              </>
-            }
-          />
-
-          <Route
-            path="/blog"
-            element={
-              <>
-                <LazyWhenVisible
-                >
-                  <Suspense>
-                    <BlockSection />
-                  </Suspense>
-                </LazyWhenVisible>
-                <BlogSectionPage />
-                <Clients></Clients>
-              </>
-            }
-          />
-          <Route path="/blogs/blog/:slug" element={<BlogsRedirect />} />
+          <Route path="/our-promise" element={<><SchemaMarkup type="faq" /><LazyWhenVisible><Suspense><BlockSection /></Suspense></LazyWhenVisible><OurPromise /><Clients /></>} />
+          <Route path="/how-we-doit" element={<><OurProcess /><Clients /></>} />
+          <Route path="/about-us" element={<><AboutUsPage /><Clients /></>} />
+          <Route path="/blog" element={<BlogSectionPage />} />
           <Route path="/blog/:slug" element={<BlogPage />} />
-
           <Route path="/attached-aluminium-pergola-covered-patio" element={<Attached />} />
           <Route path="/free-standing-aluminium-pergola-covered-patio" element={<Freestanding />} />
           <Route path="/cantilever-aluminium-pergola" element={<Cantilever />} />
@@ -372,12 +281,8 @@ const Layout: React.FC = memo(() => {
           <Route path="/modern-outdoor-kitchens-houston" element={<OutdoorKitchenModern />} />
           <Route path="/traditional-outdoor-kitchens-houston" element={<OutdoorKitchenTraditional />} />
           <Route path="/concrete-and-turf-installation-houston" element={<ConcreteTurf />} />
-
-          {/* Finanzas / Calculadora */}
           <Route path="/patio-financing-houston" element={<Calculator />} />
           <Route path="/financing-options" element={<NoIndex><FinancingOptions /></NoIndex>} />
-
-          {/* Contacto / Formularios */}
           <Route path="/get-a-free-quote-houston" element={<FreeQuote />} />
           <Route path="/contact-us" element={<ContactRedirect />} />
           <Route path="/formpage" element={<NoIndex><FormPage /></NoIndex>} />
@@ -385,66 +290,50 @@ const Layout: React.FC = memo(() => {
           <Route path="/whatsapp-redirect" element={<NoIndex><WhatsAppRedirect /></NoIndex>} />
           <Route path="/covered-patio-project-catalog" element={<ProjectsList />} />
 
-
           {/* ========================================== */}
-          {/* RUTAS EN ESPAÑOL (/es) */}
+          {/* RUTAS EN ESPAÑOL (/es)                     */}
           {/* ========================================== */}
+          <Route path="/es" element={<MainHomeEs />} />
+          <Route path="/aluminium-custom-pergola-cover-patio/es" element={<PatiosAndPergolasHomeEs />} />
+          <Route path="/outdoor-living-services/es" element={<ServicesMainEs />} />
+          <Route path="/our-promise/es" element={<><SchemaMarkup type="faq" /><LazyWhenVisible><Suspense><BlockSection /></Suspense></LazyWhenVisible><OurPromiseHomeEs /><Clients /></>} />
+          <Route path="/about-us/es" element={<AboutUsHomeEs />} />
+          <Route path="/blog/es" element={<BlogSectionPageEs />} />
+          <Route path="/blog/:slug/es" element={<BlogPageEs />} />
+          <Route path="/attached-aluminium-pergola-covered-patio/es" element={<AttachedEs />} />
+          <Route path="/free-standing-aluminium-pergola-covered-patio/es" element={<FreestandingEs />} />
+          <Route path="/cantilever-aluminium-pergola/es" element={<CantileverEs />} />
+          <Route path="/custom-outdoor-kitchen/es" element={<OutdoorKitchenEs />} />
+          <Route path="/modern-outdoor-kitchens-houston/es" element={<OutdoorKitchenModernEs />} />
+          <Route path="/traditional-outdoor-kitchens-houston/es" element={<OutdoorKitchenTraditionalEs />} />
+          <Route path="/concrete-and-turf-installation-houston/es" element={<ConcreteTurfEs />} />
+          <Route path="/patio-financing-houston/es" element={<Calculator />} />
+          <Route path="/get-a-free-quote-houston/es" element={<FreeQuoteEs />} />
+          <Route path="/formpage/es" element={<NoIndex><FormPageEs /></NoIndex>} />
+          {/* <Route path="/covered-patio-project-catalog/es" element={<ProjectsListEs />} /> */}
 
-          <Route path="/es" element={<MainHomeEs />} /> {/* <-- Única ruta ES activa */}
-          
           {/* Admin */}
           <Route path="/login/dashboard" element={<Login />} />
-          <Route
-            path="/admin/dashboard"
-            element={
-              <AdminRoute>
-                <AdminDashboard />
-              </AdminRoute>
-            }
-          />
+          <Route path="/admin/dashboard" element={<AdminRoute><AdminDashboard /></AdminRoute>} />
 
-          {/* Redirecciones */}
-          {/* /contact → /contact-us (EN) */}
+          {/* Redirecciones y Errores */}
           <Route path="/contact" element={<Navigate to="/contact-us" replace />} />
-          {/* /contact/es → /contact-us/es (ES) */}
           <Route path="/contact/es" element={<Navigate to="/contact-us/es" replace />} />
-          {/* Redirección para /es/algo (por si se ingresa mal) -> /algo/es */}
           <Route path="/es/:path" element={<Navigate to={window.location.pathname.replace('/es/', '/') + '/es'} replace />} />
 
-
-          {/* 404 */}
-          <Route
-            path="*"
-            element={
+          <Route path="*" element={
               <div className="min-h-screen flex flex-col justify-center items-center text-center px-4 py-20 bg-white">
-                {/* 404 para inglés y español (si la ruta no es /es) */}
                 {isSpanishRoute ? (
                     <>
                         <h1 className="text-5xl font-bold mb-4 text-[#1a214a]">404 - Página no encontrada</h1>
-                        <p className="mb-6 text-lg text-gray-700">
-                            La página que estás buscando no existe o ha sido movida.
-                        </p>
-                        <SmartLink
-                            to="/es"
-                            prefetchTo="/" // Prefetch sigue siendo a la raíz EN, ya que el componente es compartido
-                            className="px-6 py-3 bg-[#1a214a] text-white rounded-lg shadow hover:bg-[#2a2f6a] transition duration-300 cursor-pointer"
-                        >
-                            Volver a la página de inicio
-                        </SmartLink>
+                        <p className="mb-6 text-lg text-gray-700">La página que estás buscando no existe o ha sido movida.</p>
+                        <SmartLink to="/es" className="px-6 py-3 bg-[#1a214a] text-white rounded-lg shadow hover:bg-[#2a2f6a]">Volver a la página de inicio</SmartLink>
                     </>
                 ) : (
                     <>
                         <h1 className="text-5xl font-bold mb-4 text-[#1a214a]">404 - Page Not Found</h1>
-                        <p className="mb-6 text-lg text-gray-700">
-                            The page you are looking for doesn&apos;t exist or has been moved.
-                        </p>
-                        <SmartLink
-                            to="/"
-                            prefetchTo="/"
-                            className="px-6 py-3 bg-[#1a214a] text-white rounded-lg shadow hover:bg-[#2a2f6a] transition duration-300 cursor-pointer"
-                        >
-                            Go back to homepage
-                        </SmartLink>
+                        <p className="mb-6 text-lg text-gray-700">The page you are looking for doesn&apos;t exist or has been moved.</p>
+                        <SmartLink to="/" className="px-6 py-3 bg-[#1a214a] text-white rounded-lg shadow hover:bg-[#2a2f6a]">Go back to homepage</SmartLink>
                     </>
                 )}
               </div>
@@ -453,7 +342,6 @@ const Layout: React.FC = memo(() => {
         </Routes>
       </Suspense>
 
-      {/* Widgets globales diferidos */}
       {!isNoLayout && idleWidgets && (
         <Suspense fallback={null}>
           <CurrentQuotePopup />
@@ -465,26 +353,9 @@ const Layout: React.FC = memo(() => {
         </Suspense>
       )}
 
-      {/* Footer ↓ solo cuando se acerca al viewport */}
       {!isNoLayout && (
-        <LazyWhenVisible
-          offset="800px"
-          minHeight={{ base: 560, md: 720, lg: 900 }}   // ← subido para desktop
-          fallback={
-            <div
-              className="min-h-[560px] md:min-h-[720px] lg:min-h-[900px]"
-              aria-hidden="true"
-            />
-          }
-        >
-          <Suspense
-            fallback={
-              <div
-                className="min-h-[560px] md:min-h-[720px] lg:min-h-[900px]"
-                aria-hidden="true"
-              />
-            }
-          >
+        <LazyWhenVisible offset="800px" minHeight={{ base: 560, md: 720, lg: 900 }}>
+          <Suspense fallback={<div className="min-h-[560px]" />}>
             <CurrentFooter />
           </Suspense>
         </LazyWhenVisible>
@@ -493,7 +364,7 @@ const Layout: React.FC = memo(() => {
   );
 });
 
-function App() {
+export default function App() {
   return (
     <HelmetProvider>
       <Router basename="/">
@@ -502,5 +373,3 @@ function App() {
     </HelmetProvider>
   );
 }
-
-export default App;

@@ -21,7 +21,7 @@ const StepEs: React.FC<StepProps> = ({
   const [noMeasurements, setNoMeasurements] = useState(false);
 
   // === TEXTOS TRADUCIDOS ===
-  const I_DONT_KNOW_MESSAGE = "No sé mis medidas.";
+  // const I_DONT_KNOW_MESSAGE = "No sé mis medidas.";
   const REQUIRED_FIELD_MESSAGE = "Este campo es obligatorio.";
   const MEASURES_UNKNOWN_MESSAGE = "No sé mis medidas.";
   const MESSAGE_HEADER = "*Solicitud de Cotización*";

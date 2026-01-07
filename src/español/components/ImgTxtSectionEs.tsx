@@ -24,7 +24,7 @@ const ImageTextSection: React.FC<ImageTextSectionProps> = ({
   return (
     <article
       className={`flex flex-col ${imagePosition === "left" ? "sm:flex-row-reverse" : "sm:flex-row"} 
-        max-w-[1000px] gap-5 mt-10`}
+        max-w-[1000px] gap-5 my-10`}
       aria-labelledby={sectionId}
     >
       {/* Contenido de Texto */}

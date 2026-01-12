@@ -9,7 +9,7 @@ import React, {
   useCallback,
 } from "react";
 // ✅ CORREGIDO: Importamos la data blogsEs desde la ruta ES
-import { blogsEs } from "../Blogs/blogDataEs"; // Asumo que el archivo es blogDataEs.ts y exporta blogsEs
+import { blogsEs } from "../BlogsEs/blogDataEs"; // Asumo que el archivo es blogDataEs.ts y exporta blogsEs
 import { Link } from "react-router-dom";
 import useScrollToTop from "../../../hooks/scrollToTop";
 // ❌ ELIMINADO: import { useTranslation } from "react-i18next"; 

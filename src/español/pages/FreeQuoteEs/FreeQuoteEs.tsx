@@ -7,8 +7,8 @@ const steps: Record<number, StepData> = {
   1: {
     title: "¿Qué estás buscando?", // ✅ Traducido
     options: [
-      { img: "assets/images/Products/Patios&Pergolas/Attached/11.webp", text: "Patios y Pérgolas", nextStep: 2 }, // ✅ Traducido
-      { img: "assets/images/Products/OutdoorKitchen/Modern/01.webp", text: "Cocinas Exteriores", nextStep: 10 }, // ✅ Traducido
+      { img: "../assets/images/Products/Patios&Pergolas/Attached/11.webp", text: "Patios y Pérgolas", nextStep: 2 }, // ✅ Traducido
+      { img: "../assets/images/Products/OutdoorKitchen/Modern/01.webp", text: "Cocinas Exteriores", nextStep: 10 }, // ✅ Traducido
     ],
   },
   2: {
@@ -24,16 +24,16 @@ const steps: Record<number, StepData> = {
   3: {
     title: "Tipo", // ✅ Traducido
     options: [
-      { img: "assets/images/FreeQUOTE/Patios&Pergolas/Attached.webp", text: "Adosado", nextStep: 5 }, // ✅ Traducido
-      { img: "assets/images/FreeQUOTE/Patios&Pergolas/Freestanding.webp", text: "Independiente", nextStep: 4 }, // ✅ Traducido
+      { img: "../assets/images/FreeQUOTE/Patios&Pergolas/Attached.webp", text: "Adosado", nextStep: 5 }, // ✅ Traducido
+      { img: "../assets/images/FreeQUOTE/Patios&Pergolas/Freestanding.webp", text: "Independiente", nextStep: 4 }, // ✅ Traducido
     ],
     previousStep: 2,
   },
   4: {
     title: "Estilo", // ✅ Traducido
     options: [
-      { img: "assets/images/FreeQUOTE/Patios&Pergolas/Fresstanding/Regular.webp", text: "Regular", nextStep: 5 }, // ✅ Traducido
-      { img: "assets/images/FreeQUOTE/Patios&Pergolas/Fresstanding/Cantilever.webp", text: "Voladizo (Cantilever)", nextStep: 5 }, // ✅ Traducido
+      { img: "../assets/images/FreeQUOTE/Patios&Pergolas/Fresstanding/Regular.webp", text: "Regular", nextStep: 5 }, // ✅ Traducido
+      { img: "../assets/images/FreeQUOTE/Patios&Pergolas/Fresstanding/Cantilever.webp", text: "Voladizo (Cantilever)", nextStep: 5 }, // ✅ Traducido
     ],
     previousStep: 3,
   },
@@ -41,17 +41,17 @@ const steps: Record<number, StepData> = {
     title: "Cimientos", // ✅ Traducido
     subtitle: "¿Qué tipo de cimientos tienes actualmente?", // ✅ Traducido
     options: [
-      { img: "assets/images/FreeQUOTE/Patios&Pergolas/Foundation/Concrete.webp", text: "Concreto", nextStep: "final" }, // ✅ Traducido
-      { img: "assets/images/FreeQUOTE/Patios&Pergolas/Foundation/Grass&Dirt.webp", text: "Césped o Tierra", nextStep: "final" }, // ✅ Traducido
-      { img: "assets/images/FreeQUOTE/Patios&Pergolas/Foundation/Travertine.webp", text: "Travertino y Adoquines", nextStep: "final" }, // ✅ Traducido
+      { img: "../assets/images/FreeQUOTE/Patios&Pergolas/Foundation/Concrete.webp", text: "Concreto", nextStep: "final" }, // ✅ Traducido
+      { img: "../assets/images/FreeQUOTE/Patios&Pergolas/Foundation/Grass&Dirt.webp", text: "Césped o Tierra", nextStep: "final" }, // ✅ Traducido
+      { img: "../assets/images/FreeQUOTE/Patios&Pergolas/Foundation/Travertine.webp", text: "Travertino y Adoquines", nextStep: "final" }, // ✅ Traducido
     ],
     previousStep: 4,
   },
   10: {
     title: "Estilo", // ✅ Traducido
     options: [
-      { img: "assets/images/FreeQUOTE/OutdoorKitchen/Modern.webp", text: "Moderno", nextStep: 11 }, // ✅ Traducido
-      { img: "assets/images/FreeQUOTE/OutdoorKitchen/Traditional.webp", text: "Tradicional", nextStep: 12 }, // ✅ Traducido
+      { img: "../assets/images/FreeQUOTE/OutdoorKitchen/Modern.webp", text: "Moderno", nextStep: 11 }, // ✅ Traducido
+      { img: "../assets/images/FreeQUOTE/OutdoorKitchen/Traditional.webp", text: "Tradicional", nextStep: 12 }, // ✅ Traducido
     ],
     previousStep: 1,
   },
@@ -70,17 +70,17 @@ const steps: Record<number, StepData> = {
   13: {
     title: "Material Exterior", // ✅ Traducido
     options: [
-      { img: "assets/images/FreeQUOTE/OutdoorKitchen/Modern/Composite.webp", text: "Compuesto", nextStep: "final" }, // ✅ Traducido
-      { img: "assets/images/FreeQUOTE/OutdoorKitchen/Modern/ThermoWood.webp", text: "Madera Térmica (ThermoWood)", nextStep: "final" }, // ✅ Traducido
+      { img: "../assets/images/FreeQUOTE/OutdoorKitchen/Modern/Composite.webp", text: "Compuesto", nextStep: "final" }, // ✅ Traducido
+      { img: "../assets/images/FreeQUOTE/OutdoorKitchen/Modern/ThermoWood.webp", text: "Madera Térmica (ThermoWood)", nextStep: "final" }, // ✅ Traducido
     ],
     previousStep: 11,
   },
   14: {
     title: "Material Exterior", // ✅ Traducido
     options: [
-      { img: "assets/images/FreeQUOTE/OutdoorKitchen/Traditional/Brick.webp", text: "Ladrillo", nextStep: "final" }, // ✅ Traducido
-      { img: "assets/images/FreeQUOTE/OutdoorKitchen/Traditional/Stone.webp", text: "Piedra", nextStep: "final" }, // ✅ Traducido
-      { img: "assets/images/FreeQUOTE/OutdoorKitchen/Traditional/Stucco.webp", text: "Estuco", nextStep: "final" }, // ✅ Traducido
+      { img: "../assets/images/FreeQUOTE/OutdoorKitchen/Traditional/Brick.webp", text: "Ladrillo", nextStep: "final" }, // ✅ Traducido
+      { img: "../assets/images/FreeQUOTE/OutdoorKitchen/Traditional/Stone.webp", text: "Piedra", nextStep: "final" }, // ✅ Traducido
+      { img: "../assets/images/FreeQUOTE/OutdoorKitchen/Traditional/Stucco.webp", text: "Estuco", nextStep: "final" }, // ✅ Traducido
     ],
     previousStep: 12,
   },
@@ -108,7 +108,7 @@ const FreeQuoteEs = () => {
     <section
       role="region"
       aria-label="Formulario de cotización gratuita" // ✅ Traducido
-      className="min-h-screen bg-[url('/assets/images/Products/Patios&Pergolas/Attached/20.webp')] bg-cover bg-center"
+      className="min-h-screen bg-[url('/../assets/images/Products/Patios&Pergolas/Attached/20.webp')] bg-cover bg-center"
     >
       <BlockSection />
 

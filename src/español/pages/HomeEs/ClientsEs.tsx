@@ -40,7 +40,7 @@ const ClientsEs: React.FC = () => {
     // === AJUSTE DE RUTAS DE ARCHIVOS (Para el logo de Google) ===
     // Asumiendo que ClientsEs está en español/pages/Home/ClientsEs.tsx, necesitamos ../../../ para llegar a la raíz.
     const GOOGLE_LOGO_PATH = "../../../assets/images/google.webp"; 
-    const OPINIONS_PATH_BASE = "../../../assets/images/opinions/";
+    const OPINIONS_PATH_BASE = "../../../assets/images/opinions/Es/";
 
 
     return (

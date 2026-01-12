@@ -5,9 +5,9 @@ import MarqueeBannerEs from "../../components/MarqueeBannerEs";
 import ImgTxtSectionEs from "../../components/ImgTxtSectionEs";
 import SectionBlockEs from "../../components/SectionBlockEs";
 import WhyUsLinkEs from "./components/WhyUsLinkEs";
-import ServicesEs from "../Home/services/ServicesEs";
+import ServicesEs from "../HomeEs/services/ServicesEs";
 import FreeQuoteButtonEs from "../../components/FreeQuoteButtonEs";
-import ClientsEs from "../Home/ClientsEs";
+import ClientsEs from "../HomeEs/ClientsEs";
 
 // --- Keywords adaptadas al español (Estilo Tradicional) ---
 const KEYWORDS_RAW = [

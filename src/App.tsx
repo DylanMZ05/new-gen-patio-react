@@ -29,6 +29,7 @@ const BlockSection = lazy(() => import("./components/BlockSection"));
 const WspButtonEs = lazy(() => import("./español/components/WspButtonEs"));
 const FooterEs = lazy(() => import("./español/components/footer/FooterEs")); 
 const QuotePopupEs = lazy(() => import("./español/components/QuotePopupEs"));
+const BlockSectionEs = lazy(() => import("./español/components/BlockSectionEs"));
 
 // ====== Páginas Base (EN) ======
 const MainHome = lazy(() => import("./pages/Home/MainHome"));
@@ -56,38 +57,42 @@ const WhatsAppRedirect = lazy(() => import("./pages/traking/WhatsAppRedirect"));
 const ProjectsList = lazy(() => import("./pages/Catalogo/Catalogo"));
 
 // ====== Páginas en ESPAÑOL (ES) ======
-const MainHomeEs = lazy(() => import("./español/pages/Home/MainHomeEs"));
-const AttachedEs = lazy(() => import("./español/pages/Services/AttachedEs"));
-const FreestandingEs = lazy(() => import("./español/pages/Services/FreestandingEs"));
-const CantileverEs = lazy(() => import("./español/pages/Services/CantileverEs"));
-const OutdoorKitchenEs = lazy(() => import("./español/pages/Services/OutdoorKitchenEs"));
-const ConcreteTurfEs = lazy(() => import("./español/pages/Services/ConcreteTurfEs"));
-const OutdoorKitchenModernEs = lazy(() => import("./español/pages/Services/OutdoorKitchenModernEs"));
-const OutdoorKitchenTraditionalEs = lazy(() => import("./español/pages/Services/OutdoorKitchenTraditionalEs"));
-const PatiosAndPergolasHomeEs = lazy(() => import("./español/pages/Home/PatiosAndPergolasHomeEs"));
-const ServicesMainEs = lazy(() => import("./español/pages/Home/ServicesMainEs"));
-const OurPromiseHomeEs = lazy(() => import("./español/pages/Home/OurPromiseHomeEs"));
-const AboutUsHomeEs = lazy(() => import("./español/pages/Home/AboutUsHomeEs"));
-const BlogSectionPageEs = lazy(() => import("./español/pages/Blogs/BlogsSectionPageEs"));
-const BlogPageEs = lazy(() => import("./español/pages/Blogs/BlogPageEs"));
-const FreeQuoteEs = lazy(() => import("./español/pages/FreeQuote/FreeQuoteEs"));
+const MainHomeEs = lazy(() => import("./español/pages/HomeEs/MainHomeEs"));
+const AttachedEs = lazy(() => import("./español/pages/ServicesEs/AttachedEs"));
+const FreestandingEs = lazy(() => import("./español/pages/ServicesEs/FreestandingEs"));
+const CantileverEs = lazy(() => import("./español/pages/ServicesEs/CantileverEs"));
+const OutdoorKitchenEs = lazy(() => import("./español/pages/ServicesEs/OutdoorKitchenEs"));
+const ConcreteTurfEs = lazy(() => import("./español/pages/ServicesEs/ConcreteTurfEs"));
+const OutdoorKitchenModernEs = lazy(() => import("./español/pages/ServicesEs/OutdoorKitchenModernEs"));
+const OutdoorKitchenTraditionalEs = lazy(() => import("./español/pages/ServicesEs/OutdoorKitchenTraditionalEs"));
+const PatiosAndPergolasHomeEs = lazy(() => import("./español/pages/HomeEs/PatiosAndPergolasHomeEs"));
+const ServicesMainEs = lazy(() => import("./español/pages/HomeEs/ServicesMainEs"));
+const BlogSectionPageEs = lazy(() => import("./español/pages/BlogsEs/BlogsSectionPageEs"));
+const BlogPageEs = lazy(() => import("./español/pages/BlogsEs/BlogPageEs"));
+const FreeQuoteEs = lazy(() => import("./español/pages/FreeQuoteEs/FreeQuoteEs"));
 const FormPageEs = lazy(() => import("./español/components/FormPageEs"));
-// const ProjectsListEs = lazy(() => import("./español/pages/Catalogo/CatalogoEs"));
 
-// Admin
+// Importaciones corregidas según estructura de carpetas
+const OurPromiseEs = lazy(() => import("./español/pages/WeDoIt&AboutEs/OurPromiseEs"));
+const OurProcessEs = lazy(() => import("./español/pages/WeDoIt&AboutEs/OurProcessEs"));
+const AboutUsPageEs = lazy(() => import("./español/pages/WeDoIt&AboutEs/AboutUsPageEs"));
+const CalculatorEs = lazy(() => import("./español/pages/CalculatorEs/CalculatorEs"));
+const FinancingOptionsEs = lazy(() => import("./español/pages/CalculatorEs/FinancingOptionsEs"));
+const ProjectsListEs = lazy(() => import("./español/pages/CatalogoEs/CatalogoEs"));
+const FreeQuoteTrackingEs = lazy(() => import("./español/pages/trakingEs/freequote-trackingEs"));
+const WhatsAppRedirectEs = lazy(() => import("./español/pages/trakingEs/WhatsAppRedirectEs"));
+const ContactRedirectEs = lazy(() => import("./español/pages/ContactEs/ContactRedirectEs"));
+
+// Admin & Shared
 const AdminDashboard = lazy(() => import("./pages/Admin/AdminDashboard"));
 const Login = lazy(() => import("./pages/Admin/Login"));
 import AdminRoute from "./pages/Admin/AdminRoute";
 import Clients from "./pages/Home/Clients";
+import ClientsEs from "./español/pages/HomeEs/ClientsEs";
 
 // ====== Helpers ======
 const matches = (patterns: string[], pathname: string) =>
   patterns.some((p) => matchPath({ path: p, end: false }, pathname));
-
-// const BlogsRedirect: React.FC = () => {
-//   const { slug } = useParams();
-//   return <Navigate to={`/blog/${slug ?? ""}`} replace />;
-// };
 
 const NoIndex: React.FC<{ children: React.ReactNode }> = ({ children }) => (
   <>
@@ -134,7 +139,7 @@ const routePrefetchers: Record<string, () => Promise<any>> = {
 };
 
 const routePrefetchersEs: Record<string, () => Promise<any>> = {
-  "/es": () => import("./español/pages/Home/MainHomeEs"),
+  "/es": () => import("./español/pages/HomeEs/MainHomeEs"),
 };
 
 const SmartLink: React.FC<React.ComponentProps<typeof Link> & { prefetchTo?: string }> = ({
@@ -296,8 +301,9 @@ const Layout: React.FC = memo(() => {
           <Route path="/es" element={<MainHomeEs />} />
           <Route path="/aluminium-custom-pergola-cover-patio/es" element={<PatiosAndPergolasHomeEs />} />
           <Route path="/outdoor-living-services/es" element={<ServicesMainEs />} />
-          <Route path="/our-promise/es" element={<><SchemaMarkup type="faq" /><LazyWhenVisible><Suspense><BlockSection /></Suspense></LazyWhenVisible><OurPromiseHomeEs /><Clients /></>} />
-          <Route path="/about-us/es" element={<AboutUsHomeEs />} />
+          <Route path="/our-promise/es" element={<><SchemaMarkup type="faq" /><LazyWhenVisible><Suspense><BlockSectionEs /></Suspense></LazyWhenVisible><OurPromiseEs /><ClientsEs /></>} />
+          <Route path="/how-we-doit/es" element={<><OurProcessEs /><ClientsEs /></>} />
+          <Route path="/about-us/es" element={<><AboutUsPageEs /><ClientsEs /></>} />
           <Route path="/blog/es" element={<BlogSectionPageEs />} />
           <Route path="/blog/:slug/es" element={<BlogPageEs />} />
           <Route path="/attached-aluminium-pergola-covered-patio/es" element={<AttachedEs />} />
@@ -307,10 +313,14 @@ const Layout: React.FC = memo(() => {
           <Route path="/modern-outdoor-kitchens-houston/es" element={<OutdoorKitchenModernEs />} />
           <Route path="/traditional-outdoor-kitchens-houston/es" element={<OutdoorKitchenTraditionalEs />} />
           <Route path="/concrete-and-turf-installation-houston/es" element={<ConcreteTurfEs />} />
-          <Route path="/patio-financing-houston/es" element={<Calculator />} />
+          <Route path="/patio-financing-houston/es" element={<CalculatorEs />} />
+          <Route path="/financing-options/es" element={<NoIndex><FinancingOptionsEs /></NoIndex>} />
           <Route path="/get-a-free-quote-houston/es" element={<FreeQuoteEs />} />
+          <Route path="/contact-us/es" element={<ContactRedirectEs />} />
           <Route path="/formpage/es" element={<NoIndex><FormPageEs /></NoIndex>} />
-          {/* <Route path="/covered-patio-project-catalog/es" element={<ProjectsListEs />} /> */}
+          <Route path="/get-a-free-quote-houston-tracking/es" element={<NoIndex><FreeQuoteTrackingEs /></NoIndex>} />
+          <Route path="/whatsapp-redirect/es" element={<NoIndex><WhatsAppRedirectEs /></NoIndex>} />
+          <Route path="/covered-patio-project-catalog/es" element={<ProjectsListEs />} />
 
           {/* Admin */}
           <Route path="/login/dashboard" element={<Login />} />

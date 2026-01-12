@@ -4,7 +4,7 @@ import { blogsEs } from "./blogDataEs";
 // ✅ CORREGIDO: Usamos el componente de vista de publicación en español (asumiendo que existe)
 import BlogPostEs from "./BlogPostEs";
 // ✅ CORREGIDO: Usamos componentes de sección en español
-import BlogSectionEs from "../Home/BlogsSectionEs"; 
+import BlogSectionEs from "../HomeEs/BlogsSectionEs"; 
 import MarqueeBannerEs from "../../components/MarqueeBannerEs";
 import FreeQuoteButtonEs from "../../components/FreeQuoteButtonEs";
 

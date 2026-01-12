@@ -16,7 +16,7 @@ const MarqueeBanner: React.FC = () => {
 
   return (
     <Link
-      to="/patio-financing-houston"
+      to="/patio-financing-houston/es"
       className="
         group block w-screen fixed left-0 right-0 border-y border-white/20 shadow-lg bg-[#0d4754]
         overflow-hidden relative py-3

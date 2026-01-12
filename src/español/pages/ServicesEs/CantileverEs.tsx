@@ -5,9 +5,9 @@ import MarqueeBanner from "../../components/MarqueeBannerEs";
 import ImgTxtSection from "../../components/ImgTxtSectionEs";
 import SectionBlock from "../../components/SectionBlockEs";
 import WhyUsLinkEs from "./components/WhyUsLinkEs"; // ✅ Importación actualizada
-import ServicesEs from "../Home/services/ServicesEs"; // ✅ Importación actualizada
+import ServicesEs from "../HomeEs/services/ServicesEs"; // ✅ Importación actualizada
 import FreeQuoteButtonEs from "../../components/FreeQuoteButtonEs"; // ✅ Importación actualizada
-import Clients from "../Home/ClientsEs";
+import Clients from "../HomeEs/ClientsEs";
 
 // --- Keywords adaptadas al español (Enfoque en diseño moderno y voladizos) ---
 const KEYWORDS_RAW = [

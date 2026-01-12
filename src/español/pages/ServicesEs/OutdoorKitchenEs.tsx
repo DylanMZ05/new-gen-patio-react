@@ -4,7 +4,7 @@ import MarqueeBannerEs from "../../components/MarqueeBannerEs";
 import ImgTxtSectionEs from "../../components/ImgTxtSectionEs";
 import SectionBlockEs from "../../components/SectionBlockEs";
 import WhyUsLinkEs from "./components/WhyUsLinkEs";
-import OutdoorKitchenCardsEs from "../Home/services/OutdoorKitchenCardsEs";
+import OutdoorKitchenCardsEs from "../HomeEs/services/OutdoorKitchenCardsEs";
 import FreeQuoteButtonEs from "../../components/FreeQuoteButtonEs";
 
 // --- Keywords adaptadas al español (Enfoque en Houston y mercado hispano) ---

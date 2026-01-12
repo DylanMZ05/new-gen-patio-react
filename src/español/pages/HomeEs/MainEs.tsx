@@ -39,7 +39,7 @@ const prefetchQuote = () => {
   if (quotePrefetched || !canPrefetch()) return;
   quotePrefetched = true;
   // Ruta de prefetch para la versión ES
-  import("../FreeQuote/FreeQuoteEs").catch(() => {
+  import("../FreeQuoteEs/FreeQuoteEs").catch(() => {
     quotePrefetched = false;
   });
 };

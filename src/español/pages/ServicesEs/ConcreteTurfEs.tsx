@@ -4,9 +4,9 @@ import MarqueeBannerEs from "../../components/MarqueeBannerEs";
 import ImgTxtSectionEs from "../../components/ImgTxtSectionEs";
 import SectionBlockEs from "../../components/SectionBlockEs";
 import WhyUsLinkEs from "./components/WhyUsLinkEs";
-import ServicesEs from "../Home/services/ServicesEs";
+import ServicesEs from "../HomeEs/services/ServicesEs";
 import { Helmet } from "react-helmet-async";
-import ClientsEs from "../Home/ClientsEs";
+import ClientsEs from "../HomeEs/ClientsEs";
 import FreeQuoteButtonEs from "../../components/FreeQuoteButtonEs";
 
 const sectionsData = [

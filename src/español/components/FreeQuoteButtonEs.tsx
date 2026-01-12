@@ -20,7 +20,7 @@ const FreeQuoteButton: React.FC<FreeQuoteButtonProps> = ({
   // ⬅️ CRÍTICO: Usamos las claves por defecto para i18n aquí.
   questionText: questionTextProp,
   buttonText: buttonTextProp,
-  linkTo = "/get-a-free-quote-houston",
+  linkTo = "/get-a-free-quote-houston/es",
   className,
   size = "md",
   gtmId = "free_quote_cta",

@@ -5,7 +5,7 @@ import { StepData } from "../../hooks/useStepNavigation";
  * 1. URL DE IMPLEMENTACIÓN ACTUALIZADA:
  * Esta es la URL del script unificado que maneja Contractors y Quotes.
  */
-const SCRIPT_URL_QUOTE = "https://script.google.com/macros/s/AKfycbzoeSqMsVeJe4XbEBOvHpb7oAW8z_T4WBgdqXwVTuJYQaBKgUYMYtoneQnifbUC-R_6fw/exec";
+const SCRIPT_URL_QUOTE = "https://script.google.com/macros/s/AKfycbx-zG476yOKXykl2HJ0vregOoFj0OWhZQVAvqgp2S6tHeFbcZyVX66e-qakm1Amox5Szg/exec";
 
 interface StepProps {
   stepData: StepData;

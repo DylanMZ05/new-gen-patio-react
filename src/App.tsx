@@ -262,6 +262,9 @@ const Layout: React.FC = memo(() => {
 
   return (
     <>
+      <Helmet>
+        <html lang={isSpanishRoute ? "es" : "en"} />
+      </Helmet>
       <SchemaMarkup type="business" />
       <ScrollToTop />
       {!isNoLayout && <CurrentHeader />}

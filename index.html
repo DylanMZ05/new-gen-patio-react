@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en-US">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -9,11 +9,9 @@
     <meta name="robots" content="index, follow, max-image-preview:large" />
     <meta name="theme-color" content="#ffffff" />
 
-    <!-- Favicon -->
     <link rel="icon" href="/LogoColor.ico" />
     <link rel="shortcut icon" href="/LogoColor.ico" />
 
-    <!-- Preload del póster del hero (LCP) -->
     <link
       rel="preload"
       as="image"
@@ -22,17 +20,13 @@
       fetchpriority="high"
     />
 
-    <!-- Preconexiones (máx 3–4) a orígenes usados temprano/seguros -->
     <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
     <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin />
-
     <link rel="dns-prefetch" href="https://firebaseinstallations.googleapis.com" />
     <link rel="preconnect" href="https://firebaseinstallations.googleapis.com" crossorigin />
-
     <link rel="dns-prefetch" href="https://analytics.tiktok.com" />
     <link rel="preconnect" href="https://analytics.tiktok.com" crossorigin />
 
-    <!-- Consent Mode v2: default DENIED (antes de cargar marketing) -->
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag(){ dataLayer.push(arguments); }
@@ -46,40 +40,13 @@
     </script>
 
     <meta name="msvalidate.01" content="C5F1F81EC9077D133C4527AB41B34993" />
-
-    <!-- Utilidades anti-CLS generales (ligeras)
-    <style id="anti-cls">
-      /* Lazy paint con espacio reservado (usa en bloques pesados no above-the-fold) */
-      .cv-stable-block{
-        content-visibility:auto;
-        contain: content;
-        contain-intrinsic-size: 780px;   /* Ajusta al alto típico del bloque */
-        min-height: 780px;
-      }
-      @media(max-width:768px){
-        .cv-stable-block{ contain-intrinsic-size: 620px; min-height: 620px; }
-      }
-
-      /* Envoltorios con ratio fijo (videos/iframes) */
-      .ratio-16x9{ aspect-ratio:16/9; width:100%; }
-      .ratio-4x3 { aspect-ratio:4/3;  width:100%; }
-      .ratio-16x9 > *, .ratio-4x3 > *{ width:100%; height:100%; display:block; }
-
-      /* Imágenes con dimensiones -> altura automática sin reflujo */
-      img[width][height]:not(.absolute):not([class*="h-"]):not([style*="height"]) {
-        height:auto;
-        display:block;
-      }
-    </style> -->
   </head>
 
   <body>
-    <!-- Evita /index.html expuesto -->
     <script> if (location.pathname === "/index.html") location.replace("/"); </script>
 
     <div id="root"></div>
 
-    <!-- ===== Popup Cookies (anti-CLS) ===== -->
     <div
       id="cookie-popup"
       class="cookie-popup"
@@ -89,12 +56,11 @@
       aria-label="Cookie consent dialog"
       tabindex="-1"
     >
-      <p class="cookie-text">This website uses cookies to enhance the user experience.</p>
+      <p id="cookie-text" class="cookie-text">This website uses cookies to enhance the user experience.</p>
       <button id="accept-cookies" class="cookie-btn cookie-btn--accept">Accept</button>
       <button id="close-cookies" class="cookie-btn cookie-btn--close" aria-label="Close cookie banner">Close</button>
     </div>
 
-    <!-- Estilos del banner de cookies (anti-CLS + mobile safe-area) -->
     <style>
       .cookie-popup{
         position: fixed; left: 0; right: 0; bottom: 0;
@@ -102,17 +68,11 @@
         padding: 14px 16px calc(14px + env(safe-area-inset-bottom, 0));
         display: flex; justify-content: center; align-items: center; gap: 12px;
         z-index: 9999;
-
-        /* Anti-CLS: fuera del flujo y animación con transform */
         transform: translateY(110%);
         transition: transform .25s ease;
         will-change: transform;
-
-        /* Aísla del resto del layout/paint */
         contain: layout paint style;
         box-shadow: 0 -2px 10px rgba(0,0,0,.25);
-
-        /* Evita reflujo por webfonts en el banner */
         font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
       }
       .cookie-popup.is-visible{ transform: translateY(0); }
@@ -127,22 +87,31 @@
       @media (prefers-reduced-motion: reduce){ .cookie-popup{ transition: none; } }
     </style>
 
-    <!-- ===== Carga diferida de marketing (solo tras consentimiento) ===== -->
     <script>
+      // Lógica de traducción del banner de cookies
+      (function() {
+        const isSpanish = window.location.pathname.includes('/es');
+        if (isSpanish) {
+          document.getElementById('cookie-text').innerText = "Este sitio web utiliza cookies para mejorar su experiencia.";
+          document.getElementById('accept-cookies').innerText = "Aceptar";
+          document.getElementById('close-cookies').innerText = "Cerrar";
+        }
+      })();
+
       function afterWindowLoad(fn){
         if (document.readyState === 'complete') fn();
         else window.addEventListener('load', fn, {once:true});
       }
 
       function loadTrackingScripts() {
-        // 0) Google Tag Manager (MOVIDO AQUÍ: fuera del camino crítico)
+        // GTM
         (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
           new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
           j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
           'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
         })(window,document,'script','dataLayer','GTM-NVRGTGFV');
 
-        // 1) Consent → granted
+        // Consent Granted
         if (typeof gtag === 'function') {
           gtag('consent', 'update', {
             ad_storage: 'granted',
@@ -152,7 +121,7 @@
           });
         }
 
-        // 2) GA4 + Ads (gtag.js)
+        // GA4
         const ga = document.createElement('script');
         ga.src = 'https://www.googletagmanager.com/gtag/js?id=G-KQH5V68PG7';
         ga.async = true;
@@ -160,10 +129,10 @@
         ga.onload = () => {
           gtag('js', new Date());
           gtag('config', 'G-KQH5V68PG7');
-          gtag('config', 'AW-16836532366'); // Ads
+          gtag('config', 'AW-16836532366');
         };
 
-        // 3) Meta Pixel
+        // Meta Pixel
         (function(f,b,e,v,n,t,s){
           if(f.fbq)return;n=f.fbq=function(){n.callMethod? n.callMethod.apply(n,arguments):n.queue.push(arguments)};
           if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
@@ -172,25 +141,7 @@
         })(window, document, 'script', 'https://connect.facebook.net/en_US/fbevents.js');
         if (window.fbq){ fbq('init','982749890451861'); fbq('track','PageView'); }
 
-        // 4) TikTok
-        (function(w,d,t){
-          w.TiktokAnalyticsObject=t;var ttq=w[t]=w[t]||[];
-          ttq.methods=["page","track","identify","instances","debug","on","off","once","ready","alias","group","enableCookie","disableCookie","holdConsent","revokeConsent","grantConsent"];
-          ttq.setAndDefer=function(t,e){t[e]=function(){t.push([e].concat([].slice.call(arguments,0)))}}; 
-          for(var i=0;i<ttq.methods.length;i++)ttq.setAndDefer(ttq,ttq.methods[i]);
-          ttq.load=function(e){var s=d.createElement("script");s.async=!0;s.src="https://analytics.tiktok.com/i18n/pixel/events.js?sdkid="+e+"&lib="+t;
-          var f=d.getElementsByTagName("script")[0];f.parentNode.insertBefore(s,f)};
-          ttq.load('CUIA1HRC77U74NKADOQ0'); ttq.page();
-        })(window, document, 'ttq');
-
-        // 5) Clarity
-        (function(c,l,a,r,i,t,y){
-          c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
-          t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
-          y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
-        })(window, document, "clarity", "sfe81s7o56");
-
-        // 6) HubSpot
+        // HubSpot, TikTok, Clarity, Metricool...
         (function(){
           var hs=document.createElement("script");
           hs.type="text/javascript"; hs.id="hs-script-loader"; hs.async=true; hs.defer=true;
@@ -198,20 +149,19 @@
           document.head.appendChild(hs);
         })();
 
-        // 7) Metricool
-        (function(cb){
-          var s=document.createElement("script"); s.src="https://tracker.metricool.com/resources/be.js"; s.async=true;
-          s.onload=cb; s.onreadystatechange=cb; document.head.appendChild(s);
-        })(function(){ if (window.beTracker) beTracker.t({hash:"61915cfe2be2f81cb147a95d34086a6e"}); });
+        // Clarity
+        (function(c,l,a,r,i,t,y){
+          c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+          t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+          y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+        })(window, document, "clarity", "sfe81s7o56");
       }
 
-      // ===== Popup/consent =====
       document.addEventListener('DOMContentLoaded', function() {
         const popup = document.getElementById('cookie-popup');
         const accepted = localStorage.getItem('cookiesAccepted') === '1';
 
         if (!accepted){
-          // Mostrar tras el primer paint (evita que Lighthouse compute como parte del layout inicial)
           requestAnimationFrame(() => popup.classList.add('is-visible'));
         } else {
           afterWindowLoad(loadTrackingScripts);
@@ -224,16 +174,11 @@
         });
 
         document.getElementById('close-cookies').addEventListener('click', () => {
-          popup.classList.remove('is-visible'); // no marketing
+          popup.classList.remove('is-visible');
         });
-
-        document.addEventListener('keydown', (e) => { if (e.key === 'Escape') popup.classList.remove('is-visible'); });
       });
-
-      function loadScript(a){var b=document.getElementsByTagName("head")[0],c=document.createElement("script");c.type="text/javascript",c.src="https://tracker.metricool.com/resources/be.js",c.onreadystatechange=a,c.onload=a,b.appendChild(c)}loadScript(function(){beTracker.t({hash:"61915cfe2be2f81cb147a95d34086a6e"})});
     </script>
 
-    <!-- Tu bundle (type=module ya se comporta como 'defer') -->
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
